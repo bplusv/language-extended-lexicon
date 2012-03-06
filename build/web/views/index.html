@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Léxico Extendido del Lenguaje</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" href="styles/base.css" rel="stylesheet" media="all"/>
+        <meta name="author" content="Luis Eduardo Salazar Valles" />
+        <meta name="description" content="Léxico Extendido del lenguaje" />
+        <meta name="keywords" content="UACJ,léxico,extendido,lenguaje,software,programadores,ingeniería de software,aplicaciones móviles,UML,
+                        PSP,ingeniería de requisitos,ingeniería del conocimiento,páginas web" />
+        <link type="text/css" href="lib/jScrollPane/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+        <link type="text/css" href="lib/jScrollPane/jquery.jscrollpane.lozenge.css" rel="stylesheet" media="all" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="lib/jquery.mousewheel.js" type="text/javascript"></script>
+        <script type="text/javascript" src="lib/jScrollPane/jquery.jscrollpane.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {	
+                    var api = $('.scrollPane').jScrollPane({
+                        showArrows:false,
+                        maintainPosition: false
+                    }).data('jsp');
+
+                    $('#login').bind('click', function() {
+                        api.getContentPane().load('ajax_content.html', function() {
+                            api.reinitialise();
+                        });
+                        return false;
+                    });
+                    
+                    $('.tabs a').click(function(e) {
+                        $this = $(this);
+                        $this.parent().children('a').removeClass();
+                        $this.addClass('selected');
+                    });
+                    
+                    $(window).resize(function() {
+                        h = 500;
+                        delta = $('body').height() - $('#main').height();
+                        console.log(delta);
+                        if (delta > 0) {
+                             h = h + delta;
+                        }
+                        $('#main').height(h);
+                    });
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <a href="#" id="login">Iniciar Sesión</a>
+            <img id="headerLogo" src="img/lel_logo.png" />
+        </header>
+        <nav class="tabs">
+            <a href="#" class="selected">Documento</a>
+            <a href="#">Conceptos</a>
+        </nav>
+        <div class="center">
+            <div class="leftSide">
+                <div class="scrollPane">
+                    <div id="documentText" contenteditable="true">
+                        aaa
+                    </div>
+                </div>
+            </div>
+            <div class="rightSide">
+                <menu class="buttons">
+                    <a href="#">Clasificar</a>
+                    <a href="#">Eliminar</a>
+                </menu>
+            </div>
+        </div>
+        <footer>
+        </footer>
+    </body>
+</html>
