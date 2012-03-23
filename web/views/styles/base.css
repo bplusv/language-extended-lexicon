@@ -1,0 +1,173 @@
+*:focus {
+outline:none;
+}
+
+a {
+font:12px Arial,sans-serif;
+color:#333;
+text-decoration:none;
+}
+
+a:hover {
+text-decoration:underline;
+}
+
+body {
+min-height:100%;
+width:800px;
+margin:0 auto;
+}
+
+footer {
+height:154px;
+background:url(../img/footer.png);
+}
+
+header {
+height:80px;
+margin-bottom:25px;
+padding-top:15px;
+}
+
+html {
+height:100%;
+}
+
+nav {
+height:30px;
+width:100%;
+}
+
+textarea {
+resize:none;
+}
+
+.buttons {
+margin-top:70px;
+padding:0;
+text-align:right;
+}
+
+.buttons > a, .button {
+text-decoration:none;
+display:inline-block;
+width:100px;
+height:35px;
+background-color:#189DE1;
+color:#fff;
+margin-bottom:20px;
+text-align:center;
+border-radius:5px;
+font:14px/35px 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.buttons > a:hover, .button:hover {
+background-color:#38BDF1;
+}
+
+.buttons > a:active, .button:active {
+background-color:#0489C7;
+}
+
+.center {
+min-height:500px;
+margin-bottom:50px;
+height:auto;
+overflow:auto;
+width:100%;
+}
+
+.concept {
+background-color:#189DE1;
+border-radius:5px;
+color:#fff;
+}
+
+.conceptMarker {
+background-color:#F15945;
+border-radius:5px;
+color:#fff;
+}
+
+.leftSide {
+border:1px solid #ccc;
+border-radius:10px;
+border-top-left-radius:0;
+float:left;
+height:498px;
+padding:15px 25px 15px 25px;
+width:598px;
+}
+
+.rightSide {
+position:relative;
+float:right;
+width:150px;
+height:500px;
+}
+
+.scrollPane {
+padding-right:18px;
+height:100%;
+overflow:auto;
+}
+
+.tabs {
+height:auto;
+}
+
+.tabs > a {
+text-decoration:none;
+display:inline-block;
+width:150px;
+height:30px;
+background-color:#fff;
+color:#000;
+border-top-left-radius:5px;
+border-top-right-radius:5px;
+border:1px solid #ccc;
+border-bottom:none;
+text-align:center;
+font:14px/30px 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.tabs > a:hover {
+background-color:#FF9076;
+color:#fff;
+}
+
+.tabs > a:active {
+background-color:#CA322D;
+color:#fff;
+}
+
+.tabs > a.selected {
+background-color:#F15945;
+color:#fff;
+}
+
+.tabs > a.selected:hover {
+background-color:#FF7056;
+color:#fff;
+}
+
+.tabs > a.selected:active {
+background-color:#CA322D;
+color:#fff;
+}
+
+#documentText {
+font-family:12px 'Century Gothic', sans-serif;
+min-height: 448px;
+overflow:visible;
+}
+
+#headerLogo {
+float:left;
+}
+
+#login {
+margin-top:10px;
+margin-right:20px;
+float:right;
+}
