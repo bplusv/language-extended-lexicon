@@ -34,7 +34,7 @@
                         $this.addClass('selected');
                     });
                     
-                    $(window).resize(function() {
+                    $(window).resize(function(e) {
                         h = 500;
                         delta = $('body').height() - $('#main').height();
                         console.log(delta);
