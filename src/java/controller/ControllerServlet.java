@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
                             "/classify",
                             "/load",
                             "/saveConcept",
-                            "/deleteConcept"
+                            "/deleteConcept",
+                            "/prueba"
                             })
 public class ControllerServlet extends HttpServlet {
     @Override
@@ -37,6 +38,8 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/load")) {
             // TODO: Implement load request
 
+        } else if (userPath.equals("/prueba")) {
+            
         }
 
         // use RequestDispatcher to forward request internally
