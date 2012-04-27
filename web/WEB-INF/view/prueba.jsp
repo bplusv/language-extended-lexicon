@@ -1,9 +1,5 @@
-<%-- 
-    Document   : prueba
-    Created on : Apr 27, 2012, 10:58:57 AM
-    Author     : lu
---%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,5 +9,14 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <table>
+            <c:forEach var="concept" items="${concepts}">
+                <tr>
+                    <td>${concept.active}</td>
+                    <td>${concept.name}</td>
+                </tr>
+                
+            </c:forEach>
+        </table>
     </body>
 </html>
