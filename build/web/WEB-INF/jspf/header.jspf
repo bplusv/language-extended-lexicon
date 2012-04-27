@@ -1,0 +1,22 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LeL</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" href="css/lel.css" rel="stylesheet" media="all"/>
+        <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
+        <meta name="description" content="Léxico Extendido del lenguaje" />
+        <meta name="keywords" content="UACJ,LEL" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <header>
+            <a href="#" id="signOut">Sign Out</a>
+            <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
+        </header>
+        <nav class="tabs">
+            <a href="#" class="selected">Explore</a>
+            <a href="#">Document</a>
+        </nav>
+        <div class="center">
