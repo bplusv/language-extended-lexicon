@@ -1,0 +1,60 @@
+.center {
+    border-style: none;
+    margin-top: 50px;
+}
+
+.signInField {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    width: 250px;
+}
+
+.signInField label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.signInField > input[type="text"], .signInField > input[type="password"] {
+    width: 238px;
+}
+
+#bubblesBackground {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 137px;
+}
+
+#lelLogo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+#leftSide {
+    border-right: 1px solid #ccc;
+    float: left;
+    height: 500px;
+    position: relative;
+    width: 373px;
+}
+
+#rightSide {
+    float: right;
+    height: 500px;
+    position: relative;
+    width: 374px;
+}
+
+#signInAd {
+    margin-bottom: 30px;
+}
+
+#signInForm {
+    height: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    width: 250px;
+}

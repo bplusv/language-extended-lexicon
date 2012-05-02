@@ -1,0 +1,48 @@
+.exploreField {
+    display: inline;
+    margin-right: 25px;
+}
+
+.exploreField > label{
+    margin-right: 5px;
+}
+
+.exploreField > select {
+    width: 150px;
+}
+
+#exploreForm {
+    height: 500px;
+}
+
+#classificationLabel {
+    
+}
+
+#classification {
+    
+}
+
+#categoryLabel {
+    
+}
+
+#category {
+    
+}
+
+#searchLabel {
+    
+}
+
+#search {
+    
+}
+
+#doSearch {
+    
+}
+
+#conceptsTable {
+    
+}

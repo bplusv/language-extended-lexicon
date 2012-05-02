@@ -1,0 +1,159 @@
+@import url("html5reset-1.6.1.css");
+
+a {
+    color: #333;
+    font: 12px Arial,sans-serif;
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+body {
+    margin: 0 auto;
+    min-height: 100%;
+    width: 800px;
+}
+
+footer {
+    background: url('../img/footer.png');
+    height: 154px;
+}
+
+h2 {
+    color: #777;
+    font: 19px 'Century Gothic', sans-serif;
+}
+
+header {
+    height: 80px;
+    margin-bottom: 25px;
+    padding-top: 15px;
+}
+
+input {
+    margin: 0;
+    cursor: pointer;
+}
+
+input[type="text"], input[type="password"] {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font: 12px 'Century Gothic', sans-serif;
+    padding: 5px;
+}
+
+label {
+    color: #555;
+    font: 13px 'Century Gothic', sans-serif;
+}
+
+nav {
+    height: auto;
+    width: 100%;
+}
+
+root { 
+    display: block;
+}
+
+textarea {
+    resize: none;
+}
+
+.buttons > a, .button {
+    background-color: #189DE1;
+    border-radius: 5px;
+    border-style: none;
+    color: #fff;
+    display: inline-block;
+    font: 14px 'Trebuchet MS', Helvetica, sans-serif;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.buttons > a:hover, .button:hover {
+    background-color: #38BDF1;
+    text-decoration: none;
+}
+
+.buttons > a:active, .button:active {
+    background-color: #0489C7;
+    text-decoration: none;
+}
+
+.center {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    height: auto;
+    margin-bottom: 50px;
+    min-height: 500px;
+    overflow: auto;
+    padding: 25px;
+    width: 748px;
+}
+
+.concept {
+    background-color: #F15945;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.concept:hover {
+    background-color: #FF9076;
+    color: #fff;
+    text-decoration: none;
+}
+
+.concept:active {
+    background-color: #CA322D;
+    color: #fff;
+    text-decoration: none;
+}
+
+.tabs > a, .tab {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #000;
+    display: inline-block;
+    font: 14px/30px 'Trebuchet MS', Helvetica, sans-serif;
+    height: 29px;
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
+.tabs > a.selected, tab.selected {
+    background-color: #F15945;
+    color: #fff;
+    text-decoration: none;
+}
+
+.tabs > a:hover, tab:hover {
+    background-color: #FF7056;
+    color: #fff;
+    text-decoration: none;
+}
+
+.tabs > a:active, tab:active {
+    background-color: #CA322D;
+    color: #fff;
+    text-decoration: none;
+}
+
+#headerLogo {
+    float: left;
+}
+
+#signOut {
+    margin-top: 10px;
+    margin-right: 20px;
+    float: right;
+}
