@@ -1,14 +1,29 @@
-            <form action="" id="lookUpForm" method="post">
-                <label for="searchQuery">Search</label>
-                <input id="searchQuery" type="text" />
-                <input id="doSearch" type="submit" class="button" value="Search" />
-                <select>
-                    <option>classification</option>
-                </select>
-                <select>
-                    <option>category</option>
-                </select>
-                <table>
+            <form action="" id="exploreForm" method="post">
+                <div class="exploreField">
+                    <label id="classificationLabel" for="exploreClassification">Classification:</label>
+                    <select id="classification">
+                        <option>option 1</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                        <option>option 5</option>
+                    </select>
+                </div>
+                <div class="exploreField">
+                    <label id="categoryLabel" for="exploreCategory">Category:</label>
+                    <select id="category">
+                        <option>option 1</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                        <option>option 5</option>
+                    </select>
+                </div>
+                <div class="exploreField">
+                    <input id="search" type="text" />
+                    <input id="doSearch" type="submit" class="button" value="Search" />
+                </div>
+                <table id="conceptsTable">
                     <thead>
                         <tr>
                             <th>Concept</th>
@@ -29,6 +44,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <input id="exploreClassify" type="submit" name="classify" value="Classify" class="button" />
-                <input id="exploreDelete" type="submit" name="delete" value="Delete" class="button" />
+                <input id="edit" type="submit" name="edit" value="Edit" class="button" />
+                <input id="delete" type="submit" name="delete" value="Delete" class="button" />
             </form>
