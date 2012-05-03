@@ -1,6 +1,7 @@
 package controller;
 
 import session.ConceptFacade;
+import session.DocumentdefFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -21,12 +22,13 @@ import javax.servlet.http.HttpServletResponse;
                             "/prueba"
                             })
 public class ControllerServlet extends HttpServlet {
-    @EJB
-    private ConceptFacade conceptFacade;
+    @EJB private ConceptFacade conceptFacade;
+    @EJB private DocumentdefFacade documentDefinition;
     
     @Override
     public void init() throws ServletException {
         getServletContext().setAttribute("concepts", conceptFacade.findAll());
+         getServletContext().setAttribute("documents", documentDefinition.findAll());
     }
     
     @Override
@@ -50,7 +52,8 @@ public class ControllerServlet extends HttpServlet {
             // TODO: Implement load request
 
         } else if (userPath.equals("/prueba")) {
-            
+           
+           
             // userPath = "/prueba";
         }
 
