@@ -1,5 +1,6 @@
 package controller;
 
+import session.DocumentdefFacade;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -19,13 +20,14 @@ urlPatterns = {"/explore",
                 "/deleteConcept",
                 "/prueba"})
 public class ControllerServlet extends HttpServlet {
+    @EJB private ConceptFacade conceptFacade;
+    @EJB private DocumentdefFacade documentDefinition;
 
-    @EJB
-    private ConceptFacade conceptFacade;
-
+    
     @Override
     public void init() throws ServletException {
         getServletContext().setAttribute("concepts", conceptFacade.findAll());
+         getServletContext().setAttribute("documents", documentDefinition.findAll());
     }
 
     @Override
@@ -41,11 +43,16 @@ public class ControllerServlet extends HttpServlet {
 
         } else if (userPath.equals("/lookup")) {
             // TODO: Implement lookup page request
+
         } else if (userPath.equals("/classify")) {
             // TODO: Implement classify request
+
         } else if (userPath.equals("/load")) {
             // TODO: Implement load request
+
         } else if (userPath.equals("/prueba")) {
+           
+           
             // userPath = "/prueba";
         }
 
@@ -66,6 +73,7 @@ public class ControllerServlet extends HttpServlet {
 
         if (userPath.equals("/saveConcept")) {
             // TODO: Implement saveConcept action
+
         } else if (userPath.equals("/deleteConcept")) {
             // TODO: Implement deleteConcept action
 
