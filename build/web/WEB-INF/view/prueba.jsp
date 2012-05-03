@@ -14,9 +14,18 @@
                 <tr>
                     <td>${concept.active}</td>
                     <td>${concept.name}</td>
+                  
                 </tr>
                 
             </c:forEach>
+                 <c:forEach var="docdef" items="${documents}">
+                <tr style=" color : #F00">
+                    <td>${docdef.name}</td>
+                                  
+                </tr>
+                
+            </c:forEach>
+                
         </table>
     </body>
 </html>
