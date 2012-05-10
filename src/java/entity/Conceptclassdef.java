@@ -17,12 +17,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lu
  */
 @Entity
-@Table(name = "conceptclassdef")
+@Table(name = "concept_class_def")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conceptclassdef.findAll", query = "SELECT c FROM Conceptclassdef c"),
-    @NamedQuery(name = "Conceptclassdef.findById", query = "SELECT c FROM Conceptclassdef c WHERE c.id = :id")})
-public class Conceptclassdef implements Serializable {
+    @NamedQuery(name = "ConceptClassDef.findAll", query = "SELECT c FROM ConceptClassDef c"),
+    @NamedQuery(name = "ConceptClassDef.findById", query = "SELECT c FROM ConceptClassDef c WHERE c.id = :id"),
+    @NamedQuery(name = "ConceptClassDef.findByName", query = "SELECT c FROM ConceptClassDef c WHERE c.name = :name")})
+public class ConceptClassDef implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +31,24 @@ public class Conceptclassdef implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Size(max = 2147483647)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptClassDefid")
-    private Collection<Conceptclass> conceptclassCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptClassDefId")
+    private Collection<ConceptClass> conceptClassCollection;
 
-    public Conceptclassdef() {
+    public ConceptClassDef() {
     }
 
-    public Conceptclassdef(Integer id) {
+    public ConceptClassDef(Integer id) {
         this.id = id;
+    }
+
+    public ConceptClassDef(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -61,12 +68,12 @@ public class Conceptclassdef implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Conceptclass> getConceptclassCollection() {
-        return conceptclassCollection;
+    public Collection<ConceptClass> getConceptClassCollection() {
+        return conceptClassCollection;
     }
 
-    public void setConceptclassCollection(Collection<Conceptclass> conceptclassCollection) {
-        this.conceptclassCollection = conceptclassCollection;
+    public void setConceptClassCollection(Collection<ConceptClass> conceptClassCollection) {
+        this.conceptClassCollection = conceptClassCollection;
     }
 
     @Override
@@ -79,10 +86,10 @@ public class Conceptclassdef implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conceptclassdef)) {
+        if (!(object instanceof ConceptClassDef)) {
             return false;
         }
-        Conceptclassdef other = (Conceptclassdef) object;
+        ConceptClassDef other = (ConceptClassDef) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +98,7 @@ public class Conceptclassdef implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Conceptclassdef[ id=" + id + " ]";
+        return "entity.ConceptClassDef[ id=" + id + " ]";
     }
     
 }

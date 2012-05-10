@@ -17,12 +17,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lu
  */
 @Entity
-@Table(name = "conceptactiondef")
+@Table(name = "concept_action_def")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conceptactiondef.findAll", query = "SELECT c FROM Conceptactiondef c"),
-    @NamedQuery(name = "Conceptactiondef.findById", query = "SELECT c FROM Conceptactiondef c WHERE c.id = :id")})
-public class Conceptactiondef implements Serializable {
+    @NamedQuery(name = "ConceptActionDef.findAll", query = "SELECT c FROM ConceptActionDef c"),
+    @NamedQuery(name = "ConceptActionDef.findById", query = "SELECT c FROM ConceptActionDef c WHERE c.id = :id"),
+    @NamedQuery(name = "ConceptActionDef.findByName", query = "SELECT c FROM ConceptActionDef c WHERE c.name = :name")})
+public class ConceptActionDef implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +31,24 @@ public class Conceptactiondef implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Size(max = 2147483647)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptActionDefid")
-    private Collection<Conceptlog> conceptlogCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptActionDefId")
+    private Collection<ConceptLog> conceptLogCollection;
 
-    public Conceptactiondef() {
+    public ConceptActionDef() {
     }
 
-    public Conceptactiondef(Integer id) {
+    public ConceptActionDef(Integer id) {
         this.id = id;
+    }
+
+    public ConceptActionDef(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -61,12 +68,12 @@ public class Conceptactiondef implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Conceptlog> getConceptlogCollection() {
-        return conceptlogCollection;
+    public Collection<ConceptLog> getConceptLogCollection() {
+        return conceptLogCollection;
     }
 
-    public void setConceptlogCollection(Collection<Conceptlog> conceptlogCollection) {
-        this.conceptlogCollection = conceptlogCollection;
+    public void setConceptLogCollection(Collection<ConceptLog> conceptLogCollection) {
+        this.conceptLogCollection = conceptLogCollection;
     }
 
     @Override
@@ -79,10 +86,10 @@ public class Conceptactiondef implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conceptactiondef)) {
+        if (!(object instanceof ConceptActionDef)) {
             return false;
         }
-        Conceptactiondef other = (Conceptactiondef) object;
+        ConceptActionDef other = (ConceptActionDef) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +98,7 @@ public class Conceptactiondef implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Conceptactiondef[ id=" + id + " ]";
+        return "entity.ConceptActionDef[ id=" + id + " ]";
     }
     
 }

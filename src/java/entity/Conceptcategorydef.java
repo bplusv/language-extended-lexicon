@@ -17,12 +17,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lu
  */
 @Entity
-@Table(name = "conceptcategorydef")
+@Table(name = "concept_category_def")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conceptcategorydef.findAll", query = "SELECT c FROM Conceptcategorydef c"),
-    @NamedQuery(name = "Conceptcategorydef.findById", query = "SELECT c FROM Conceptcategorydef c WHERE c.id = :id")})
-public class Conceptcategorydef implements Serializable {
+    @NamedQuery(name = "ConceptCategoryDef.findAll", query = "SELECT c FROM ConceptCategoryDef c"),
+    @NamedQuery(name = "ConceptCategoryDef.findById", query = "SELECT c FROM ConceptCategoryDef c WHERE c.id = :id"),
+    @NamedQuery(name = "ConceptCategoryDef.findByName", query = "SELECT c FROM ConceptCategoryDef c WHERE c.name = :name")})
+public class ConceptCategoryDef implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +31,24 @@ public class Conceptcategorydef implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Size(max = 2147483647)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptCategoryDefid")
-    private Collection<Conceptcategory> conceptcategoryCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptCategoryDefId")
+    private Collection<ConceptCategory> conceptCategoryCollection;
 
-    public Conceptcategorydef() {
+    public ConceptCategoryDef() {
     }
 
-    public Conceptcategorydef(Integer id) {
+    public ConceptCategoryDef(Integer id) {
         this.id = id;
+    }
+
+    public ConceptCategoryDef(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -61,12 +68,12 @@ public class Conceptcategorydef implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Conceptcategory> getConceptcategoryCollection() {
-        return conceptcategoryCollection;
+    public Collection<ConceptCategory> getConceptCategoryCollection() {
+        return conceptCategoryCollection;
     }
 
-    public void setConceptcategoryCollection(Collection<Conceptcategory> conceptcategoryCollection) {
-        this.conceptcategoryCollection = conceptcategoryCollection;
+    public void setConceptCategoryCollection(Collection<ConceptCategory> conceptCategoryCollection) {
+        this.conceptCategoryCollection = conceptCategoryCollection;
     }
 
     @Override
@@ -79,10 +86,10 @@ public class Conceptcategorydef implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conceptcategorydef)) {
+        if (!(object instanceof ConceptCategoryDef)) {
             return false;
         }
-        Conceptcategorydef other = (Conceptcategorydef) object;
+        ConceptCategoryDef other = (ConceptCategoryDef) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +98,7 @@ public class Conceptcategorydef implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Conceptcategorydef[ id=" + id + " ]";
+        return "entity.ConceptCategoryDef[ id=" + id + " ]";
     }
     
 }

@@ -17,12 +17,12 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lu
  */
 @Entity
-@Table(name = "conceptdetails")
+@Table(name = "concept_details")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conceptdetails.findAll", query = "SELECT c FROM Conceptdetails c"),
-    @NamedQuery(name = "Conceptdetails.findById", query = "SELECT c FROM Conceptdetails c WHERE c.id = :id")})
-public class Conceptdetails implements Serializable {
+    @NamedQuery(name = "ConceptDetails.findAll", query = "SELECT c FROM ConceptDetails c"),
+    @NamedQuery(name = "ConceptDetails.findById", query = "SELECT c FROM ConceptDetails c WHERE c.id = :id")})
+public class ConceptDetails implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,19 +40,19 @@ public class Conceptdetails implements Serializable {
     private String notion;
     @Lob
     @Size(max = 2147483647)
-    @Column(name = "actualIntention")
+    @Column(name = "actual_intention")
     private String actualIntention;
     @Lob
     @Size(max = 2147483647)
-    @Column(name = "futureIntention")
+    @Column(name = "future_intention")
     private String futureIntention;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptDetailsid")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptDetailsId")
     private Collection<Concept> conceptCollection;
 
-    public Conceptdetails() {
+    public ConceptDetails() {
     }
 
-    public Conceptdetails(Integer id) {
+    public ConceptDetails(Integer id) {
         this.id = id;
     }
 
@@ -115,10 +115,10 @@ public class Conceptdetails implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conceptdetails)) {
+        if (!(object instanceof ConceptDetails)) {
             return false;
         }
-        Conceptdetails other = (Conceptdetails) object;
+        ConceptDetails other = (ConceptDetails) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -127,7 +127,7 @@ public class Conceptdetails implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Conceptdetails[ id=" + id + " ]";
+        return "entity.ConceptDetails[ id=" + id + " ]";
     }
     
 }

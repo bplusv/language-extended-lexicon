@@ -17,12 +17,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lu
  */
 @Entity
-@Table(name = "useractiondef")
+@Table(name = "user_action_def")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Useractiondef.findAll", query = "SELECT u FROM Useractiondef u"),
-    @NamedQuery(name = "Useractiondef.findById", query = "SELECT u FROM Useractiondef u WHERE u.id = :id")})
-public class Useractiondef implements Serializable {
+    @NamedQuery(name = "UserActionDef.findAll", query = "SELECT u FROM UserActionDef u"),
+    @NamedQuery(name = "UserActionDef.findById", query = "SELECT u FROM UserActionDef u WHERE u.id = :id"),
+    @NamedQuery(name = "UserActionDef.findByName", query = "SELECT u FROM UserActionDef u WHERE u.name = :name")})
+public class UserActionDef implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +31,24 @@ public class Useractiondef implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Size(max = 2147483647)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userActionDefid")
-    private Collection<Userlog> userlogCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userActionDefId")
+    private Collection<UserLog> userLogCollection;
 
-    public Useractiondef() {
+    public UserActionDef() {
     }
 
-    public Useractiondef(Integer id) {
+    public UserActionDef(Integer id) {
         this.id = id;
+    }
+
+    public UserActionDef(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -61,12 +68,12 @@ public class Useractiondef implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Userlog> getUserlogCollection() {
-        return userlogCollection;
+    public Collection<UserLog> getUserLogCollection() {
+        return userLogCollection;
     }
 
-    public void setUserlogCollection(Collection<Userlog> userlogCollection) {
-        this.userlogCollection = userlogCollection;
+    public void setUserLogCollection(Collection<UserLog> userLogCollection) {
+        this.userLogCollection = userLogCollection;
     }
 
     @Override
@@ -79,10 +86,10 @@ public class Useractiondef implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Useractiondef)) {
+        if (!(object instanceof UserActionDef)) {
             return false;
         }
-        Useractiondef other = (Useractiondef) object;
+        UserActionDef other = (UserActionDef) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +98,7 @@ public class Useractiondef implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Useractiondef[ id=" + id + " ]";
+        return "entity.UserActionDef[ id=" + id + " ]";
     }
     
 }

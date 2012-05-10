@@ -1,6 +1,6 @@
 package controller;
 
-import session.DocumentdefFacade;
+import entity.ConceptClassDef;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import session.ConceptFacade;
+import session.ConceptClassDefFacade;
 
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
@@ -18,16 +18,14 @@ urlPatterns = {"/explore",
                 "/load",
                 "/saveConcept",
                 "/deleteConcept",
-                "/prueba"})
+                "/test"})
 public class ControllerServlet extends HttpServlet {
-    @EJB private ConceptFacade conceptFacade;
-    @EJB private DocumentdefFacade documentDefinition;
+    @EJB private ConceptClassDefFacade conceptClassDefFacade;
 
     
     @Override
     public void init() throws ServletException {
-        getServletContext().setAttribute("concepts", conceptFacade.findAll());
-         getServletContext().setAttribute("documents", documentDefinition.findAll());
+        getServletContext().setAttribute("conceptClassDefs", conceptClassDefFacade.findAll());
     }
 
     @Override
@@ -50,10 +48,13 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/load")) {
             // TODO: Implement load request
 
-        } else if (userPath.equals("/prueba")) {
-           
-           
-            // userPath = "/prueba";
+        } else if (userPath.equals("/test")) {
+            String conceptClassDefId = request.getQueryString();
+            if (conceptClassDefId != null) {
+                ConceptClassDef selectedConceptClassDef = conceptClassDefFacade.find(Integer.parseInt(conceptClassDefId));
+                request.setAttribute("selectedConceptClassDef", selectedConceptClassDef);
+            }
+            // userPath = "/test";
         }
 
         // use RequestDispatcher to forward request internally
