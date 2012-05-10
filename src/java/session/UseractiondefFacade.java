@@ -4,17 +4,17 @@
  */
 package session;
 
+import entity.UserActionDef;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import entity.Useractiondef;
 
 /**
  *
- * @author YANET
+ * @author lu
  */
 @Stateless
-public class UseractiondefFacade extends AbstractFacade<Useractiondef> {
+public class UserActionDefFacade extends AbstractFacade<UserActionDef> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -23,8 +23,8 @@ public class UseractiondefFacade extends AbstractFacade<Useractiondef> {
         return em;
     }
 
-    public UseractiondefFacade() {
-        super(Useractiondef.class);
+    public UserActionDefFacade() {
+        super(UserActionDef.class);
     }
     
 }

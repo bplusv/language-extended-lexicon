@@ -4,7 +4,7 @@
  */
 package session;
 
-import entity.Conceptdetails;
+import entity.ConceptDetails;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author lu
  */
 @Stateless
-public class ConceptdetailsFacade extends AbstractFacade<Conceptdetails> {
+public class ConceptDetailsFacade extends AbstractFacade<ConceptDetails> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -23,8 +23,8 @@ public class ConceptdetailsFacade extends AbstractFacade<Conceptdetails> {
         return em;
     }
 
-    public ConceptdetailsFacade() {
-        super(Conceptdetails.class);
+    public ConceptDetailsFacade() {
+        super(ConceptDetails.class);
     }
     
 }

@@ -31,26 +31,36 @@ public class Concept implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "active")
-    private Boolean active;
+    private boolean active;
+    @Basic(optional = false)
+    @NotNull
     @Lob
-    @Size(max = 2147483647)
+    @Size(min = 1, max = 2147483647)
     @Column(name = "name")
     private String name;
-    @JoinColumn(name = "DocumentDef_id", referencedColumnName = "id")
+    @JoinColumn(name = "concept_details_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Documentdef documentDefid;
-    @JoinColumn(name = "ConceptDetails_id", referencedColumnName = "id")
+    private ConceptDetails conceptDetailsId;
+    @JoinColumn(name = "document_def_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Conceptdetails conceptDetailsid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptid")
-    private Collection<Conceptlog> conceptlogCollection;
+    private DocumentDef documentDefId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptId")
+    private Collection<ConceptLog> conceptLogCollection;
 
     public Concept() {
     }
 
     public Concept(Integer id) {
         this.id = id;
+    }
+
+    public Concept(Integer id, boolean active, String name) {
+        this.id = id;
+        this.active = active;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -61,11 +71,11 @@ public class Concept implements Serializable {
         this.id = id;
     }
 
-    public Boolean getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -77,29 +87,29 @@ public class Concept implements Serializable {
         this.name = name;
     }
 
-    public Documentdef getDocumentDefid() {
-        return documentDefid;
+    public ConceptDetails getConceptDetailsId() {
+        return conceptDetailsId;
     }
 
-    public void setDocumentDefid(Documentdef documentDefid) {
-        this.documentDefid = documentDefid;
+    public void setConceptDetailsId(ConceptDetails conceptDetailsId) {
+        this.conceptDetailsId = conceptDetailsId;
     }
 
-    public Conceptdetails getConceptDetailsid() {
-        return conceptDetailsid;
+    public DocumentDef getDocumentDefId() {
+        return documentDefId;
     }
 
-    public void setConceptDetailsid(Conceptdetails conceptDetailsid) {
-        this.conceptDetailsid = conceptDetailsid;
+    public void setDocumentDefId(DocumentDef documentDefId) {
+        this.documentDefId = documentDefId;
     }
 
     @XmlTransient
-    public Collection<Conceptlog> getConceptlogCollection() {
-        return conceptlogCollection;
+    public Collection<ConceptLog> getConceptLogCollection() {
+        return conceptLogCollection;
     }
 
-    public void setConceptlogCollection(Collection<Conceptlog> conceptlogCollection) {
-        this.conceptlogCollection = conceptlogCollection;
+    public void setConceptLogCollection(Collection<ConceptLog> conceptLogCollection) {
+        this.conceptLogCollection = conceptLogCollection;
     }
 
     @Override

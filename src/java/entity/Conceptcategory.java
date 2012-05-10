@@ -14,13 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author lu
  */
 @Entity
-@Table(name = "conceptcategory")
+@Table(name = "concept_category")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conceptcategory.findAll", query = "SELECT c FROM Conceptcategory c"),
-    @NamedQuery(name = "Conceptcategory.findById", query = "SELECT c FROM Conceptcategory c WHERE c.id = :id"),
-    @NamedQuery(name = "Conceptcategory.findByConceptId", query = "SELECT c FROM Conceptcategory c WHERE c.conceptId = :conceptId")})
-public class Conceptcategory implements Serializable {
+    @NamedQuery(name = "ConceptCategory.findAll", query = "SELECT c FROM ConceptCategory c"),
+    @NamedQuery(name = "ConceptCategory.findById", query = "SELECT c FROM ConceptCategory c WHERE c.id = :id"),
+    @NamedQuery(name = "ConceptCategory.findByConceptId", query = "SELECT c FROM ConceptCategory c WHERE c.conceptId = :conceptId")})
+public class ConceptCategory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,17 +28,24 @@ public class Conceptcategory implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Column(name = "conceptId")
-    private Integer conceptId;
-    @JoinColumn(name = "ConceptCategoryDef_id", referencedColumnName = "id")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "concept_id")
+    private int conceptId;
+    @JoinColumn(name = "concept_category_def_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Conceptcategorydef conceptCategoryDefid;
+    private ConceptCategoryDef conceptCategoryDefId;
 
-    public Conceptcategory() {
+    public ConceptCategory() {
     }
 
-    public Conceptcategory(Integer id) {
+    public ConceptCategory(Integer id) {
         this.id = id;
+    }
+
+    public ConceptCategory(Integer id, int conceptId) {
+        this.id = id;
+        this.conceptId = conceptId;
     }
 
     public Integer getId() {
@@ -49,20 +56,20 @@ public class Conceptcategory implements Serializable {
         this.id = id;
     }
 
-    public Integer getConceptId() {
+    public int getConceptId() {
         return conceptId;
     }
 
-    public void setConceptId(Integer conceptId) {
+    public void setConceptId(int conceptId) {
         this.conceptId = conceptId;
     }
 
-    public Conceptcategorydef getConceptCategoryDefid() {
-        return conceptCategoryDefid;
+    public ConceptCategoryDef getConceptCategoryDefId() {
+        return conceptCategoryDefId;
     }
 
-    public void setConceptCategoryDefid(Conceptcategorydef conceptCategoryDefid) {
-        this.conceptCategoryDefid = conceptCategoryDefid;
+    public void setConceptCategoryDefId(ConceptCategoryDef conceptCategoryDefId) {
+        this.conceptCategoryDefId = conceptCategoryDefId;
     }
 
     @Override
@@ -75,10 +82,10 @@ public class Conceptcategory implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conceptcategory)) {
+        if (!(object instanceof ConceptCategory)) {
             return false;
         }
-        Conceptcategory other = (Conceptcategory) object;
+        ConceptCategory other = (ConceptCategory) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -87,7 +94,7 @@ public class Conceptcategory implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Conceptcategory[ id=" + id + " ]";
+        return "entity.ConceptCategory[ id=" + id + " ]";
     }
     
 }

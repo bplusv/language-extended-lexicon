@@ -17,12 +17,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lu
  */
 @Entity
-@Table(name = "documentdef")
+@Table(name = "document_def")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Documentdef.findAll", query = "SELECT d FROM Documentdef d"),
-    @NamedQuery(name = "Documentdef.findById", query = "SELECT d FROM Documentdef d WHERE d.id = :id")})
-public class Documentdef implements Serializable {
+    @NamedQuery(name = "DocumentDef.findAll", query = "SELECT d FROM DocumentDef d"),
+    @NamedQuery(name = "DocumentDef.findById", query = "SELECT d FROM DocumentDef d WHERE d.id = :id"),
+    @NamedQuery(name = "DocumentDef.findByName", query = "SELECT d FROM DocumentDef d WHERE d.name = :name")})
+public class DocumentDef implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +31,24 @@ public class Documentdef implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Size(max = 2147483647)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentDefid")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentDefId")
     private Collection<Concept> conceptCollection;
 
-    public Documentdef() {
+    public DocumentDef() {
     }
 
-    public Documentdef(Integer id) {
+    public DocumentDef(Integer id) {
         this.id = id;
+    }
+
+    public DocumentDef(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -79,10 +86,10 @@ public class Documentdef implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Documentdef)) {
+        if (!(object instanceof DocumentDef)) {
             return false;
         }
-        Documentdef other = (Documentdef) object;
+        DocumentDef other = (DocumentDef) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +98,7 @@ public class Documentdef implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Documentdef[ id=" + id + " ]";
+        return "entity.DocumentDef[ id=" + id + " ]";
     }
     
 }

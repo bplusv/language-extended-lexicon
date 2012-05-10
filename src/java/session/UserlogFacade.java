@@ -4,17 +4,17 @@
  */
 package session;
 
+import entity.UserLog;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import entity.Userlog;
 
 /**
  *
- * @author YANET
+ * @author lu
  */
 @Stateless
-public class UserlogFacade extends AbstractFacade<Userlog> {
+public class UserLogFacade extends AbstractFacade<UserLog> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -23,8 +23,8 @@ public class UserlogFacade extends AbstractFacade<Userlog> {
         return em;
     }
 
-    public UserlogFacade() {
-        super(Userlog.class);
+    public UserLogFacade() {
+        super(UserLog.class);
     }
     
 }

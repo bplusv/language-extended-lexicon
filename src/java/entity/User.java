@@ -38,8 +38,8 @@ public class User implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "password")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userid")
-    private Collection<Userlog> userlogCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<UserLog> userLogCollection;
 
     public User() {
     }
@@ -73,12 +73,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Userlog> getUserlogCollection() {
-        return userlogCollection;
+    public Collection<UserLog> getUserLogCollection() {
+        return userLogCollection;
     }
 
-    public void setUserlogCollection(Collection<Userlog> userlogCollection) {
-        this.userlogCollection = userlogCollection;
+    public void setUserLogCollection(Collection<UserLog> userLogCollection) {
+        this.userLogCollection = userLogCollection;
     }
 
     @Override

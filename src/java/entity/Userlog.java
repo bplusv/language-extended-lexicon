@@ -15,13 +15,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author lu
  */
 @Entity
-@Table(name = "userlog")
+@Table(name = "user_log")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Userlog.findAll", query = "SELECT u FROM Userlog u"),
-    @NamedQuery(name = "Userlog.findById", query = "SELECT u FROM Userlog u WHERE u.id = :id"),
-    @NamedQuery(name = "Userlog.findByDate", query = "SELECT u FROM Userlog u WHERE u.date = :date")})
-public class Userlog implements Serializable {
+    @NamedQuery(name = "UserLog.findAll", query = "SELECT u FROM UserLog u"),
+    @NamedQuery(name = "UserLog.findById", query = "SELECT u FROM UserLog u WHERE u.id = :id"),
+    @NamedQuery(name = "UserLog.findByDate", query = "SELECT u FROM UserLog u WHERE u.date = :date")})
+public class UserLog implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,17 +32,17 @@ public class Userlog implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @JoinColumn(name = "UserActionDef_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Useractiondef userActionDefid;
-    @JoinColumn(name = "User_id", referencedColumnName = "id")
+    private User userId;
+    @JoinColumn(name = "user_action_def_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userid;
+    private UserActionDef userActionDefId;
 
-    public Userlog() {
+    public UserLog() {
     }
 
-    public Userlog(Integer id) {
+    public UserLog(Integer id) {
         this.id = id;
     }
 
@@ -62,20 +62,20 @@ public class Userlog implements Serializable {
         this.date = date;
     }
 
-    public Useractiondef getUserActionDefid() {
-        return userActionDefid;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUserActionDefid(Useractiondef userActionDefid) {
-        this.userActionDefid = userActionDefid;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
-    public User getUserid() {
-        return userid;
+    public UserActionDef getUserActionDefId() {
+        return userActionDefId;
     }
 
-    public void setUserid(User userid) {
-        this.userid = userid;
+    public void setUserActionDefId(UserActionDef userActionDefId) {
+        this.userActionDefId = userActionDefId;
     }
 
     @Override
@@ -88,10 +88,10 @@ public class Userlog implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Userlog)) {
+        if (!(object instanceof UserLog)) {
             return false;
         }
-        Userlog other = (Userlog) object;
+        UserLog other = (UserLog) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -100,7 +100,7 @@ public class Userlog implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Userlog[ id=" + id + " ]";
+        return "entity.UserLog[ id=" + id + " ]";
     }
     
 }

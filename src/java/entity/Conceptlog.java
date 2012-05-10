@@ -15,14 +15,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author lu
  */
 @Entity
-@Table(name = "conceptlog")
+@Table(name = "concept_log")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conceptlog.findAll", query = "SELECT c FROM Conceptlog c"),
-    @NamedQuery(name = "Conceptlog.findById", query = "SELECT c FROM Conceptlog c WHERE c.id = :id"),
-    @NamedQuery(name = "Conceptlog.findByDate", query = "SELECT c FROM Conceptlog c WHERE c.date = :date"),
-    @NamedQuery(name = "Conceptlog.findByUserId", query = "SELECT c FROM Conceptlog c WHERE c.userId = :userId")})
-public class Conceptlog implements Serializable {
+    @NamedQuery(name = "ConceptLog.findAll", query = "SELECT c FROM ConceptLog c"),
+    @NamedQuery(name = "ConceptLog.findById", query = "SELECT c FROM ConceptLog c WHERE c.id = :id"),
+    @NamedQuery(name = "ConceptLog.findByDate", query = "SELECT c FROM ConceptLog c WHERE c.date = :date"),
+    @NamedQuery(name = "ConceptLog.findByUserId", query = "SELECT c FROM ConceptLog c WHERE c.userId = :userId")})
+public class ConceptLog implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,20 +33,27 @@ public class Conceptlog implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @Column(name = "userId")
-    private Integer userId;
-    @JoinColumn(name = "ConceptActionDef_id", referencedColumnName = "id")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "user_id")
+    private int userId;
+    @JoinColumn(name = "concept_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Conceptactiondef conceptActionDefid;
-    @JoinColumn(name = "Concept_id", referencedColumnName = "id")
+    private Concept conceptId;
+    @JoinColumn(name = "concept_action_def_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Concept conceptid;
+    private ConceptActionDef conceptActionDefId;
 
-    public Conceptlog() {
+    public ConceptLog() {
     }
 
-    public Conceptlog(Integer id) {
+    public ConceptLog(Integer id) {
         this.id = id;
+    }
+
+    public ConceptLog(Integer id, int userId) {
+        this.id = id;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -65,28 +72,28 @@ public class Conceptlog implements Serializable {
         this.date = date;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public Conceptactiondef getConceptActionDefid() {
-        return conceptActionDefid;
+    public Concept getConceptId() {
+        return conceptId;
     }
 
-    public void setConceptActionDefid(Conceptactiondef conceptActionDefid) {
-        this.conceptActionDefid = conceptActionDefid;
+    public void setConceptId(Concept conceptId) {
+        this.conceptId = conceptId;
     }
 
-    public Concept getConceptid() {
-        return conceptid;
+    public ConceptActionDef getConceptActionDefId() {
+        return conceptActionDefId;
     }
 
-    public void setConceptid(Concept conceptid) {
-        this.conceptid = conceptid;
+    public void setConceptActionDefId(ConceptActionDef conceptActionDefId) {
+        this.conceptActionDefId = conceptActionDefId;
     }
 
     @Override
@@ -99,10 +106,10 @@ public class Conceptlog implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conceptlog)) {
+        if (!(object instanceof ConceptLog)) {
             return false;
         }
-        Conceptlog other = (Conceptlog) object;
+        ConceptLog other = (ConceptLog) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -111,7 +118,7 @@ public class Conceptlog implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Conceptlog[ id=" + id + " ]";
+        return "entity.ConceptLog[ id=" + id + " ]";
     }
     
 }

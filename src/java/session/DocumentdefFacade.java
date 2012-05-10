@@ -4,7 +4,7 @@
  */
 package session;
 
-import entity.Documentdef;
+import entity.DocumentDef;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author lu
  */
 @Stateless
-public class DocumentdefFacade extends AbstractFacade<Documentdef> {
+public class DocumentDefFacade extends AbstractFacade<DocumentDef> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -23,8 +23,8 @@ public class DocumentdefFacade extends AbstractFacade<Documentdef> {
         return em;
     }
 
-    public DocumentdefFacade() {
-        super(Documentdef.class);
+    public DocumentDefFacade() {
+        super(DocumentDef.class);
     }
     
 }
