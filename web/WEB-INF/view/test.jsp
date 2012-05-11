@@ -5,7 +5,7 @@
         SELECT * FROM concept WHERE id = ?;
         <sql:param value="${pageContext.request.queryString}" />
     </sql:query>--%>
-    <h1>${selectedConceptClassDef.id} - ${selectedConceptClassDef.name}</h1>
-    <c:forEach var="conceptClassDef" items="${conceptClassDefs}">
-        <p>${conceptClassDef.id} - ${conceptClassDef.name}</p>
+    <h1>${selectedConceptClass.id} - ${selectedConceptClass.name}</h1>
+    <c:forEach var="conceptClass" items="${conceptClasses}">
+        <p>${conceptClass.id} - ${conceptClass.name}</p>
     </c:forEach>

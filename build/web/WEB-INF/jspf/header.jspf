@@ -15,6 +15,10 @@
     </head>
     <body>
         <header>
+            <h5>${test2}</h5>
+            <c:url var="url" value="viewCart">
+                <c:param name="clear" value="true"/>
+            </c:url>
             <a href="#" id="signOut">Sign Out</a>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
         </header>
