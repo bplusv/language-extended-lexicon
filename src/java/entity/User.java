@@ -1,7 +1,27 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2012 Luis Salazar <bp.lusv@gmail.com>.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -14,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lu
+ * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Entity
 @Table(name = "user")
@@ -31,11 +51,15 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @NotNull
     @Lob
-    @Size(max = 2147483647)
+    @Size(min = 1, max = 2147483647)
     @Column(name = "password")
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -46,6 +70,12 @@ public class User implements Serializable {
 
     public User(Integer id) {
         this.id = id;
+    }
+
+    public User(Integer id, String name, String password) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -105,5 +135,5 @@ public class User implements Serializable {
     public String toString() {
         return "entity.User[ id=" + id + " ]";
     }
-    
+
 }

@@ -1,7 +1,27 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2012 Luis Salazar <bp.lusv@gmail.com>.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -14,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lu
+ * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Entity
 @Table(name = "concept")
@@ -31,22 +51,26 @@ public class Concept implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "active")
-    private boolean active;
+    private Boolean active;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 2147483647)
     @Column(name = "name")
     private String name;
+    @JoinColumn(name = "concept_category_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ConceptCategory conceptCategoryId;
+    @JoinColumn(name = "concept_class_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ConceptClass conceptClassId;
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Document documentId;
     @JoinColumn(name = "concept_details_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ConceptDetails conceptDetailsId;
-    @JoinColumn(name = "document_def_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private DocumentDef documentDefId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptId")
     private Collection<ConceptLog> conceptLogCollection;
 
@@ -57,9 +81,8 @@ public class Concept implements Serializable {
         this.id = id;
     }
 
-    public Concept(Integer id, boolean active, String name) {
+    public Concept(Integer id, String name) {
         this.id = id;
-        this.active = active;
         this.name = name;
     }
 
@@ -71,11 +94,11 @@ public class Concept implements Serializable {
         this.id = id;
     }
 
-    public boolean getActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -87,20 +110,36 @@ public class Concept implements Serializable {
         this.name = name;
     }
 
+    public ConceptCategory getConceptCategoryId() {
+        return conceptCategoryId;
+    }
+
+    public void setConceptCategoryId(ConceptCategory conceptCategoryId) {
+        this.conceptCategoryId = conceptCategoryId;
+    }
+
+    public ConceptClass getConceptClassId() {
+        return conceptClassId;
+    }
+
+    public void setConceptClassId(ConceptClass conceptClassId) {
+        this.conceptClassId = conceptClassId;
+    }
+
+    public Document getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Document documentId) {
+        this.documentId = documentId;
+    }
+
     public ConceptDetails getConceptDetailsId() {
         return conceptDetailsId;
     }
 
     public void setConceptDetailsId(ConceptDetails conceptDetailsId) {
         this.conceptDetailsId = conceptDetailsId;
-    }
-
-    public DocumentDef getDocumentDefId() {
-        return documentDefId;
-    }
-
-    public void setDocumentDefId(DocumentDef documentDefId) {
-        this.documentDefId = documentDefId;
     }
 
     @XmlTransient
@@ -136,5 +175,5 @@ public class Concept implements Serializable {
     public String toString() {
         return "entity.Concept[ id=" + id + " ]";
     }
-    
+
 }
