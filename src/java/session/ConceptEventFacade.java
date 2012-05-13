@@ -24,7 +24,7 @@
 
 package session;
 
-import entity.UserLog;
+import entity.ConceptEvent;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,7 +34,7 @@ import javax.persistence.PersistenceContext;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
-public class UserLogFacade extends AbstractFacade<UserLog> {
+public class ConceptEventFacade extends AbstractFacade<ConceptEvent> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -43,8 +43,8 @@ public class UserLogFacade extends AbstractFacade<UserLog> {
         return em;
     }
 
-    public UserLogFacade() {
-        super(UserLog.class);
+    public ConceptEventFacade() {
+        super(ConceptEvent.class);
     }
 
 }

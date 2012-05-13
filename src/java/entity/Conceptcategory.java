@@ -48,7 +48,6 @@ public class ConceptCategory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -57,7 +56,7 @@ public class ConceptCategory implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptCategoryId")
-    private Collection<Concept> conceptCollection;
+    private Collection<ConceptDetails> conceptDetailsCollection;
 
     public ConceptCategory() {
     }
@@ -88,12 +87,12 @@ public class ConceptCategory implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Concept> getConceptCollection() {
-        return conceptCollection;
+    public Collection<ConceptDetails> getConceptDetailsCollection() {
+        return conceptDetailsCollection;
     }
 
-    public void setConceptCollection(Collection<Concept> conceptCollection) {
-        this.conceptCollection = conceptCollection;
+    public void setConceptDetailsCollection(Collection<ConceptDetails> conceptDetailsCollection) {
+        this.conceptDetailsCollection = conceptDetailsCollection;
     }
 
     @Override

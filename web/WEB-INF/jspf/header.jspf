@@ -15,7 +15,7 @@
     </head>
     <body>
         <header>
-            <h5>${test2}</h5>
+            <h5>${currentDocument}</h5>
             <c:url var="url" value="viewCart">
                 <c:param name="clear" value="true"/>
             </c:url>

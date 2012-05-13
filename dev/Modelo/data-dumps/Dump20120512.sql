@@ -23,48 +23,18 @@ USE `lel`;
 
 LOCK TABLES `concept` WRITE;
 /*!40000 ALTER TABLE `concept` DISABLE KEYS */;
-INSERT INTO `concept` VALUES (1,1,'Universidad de California en San Diego',1,1,1,1),(2,1,'hidrogel',1,2,1,2),(3,1,'velcro',1,2,1,3),(4,1,'polimeros',1,2,2,4),(5,1,'La autocuración',1,3,3,1);
+INSERT INTO `concept` VALUES (1,1,'Universidad de California en San Diego',1),(2,1,'hidrogel',2),(3,1,'velcro',3),(4,1,'polimeros',1),(5,1,'La autocuración',2);
 /*!40000 ALTER TABLE `concept` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Dumping data for table `concept_action`
+-- Dumping data for table `concept_event`
 --
 
-LOCK TABLES `concept_action` WRITE;
-/*!40000 ALTER TABLE `concept_action` DISABLE KEYS */;
-INSERT INTO `concept_action` VALUES (2,'editar'),(3,'eliminar'),(1,'insertar');
-/*!40000 ALTER TABLE `concept_action` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `user_action`
---
-
-LOCK TABLES `user_action` WRITE;
-/*!40000 ALTER TABLE `user_action` DISABLE KEYS */;
-INSERT INTO `user_action` VALUES (3,'cambiar password'),(2,'cerrar sesion'),(1,'iniciar sesion');
-/*!40000 ALTER TABLE `user_action` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `user_log`
---
-
-LOCK TABLES `user_log` WRITE;
-/*!40000 ALTER TABLE `user_log` DISABLE KEYS */;
-INSERT INTO `user_log` VALUES (1,'2012-12-12 14:00:00',1,1),(2,'2012-12-12 14:30:00',2,1);
-/*!40000 ALTER TABLE `user_log` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `concept_class`
---
-
-LOCK TABLES `concept_class` WRITE;
-/*!40000 ALTER TABLE `concept_class` DISABLE KEYS */;
-INSERT INTO `concept_class` VALUES (1,'concepto de requisito'),(2,'concepto del sistema'),(3,'concepto general');
-/*!40000 ALTER TABLE `concept_class` ENABLE KEYS */;
+LOCK TABLES `concept_event` WRITE;
+/*!40000 ALTER TABLE `concept_event` DISABLE KEYS */;
+INSERT INTO `concept_event` VALUES (1,'create'),(3,'delete'),(2,'edit');
+/*!40000 ALTER TABLE `concept_event` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -73,7 +43,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `concept_details` WRITE;
 /*!40000 ALTER TABLE `concept_details` DISABLE KEYS */;
-INSERT INTO `concept_details` VALUES (1,'Universidad de alto prestigio','encargada de hacer estudios sobre materiales de gran impacto','Preparar estudiantes capacitados para la investigacion','Participar en concursos y realizar publicaciones'),(2,'gel a base de agua','gel que se adhiere facilmente a varias superficies','Ser utilizado para investigaciones academicas','Ser utilizado en la industria con diversos fines'),(3,'es necesario hacer preguntas al expertos','Curarse mediante los propios medios del individuo',NULL,NULL);
+INSERT INTO `concept_details` VALUES (1,'Universidad de alto prestigio','encargada de hacer estudios sobre materiales de gran impacto','Preparar estudiantes capacitados para la investigacion','Participar en concursos y realizar publicaciones',1,1,1),(2,'gel a base de agua','gel que se adhiere facilmente a varias superficies','Ser utilizado para investigaciones academicas','Ser utilizado en la industria con diversos fines',1,2,2),(3,'es necesario hacer preguntas al expertos','Curarse mediante los propios medios del individuo','intención actual','intención futura',1,3,3);
 /*!40000 ALTER TABLE `concept_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,8 +63,18 @@ UNLOCK TABLES;
 
 LOCK TABLES `concept_category` WRITE;
 /*!40000 ALTER TABLE `concept_category` DISABLE KEYS */;
-INSERT INTO `concept_category` VALUES (1,'estado'),(2,'objeto'),(3,'sujeto'),(4,'verbo');
+INSERT INTO `concept_category` VALUES (2,'object'),(1,'state'),(3,'subject'),(4,'verb');
 /*!40000 ALTER TABLE `concept_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `concept_classification`
+--
+
+LOCK TABLES `concept_classification` WRITE;
+/*!40000 ALTER TABLE `concept_classification` DISABLE KEYS */;
+INSERT INTO `concept_classification` VALUES (3,'general'),(1,'requirement'),(2,'system');
+/*!40000 ALTER TABLE `concept_classification` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -113,7 +93,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `concept_log` WRITE;
 /*!40000 ALTER TABLE `concept_log` DISABLE KEYS */;
-INSERT INTO `concept_log` VALUES (1,'2012-12-12 14:00:00',1,1,1),(2,'2012-12-12 14:30:00',1,2,1);
+INSERT INTO `concept_log` VALUES (1,'2012-12-12 14:00:00',1,1,1),(2,'2012-12-12 14:30:00',2,2,2);
 /*!40000 ALTER TABLE `concept_log` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -126,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-05-11 15:44:37
+-- Dump completed on 2012-05-12 20:22:13

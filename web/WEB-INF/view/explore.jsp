@@ -1,22 +1,22 @@
             <form action="" id="exploreForm" method="post">
                 <div class="exploreField">
-                    <label id="classificationLabel" for="exploreClassification">Classification:</label>
+                    <label id="classificationLabel" for="classification">Classification:</label>
                     <select id="classification">
-                        <option>option 1</option>
-                        <option>option 2</option>
-                        <option>option 3</option>
-                        <option>option 4</option>
-                        <option>option 5</option>
+                        <option value="">classification 1</option>
+                        <option value="">classification 2</option>
+                        <option value="">classification 3</option>
+                        <option value="">classification 4</option>
+                        <option value="">classification 5</option>
                     </select>
                 </div>
                 <div class="exploreField">
-                    <label id="categoryLabel" for="exploreCategory">Category:</label>
+                    <label id="categoryLabel" for="category">Category:</label>
                     <select id="category">
-                        <option>option 1</option>
-                        <option>option 2</option>
-                        <option>option 3</option>
-                        <option>option 4</option>
-                        <option>option 5</option>
+                        <option value="">category 1</option>
+                        <option value="">category 2</option>
+                        <option value="">category 3</option>
+                        <option value="">category 4</option>
+                        <option value="">category 5</option>
                     </select>
                 </div>
                 <div class="exploreField">

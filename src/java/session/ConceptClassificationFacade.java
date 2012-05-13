@@ -24,7 +24,7 @@
 
 package session;
 
-import entity.UserAction;
+import entity.ConceptClassification;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,7 +34,7 @@ import javax.persistence.PersistenceContext;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
-public class UserActionFacade extends AbstractFacade<UserAction> {
+public class ConceptClassificationFacade extends AbstractFacade<ConceptClassification> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -43,8 +43,8 @@ public class UserActionFacade extends AbstractFacade<UserAction> {
         return em;
     }
 
-    public UserActionFacade() {
-        super(UserAction.class);
+    public ConceptClassificationFacade() {
+        super(ConceptClassification.class);
     }
 
 }

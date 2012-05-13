@@ -6,6 +6,7 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.logging.level" value="FINEST"/>
+      <property name="javax.persistence.validation.group.pre-persist" value="a"/>
     </properties>
   </persistence-unit>
 </persistence>

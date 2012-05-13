@@ -37,18 +37,17 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Entity
-@Table(name = "concept_action")
+@Table(name = "concept_classification")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ConceptAction.findAll", query = "SELECT c FROM ConceptAction c"),
-    @NamedQuery(name = "ConceptAction.findById", query = "SELECT c FROM ConceptAction c WHERE c.id = :id"),
-    @NamedQuery(name = "ConceptAction.findByName", query = "SELECT c FROM ConceptAction c WHERE c.name = :name")})
-public class ConceptAction implements Serializable {
+    @NamedQuery(name = "ConceptClassification.findAll", query = "SELECT c FROM ConceptClassification c"),
+    @NamedQuery(name = "ConceptClassification.findById", query = "SELECT c FROM ConceptClassification c WHERE c.id = :id"),
+    @NamedQuery(name = "ConceptClassification.findByName", query = "SELECT c FROM ConceptClassification c WHERE c.name = :name")})
+public class ConceptClassification implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -56,17 +55,17 @@ public class ConceptAction implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptActionId")
-    private Collection<ConceptLog> conceptLogCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptClassificationId")
+    private Collection<ConceptDetails> conceptDetailsCollection;
 
-    public ConceptAction() {
+    public ConceptClassification() {
     }
 
-    public ConceptAction(Integer id) {
+    public ConceptClassification(Integer id) {
         this.id = id;
     }
 
-    public ConceptAction(Integer id, String name) {
+    public ConceptClassification(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -88,12 +87,12 @@ public class ConceptAction implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ConceptLog> getConceptLogCollection() {
-        return conceptLogCollection;
+    public Collection<ConceptDetails> getConceptDetailsCollection() {
+        return conceptDetailsCollection;
     }
 
-    public void setConceptLogCollection(Collection<ConceptLog> conceptLogCollection) {
-        this.conceptLogCollection = conceptLogCollection;
+    public void setConceptDetailsCollection(Collection<ConceptDetails> conceptDetailsCollection) {
+        this.conceptDetailsCollection = conceptDetailsCollection;
     }
 
     @Override
@@ -106,10 +105,10 @@ public class ConceptAction implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ConceptAction)) {
+        if (!(object instanceof ConceptClassification)) {
             return false;
         }
-        ConceptAction other = (ConceptAction) object;
+        ConceptClassification other = (ConceptClassification) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +117,7 @@ public class ConceptAction implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ConceptAction[ id=" + id + " ]";
+        return "entity.ConceptClassification[ id=" + id + " ]";
     }
 
 }

@@ -27,13 +27,7 @@ package session;
 import entity.Concept;
 import entity.ConceptDetails;
 import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -50,13 +44,14 @@ public class ConceptManager {
     @Resource
     private SessionContext context;
     
-    @EJB
-    private DocumentFacade documentFacade;
+    @EJB private DocumentFacade documentFacade;
+    @EJB private ConceptCategoryFacade conceptCategoryFacade;
+    @EJB private ConceptClassificationFacade conceptClassificationFacade;
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public int createConcept(String name, String notion) {
+    public int createConcept(String name, int document, int category, int classification, String notion, String actualIntention, String futureIntention, String comments) {
         try {
-            ConceptDetails conceptDetails = addConceptDetails(notion);
+            ConceptDetails conceptDetails = addConceptDetails(document, category, classification, notion, actualIntention, futureIntention, comments);
             Concept concept = addConcept(conceptDetails, name);
             return concept.getId();
         } catch (Exception e) {
@@ -65,10 +60,16 @@ public class ConceptManager {
         }
     }
 
-    private ConceptDetails addConceptDetails(String notion) {
+    private ConceptDetails addConceptDetails(int document, int category, int classification, String notion, String actualIntention, String futureIntention, String comments) {
         ConceptDetails conceptDetails = new ConceptDetails();
+        conceptDetails.setDocumentId(documentFacade.find(document));
+        conceptDetails.setConceptCategoryId(conceptCategoryFacade.find(category));
+        conceptDetails.setConceptClassificationId(conceptClassificationFacade.find(classification));
         conceptDetails.setNotion(notion);
-        
+        conceptDetails.setActualIntention(actualIntention);
+        conceptDetails.setFutureIntention(futureIntention);
+        conceptDetails.setComments(comments);
+                
         em.persist(conceptDetails);
         em.flush();
         return conceptDetails;
@@ -77,7 +78,6 @@ public class ConceptManager {
     private Concept addConcept(ConceptDetails conceptDetails, String name) {
         Concept concept = new Concept();
         concept.setConceptDetailsId(conceptDetails);
-        concept.setDocumentId((documentFacade.find(1)));
         concept.setName(name);
         
         em.persist(concept);
