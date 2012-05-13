@@ -24,7 +24,8 @@
 
 package controller;
 
-import entity.ConceptClass;
+import entity.ConceptClassification;
+import entity.Document;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -33,9 +34,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import session.ConceptClassFacade;
+import session.ConceptClassificationFacade;
 import session.ConceptFacade;
 import session.ConceptManager;
+import session.DocumentFacade;
 
 /**
  *
@@ -53,16 +55,18 @@ urlPatterns = {"/explore",
 public class ControllerServlet extends HttpServlet {
     
     @EJB
-    private ConceptManager conceptManager;
-    @EJB
     private ConceptFacade conceptFacade;
     @EJB
-    private ConceptClassFacade conceptClassFacade;
+    private ConceptClassificationFacade conceptClassificationFacade;
+    @EJB
+    private ConceptManager conceptManager;
+    @EJB
+    private DocumentFacade documentFacade;
 
     
     @Override
     public void init() throws ServletException {
-        getServletContext().setAttribute("conceptClasses", conceptClassFacade.findAll());
+        getServletContext().setAttribute("conceptClassifications", conceptClassificationFacade.findAll());
     }
 
     @Override
@@ -80,20 +84,24 @@ public class ControllerServlet extends HttpServlet {
             // TODO: Implement lookup page request
 
         } else if (userPath.equals("/classify")) {
-            // TODO: Implement classify request
 
         } else if (userPath.equals("/load")) {
             // TODO: Implement load request
 
         } else if (userPath.equals("/test")) {
-            String conceptClassId = request.getQueryString();
-            if (conceptClassId != null) {
-                ConceptClass selectedConceptClass = conceptClassFacade.find(Integer.parseInt(conceptClassId));               
-                HttpSession session = request.getSession();
-                session.setAttribute("selectedConceptClass", selectedConceptClass);
-                session.setAttribute("test2", selectedConceptClass);
-                
+            HttpSession session = request.getSession();
+            String conceptClassificationId = request.getQueryString();
+            if (conceptClassificationId != null) {
+                ConceptClassification selectedConceptClassification = conceptClassificationFacade.find(Integer.parseInt(conceptClassificationId));               
+               
+                session.setAttribute("conceptClassifications", conceptClassificationFacade.findAll());
+                session.setAttribute("selectedConceptClassification", selectedConceptClassification);
+ 
             }
+            
+            session.setAttribute("currentConcept", "current");
+            session.setAttribute("currentDocument", documentFacade.find(1));
+            
             // userPath = "/test";
         }
 
@@ -114,8 +122,15 @@ public class ControllerServlet extends HttpServlet {
 
         if (userPath.equals("/createConcept")) {
             String name = request.getParameter("name");
+            int document = 1;
+            int classification = Integer.parseInt(request.getParameter("classification"));
+            int category = Integer.parseInt(request.getParameter("category"));
             String notion = request.getParameter("notion");
-            int in = conceptManager.createConcept(name, notion);
+            String actualIntention = request.getParameter("actualIntention");
+            String futureIntention = request.getParameter("futureIntention");
+            String comments = request.getParameter("comments");
+            
+            int res = conceptManager.createConcept(name, document, category, classification, notion, actualIntention, futureIntention, comments);
             
             userPath = "/explore";
             

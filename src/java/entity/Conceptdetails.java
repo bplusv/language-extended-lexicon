@@ -47,7 +47,6 @@ public class ConceptDetails implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Lob
@@ -68,6 +67,15 @@ public class ConceptDetails implements Serializable {
     private String futureIntention;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptDetailsId")
     private Collection<Concept> conceptCollection;
+    @JoinColumn(name = "concept_category_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ConceptCategory conceptCategoryId;
+    @JoinColumn(name = "concept_classification_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ConceptClassification conceptClassificationId;
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Document documentId;
 
     public ConceptDetails() {
     }
@@ -123,6 +131,30 @@ public class ConceptDetails implements Serializable {
 
     public void setConceptCollection(Collection<Concept> conceptCollection) {
         this.conceptCollection = conceptCollection;
+    }
+
+    public ConceptCategory getConceptCategoryId() {
+        return conceptCategoryId;
+    }
+
+    public void setConceptCategoryId(ConceptCategory conceptCategoryId) {
+        this.conceptCategoryId = conceptCategoryId;
+    }
+
+    public ConceptClassification getConceptClassificationId() {
+        return conceptClassificationId;
+    }
+
+    public void setConceptClassificationId(ConceptClassification conceptClassificationId) {
+        this.conceptClassificationId = conceptClassificationId;
+    }
+
+    public Document getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Document documentId) {
+        this.documentId = documentId;
     }
 
     @Override

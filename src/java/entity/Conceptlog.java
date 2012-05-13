@@ -40,26 +40,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ConceptLog.findAll", query = "SELECT c FROM ConceptLog c"),
     @NamedQuery(name = "ConceptLog.findById", query = "SELECT c FROM ConceptLog c WHERE c.id = :id"),
-    @NamedQuery(name = "ConceptLog.findByDate", query = "SELECT c FROM ConceptLog c WHERE c.date = :date"),
-    @NamedQuery(name = "ConceptLog.findByUserId", query = "SELECT c FROM ConceptLog c WHERE c.userId = :userId")})
+    @NamedQuery(name = "ConceptLog.findByDate", query = "SELECT c FROM ConceptLog c WHERE c.date = :date")})
 public class ConceptLog implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "user_id")
-    private int userId;
-    @JoinColumn(name = "concept_action_id", referencedColumnName = "id")
+    @JoinColumn(name = "concept_event_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private ConceptAction conceptActionId;
+    private ConceptEvent conceptEventId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User userId;
     @JoinColumn(name = "concept_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Concept conceptId;
@@ -69,11 +66,6 @@ public class ConceptLog implements Serializable {
 
     public ConceptLog(Integer id) {
         this.id = id;
-    }
-
-    public ConceptLog(Integer id, int userId) {
-        this.id = id;
-        this.userId = userId;
     }
 
     public Integer getId() {
@@ -92,20 +84,20 @@ public class ConceptLog implements Serializable {
         this.date = date;
     }
 
-    public int getUserId() {
+    public ConceptEvent getConceptEventId() {
+        return conceptEventId;
+    }
+
+    public void setConceptEventId(ConceptEvent conceptEventId) {
+        this.conceptEventId = conceptEventId;
+    }
+
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
-    }
-
-    public ConceptAction getConceptActionId() {
-        return conceptActionId;
-    }
-
-    public void setConceptActionId(ConceptAction conceptActionId) {
-        this.conceptActionId = conceptActionId;
     }
 
     public Concept getConceptId() {

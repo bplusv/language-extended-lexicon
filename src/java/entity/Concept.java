@@ -48,26 +48,18 @@ public class Concept implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "active")
-    private Boolean active;
+    private boolean active;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 2147483647)
     @Column(name = "name")
     private String name;
-    @JoinColumn(name = "concept_category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private ConceptCategory conceptCategoryId;
-    @JoinColumn(name = "concept_class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private ConceptClass conceptClassId;
-    @JoinColumn(name = "document_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Document documentId;
     @JoinColumn(name = "concept_details_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ConceptDetails conceptDetailsId;
@@ -75,14 +67,17 @@ public class Concept implements Serializable {
     private Collection<ConceptLog> conceptLogCollection;
 
     public Concept() {
+        this.active = true;
     }
 
     public Concept(Integer id) {
         this.id = id;
+        this.active = true;
     }
 
-    public Concept(Integer id, String name) {
+    public Concept(Integer id, boolean active, String name) {
         this.id = id;
+        this.active = active;
         this.name = name;
     }
 
@@ -94,11 +89,11 @@ public class Concept implements Serializable {
         this.id = id;
     }
 
-    public Boolean getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -108,30 +103,6 @@ public class Concept implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ConceptCategory getConceptCategoryId() {
-        return conceptCategoryId;
-    }
-
-    public void setConceptCategoryId(ConceptCategory conceptCategoryId) {
-        this.conceptCategoryId = conceptCategoryId;
-    }
-
-    public ConceptClass getConceptClassId() {
-        return conceptClassId;
-    }
-
-    public void setConceptClassId(ConceptClass conceptClassId) {
-        this.conceptClassId = conceptClassId;
-    }
-
-    public Document getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(Document documentId) {
-        this.documentId = documentId;
     }
 
     public ConceptDetails getConceptDetailsId() {

@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name")})
+    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,18 +53,16 @@ public class User implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 2147483647)
+    @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserLog> userLogCollection;
+    private Collection<ConceptLog> conceptLogCollection;
 
     public User() {
     }
@@ -103,12 +102,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UserLog> getUserLogCollection() {
-        return userLogCollection;
+    public Collection<ConceptLog> getConceptLogCollection() {
+        return conceptLogCollection;
     }
 
-    public void setUserLogCollection(Collection<UserLog> userLogCollection) {
-        this.userLogCollection = userLogCollection;
+    public void setConceptLogCollection(Collection<ConceptLog> conceptLogCollection) {
+        this.conceptLogCollection = conceptLogCollection;
     }
 
     @Override
