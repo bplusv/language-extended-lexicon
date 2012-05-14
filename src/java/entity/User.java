@@ -53,6 +53,7 @@ public class User implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
@@ -61,8 +62,8 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<ConceptLog> conceptLogCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<Log> logCollection;
 
     public User() {
     }
@@ -102,12 +103,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ConceptLog> getConceptLogCollection() {
-        return conceptLogCollection;
+    public Collection<Log> getLogCollection() {
+        return logCollection;
     }
 
-    public void setConceptLogCollection(Collection<ConceptLog> conceptLogCollection) {
-        this.conceptLogCollection = conceptLogCollection;
+    public void setLogCollection(Collection<Log> logCollection) {
+        this.logCollection = logCollection;
     }
 
     @Override

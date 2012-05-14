@@ -4,6 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>jdbc/lel</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <validation-mode>NONE</validation-mode>
     <properties>
       <property name="eclipselink.logging.level" value="FINEST"/>
       <property name="javax.persistence.validation.group.pre-persist" value="a"/>

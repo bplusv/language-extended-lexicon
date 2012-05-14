@@ -1,25 +1,35 @@
 <form action="createConcept" method="post">
-    <h1 id="">Concept: ${currentConcept}</h2>
-    <h2>Document: ${currentDocument.name}</h2>
+    <c:choose>
+          <c:when test="${requestScope.createConceptError == true}">
+              <h1 style="color:#f00;">Create concept error!</h1>
+          </c:when>
+          <c:when test="${requestScope.createConceptError == false}">
+            <h1 style="color:#0f0;">Concept Saved!</h1>
+          </c:when>
+        </c:choose>
+    <h1 id="">Concept: ${sessionScope.currentConcept}</h2>
+    <h2>Document: ${sessionScope.currentDocument.name}</h2>
     <div class="">
         <label id="classificationLabel" for="classification">Classification:</label>
         <select id="classification" name="classification">
-            <option value="1">class1</option>
-            <option value="2">class2</option>
-            <option value="3">class3</option>
+            <c:forEach var="classification" items="${classifications}">
+                <option value="${classification.id}" ${param.classification == classification.id ? 'selected="selected"' : ''}>${classification.name}</option>
+            </c:forEach>
         </select>
     </div>
     <div class="">
         <label id="categoryLabel" for="category">Category:</label>
         <select id="category" name="category">
-            <option value="1">category1</option>
-            <option value="2">category2</option>
-            <option value="3">category3</option>
+            <c:forEach var="category" items="${categories}">
+                <option value="${category.id}" ${param.category == category.id ? 'selected="selected"' : ''}>${category.name}</option>
+            </c:forEach>
         </select>
     </div>
     
-    <input type="hidden" id="name" name="name" value="${currentConcept}" />
-
+    <div class="">
+        <label for="name"><strong>Concept Name:</strong></label>
+        <input type="text" id="name" name="name" />
+    </div>
     <div class="">
         <label for="notion"><strong>Concept Notion:</strong></label>
         <input type="text" id="notion" name="notion" />

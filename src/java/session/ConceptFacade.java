@@ -24,7 +24,10 @@
 
 package session;
 
+import entity.Category;
+import entity.Classification;
 import entity.Concept;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -46,5 +49,11 @@ public class ConceptFacade extends AbstractFacade<Concept> {
     public ConceptFacade() {
         super(Concept.class);
     }
-
+    
+    public List<Concept> findByFilters(Classification classification, Category category) {
+        return em.createQuery("SELECT c FROM Concept c, Definition d WHERE c.definition = d "
+                + "AND d.classification = :classification AND d.category = :category").
+                setParameter("classification", classification).
+                setParameter("category", category).getResultList();
+    }
 }

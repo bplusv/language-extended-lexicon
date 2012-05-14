@@ -7,7 +7,7 @@
         <title>LeL</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all"/>
-        <link rel="stylesheet" type="text/css" href="css/${fn:substring(pageContext.request.requestURI, fn:indexOf(pageContext.request.requestURI, "/WEB-INF/view/") + fn:length("/WEB-INF/view/"), fn:indexOf(pageContext.request.requestURI, ".jsp"))}.css" media="all"/>
+        <link rel="stylesheet" type="text/css" href="css${requestScope.userPath}.css" media="all"/>
         <meta name="author" content="Yanet Garay Santos, Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
@@ -15,15 +15,11 @@
     </head>
     <body>
         <header>
-            <h5>${currentDocument}</h5>
-            <c:url var="url" value="viewCart">
-                <c:param name="clear" value="true"/>
-            </c:url>
             <a href="#" id="signOut">Sign Out</a>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
         </header>
         <nav class="tabs">
-            <a href="#">Explore</a>
-            <a href="#">Document</a>
+            <a href="<c:url value="/explore" />" class="${requestScope.userPath == '/explore' ? 'selected' : ''}">Explore</a>
+            <a href="<c:url value="/document" />" class="${requestScope.userPath == '/document' ? 'selected' : ''}">Document</a>
         </nav>
         <div class="center">

@@ -48,6 +48,7 @@ public class Document implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -55,8 +56,8 @@ public class Document implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentId")
-    private Collection<ConceptDetails> conceptDetailsCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
+    private Collection<Concept> conceptCollection;
 
     public Document() {
     }
@@ -87,12 +88,12 @@ public class Document implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ConceptDetails> getConceptDetailsCollection() {
-        return conceptDetailsCollection;
+    public Collection<Concept> getConceptCollection() {
+        return conceptCollection;
     }
 
-    public void setConceptDetailsCollection(Collection<ConceptDetails> conceptDetailsCollection) {
-        this.conceptDetailsCollection = conceptDetailsCollection;
+    public void setConceptCollection(Collection<Concept> conceptCollection) {
+        this.conceptCollection = conceptCollection;
     }
 
     @Override
