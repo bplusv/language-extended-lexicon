@@ -34,11 +34,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `lel`.`concept_classification`
+-- Table `lel`.`category`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lel`.`concept_classification` ;
+DROP TABLE IF EXISTS `lel`.`category` ;
 
-CREATE  TABLE IF NOT EXISTS `lel`.`concept_classification` (
+CREATE  TABLE IF NOT EXISTS `lel`.`category` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -47,11 +47,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `lel`.`concept_category`
+-- Table `lel`.`classification`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lel`.`concept_category` ;
+DROP TABLE IF EXISTS `lel`.`classification` ;
 
-CREATE  TABLE IF NOT EXISTS `lel`.`concept_category` (
+CREATE  TABLE IF NOT EXISTS `lel`.`classification` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -60,36 +60,29 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `lel`.`concept_details`
+-- Table `lel`.`definition`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lel`.`concept_details` ;
+DROP TABLE IF EXISTS `lel`.`definition` ;
 
-CREATE  TABLE IF NOT EXISTS `lel`.`concept_details` (
+CREATE  TABLE IF NOT EXISTS `lel`.`definition` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `comments` LONGTEXT NULL ,
   `notion` LONGTEXT NULL ,
   `actual_intention` LONGTEXT NULL ,
   `future_intention` LONGTEXT NULL ,
-  `document_id` INT NOT NULL ,
-  `concept_classification_id` INT NOT NULL ,
-  `concept_category_id` INT NOT NULL ,
+  `category` INT NOT NULL ,
+  `classification` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_concept_data_document` (`document_id` ASC) ,
-  INDEX `fk_concept_data_concept_classification` (`concept_classification_id` ASC) ,
-  INDEX `fk_concept_data_concept_category` (`concept_category_id` ASC) ,
-  CONSTRAINT `fk_concept_data_document`
-    FOREIGN KEY (`document_id` )
-    REFERENCES `lel`.`document` (`id` )
+  INDEX `fk_definition_category` (`category` ASC) ,
+  INDEX `fk_definition_classification` (`classification` ASC) ,
+  CONSTRAINT `fk_definition_category`
+    FOREIGN KEY (`category` )
+    REFERENCES `lel`.`category` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_concept_data_concept_classification`
-    FOREIGN KEY (`concept_classification_id` )
-    REFERENCES `lel`.`concept_classification` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_concept_data_concept_category`
-    FOREIGN KEY (`concept_category_id` )
-    REFERENCES `lel`.`concept_category` (`id` )
+  CONSTRAINT `fk_definition_classification`
+    FOREIGN KEY (`classification` )
+    REFERENCES `lel`.`classification` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -104,23 +97,30 @@ CREATE  TABLE IF NOT EXISTS `lel`.`concept` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `active` TINYINT(1) NOT NULL DEFAULT 1 ,
   `name` LONGTEXT NOT NULL ,
-  `concept_details_id` INT NOT NULL ,
+  `document` INT NOT NULL ,
+  `definition` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_concept_concept_details` (`concept_details_id` ASC) ,
-  CONSTRAINT `fk_concept_concept_details`
-    FOREIGN KEY (`concept_details_id` )
-    REFERENCES `lel`.`concept_details` (`id` )
+  INDEX `fk_concept_document` (`document` ASC) ,
+  INDEX `fk_concept_definition` (`definition` ASC) ,
+  CONSTRAINT `fk_concept_document`
+    FOREIGN KEY (`document` )
+    REFERENCES `lel`.`document` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_concept_definition`
+    FOREIGN KEY (`definition` )
+    REFERENCES `lel`.`definition` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `lel`.`concept_event`
+-- Table `lel`.`event`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lel`.`concept_event` ;
+DROP TABLE IF EXISTS `lel`.`event` ;
 
-CREATE  TABLE IF NOT EXISTS `lel`.`concept_event` (
+CREATE  TABLE IF NOT EXISTS `lel`.`event` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -129,33 +129,26 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `lel`.`concept_log`
+-- Table `lel`.`log`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lel`.`concept_log` ;
+DROP TABLE IF EXISTS `lel`.`log` ;
 
-CREATE  TABLE IF NOT EXISTS `lel`.`concept_log` (
+CREATE  TABLE IF NOT EXISTS `lel`.`log` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
-  `concept_id` INT NOT NULL ,
-  `user_id` INT NOT NULL ,
-  `concept_event_id` INT NOT NULL ,
+  `user` INT NOT NULL ,
+  `event` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_concept_log_concept` (`concept_id` ASC) ,
-  INDEX `fk_concept_log_user` (`user_id` ASC) ,
-  INDEX `fk_concept_log_concept_event` (`concept_event_id` ASC) ,
-  CONSTRAINT `fk_concept_log_concept`
-    FOREIGN KEY (`concept_id` )
-    REFERENCES `lel`.`concept` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_concept_log_user`
-    FOREIGN KEY (`user_id` )
+  INDEX `fk_log_user` (`user` ASC) ,
+  INDEX `fk_log_event` (`event` ASC) ,
+  CONSTRAINT `fk_log_user`
+    FOREIGN KEY (`user` )
     REFERENCES `lel`.`user` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_concept_log_concept_event`
-    FOREIGN KEY (`concept_event_id` )
-    REFERENCES `lel`.`concept_event` (`id` )
+  CONSTRAINT `fk_log_event`
+    FOREIGN KEY (`event` )
+    REFERENCES `lel`.`event` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

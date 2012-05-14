@@ -25,12 +25,10 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,6 +46,7 @@ public class Concept implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -60,19 +59,18 @@ public class Concept implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "name")
     private String name;
-    @JoinColumn(name = "concept_details_id", referencedColumnName = "id")
+    @JoinColumn(name = "definition", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private ConceptDetails conceptDetailsId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conceptId")
-    private Collection<ConceptLog> conceptLogCollection;
+    private Definition definition;
+    @JoinColumn(name = "document", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Document document;
 
     public Concept() {
-        this.active = true;
     }
 
     public Concept(Integer id) {
         this.id = id;
-        this.active = true;
     }
 
     public Concept(Integer id, boolean active, String name) {
@@ -105,21 +103,20 @@ public class Concept implements Serializable {
         this.name = name;
     }
 
-    public ConceptDetails getConceptDetailsId() {
-        return conceptDetailsId;
+    public Definition getDefinition() {
+        return definition;
     }
 
-    public void setConceptDetailsId(ConceptDetails conceptDetailsId) {
-        this.conceptDetailsId = conceptDetailsId;
+    public void setDefinition(Definition definition) {
+        this.definition = definition;
     }
 
-    @XmlTransient
-    public Collection<ConceptLog> getConceptLogCollection() {
-        return conceptLogCollection;
+    public Document getDocument() {
+        return document;
     }
 
-    public void setConceptLogCollection(Collection<ConceptLog> conceptLogCollection) {
-        this.conceptLogCollection = conceptLogCollection;
+    public void setDocument(Document document) {
+        this.document = document;
     }
 
     @Override

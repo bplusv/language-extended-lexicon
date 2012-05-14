@@ -24,8 +24,8 @@
 
 package session;
 
-import entity.Concept;
-import entity.ConceptDetails;
+import entity.*;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -45,14 +45,40 @@ public class ConceptManager {
     private SessionContext context;
     
     @EJB private DocumentFacade documentFacade;
-    @EJB private ConceptCategoryFacade conceptCategoryFacade;
-    @EJB private ConceptClassificationFacade conceptClassificationFacade;
+    @EJB private ConceptFacade conceptFacade;
+    @EJB private CategoryFacade categoryFacade;
+    @EJB private ClassificationFacade classificationFacade;
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public int createConcept(String name, int document, int category, int classification, String notion, String actualIntention, String futureIntention, String comments) {
+    public List<Concept> getConcepts(String classificationParam, String categoryParam) {
         try {
-            ConceptDetails conceptDetails = addConceptDetails(document, category, classification, notion, actualIntention, futureIntention, comments);
-            Concept concept = addConcept(conceptDetails, name);
+            Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
+            Category category = categoryFacade.find(Integer.parseInt(categoryParam));
+            List<Concept> concepts = conceptFacade.findByFilters(classification, category);
+            return concepts;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public int createConcept(String nameParam, String documentParam, String categoryParam, 
+            String classificationParam, String notionParam, String actualIntentionParam, 
+            String futureIntentionParam, String commentsParam) {
+        try {
+            String name = nameParam;
+            Document document = documentFacade.find(Integer.parseInt(documentParam));
+            Category category = categoryFacade.find(Integer.parseInt(categoryParam));
+            Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
+            String notion = notionParam;
+            String actualIntention = actualIntentionParam;
+            String futureIntention = futureIntentionParam;
+            String comments = commentsParam;
+            
+            Definition definition = addDefinition(category, classification, notion, 
+                    actualIntention, futureIntention, comments);
+            Concept concept = addConcept(definition, document, name);
             return concept.getId();
         } catch (Exception e) {
             context.setRollbackOnly();
@@ -60,24 +86,25 @@ public class ConceptManager {
         }
     }
 
-    private ConceptDetails addConceptDetails(int document, int category, int classification, String notion, String actualIntention, String futureIntention, String comments) {
-        ConceptDetails conceptDetails = new ConceptDetails();
-        conceptDetails.setDocumentId(documentFacade.find(document));
-        conceptDetails.setConceptCategoryId(conceptCategoryFacade.find(category));
-        conceptDetails.setConceptClassificationId(conceptClassificationFacade.find(classification));
-        conceptDetails.setNotion(notion);
-        conceptDetails.setActualIntention(actualIntention);
-        conceptDetails.setFutureIntention(futureIntention);
-        conceptDetails.setComments(comments);
+    private Definition addDefinition(Category category, Classification classification, 
+            String notion, String actualIntention, String futureIntention, String comments) {
+        Definition definition = new Definition();
+        definition.setCategory(category);
+        definition.setClassification(classification);
+        definition.setNotion(notion);
+        definition.setActualIntention(actualIntention);
+        definition.setFutureIntention(futureIntention);
+        definition.setComments(comments);
                 
-        em.persist(conceptDetails);
+        em.persist(definition);
         em.flush();
-        return conceptDetails;
+        return definition;
     }
 
-    private Concept addConcept(ConceptDetails conceptDetails, String name) {
+    private Concept addConcept(Definition definition, Document document, String name) {
         Concept concept = new Concept();
-        concept.setConceptDetailsId(conceptDetails);
+        concept.setDefinition(definition);
+        concept.setDocument(document);
         concept.setName(name);
         
         em.persist(concept);

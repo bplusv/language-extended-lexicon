@@ -24,9 +24,10 @@
 
 package controller;
 
-import entity.ConceptClassification;
-import entity.Document;
+import entity.Classification;
+import entity.Concept;
 import java.io.IOException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,10 +35,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import session.ConceptClassificationFacade;
-import session.ConceptFacade;
-import session.ConceptManager;
-import session.DocumentFacade;
+import session.*;
 
 /**
  *
@@ -46,68 +44,52 @@ import session.DocumentFacade;
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
 urlPatterns = {"/explore",
-                "/lookup",
+                "/document",
                 "/classify",
                 "/load",
                 "/createConcept",
-                "/deleteConcept",
-                "/test"})
+                "/deleteConcept"})
 public class ControllerServlet extends HttpServlet {
-    
-    @EJB
-    private ConceptFacade conceptFacade;
-    @EJB
-    private ConceptClassificationFacade conceptClassificationFacade;
-    @EJB
-    private ConceptManager conceptManager;
-    @EJB
-    private DocumentFacade documentFacade;
-
-    
+    @EJB private DocumentFacade documentFacade;
+    @EJB private ConceptFacade conceptFacade;
+    @EJB private CategoryFacade categoryFacade;
+    @EJB private ClassificationFacade classificationFacade;
+    @EJB private ConceptManager conceptManager;
+   
     @Override
     public void init() throws ServletException {
-        getServletContext().setAttribute("conceptClassifications", conceptClassificationFacade.findAll());
+        getServletContext().setAttribute("classifications", classificationFacade.findAll());
+        getServletContext().setAttribute("categories", categoryFacade.findAll());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        HttpSession session = request.getSession();
         String userPath = request.getServletPath();
 
         if (userPath.equals("/explore")) {
-            // TODO: Implement explore page request
+            
+            String classificationParam = request.getParameter("classification");
+            String categoryParam = request.getParameter("category");
+            List<Concept> concepts = conceptManager.getConcepts(classificationParam, categoryParam);
+            request.setAttribute("concepts", concepts);
+            
+        } else if (userPath.equals("/document")) {
 
-            userPath = "/explore";
-
-        } else if (userPath.equals("/lookup")) {
-            // TODO: Implement lookup page request
 
         } else if (userPath.equals("/classify")) {
-
+            
+            
         } else if (userPath.equals("/load")) {
-            // TODO: Implement load request
 
-        } else if (userPath.equals("/test")) {
-            HttpSession session = request.getSession();
-            String conceptClassificationId = request.getQueryString();
-            if (conceptClassificationId != null) {
-                ConceptClassification selectedConceptClassification = conceptClassificationFacade.find(Integer.parseInt(conceptClassificationId));               
-               
-                session.setAttribute("conceptClassifications", conceptClassificationFacade.findAll());
-                session.setAttribute("selectedConceptClassification", selectedConceptClassification);
- 
-            }
-            
-            session.setAttribute("currentConcept", "current");
-            session.setAttribute("currentDocument", documentFacade.find(1));
-            
-            // userPath = "/test";
+
         }
 
-        // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/view" + userPath + ".jsp";
-
+        request.setAttribute("userPath", userPath);
+        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -118,30 +100,34 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
         String userPath = request.getServletPath();
-
+        
         if (userPath.equals("/createConcept")) {
-            String name = request.getParameter("name");
-            int document = 1;
-            int classification = Integer.parseInt(request.getParameter("classification"));
-            int category = Integer.parseInt(request.getParameter("category"));
-            String notion = request.getParameter("notion");
-            String actualIntention = request.getParameter("actualIntention");
-            String futureIntention = request.getParameter("futureIntention");
-            String comments = request.getParameter("comments");
+            String nameParam = request.getParameter("name");
+            String documentParam = "1";
+            String categoryParam = request.getParameter("category");
+            String classificationParam = request.getParameter("classification");
+            String notionParam = request.getParameter("notion");
+            String actualIntentionParam = request.getParameter("actualIntention");
+            String futureIntentionParam = request.getParameter("futureIntention");
+            String commentsParam = request.getParameter("comments");
             
-            int res = conceptManager.createConcept(name, document, category, classification, notion, actualIntention, futureIntention, comments);
+            int conceptId = conceptManager.createConcept(nameParam, documentParam, categoryParam, 
+                    classificationParam, notionParam, actualIntentionParam, futureIntentionParam, commentsParam);
+            request.setAttribute("createConceptError", conceptId < 0 ? true : false);
             
-            userPath = "/explore";
+            userPath = "/classify";
             
         } else if (userPath.equals("/deleteConcept")) {
-            // TODO: Implement deleteConcept action
-
+            
+            
             userPath = "/explore";
         }
 
-        // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/view" + userPath + ".jsp";
+        request.setAttribute("userPath", userPath);
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
