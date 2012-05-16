@@ -11,15 +11,7 @@
     width: 150px;
 }
 
-#exploreForm {
-    height: 500px;
-}
-
-#classificationLabel {
-    
-}
-
-#classification {
+#category {
     
 }
 
@@ -27,15 +19,20 @@
     
 }
 
-#category {
+#concepts {
+    height: 450px;
+    overflow-y: scroll;
+}
+
+#conceptsTable {
     
 }
 
-#searchLabel {
+#classification {
     
 }
 
-#search {
+#classificationLabel {
     
 }
 
@@ -43,6 +40,19 @@
     
 }
 
-#conceptsTable {
+#exploreForm {
+    height: 500px;
+}
+
+#filters {
+    display: block;
+    height: 50px;
+}
+
+#search {
+    
+}
+
+#searchLabel {
     
 }

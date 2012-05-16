@@ -12,7 +12,7 @@ USE `lel` ;
 DROP TABLE IF EXISTS `lel`.`user` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`user` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(50) NOT NULL ,
   `password` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -26,7 +26,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`document` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`document` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
@@ -39,7 +39,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`category` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`category` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
@@ -52,7 +52,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`classification` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`classification` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
@@ -65,13 +65,13 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`definition` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`definition` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `comments` LONGTEXT NULL ,
   `notion` LONGTEXT NULL ,
   `actual_intention` LONGTEXT NULL ,
   `future_intention` LONGTEXT NULL ,
-  `category` INT NOT NULL ,
-  `classification` INT NOT NULL ,
+  `category` INT UNSIGNED NOT NULL ,
+  `classification` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_definition_category` (`category` ASC) ,
   INDEX `fk_definition_classification` (`classification` ASC) ,
@@ -94,11 +94,11 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`concept` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`concept` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `active` TINYINT(1) NOT NULL DEFAULT 1 ,
   `name` LONGTEXT NOT NULL ,
-  `document` INT NOT NULL ,
-  `definition` INT NOT NULL ,
+  `document` INT UNSIGNED NOT NULL ,
+  `definition` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_concept_document` (`document` ASC) ,
   INDEX `fk_concept_definition` (`definition` ASC) ,
@@ -121,7 +121,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`event` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`event` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
@@ -134,10 +134,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`log` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`log` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
-  `user` INT NOT NULL ,
-  `event` INT NOT NULL ,
+  `user` INT UNSIGNED NOT NULL ,
+  `event` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_log_user` (`user` ASC) ,
   INDEX `fk_log_event` (`event` ASC) ,

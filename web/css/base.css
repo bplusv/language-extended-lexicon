@@ -152,6 +152,15 @@ textarea {
     float: left;
 }
 
+#infoBubble {
+    background: #fff; 
+    height: 50px;
+    left: -50px;
+    position: absolute;
+    top: -50px;
+    width: 150px;
+}
+
 #signOut {
     margin-top: 10px;
     margin-right: 20px;

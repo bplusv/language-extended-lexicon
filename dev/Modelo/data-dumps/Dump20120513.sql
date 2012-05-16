@@ -33,7 +33,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,'create'),(3,'delete'),(2,'edit');
+INSERT INTO `event` VALUES (1,'Create'),(3,'Delete'),(2,'Edit');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (2,'object'),(1,'state'),(3,'subject'),(4,'verb');
+INSERT INTO `category` VALUES (2,'Object'),(1,'State'),(3,'Subject'),(4,'Verb');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +73,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `classification` WRITE;
 /*!40000 ALTER TABLE `classification` DISABLE KEYS */;
-INSERT INTO `classification` VALUES (3,'general'),(1,'requirement'),(2,'system');
+INSERT INTO `classification` VALUES (3,'General'),(1,'Requirement'),(2,'System');
 /*!40000 ALTER TABLE `classification` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -1,8 +1,4 @@
-#classify {
-    float: right;
-}
-
-#documentText {
+#document {
     font: 12px 'Century Gothic', sans-serif;
     height: 364px;
     margin: 30px 0px;
@@ -15,6 +11,10 @@
     position: relative;
 }
 
-#lookUpForm {
+#documentForm {
     height: 500px;
+}
+
+#save {
+    float: right;
 }
