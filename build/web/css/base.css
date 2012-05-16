@@ -1,7 +1,14 @@
+/* 
+    Document   : base
+    Created on : May 16, 2012, 9:21:00 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Main Stylesheet for common website items.
+*/
+
 html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { margin: 0; padding: 0; }
 
 a {
-    color: #333;
+    color: #006699;
     font: 12px Arial,sans-serif;
     text-decoration: none;
 }
@@ -22,9 +29,19 @@ footer {
     height: 154px;
 }
 
+h1 {
+    color: #777;
+    font: 23px 'Century Gothic', sans-serif;
+}
+
 h2 {
     color: #777;
     font: 19px 'Century Gothic', sans-serif;
+}
+
+h3 {
+    color: #777;
+    font: 13px 'Century Gothic', sans-serif;
 }
 
 header {
@@ -35,7 +52,6 @@ header {
 
 input {
     margin: 0;
-    cursor: pointer;
 }
 
 input[type="text"], input[type="password"] {
@@ -45,9 +61,13 @@ input[type="text"], input[type="password"] {
     padding: 5px;
 }
 
+input[type="submit"] {
+    cursor: pointer;
+}
+
 label {
     color: #555;
-    font: 13px 'Century Gothic', sans-serif;
+    font: 13px/24px 'Century Gothic', sans-serif;
 }
 
 nav {
@@ -59,7 +79,32 @@ root {
     display: block;
 }
 
+select {
+    -moz-appearance: button;
+    -webkit-appearance: button;
+    appearance: button;
+    background-image: url('../img/selectArrow.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    color: #333;
+    font: 13px/20px 'Century Gothic', sans-serif;
+    margin: 0;
+    padding-left: 5px;
+    padding-right: 15px;
+}
+
+select:focus {
+    outline: none;
+}
+
 textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font: 12px 'Century Gothic', sans-serif;
+    margin: 0;
+    padding: 10px;
     resize: none;
 }
 
@@ -83,18 +128,6 @@ textarea {
 .buttons > a:active, .button:active {
     background-color: #0489C7;
     text-decoration: none;
-}
-
-.center {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    border-top-left-radius: 0;
-    height: auto;
-    margin-bottom: 50px;
-    min-height: 500px;
-    overflow: auto;
-    padding: 25px;
-    width: 748px;
 }
 
 .concept {
@@ -121,7 +154,7 @@ textarea {
     border-bottom: none;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    color: #000;
+    color: #666;
     display: inline-block;
     font: 14px/30px 'Trebuchet MS', Helvetica, sans-serif;
     height: 29px;
@@ -148,21 +181,66 @@ textarea {
     text-decoration: none;
 }
 
+#center {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    height: auto;
+    margin-bottom: 50px;
+    min-height: 500px;
+    padding: 25px;
+    width: 748px;
+}
+
 #headerLogo {
     float: left;
 }
 
 #infoBubble {
-    background: #fff; 
+    background-color: #F15945;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    font: 20px/30px 'Trebuchet MS', Helvetica, sans-serif;
     height: 50px;
-    left: -50px;
+    left: 150px;
     position: absolute;
-    top: -50px;
+    top: 150px;
+    text-align: center;
+    text-decoration: none;
     width: 150px;
 }
 
+#infoBubble:hover {
+    background-color: #FF7056;
+    text-decoration: none;
+}
+
+#infoBubble:active {
+    background-color: #CA322D;
+    text-decoration: none;
+}
+
 #signOut {
-    margin-top: 10px;
-    margin-right: 20px;
+    margin-left: 9px;
+    text-decoration: none;
+}
+
+#signOut:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#signOutForm {
+    color: #333;
     float: right;
+    font: 12px/20px Arial,sans-serif;
+    margin-top: 10px;
+    margin-right: 0px;
+}
+
+#signOutUsername {
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
 }

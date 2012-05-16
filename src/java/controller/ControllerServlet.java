@@ -48,9 +48,11 @@ urlPatterns = {"/classify",
                 "/document",
                 "/explore",
                 "/load",
+                "/loadDocument",
                 "/signIn",
                 "/signOut",
-                "/updateConcept"})
+                "/updateConcept",
+                "/updateDocument"})
 public class ControllerServlet extends HttpServlet {
     @EJB private DocumentFacade documentFacade;
     @EJB private ConceptFacade conceptFacade;
@@ -82,7 +84,10 @@ public class ControllerServlet extends HttpServlet {
             String classificationParam = request.getParameter("cl");
             String categoryParam = request.getParameter("ca");
             request.setAttribute("concepts", conceptManager.getConcepts(classificationParam, categoryParam));
-        } 
+        } else if (userPath.equals("/load")) {
+            
+            
+        }
 
         String url = "/WEB-INF/view" + userPath + ".jsp";
         request.setAttribute("userPath", userPath);
@@ -124,6 +129,10 @@ public class ControllerServlet extends HttpServlet {
 
             userPath = "/explore";
 
+        } else if (userPath.equals("/updateDocument")) {
+            
+            userPath = "/document";
+            
         } else if (userPath.equals("/signIn")) {
             
             String usernameParam = request.getParameter("username");
@@ -166,6 +175,8 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("updateConceptError", concept == null ? true : false);
             
             userPath = "/classify";
+        } else if (userPath.equals("/updateDocument")) {
+            userPath = "/document";
         }
 
         String url = "/WEB-INF/view" + userPath + ".jsp";

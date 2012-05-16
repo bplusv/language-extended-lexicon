@@ -1,3 +1,10 @@
+/* 
+    Document   : document
+    Created on : May 16, 2012, 9:42:15 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Stylesheet for document.jsp.
+*/
+
 #document {
     font: 12px 'Century Gothic', sans-serif;
     height: 364px;
@@ -7,7 +14,7 @@
     width: 688px;
 }
 
-#loadDocument {
+#load {
     position: relative;
 }
 
