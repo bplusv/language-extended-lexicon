@@ -7,7 +7,7 @@
         <title>LeL</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="<c:url value="/css/base.css" />" media="all"/>
-              <link rel="stylesheet" type="text/css" href="<c:url value="/css/login.css" />" media="all"/>
+              <link rel="stylesheet" type="text/css" href="<c:url value="/css/index.css" />" media="all"/>
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />

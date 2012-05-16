@@ -1,3 +1,9 @@
+ <%-- 
+    Document   : explore
+    Created on : May 9, 2012, 11:27:14 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+--%>
+
             <form action="<c:url value="/explore" />" id="exploreForm" method="get">
                 <div id="filters">
                     <div class="exploreField">

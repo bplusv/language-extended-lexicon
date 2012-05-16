@@ -1,0 +1,107 @@
+/* 
+    Document   : classify
+    Created on : May 16, 2012, 11:10:30 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+label {
+    display: block;
+}
+
+select {
+    width: 100%;
+}
+
+.definitionField {
+    display: block;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.definitionField label {
+    display:block;
+}
+
+.definitionField textarea {
+    border-top-left-radius: 0;
+    display: block;
+    height: 48px;
+    padding: 10px;
+    width: 100%;
+}
+
+.fixPadding {
+    margin-right: 22px;
+}
+
+.info {
+    color: #000;
+    display: block;
+    line-height: 24px;
+}
+
+#classifyForm {
+    height: 600px;
+    width: 748px;
+}
+
+#title {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#definitionBottom {
+    display: block;
+    margin-bottom: 54px;
+}
+
+#definitionTop {
+    height: 100px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    width: 748px;
+}
+
+#definitionTop > div {
+    display: inline-block;
+    float: left;
+    height: 100%;
+    width: 50%;
+}
+
+#definitionTopLeft {
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    width: 250px;
+}
+
+#definitionTopLeft > div {
+    display: block;
+    overflow: hidden;
+}
+
+#definitionTopLeft > div > div {
+    display: inline-block;
+    float: left;
+    height: 24;
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+
+#definitionTopRight {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    overflow: hidden;
+    padding-bottom: 14px;
+    padding-top: 14px;
+    width: 200px;
+}
+
+#save {
+    float: right;
+}
