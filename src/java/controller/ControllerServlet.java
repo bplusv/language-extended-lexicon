@@ -24,10 +24,9 @@
 
 package controller;
 
-import entity.Classification;
 import entity.Concept;
+import entity.User;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,18 +42,23 @@ import session.*;
  */
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
-urlPatterns = {"/explore",
-                "/document",
-                "/classify",
-                "/load",
+urlPatterns = {"/classify",
                 "/createConcept",
-                "/deleteConcept"})
+                "/deleteConcept",
+                "/document",
+                "/explore",
+                "/load",
+                "/signIn",
+                "/signOut",
+                "/updateConcept"})
 public class ControllerServlet extends HttpServlet {
     @EJB private DocumentFacade documentFacade;
     @EJB private ConceptFacade conceptFacade;
     @EJB private CategoryFacade categoryFacade;
     @EJB private ClassificationFacade classificationFacade;
     @EJB private ConceptManager conceptManager;
+    @EJB private UserFacade userFacade;
+    @EJB private UserManager userManager;
    
     @Override
     public void init() throws ServletException {
@@ -66,64 +70,102 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
         String userPath = request.getServletPath();
-
-        if (userPath.equals("/explore")) {
-            
-            String classificationParam = request.getParameter("classification");
-            String categoryParam = request.getParameter("category");
-            List<Concept> concepts = conceptManager.getConcepts(classificationParam, categoryParam);
-            request.setAttribute("concepts", concepts);
-            
+        
+        if (userPath.equals("/classify")) {
+            String conceptIdParam = request.getParameter("co");
+            request.setAttribute("concept", conceptManager.getConcept(conceptIdParam));
+            request.setAttribute("submitAction", "/updateConcept");
         } else if (userPath.equals("/document")) {
-
-
-        } else if (userPath.equals("/classify")) {
             
-            
-        } else if (userPath.equals("/load")) {
-
-
-        }
+        } else if (userPath.equals("/explore")) {
+            String classificationParam = request.getParameter("cl");
+            String categoryParam = request.getParameter("ca");
+            request.setAttribute("concepts", conceptManager.getConcepts(classificationParam, categoryParam));
+        } 
 
         String url = "/WEB-INF/view" + userPath + ".jsp";
         request.setAttribute("userPath", userPath);
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {}
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
         String userPath = request.getServletPath();
         
-        if (userPath.equals("/createConcept")) {
+        if (userPath.equals("/classify")) {
             String nameParam = request.getParameter("name");
             String documentParam = "1";
+            
+            request.setAttribute("concept", conceptManager.createPossibleConcept(nameParam, documentParam));
+            request.setAttribute("submitAction", "/createConcept");  
+        } else if (userPath.equals("/createConcept")) {
+            String nameParam = request.getParameter("name");
+            String documentParam = request.getParameter("document");
             String categoryParam = request.getParameter("category");
             String classificationParam = request.getParameter("classification");
             String notionParam = request.getParameter("notion");
             String actualIntentionParam = request.getParameter("actualIntention");
             String futureIntentionParam = request.getParameter("futureIntention");
             String commentsParam = request.getParameter("comments");
-            
-            int conceptId = conceptManager.createConcept(nameParam, documentParam, categoryParam, 
-                    classificationParam, notionParam, actualIntentionParam, futureIntentionParam, commentsParam);
-            request.setAttribute("createConceptError", conceptId < 0 ? true : false);
+
+            Concept concept = conceptManager.createConcept(nameParam, documentParam,
+                    categoryParam, classificationParam, notionParam, actualIntentionParam,
+                    futureIntentionParam, commentsParam);
+            request.setAttribute("createConceptError", concept == null ? true : false);
             
             userPath = "/classify";
-            
         } else if (userPath.equals("/deleteConcept")) {
-            
-            
+
             userPath = "/explore";
+
+        } else if (userPath.equals("/signIn")) {
+            
+            String usernameParam = request.getParameter("username");
+            String passwordParam = request.getParameter("password");
+            
+            User user = userManager.signIn(usernameParam, passwordParam);
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                response.sendRedirect("explore");
+            } else {
+                request.setAttribute("signInError", true);
+                try {
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                } catch (Exception ex) {}
+                return;
+            }
+            
+        } else if (userPath.equals("/signOut")) {
+            HttpSession session = request.getSession(false);
+            session.setAttribute("user", null);
+            session.invalidate();
+            try {
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            } catch (Exception ex) {}
+            return;
+        } else if (userPath.equals("/updateConcept")) {
+            String conceptParam = request.getParameter("concept");
+            String categoryParam = request.getParameter("category");
+            String classificationParam = request.getParameter("classification");
+            String notionParam = request.getParameter("notion");
+            String actualIntentionParam = request.getParameter("actualIntention");
+            String futureIntentionParam = request.getParameter("futureIntention");
+            String commentsParam = request.getParameter("comments");
+
+            Concept concept = conceptManager.updateConcept(conceptParam, categoryParam,
+                    classificationParam, notionParam, actualIntentionParam,
+                    futureIntentionParam, commentsParam);
+            request.setAttribute("concept", concept);
+            request.setAttribute("updateConceptError", concept == null ? true : false);
+            
+            userPath = "/classify";
         }
 
         String url = "/WEB-INF/view" + userPath + ".jsp";
@@ -131,8 +173,6 @@ public class ControllerServlet extends HttpServlet {
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) {}
     }
 }

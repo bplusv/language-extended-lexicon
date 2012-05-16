@@ -24,7 +24,9 @@
 
 package session;
 
+import entity.Concept;
 import entity.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -47,4 +49,9 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
 
+    public User findByName(String name) {
+        return (User) em.createQuery("SELECT u FROM User u WHERE u.name = :name;").
+                setParameter("name", name).
+                getSingleResult();
+    }
 }

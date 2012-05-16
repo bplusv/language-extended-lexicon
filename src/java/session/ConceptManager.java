@@ -50,11 +50,35 @@ public class ConceptManager {
     @EJB private ClassificationFacade classificationFacade;
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Concept getConcept(String conceptParam) {
+        try {
+            return conceptFacade.find(Integer.parseInt(conceptParam));
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+        
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<Concept> getConcepts(String classificationParam, String categoryParam) {
         try {
-            Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
-            Category category = categoryFacade.find(Integer.parseInt(categoryParam));
-            List<Concept> concepts = conceptFacade.findByFilters(classification, category);
+            String classificationName = "%";
+            if (classificationParam != null) {
+                try {
+                    Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
+                    if (classification != null) classificationName = classification.getName();
+                } catch (NumberFormatException e) {}
+            }
+            
+            String categoryName = "%";
+            if (categoryParam != null) {
+                try {
+                    Category category = categoryFacade.find(Integer.parseInt(categoryParam));
+                    if (category != null) categoryName = category.getName();
+                } catch (NumberFormatException e) {}
+            }
+           
+            List<Concept> concepts = conceptFacade.findByFilters(classificationName, categoryName);
             return concepts;
         } catch (Exception e) {
             context.setRollbackOnly();
@@ -63,7 +87,35 @@ public class ConceptManager {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public int createConcept(String nameParam, String documentParam, String categoryParam, 
+    public Concept updateConcept(String conceptParam, String categoryParam, 
+            String classificationParam, String notionParam, String actualIntentionParam, 
+            String futureIntentionParam, String commentsParam) {
+        try {
+            Concept concept = conceptFacade.find(Integer.parseInt(conceptParam));
+            Definition definition = concept.getDefinition();
+            Category category = categoryFacade.find(Integer.parseInt(categoryParam));
+            Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
+            String notion = notionParam;
+            String actualIntention = actualIntentionParam;
+            String futureIntention = futureIntentionParam;
+            String comments = commentsParam;
+            definition.setCategory(category);
+            definition.setClassification(classification);
+            definition.setNotion(notion);
+            definition.setActualIntention(actualIntention);
+            definition.setFutureIntention(futureIntention);
+            definition.setComments(comments);
+            em.merge(definition);
+            em.flush();
+            return concept;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+        
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Concept createConcept(String nameParam, String documentParam, String categoryParam, 
             String classificationParam, String notionParam, String actualIntentionParam, 
             String futureIntentionParam, String commentsParam) {
         try {
@@ -79,10 +131,10 @@ public class ConceptManager {
             Definition definition = addDefinition(category, classification, notion, 
                     actualIntention, futureIntention, comments);
             Concept concept = addConcept(definition, document, name);
-            return concept.getId();
+            return concept;
         } catch (Exception e) {
             context.setRollbackOnly();
-            return -1;
+            return null;
         }
     }
 
@@ -106,9 +158,19 @@ public class ConceptManager {
         concept.setDefinition(definition);
         concept.setDocument(document);
         concept.setName(name);
-        
         em.persist(concept);
         em.flush();
         return concept;
+    }
+    
+    public Concept createPossibleConcept(String nameParam, String documentParam) {
+        try {
+            Concept concept = new Concept();
+            concept.setName(nameParam);
+            concept.setDocument(documentFacade.find(Integer.parseInt(documentParam)));
+            return concept;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -24,47 +24,50 @@
 
 package filter;
 
+import entity.User;
 import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
-@WebFilter(servletNames = {"ControllerServlet"})
-public class SessionTimeoutFilter implements Filter {
+@WebFilter(servletNames = "ControllerServlet")
+public class ControllerFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
                 throws IOException, ServletException {
 
             HttpServletRequest req = (HttpServletRequest) request;
-
             HttpSession session = req.getSession(false);
+            User user = null;
+            if (session != null) user = (User) session.getAttribute("user");
 
-            // if session doesn't exist, forward user to welcome page
-            if (session == null) {
+            // if not signed in, forward user to welcome page
+            if (user == null && !"/signIn".equals(req.getServletPath())) {
                 try {
+                    req.setAttribute("sessionTimedOut", true);
                     req.getRequestDispatcher("/index.jsp").forward(request, response);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                } catch (Exception ex) {}
                 return;
             }
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
+            // set cache directives
+            httpServletResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            httpServletResponse.setDateHeader("Expires", 0L);
+            
             chain.doFilter(request, response);
         }
 
     @Override
-        public void init(FilterConfig filterConfig) throws ServletException {}
+    public void init(FilterConfig filterConfig) throws ServletException {}
 
     @Override
-        public void destroy() {}
+    public void destroy() {}
+    
 }

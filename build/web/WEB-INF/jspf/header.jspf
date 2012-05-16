@@ -1,13 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>LeL</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/base.css" media="all"/>
-        <link rel="stylesheet" type="text/css" href="css${requestScope.userPath}.css" media="all"/>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/css/base.css" />" media="all"/>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/css${requestScope.userPath}.css" />" media="all"/>
         <meta name="author" content="Yanet Garay Santos, Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
@@ -15,7 +16,11 @@
     </head>
     <body>
         <header>
-            <a href="#" id="signOut">Sign Out</a>
+            <h5>${sessionScope.user.name}</h5>
+            <form id="signOutForm" action=<c:url value="/signOut" /> method="POST">
+                <input type="hidden" name="doSignOut" value="true" />
+                <a href="#" id="signOut" onclick="$('#signOutForm').submit();">Sign Out</a>
+            </form>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
         </header>
         <nav class="tabs">
