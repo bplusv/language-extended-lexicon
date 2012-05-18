@@ -9,10 +9,14 @@
     
 }
 
+#loadTop {
+    display: inline;
+}
+
 #loadForm {
     
 }
 
 #document {
-    
+    width: 150px;
 }

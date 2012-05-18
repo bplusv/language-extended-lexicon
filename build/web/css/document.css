@@ -15,13 +15,21 @@
 }
 
 #load {
-    position: relative;
+    float: left;
 }
 
 #documentForm {
     height: 500px;
 }
 
+#documentTop {
+    text-align: center;
+}
+
 #save {
     float: right;
+}
+
+#title {
+    text-align: center;
 }

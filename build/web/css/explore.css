@@ -32,7 +32,38 @@
 }
 
 #conceptsTable {
-    
+    border-collapse: collapse;
+    color: #555;
+    font: 13px/24px 'Century Gothic', sans-serif;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 728px;
+}
+
+#conceptsTable th{
+    border: 1px solid #ccc;
+    border-radius: 5px 0px 0px 5px;
+    color: #222;
+    font: 15px/24px 'Century Gothic', sans-serif;
+}
+
+#conceptsTable tbody {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}
+
+#conceptsTable tr {
+
+}
+
+#conceptsTable tbody tr:nth-of-type(odd) {
+    background: #f7f7f7;
+}
+
+#conceptsTable td {
+    text-align: center;
+    width: 25%;
 }
 
 #classification {
@@ -44,7 +75,12 @@
 }
 
 #doSearch {
-    
+    background-image: url('../img/searchIcon.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 30px;
+    vertical-align: bottom;
+    width: 30px;
 }
 
 #exploreForm {
@@ -53,7 +89,8 @@
 
 #filters {
     display: block;
-    height: 50px;
+    height: 30px;
+    margin-bottom: 15px;
 }
 
 #search {

@@ -5,16 +5,16 @@
 --%>
             <c:choose>
                 <c:when test="${requestScope.createConceptError == true}">
-                    <h1 style="color:#f00;">Create concept error!</h1>
+                    <h2 style="color:#f00;">Create concept error!</h2>
                 </c:when>
                 <c:when test="${requestScope.createConceptError == false}">
-                    <h1 style="color:#0f0;">Concept Saved!</h1>
+                    <h2 style="color:#0f0;">Concept Saved!</h2>
                 </c:when>
                 <c:when test="${requestScope.updateConceptError == true}">
-                    <h1 style="color:#f00;">Update concept error!</h1>
+                    <h2 style="color:#f00;">Update concept error!</h2>
                 </c:when>
                 <c:when test="${requestScope.updateConceptError == false}">
-                    <h1 style="color:#0f0;">Concept Updated!</h1>
+                    <h2 style="color:#0f0;">Concept Updated!</h2>
                 </c:when>
             </c:choose>
             <form id="classifyForm" action="<c:url value="${requestScope.submitAction}" />" method="post">

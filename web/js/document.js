@@ -24,26 +24,34 @@
 
 $(document).ready(function(){
     var infoBubble;
-    $('#document').mouseup(function(e) {
+    $('#document').on('mouseup', function(e) {
         text = getSelectedText();
         if ((text = new String(text).replace(/^\s+|\s+$/g,'')) && text != '') {
             $('#name').val(text);
                 if(!infoBubble) {
                         infoBubble = $('<a>').attr({
+                        contenteditable: 'false',
+                        href: '#',
                         id: 'infoBubble'
-                    }).hide();
-                    infoBubble.mousedown(function(e){
+                    }).append($('<span>').attr({
+                        id: 'infoBubbleText'
+                    })).append($('<div>').attr({
+                        id: 'infoBubbleArrow'
+                    })).hide();
+                    infoBubble.on('mousedown', function(e){
                         $('#conceptForm').submit();
                     });
                     $('#document').append(infoBubble);
                 }
-            infoBubble.html(text).attr('href', 'classify').css({
-                top: e.pageY - 30,
-                left: e.pageX - 13
-            }).fadeIn();
+            $('#infoBubbleText').html(text);
+            console.log(infoBubble.outerHeight());
+            infoBubble.fadeIn().css({
+                top: e.pageY - infoBubble.outerHeight() - 30,
+                left: e.pageX - infoBubble.outerWidth() / 2
+            });
         }
     });
-    $(document).mousedown(function (e) {
+    $(document).on('mousedown', function (e) {
         if (infoBubble) infoBubble.fadeOut();
     });
 });

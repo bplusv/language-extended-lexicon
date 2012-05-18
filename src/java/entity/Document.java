@@ -25,12 +25,10 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,7 +46,6 @@ public class Document implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -56,8 +53,10 @@ public class Document implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
-    private Collection<Concept> conceptCollection;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "data")
+    private String data;
 
     public Document() {
     }
@@ -87,13 +86,12 @@ public class Document implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public Collection<Concept> getConceptCollection() {
-        return conceptCollection;
+    public String getData() {
+        return data;
     }
 
-    public void setConceptCollection(Collection<Concept> conceptCollection) {
-        this.conceptCollection = conceptCollection;
+    public void setData(String data) {
+        this.data = data;
     }
 
     @Override
