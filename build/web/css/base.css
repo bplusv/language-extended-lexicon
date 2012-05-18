@@ -110,6 +110,7 @@ textarea {
 
 .buttons > a, .button {
     background-color: #189DE1;
+    border: 1px solid #189DE1;
     border-radius: 5px;
     border-style: none;
     color: #fff;
@@ -198,13 +199,13 @@ textarea {
 
 #infoBubble {
     background-color: #F15945;
-    border: 1px solid #ccc;
     border-radius: 5px;
     color: #fff;
     display: inline-block;
     font: 20px/30px 'Trebuchet MS', Helvetica, sans-serif;
     height: 50px;
     left: 150px;
+    margin: 10px;
     position: absolute;
     top: 150px;
     text-align: center;
@@ -212,14 +213,50 @@ textarea {
     width: 150px;
 }
 
+#infoBubble {
+    background-color: #F15945;
+    border-radius: 50px;
+    color: #fff;
+    display: inline-block;
+    font: 20px 'Trebuchet MS', Helvetica, sans-serif;
+    height: auto;
+    left: 150px;
+    margin: 10px;
+    padding: 20px;
+    position: absolute;
+    top: 150px;
+    text-align: center;
+    text-decoration: none;
+    width: auto;
+}
+    
 #infoBubble:hover {
     background-color: #FF7056;
     text-decoration: none;
 }
 
+#infoBubble:hover > #infoBubbleArrow {
+    border-top-color: #FF7056;
+}
+
 #infoBubble:active {
     background-color: #CA322D;
     text-decoration: none;
+}
+
+#infoBubble:active > #infoBubbleArrow {
+    border-top-color: #CA322D;
+}
+
+#infoBubbleArrow {
+    bottom: -15px;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #F15945;
+    height: 0px;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    width: 0px;
 }
 
 #signOut {

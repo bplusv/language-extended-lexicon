@@ -5,12 +5,17 @@
 --%>
 
             <form action="<c:url value="/loadDocument" />" id="loadForm" method="post">
-                <div class="">
+                <c:choose>
+                    <c:when test="${requestScope.loadDocumentError == true}">
+                        <h2 style="color:#f00;">Load Document error!</h2>
+                    </c:when>
+                </c:choose>
+                <div id="loadTop">
                     <label for="document" id="documentLabel">Document: </label>
                     <select id="document" name="document">
-                        <option value="1">Document 1</option>
-                        <option value="2">Document 2</option>
-                        <option value="3">Document 3</option>
+                        <c:forEach var="document" items="${requestScope.documents}">
+                            <option value="${document.id}" ${sessionScope.document.id == document.id ? 'selected="selected"' : ''}>${document.name}</option>
+                        </c:forEach>
                     </select>
                 </div>
                 <input id="load" type="submit" name="load" value="Load" class="button" />

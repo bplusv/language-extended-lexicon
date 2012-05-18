@@ -25,6 +25,7 @@
 package controller;
 
 import entity.Concept;
+import entity.Document;
 import entity.User;
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -52,8 +53,10 @@ urlPatterns = {"/classify",
                 "/signIn",
                 "/signOut",
                 "/updateConcept",
-                "/updateDocument"})
+                "/updateDocument",
+                "/test"})
 public class ControllerServlet extends HttpServlet {
+    @EJB private DocumentManager documentManager;
     @EJB private DocumentFacade documentFacade;
     @EJB private ConceptFacade conceptFacade;
     @EJB private CategoryFacade categoryFacade;
@@ -83,9 +86,12 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/explore")) {
             String classificationParam = request.getParameter("cl");
             String categoryParam = request.getParameter("ca");
-            request.setAttribute("concepts", conceptManager.getConcepts(classificationParam, categoryParam));
+            String conceptParam = request.getParameter("co");
+            request.setAttribute("concepts", conceptManager.getConcepts(classificationParam, categoryParam, conceptParam));
         } else if (userPath.equals("/load")) {
+            request.setAttribute("documents", documentFacade.findAll());
             
+        } else if (userPath.equals("/test")) {
             
         }
 
@@ -132,6 +138,22 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/updateDocument")) {
             
             userPath = "/document";
+            
+        } else if (userPath.equals("/loadDocument")) {
+            
+            
+            String documentParam = request.getParameter("document");
+            Document document = documentManager.getDocument(documentParam);
+            
+            HttpSession session = request.getSession(false);
+            if (session != null && document != null) {
+                session.setAttribute("document", document);
+            }
+            
+            request.setAttribute("loadDocumentError", document == null ? true : false);
+            
+            userPath = document == null ? "/load" : "/document";
+            
             
         } else if (userPath.equals("/signIn")) {
             

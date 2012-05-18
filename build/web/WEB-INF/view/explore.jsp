@@ -25,8 +25,8 @@
                         </select>
                     </div>
                     <div class="exploreField">
-                        <input id="search" type="text" name="sq" />
-                        <input id="doSearch" type="submit" class="button" value="Search" />
+                        <input id="search" type="text" name="co" value="${param.co}" />
+                        <input id="doSearch" type="submit" class="button" value=""/>
                     </div>
                 </div>
                 <div id="concepts">

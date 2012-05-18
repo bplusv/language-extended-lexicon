@@ -60,7 +60,7 @@ public class ConceptManager {
     }
         
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public List<Concept> getConcepts(String classificationParam, String categoryParam) {
+    public List<Concept> getConcepts(String classificationParam, String categoryParam, String conceptParam) {
         try {
             String classificationName = "%";
             if (classificationParam != null) {
@@ -77,8 +77,13 @@ public class ConceptManager {
                     if (category != null) categoryName = category.getName();
                 } catch (NumberFormatException e) {}
             }
+            
+            String conceptName = "%";
+            if (conceptParam != null) {
+                conceptName = "%"+conceptParam.toLowerCase()+"%";
+            }
            
-            List<Concept> concepts = conceptFacade.findByFilters(classificationName, categoryName);
+            List<Concept> concepts = conceptFacade.findByFilters(classificationName, categoryName, conceptName);
             return concepts;
         } catch (Exception e) {
             context.setRollbackOnly();
