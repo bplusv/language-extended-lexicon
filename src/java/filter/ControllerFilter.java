@@ -48,7 +48,7 @@ public class ControllerFilter implements Filter {
             if (session != null) user = (User) session.getAttribute("user");
 
             // if not signed in, forward user to welcome page
-            if (user == null && !"/signIn".equals(req.getServletPath())) {
+            if (user == null && !"/doSignIn".equals(req.getServletPath())) {
                 try {
                     req.setAttribute("sessionTimedOut", true);
                     req.getRequestDispatcher("/index.jsp").forward(request, response);

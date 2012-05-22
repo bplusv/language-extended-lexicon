@@ -52,6 +52,9 @@ public class Log implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @JoinColumn(name = "concept", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Concept concept;
     @JoinColumn(name = "event", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Event event;
@@ -80,6 +83,14 @@ public class Log implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Concept getConcept() {
+        return concept;
+    }
+
+    public void setConcept(Concept concept) {
+        this.concept = concept;
     }
 
     public Event getEvent() {

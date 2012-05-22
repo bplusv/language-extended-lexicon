@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-            <form action="<c:url value="/loadDocument" />" id="loadForm" method="post">
+            <form action="<c:url value="/doLoadDocument" />" id="loadForm" method="post">
                 <c:choose>
                     <c:when test="${requestScope.loadDocumentError == true}">
                         <h2 style="color:#f00;">Load Document error!</h2>

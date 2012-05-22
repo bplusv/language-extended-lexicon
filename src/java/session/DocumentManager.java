@@ -24,8 +24,7 @@
 
 package session;
 
-import entity.*;
-import java.util.List;
+import entity.Document;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;

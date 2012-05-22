@@ -25,10 +25,12 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -40,7 +42,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Concept.findAll", query = "SELECT c FROM Concept c"),
     @NamedQuery(name = "Concept.findById", query = "SELECT c FROM Concept c WHERE c.id = :id"),
-    @NamedQuery(name = "Concept.findByActive", query = "SELECT c FROM Concept c WHERE c.active = :active")})
+    @NamedQuery(name = "Concept.findByActive", query = "SELECT c FROM Concept c WHERE c.active = :active"),
+    @NamedQuery(name = "Concept.findByName", query = "SELECT c FROM Concept c WHERE c.name = :name")})
 public class Concept implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,8 +58,7 @@ public class Concept implements Serializable {
     private boolean active;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 2147483647)
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
     @JoinColumn(name = "definition", referencedColumnName = "id")
@@ -65,6 +67,8 @@ public class Concept implements Serializable {
     @JoinColumn(name = "document", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Document document;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    private Collection<Log> logCollection;
 
     public Concept() {
     }
@@ -117,6 +121,15 @@ public class Concept implements Serializable {
 
     public void setDocument(Document document) {
         this.document = document;
+    }
+
+    @XmlTransient
+    public Collection<Log> getLogCollection() {
+        return logCollection;
+    }
+
+    public void setLogCollection(Collection<Log> logCollection) {
+        this.logCollection = logCollection;
     }
 
     @Override
