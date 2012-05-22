@@ -4,37 +4,37 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
             <c:choose>
-                <c:when test="${requestScope.createConceptError == true}">
+                <c:when test="${createConceptError == true}">
                     <h2 style="color:#f00;">Create concept error!</h2>
                 </c:when>
-                <c:when test="${requestScope.createConceptError == false}">
+                <c:when test="${createConceptError == false}">
                     <h2 style="color:#0f0;">Concept Saved!</h2>
                 </c:when>
-                <c:when test="${requestScope.updateConceptError == true}">
+                <c:when test="${updateConceptError == true}">
                     <h2 style="color:#f00;">Update concept error!</h2>
                 </c:when>
-                <c:when test="${requestScope.updateConceptError == false}">
+                <c:when test="${updateConceptError == false}">
                     <h2 style="color:#0f0;">Concept Updated!</h2>
                 </c:when>
             </c:choose>
-            <form id="classifyForm" action="<c:url value="${requestScope.submitAction}" />" method="post">
-                <input type="hidden" id="concept" name="concept" value="${param.co}" />
-                <input type="hidden" id="name" name="name" value="${requestScope.concept.name}" />
-                <input type="hidden" id="document" name="document" value="${requestScope.concept.document.id}" />
-                <h2 id="title">Concept: <span style="color: #222;">${requestScope.concept.name}</span></h2>
+            <form id="classifyForm" action="<c:url value="${submitAction}" />" method="post">
+                <input type="hidden" id="concept" name="concept" value="${concept.id}" />
+                <input type="hidden" id="name" name="name" value="${concept.name}" />
+                <input type="hidden" id="document" name="document" value="${concept.document.id}" />
+                <h2 id="title">Concept: <span style="color: #222;">${concept.name}</span></h2>
                 <div id="definitionTop">
                     <div>
                         <div id="definitionTopLeft">
                             <div>
                                 <div><label>Document:</label></div>
-                                <div><h3 class="info">${requestScope.concept.document.name}</h3></div>
+                                <div><h3 class="info">${concept.document.name}</h3></div>
                             </div>
                             <div>
                                 <div><label id="classificationLabel" for="classification">Classification:</label></div>
                                 <div>
                                     <select id="classification" name="classification">
                                         <c:forEach var="classification" items="${classifications}">
-                                            <option value="${classification.id}" ${requestScope.concept.definition.classification.id == classification.id ? 'selected="selected"' : ''}>${classification.name}</option>
+                                            <option value="${classification.id}" ${concept.definition.classification.id == classification.id ? 'selected="selected"' : ''}>${classification.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -44,7 +44,7 @@
                                 <div>
                                     <select id="category" name="category">
                                         <c:forEach var="category" items="${categories}">
-                                            <option value="${category.id}" ${requestScope.concept.definition.category.id == category.id ? 'selected="selected"' : ''}>${category.name}</option>
+                                            <option value="${category.id}" ${concept.definition.category.id == category.id ? 'selected="selected"' : ''}>${category.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -53,9 +53,11 @@
                     </div>
                     <div>
                         <div id="definitionTopRight">
-                            <label>Last Edited:</label>
-                            <h3 class="info">Luis</h3>
-                            <h3 class="info">26/Apr/2012</h3>
+                            <c:if test="${log != null}">
+                                <label>Last Edited By:</label>
+                                <h3 class="info">${log.user.name}</h3>
+                                <h3 class="info"><fmt:formatDate value="${log.date}" pattern="MM/dd/yyyy hh:mm a" timeZone="GMT-6" /></h3>
+                            </c:if>
                         </div>
                     </div>
                 </div>

@@ -32,7 +32,9 @@
 }
 
 #conceptsTable {
-    border-collapse: collapse;
+    //border: 1px solid #ccc;
+    //border-radius: 15px;
+    
     color: #555;
     font: 13px/24px 'Century Gothic', sans-serif;
     height: auto;
@@ -41,16 +43,17 @@
     width: 728px;
 }
 
+#conceptsTable thead {
+    margin-bottom: 5px;
+}
+
 #conceptsTable th{
-    border: 1px solid #ccc;
-    border-radius: 5px 0px 0px 5px;
     color: #222;
     font: 15px/24px 'Century Gothic', sans-serif;
 }
 
 #conceptsTable tbody {
-    border: 1px solid #ccc;
-    border-radius: 15px;
+    border-top: 1px solid #ccc;
 }
 
 #conceptsTable tr {
@@ -58,7 +61,12 @@
 }
 
 #conceptsTable tbody tr:nth-of-type(odd) {
-    background: #f7f7f7;
+    background: #f9f9f9;
+}
+
+#conceptsTable tbody tr:hover {
+    background: #FFE0C6;
+    color: #000;
 }
 
 #conceptsTable td {
@@ -84,13 +92,16 @@
 }
 
 #exploreForm {
-    height: 500px;
+  
 }
 
 #filters {
     display: block;
     height: 30px;
     margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 710px;
 }
 
 #search {

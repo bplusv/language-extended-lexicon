@@ -47,14 +47,4 @@ public class ConceptFacade extends AbstractFacade<Concept> {
     public ConceptFacade() {
         super(Concept.class);
     }
-
-    public List<Concept> findByFilters(String classificationName, String categoryName, String conceptName) {
-        return em.createQuery("SELECT co FROM Concept co, Definition de, Classification cl, Category ca WHERE "
-                + "co.definition = de AND de.classification = cl AND de.category = ca AND "
-                + "cl.name LIKE :classificationName AND ca.name LIKE :categoryName AND LOWER(co.name) LIKE :conceptName;").
-                setParameter("classificationName", classificationName).
-                setParameter("categoryName", categoryName).
-                setParameter("conceptName", conceptName).
-                getResultList();
-    }
 }

@@ -30,7 +30,7 @@
                         <h2 style="color:#f00;">session timed out</h2>
                     </c:when>
                 </c:choose>
-                <form action="<c:url value="/signIn" />" id="signInForm" method="post">
+                <form action="<c:url value="/doSignIn" />" id="signInForm" method="post">
                     <h2 id="signInAd">Sign in</h2>
                     <div class="signInField">
                         <label for="username"><strong>Username</strong></label>
