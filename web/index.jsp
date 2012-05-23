@@ -12,24 +12,25 @@
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="<c:url value="/js/base.js" />" type="text/javascript"></script>
     </head>
     <body>
-        <div class="center">
+        <c:choose>
+            <c:when test="${requestScope.signInError == true}">
+                <h3 class="notification error">Wrong username or password, please try again.</h3>
+            </c:when>
+        </c:choose>
+        <c:choose>
+            <c:when test="${requestScope.sessionTimedOut == true}">
+                <h3 class="notification error">Your session timed out, please login again.</h3>
+            </c:when>
+        </c:choose>
+        <div id="center">
             <div id="leftSide">
                 <img id="lelLogo" src="img/lelLogo.png" />
                 <img id="bubblesBackground" src="img/signInBackground.png" />
             </div>
             <div id="rightSide">
-                <c:choose>
-                    <c:when test="${requestScope.signInError == true}">
-                        <h2 style="color:#f00;">wrong username or password</h2>
-                    </c:when>
-                </c:choose>
-                <c:choose>
-                    <c:when test="${requestScope.sessionTimedOut == true}">
-                        <h2 style="color:#f00;">session timed out</h2>
-                    </c:when>
-                </c:choose>
                 <form action="<c:url value="/doSignIn" />" id="signInForm" method="post">
                     <h2 id="signInAd">Sign in</h2>
                     <div class="signInField">
@@ -43,6 +44,7 @@
                     <input type="submit" name="signIn" value="Sign In" id="SignIn" class="button" />
                 </form>
             </div>
+            <div style="clear:both"></div>
         </div>
     </body>
 </html>

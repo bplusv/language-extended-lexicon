@@ -5,16 +5,16 @@
 --%>
             <c:choose>
                 <c:when test="${createConceptError == true}">
-                    <h2 style="color:#f00;">Create concept error!</h2>
+                    <h3 class="notification error">Something went wrong, can't create new concept.</h3>
                 </c:when>
                 <c:when test="${createConceptError == false}">
-                    <h2 style="color:#0f0;">Concept Saved!</h2>
+                    <h3 class="notification success">Concept created successfully.</h3>
                 </c:when>
                 <c:when test="${updateConceptError == true}">
-                    <h2 style="color:#f00;">Update concept error!</h2>
+                    <h3 class="notification error">Something went wrong, can't update existing concept.</h3>
                 </c:when>
                 <c:when test="${updateConceptError == false}">
-                    <h2 style="color:#0f0;">Concept Updated!</h2>
+                    <h3 class="notification success">Concept updated successfully.</h3>
                 </c:when>
             </c:choose>
             <form id="classifyForm" action="<c:url value="${submitAction}" />" method="post">

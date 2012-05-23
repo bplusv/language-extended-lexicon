@@ -72,6 +72,8 @@ public class ControllerServlet extends HttpServlet {
     public void init() throws ServletException {
         getServletContext().setAttribute("classifications", classificationFacade.findAll());
         getServletContext().setAttribute("categories", categoryFacade.findAll());
+        getServletContext().setAttribute("conceptManager", conceptManager);
+        getServletContext().setAttribute("documentFacade", documentFacade);
     }
 
     @Override
@@ -95,43 +97,23 @@ public class ControllerServlet extends HttpServlet {
             
         } else if (userPath.equals("/document")) {
             
-            Document document = (Document) session.getAttribute("document");
-            
-            request.setAttribute("document", document);
-            
-            
+            if (session.getAttribute("document") == null) userPath = "/load";
+  
         } else if (userPath.equals("/explore")) {
             
             
-            String classificationParam = request.getParameter("cl");
-            String categoryParam = request.getParameter("ca");
-            String conceptParam = request.getParameter("co");
-            
-            List<Concept> concepts = conceptManager.getConcepts(classificationParam, categoryParam, conceptParam);
-            
-            request.setAttribute("concepts", concepts);
-            
-            
         } else if (userPath.equals("/load")) {
-            
-            List<Document> documents = documentFacade.findAll();
-            
-            request.setAttribute("documents", documents);
             
             
         } else if (userPath.equals("/test")) {
             
             
-            
-            
         }
 
-        
-        
-        String url = "/WEB-INF/view" + userPath + ".jsp";
+        String responseView = "/WEB-INF/view" + userPath + ".jsp";
         request.setAttribute("userPath", userPath);
         try {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher(responseView).forward(request, response);
         } catch (Exception ex) {}
     }
 
@@ -147,24 +129,25 @@ public class ControllerServlet extends HttpServlet {
             String documentParam = request.getParameter("document");
             String nameParam = request.getParameter("name");
             
-            String submitAction = "/doUpdateConcept";
             Concept concept = conceptManager.getConceptByDocAndName(documentParam, nameParam);
-            Log log = concept == null ? null : conceptManager.getLog(concept.getId().toString());
-                        
-            if (concept == null) {
-                submitAction = "/doCreateConcept";
-                concept = conceptManager.createPossibleConcept(nameParam, documentParam);
-            }
             
-            request.setAttribute("concept", concept);
-            request.setAttribute("log", log);
-            request.setAttribute("submitAction", submitAction);
+            if (concept != null) {
+                String conceptParam = concept.getId().toString();
+                Log log = conceptManager.getLog(conceptParam);
+                request.setAttribute("concept", concept);
+                request.setAttribute("log", log);
+                request.setAttribute("submitAction", "/doUpdateConcept");   
+            } else {
+                concept = conceptManager.createPossibleConcept(nameParam, documentParam);
+                request.setAttribute("concept", concept);
+                request.setAttribute("submitAction", "/doCreateConcept");
+            }
             
             
         } else if (userPath.equals("/doCreateConcept")) {
             
             
-            String userParam = ((User)session.getAttribute("user")).getId().toString();
+            String userParam = ((User) session.getAttribute("user")).getId().toString();
             String nameParam = request.getParameter("name");
             String documentParam = request.getParameter("document");
             String categoryParam = request.getParameter("category");
@@ -178,10 +161,10 @@ public class ControllerServlet extends HttpServlet {
             Concept concept = conceptManager.createConcept(userParam, nameParam, documentParam,
                     categoryParam, classificationParam, notionParam, actualIntentionParam,
                     futureIntentionParam, commentsParam);
-            String conceptParam = concept == null ? "" : concept.getId().toString();
+            String conceptParam = concept != null ? concept.getId().toString() : "";
             Log log = conceptManager.getLog(conceptParam);
             
-            request.setAttribute("createConceptError", concept == null ? true : false);
+            request.setAttribute("createConceptError", concept != null ? false : true);
             request.setAttribute("concept", concept);
             request.setAttribute("log", log);
             request.setAttribute("submitAction", "/doUpdateConcept");
@@ -200,13 +183,17 @@ public class ControllerServlet extends HttpServlet {
             String documentParam = request.getParameter("document");
             
             Document document = documentManager.getDocument(documentParam);
+            
             if (document != null) {
                 session.setAttribute("document", document);
+                request.setAttribute("document", document);
+                userPath = "/document";
+            } else {
+                List<Document> documents = documentFacade.findAll();
+                request.setAttribute("documents", documents);
+                request.setAttribute("loadDocumentError", true);
+                userPath = "/load";
             }
-            
-            request.setAttribute("document", document);
-            request.setAttribute("loadDocumentError", document == null ? true : false);
-            userPath = document == null ? "/load" : "/document";
             
             
         } else if (userPath.equals("/doSignIn")) {
@@ -227,6 +214,8 @@ public class ControllerServlet extends HttpServlet {
                 } catch (Exception ex) {}
                 return;
             }
+            
+            
         } else if (userPath.equals("/doSignOut")) {
             
             
@@ -242,7 +231,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/doUpdateConcept")) {
             
             
-            String userParam = ((User)session.getAttribute("user")).getId().toString();
+            String userParam = ((User) session.getAttribute("user")).getId().toString();
             String conceptParam = request.getParameter("concept");
             String categoryParam = request.getParameter("category");
             String classificationParam = request.getParameter("classification");
@@ -259,8 +248,10 @@ public class ControllerServlet extends HttpServlet {
             
             request.setAttribute("concept", concept);
             request.setAttribute("log", log);
-            request.setAttribute("updateConceptError", concept == null ? true : false);
+            request.setAttribute("updateConceptError", concept != null ? false : true);
             userPath = "/classify";
+            
+            
         } else if (userPath.equals("/doUpdateDocument")) {
             
             
@@ -271,10 +262,10 @@ public class ControllerServlet extends HttpServlet {
 
         
         
-        String url = "/WEB-INF/view" + userPath + ".jsp";
+        String responseView = "/WEB-INF/view" + userPath + ".jsp";
         request.setAttribute("userPath", userPath);
         try {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher(responseView).forward(request, response);
         } catch (Exception ex) {}
     }
 }

@@ -10,7 +10,7 @@
                         <label id="classificationLabel" for="classification">Classification:</label>
                         <select id="classification" name="cl" onchange="$('#exploreForm').submit();">
                             <option value="">All</option>
-                            <c:forEach var="classification" items="${applicationScope.classifications}">
+                            <c:forEach var="classification" items="${classifications}">
                                 <option value="${classification.id}" ${param.cl == classification.id ? 'selected="selected"' : ''}>${classification.name}</option>
                             </c:forEach>
                         </select>
@@ -39,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="concept" items="${requestScope.concepts}">
+                        <c:forEach var="concept" items="${conceptManager.getConcepts(param.cl, param.ca, param.co)}">
                             <tr>
                                 <td><a href="<c:url value="/classify?co=${concept.id}" />">${concept.name}</a></td>
                                 <td>${concept.definition.classification.name}</td>

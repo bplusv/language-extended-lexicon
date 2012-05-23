@@ -149,6 +149,27 @@ textarea {
     text-decoration: none;
 }
 
+.notification {
+    border-radius: 5px;
+    color: #fff;
+    display:block;
+    padding: 10px;
+    position: fixed;
+    left: 50%;
+    margin-left: -225px;
+    top:0;
+    text-align: center;
+    width: 450px;
+}
+
+.notification.error {
+    background-color: #aa3333;
+}
+
+.notification.success {
+    background-color: #33aa33;
+}
+
 .tabs > a, .tab {
     background-color: #fff;
     border: 1px solid #ccc;
