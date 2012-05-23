@@ -47,11 +47,6 @@ select {
     width: 748px;
 }
 
-#title {
-    margin-bottom: 25px;
-    text-align: center;
-}
-
 #definitionBottom {
     display: block;
     margin-bottom: 54px;
@@ -104,4 +99,12 @@ select {
 
 #save {
     float: right;
+}
+
+#title {
+    margin-bottom: 25px;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

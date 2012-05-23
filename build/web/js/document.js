@@ -26,31 +26,39 @@ $(document).ready(function(){
     var infoBubble;
     $('#document').on('mouseup', function(e) {
         text = getSelectedText();
-        if ((text = new String(text).replace(/^\s+|\s+$/g,'')) && text != '') {
+        text = new String(text).replace(/^\s+|\s+$/g,'') // remove spaces before & after
+        if (text != '') {
+            text = text.substr(0,255);
             $('#name').val(text);
-                if(!infoBubble) {
-                        infoBubble = $('<a>').attr({
-                        contenteditable: 'false',
-                        href: '#',
-                        id: 'infoBubble'
-                    }).append($('<span>').attr({
-                        id: 'infoBubbleText'
-                    })).append($('<div>').attr({
-                        id: 'infoBubbleArrow'
-                    })).hide();
-                    infoBubble.on('mousedown', function(e){
-                        $('#conceptForm').submit();
-                    });
-                    $('#document').append(infoBubble);
-                }
+            
+            if(!infoBubble) {
+                infoBubble = $('<a>').attr({
+                    contenteditable: 'false',
+                    href: '#',
+                    id: 'infoBubble'
+                });
+                infoBubbleText = $('<span>').attr({ id: 'infoBubbleText' });
+                infoBubbleArrow = $('<div>').attr({ id: 'infoBubbleArrow' });
+                
+                infoBubble.append(infoBubbleText);
+                infoBubble.append(infoBubbleArrow);
+                infoBubble.hide();
+                
+                infoBubble.on('mousedown', function(e){
+                    $('#conceptForm').submit();
+                });
+                
+                $('#document').append(infoBubble);
+            }
+            
             $('#infoBubbleText').html(text);
-            console.log(infoBubble.outerHeight());
-            infoBubble.fadeIn().css({
+            infoBubble.show().css({
                 top: e.pageY - infoBubble.outerHeight() - 30,
                 left: e.pageX - infoBubble.outerWidth() / 2
             });
         }
     });
+    
     $(document).on('mousedown', function (e) {
         if (infoBubble) infoBubble.fadeOut();
     });

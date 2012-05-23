@@ -5,11 +5,6 @@
     Description: Stylesheet for index.jsp.
 */
 
-.center {
-    border-style: none;
-    margin-top: 50px;
-}
-
 .signInField {
     margin-bottom: 15px;
     margin-top: 15px;
@@ -30,6 +25,11 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 137px;
+}
+
+#center {
+    border-color: #fff;
+    margin-top: 50px;
 }
 
 #lelLogo {
