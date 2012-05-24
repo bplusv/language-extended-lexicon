@@ -21,20 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+var infoBubble;
+var infoBubbleText;
+var infoBubbleArrow;
+var dataInput = $('#data');
+var docContainer = $('#documentContainer');
+    
 $(document).ready(function(){
-    var infoBubble;
-    $('#document').on('mouseup', function(e) {
+    dataInput = $('#data');
+    docContainer = $('#documentContainer');
+    contOffset = docContainer.offset();
+    contSize = { width: docContainer.outerWidth(), height: docContainer.outerHeight() };
+    container = { top: contOffset.top, bottom: contOffset.top + contSize.height,
+                  left: contOffset.left, right: contOffset.left + contSize.width };
+    
+        
+    $(document).on('mouseup', function(e) {
         text = getSelectedText();
         text = new String(text).replace(/^\s+|\s+$/g,'') // remove spaces before & after
-        if (text != '') {
+        if (text != false && text != '') {
             text = text.substr(0,255);
             $('#name').val(text);
             
             if(!infoBubble) {
                 infoBubble = $('<a>').attr({
                     contenteditable: 'false',
-                    href: '#',
+                    href: 'javascript:;',
                     id: 'infoBubble'
                 });
                 infoBubbleText = $('<span>').attr({ id: 'infoBubbleText' });
@@ -44,22 +56,45 @@ $(document).ready(function(){
                 infoBubble.append(infoBubbleArrow);
                 infoBubble.hide();
                 
-                infoBubble.on('mousedown', function(e){
+                infoBubble.on('click', function(e){
                     $('#conceptForm').submit();
                 });
                 
-                $('#document').append(infoBubble);
+                docContainer.append(infoBubble);
             }
             
-            $('#infoBubbleText').html(text);
-            infoBubble.show().css({
-                top: e.pageY - infoBubble.outerHeight() - 30,
-                left: e.pageX - infoBubble.outerWidth() / 2
-            });
+            infoBubbleText.html(text);
+            newPos = { x: 0, y: 0 };
+            
+            newPos.y = e.pageY < container.top ? container.top + 10 : e.pageY > container.bottom ? container.bottom - 10 : e.pageY;
+            newPos.x = e.pageX < container.left ? container.left + 30 : e.pageX > container.right ? container.right - 30 : e.pageX;
+            
+            
+            infoBubble.clearQueue().stop().css({
+                top: newPos.y - infoBubble.outerHeight() - 35,
+                left: newPos.x - infoBubble.outerWidth() / 2,
+                opacity: 1
+            }).fadeIn(0);
         }
+    });
+    
+    $(document).on('mouseup', '#infoBubble', function(e) {
+        e.stopPropagation();
+    });
+    
+    $(document).on('mousedown', '#infoBubble', function(e) {
+        e.stopPropagation();
     });
     
     $(document).on('mousedown', function (e) {
         if (infoBubble) infoBubble.fadeOut();
     });
+    
 });
+
+function updateDocumentData() {
+    containerData = docContainer.html();
+
+    dataInput.val(containerData);
+    return true;
+}

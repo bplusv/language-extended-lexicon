@@ -51,6 +51,7 @@ urlPatterns = {"/classify",
                 "/load",
                 "/test",
                 "/doCreateConcept",
+                "/doCreateDocument",
                 "/doDeleteConcept",
                 "/doLoadDocument",
                 "/doSignIn",
@@ -107,7 +108,8 @@ public class ControllerServlet extends HttpServlet {
             
         } else if (userPath.equals("/test")) {
             
-            
+            String x = "      ";
+            request.setAttribute("foo", x.trim().isEmpty());
         }
 
         String responseView = "/WEB-INF/view" + userPath + ".jsp";
@@ -171,6 +173,20 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/classify";
             
             
+        } else if(userPath.equals("/doCreateDocument")) {
+            String name = request.getParameter("name");
+            
+            Document document = documentManager.createDocument(name);
+            
+            if (document != null) {
+                session.setAttribute("document", document);
+                request.setAttribute("createDocumentError", false);
+                userPath = "/document";
+            } else {
+                request.setAttribute("createDocumentError", true);
+                userPath = "/load";
+            }
+        
         } else if (userPath.equals("/doDeleteConcept")) {
             
             
@@ -186,11 +202,8 @@ public class ControllerServlet extends HttpServlet {
             
             if (document != null) {
                 session.setAttribute("document", document);
-                request.setAttribute("document", document);
                 userPath = "/document";
             } else {
-                List<Document> documents = documentFacade.findAll();
-                request.setAttribute("documents", documents);
                 request.setAttribute("loadDocumentError", true);
                 userPath = "/load";
             }
@@ -255,6 +268,17 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/doUpdateDocument")) {
             
             
+            String documentParam = request.getParameter("document");
+            String dataParam = request.getParameter("data");
+            
+            Document document = documentManager.updateDocument(documentParam, dataParam);
+            
+            if (document != null) {
+                session.setAttribute("document", document);
+                request.setAttribute("updateDocumentError", false);
+            } else {
+                request.setAttribute("updateDocumentError", true);
+            }
             userPath = "/document";
             
             

@@ -3,6 +3,6 @@
 </style>
 
 <a id="infoBubble">
-    <span>Hello World</span>
+    <span>${requestScope.foo}</span>
     <div id="infoBubbleArrow"></div>
 </a>

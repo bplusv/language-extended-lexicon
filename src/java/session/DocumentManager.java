@@ -55,4 +55,34 @@ public class DocumentManager {
         }
     }
     
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document createDocument(String nameParam) {
+        try {
+            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
+            Document document = new Document();
+            document.setName(name);
+            em.persist(document);
+            em.flush();
+            return document;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document updateDocument(String documentParam, String dataParam) {
+        try {
+            Document document = documentFacade.find(Integer.parseInt(documentParam));
+            String data = dataParam;
+            
+            document.setData(data);
+            em.merge(document);
+            em.flush();
+            return document;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
 }

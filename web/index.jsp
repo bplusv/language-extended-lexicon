@@ -22,7 +22,7 @@
         </c:choose>
         <c:choose>
             <c:when test="${requestScope.sessionTimedOut == true}">
-                <h3 class="notification error">Your session timed out, please login again.</h3>
+                <h3 class="notification error">Your session timed out, please sign in again.</h3>
             </c:when>
         </c:choose>
         <div id="center">

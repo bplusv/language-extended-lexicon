@@ -123,9 +123,12 @@ public class ConceptManager {
     
     public Concept createPossibleConcept(String nameParam, String documentParam) {
         try {
+            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
+            Document document = documentFacade.find(Integer.parseInt(documentParam));
+            
             Concept concept = new Concept();
-            concept.setName(nameParam);
-            concept.setDocument(documentFacade.find(Integer.parseInt(documentParam)));
+            concept.setName(name);
+            concept.setDocument(document);
             return concept;
         } catch (Exception e) {
             return null;
@@ -210,6 +213,7 @@ public class ConceptManager {
             String actualIntention = actualIntentionParam;
             String futureIntention = futureIntentionParam;
             String comments = commentsParam;
+            
             definition.setCategory(category);
             definition.setClassification(classification);
             definition.setNotion(notion);
@@ -232,7 +236,7 @@ public class ConceptManager {
             String futureIntentionParam, String commentsParam) {
         try {
             User user = userFacade.find(Integer.parseInt(userParam));
-            String name = nameParam;
+            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
             Document document = documentFacade.find(Integer.parseInt(documentParam));
             Category category = categoryFacade.find(Integer.parseInt(categoryParam));
             Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));

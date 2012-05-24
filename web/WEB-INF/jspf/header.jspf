@@ -27,9 +27,8 @@
     <body>
         <header>
             <form id="signOutForm" action=<c:url value="/doSignOut" /> method="POST">
-                <input type="hidden" name="doSignOut" value="true" />
                 <span id="signOutUsername">${sessionScope.user.name}</span>
-                <a href="#" id="signOut" onclick="$('#signOutForm').submit();">Sign Out</a>
+                <a href="javascript:;" id="signOut" onclick="$('#signOutForm').submit();">Sign Out</a>
             </form>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
         </header>
