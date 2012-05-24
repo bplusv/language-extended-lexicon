@@ -28,3 +28,4 @@
                 </div>
                 <input type="submit" id="save" name="save" value="Save" class="button" />
             </form>
+            <div style="clear:both"></div>
