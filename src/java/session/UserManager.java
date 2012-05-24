@@ -25,6 +25,8 @@
 package session;
 
 import entity.User;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -45,10 +47,16 @@ public class UserManager {
     
     @EJB private UserFacade userFacade;
     
+    private String makeHash(String input) throws Exception {
+        MessageDigest m = MessageDigest.getInstance("MD5");
+        m.update(input.getBytes(), 0, input.length());
+        return new BigInteger(1, m.digest()).toString(16);
+    }
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public User signIn(String userName, String password) {
+    public User signIn(String usernameParam, String passwordParam) {
         try {
-            User user = userFacade.findByName(userName);
+            User user = userFacade.findByName(usernameParam);
+            String password = makeHash(passwordParam);
             if (user != null) {
                 if(user.getPassword().equals(password)) {
                     return user;

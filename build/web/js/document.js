@@ -60,7 +60,7 @@ $(document).ready(function(){
                     $('#conceptForm').submit();
                 });
                 
-                docContainer.append(infoBubble);
+                $('body').append(infoBubble);
             }
             
             infoBubbleText.html(text);
@@ -69,6 +69,10 @@ $(document).ready(function(){
             newPos.y = e.pageY < container.top ? container.top + 10 : e.pageY > container.bottom ? container.bottom - 10 : e.pageY;
             newPos.x = e.pageX < container.left ? container.left + 30 : e.pageX > container.right ? container.right - 30 : e.pageX;
             
+            newPos.y = e.pageY;
+            newPos.x = e.pageX;
+            
+            console.log(e.pageY + ' ->(' + container.top + ',' + container.bottom + ')');
             
             infoBubble.clearQueue().stop().css({
                 top: newPos.y - infoBubble.outerHeight() - 35,

@@ -16,7 +16,7 @@
 </c:choose>
 <form action="<c:url value="/doUpdateDocument" />" id="documentForm" onsubmit="return updateDocumentData();"  method="post">
     <input type="hidden" name="document" value="${document.id}" />
-    <h2 id="title"><span>Document: <span style="color: #222;">${document.name}</span></span></h2>
+    <h2 id="title"><span>Document:&nbsp;<span style="color: #222;">${document.name}</span></span></h2>
     <input type="hidden" id="data" name="data" value="${document.data}" />
     <div contenteditable="true" id="documentContainer">${document.data}</div>
     <a href="<c:url value="/load" />" id="load" class="button">Load</a>

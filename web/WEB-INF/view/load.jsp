@@ -12,8 +12,8 @@
                 </c:when>
             </c:choose>
             <form  id="loadForm"  action="<c:url value="/doLoadDocument" />" method="post">
-                <label for="document" id="documentLabel">Document: </label>
-                    <select id="document" name="document">
+                <h3 class="title">Load document</h3>
+                    <select id="document" name="document" size="20">
                         <c:forEach var="document" items="${documentFacade.findAll()}">
                             <option value="${document.id}" ${sessionScope.document.id == document.id ? 'selected="selected"' : ''}>${document.name}</option>
                         </c:forEach>
@@ -21,6 +21,10 @@
                 <input id="load" type="submit" name="load" value="Load" class="button" />
             </form>
             <form id="newForm" action="<c:url value="/doCreateDocument" />" method="post">
-                <input type="text" id="name" name="name" />
+                <h3 class="title">New document</h3>
+                <div class="loadField">
+                    <label for="name" id="nameLabel">Name:&nbsp;</label>
+                    <input type="text" id="name" name="name" />
+                </div>
                 <input type="submit" id="save" name="save" value="Save" class="button" />
             </form>
