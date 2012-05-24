@@ -220,22 +220,6 @@ textarea {
 
 #infoBubble {
     background-color: #F15945;
-    border-radius: 5px;
-    color: #fff;
-    display: inline-block;
-    font: 20px/30px 'Trebuchet MS', Helvetica, sans-serif;
-    height: 50px;
-    left: 150px;
-    margin: 10px;
-    position: absolute;
-    top: 150px;
-    text-align: center;
-    text-decoration: none;
-    width: 150px;
-}
-
-#infoBubble {
-    background-color: #F15945;
     border-radius: 50px;
     color: #fff;
     display: inline-block;
@@ -243,10 +227,11 @@ textarea {
     height: auto;
     left: 150px;
     margin: 10px;
-    padding: 20px;
+    max-width: 500px;
+    padding: 20px 40px;
     position: absolute;
     top: 150px;
-    text-align: center;
+    text-align: justify;
     text-decoration: none;
     width: auto;
 }

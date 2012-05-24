@@ -5,18 +5,26 @@
     Description: Stylesheet for load.jsp.
 */
 
+#document {
+    width: 150px;
+}
+
 #load {
     
 }
 
-#loadTop {
-    display: inline;
-}
 
 #loadForm {
-    
+    border-right: 1px solid #ccc;
+    float: left;
+    height: 500px;
+    position: relative;
+    width: 373px;
 }
 
-#document {
-    width: 150px;
+#newForm {
+    float: right;
+    height: 500px;
+    position: relative;
+    width: 374px;
 }
