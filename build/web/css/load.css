@@ -11,13 +11,14 @@
 }
 
 .title {
-    margin-bottom: 45px;
+    margin-bottom: 50px;
     text-align: center;
 }
 
 #document {
     border: none;
     margin: 0px 30px;
+    overflow-y: auto;
     width: 314px;
 }
 

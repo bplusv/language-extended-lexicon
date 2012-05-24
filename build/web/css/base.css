@@ -7,6 +7,10 @@
 
 html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { margin: 0; padding: 0; }
 
+*:focus {
+    outline: none;
+}
+
 a {
     color: #006699;
     font: 12px Arial,sans-serif;
@@ -80,19 +84,10 @@ root {
 }
 
 select {
-    -moz-appearance: button;
-    -webkit-appearance: button;
-    appearance: button;
-    background-image: url('../img/selectArrow.png');
-    background-repeat: no-repeat;
-    background-position: right center;
     border: 1px solid #ccc;
-    border-radius: 7px;
     color: #333;
     font: 13px/20px 'Century Gothic', sans-serif;
     margin: 0;
-    padding-left: 5px;
-    padding-right: 15px;
 }
 
 select:focus {
@@ -104,6 +99,7 @@ textarea {
     border-radius: 5px;
     font: 12px 'Century Gothic', sans-serif;
     margin: 0;
+    overflow-y: auto;
     padding: 10px;
     resize: none;
 }
@@ -115,7 +111,8 @@ textarea {
     border-style: none;
     color: #fff;
     display: inline-block;
-    font: 14px 'Trebuchet MS', Helvetica, sans-serif;
+    font: 14px/15px 'Trebuchet MS', Helvetica, sans-serif;
+    min-height: 15px;
     text-align: center;
     text-decoration: none;
     padding: 10px;
