@@ -5,12 +5,30 @@
     Description: Stylesheet for load.jsp.
 */
 
+.loadField {
+    margin: 0px auto;
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 45px;
+    text-align: center;
+}
+
 #document {
-    width: 150px;
+    border: none;
+    margin: 0px 30px;
+    width: 314px;
+}
+
+#document option:nth-of-type(odd) {
+    background: #f9f9f9;
 }
 
 #load {
-    
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
 }
 
 
@@ -22,9 +40,24 @@
     width: 373px;
 }
 
+#name {
+    display: inline-block;
+    width: 150px;
+}
+
+#nameLabel {
+
+}
+
 #newForm {
     float: right;
     height: 500px;
     position: relative;
     width: 374px;
+}
+
+#save {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
 }

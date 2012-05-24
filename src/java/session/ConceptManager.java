@@ -31,8 +31,6 @@ import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.security.MessageDigest;
-import java.math.BigInteger;
 
 /**
  *
@@ -53,12 +51,6 @@ public class ConceptManager {
     @EJB private ClassificationFacade classificationFacade;
     @EJB private UserFacade userFacade;
     @EJB private EventFacade eventFacade;
-    
-    private String makeHash(String input) throws Exception {
-        MessageDigest m = MessageDigest.getInstance("MD5");
-        m.update(input.getBytes(), 0, input.length());
-        return new BigInteger(1, m.digest()).toString(16);
-    }
     
     private Concept findConceptByDocAndName(Document document, String name) {
         return (Concept) em.createQuery("SELECT co FROM Concept co WHERE co.document = :document AND co.name = :name;").

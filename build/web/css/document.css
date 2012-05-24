@@ -5,11 +5,14 @@
     Description: Stylesheet for document.jsp.
 */
 
+#conceptForm {
+    display: none;
+}
+
 #documentContainer {
     display: block;
-    visibility: visible;
     font: 12px 'Century Gothic', sans-serif;
-    height: 364px;
+    height: 350px;
     line-height: 20px;
     margin: 30px 0px;
     overflow-y: scroll;
@@ -19,11 +22,14 @@
 }
 
 #load {
-    float: left;
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
 }
 
 #documentForm {
     height: 500px;
+    position: relative;
 }
 
 #documentTop {
@@ -31,7 +37,9 @@
 }
 
 #save {
-    float: right;
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
 }
 
 #title {
