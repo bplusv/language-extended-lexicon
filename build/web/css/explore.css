@@ -5,6 +5,8 @@
     Description: Stylesheet for explore.jsp.
 */
 
+@charset "UTF-8";
+
 .exploreField {
     display: inline;
     margin-right: 25px;
@@ -66,14 +68,14 @@
 }
 
 #conceptsTable td {
-    text-align: center;
+    overflow: hidden;
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #conceptsTable td a {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    
 }
 
 #classification {

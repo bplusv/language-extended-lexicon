@@ -24,7 +24,9 @@
 
 package session;
 
+import entity.Concept;
 import entity.Document;
+import java.util.Collection;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -44,6 +46,23 @@ public class DocumentManager {
     private SessionContext context;
     
     @EJB private DocumentFacade documentFacade;
+    @EJB private ConceptManager conceptManager;
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String getTaggedDataByDoc(String documentParam) {
+        try {
+            Document document = documentFacade.find(Integer.parseInt(documentParam));
+            Collection<Concept> concepts = document.getConceptCollection();
+            String taggedData = document.getData();
+            for (Concept concept : concepts) {
+                taggedData = taggedData.replaceAll(concept.getName(), "<a href=\"classify?co=" + concept.getId() + "\" contenteditable=\"false\">" + concept.getName() + "</a>");
+            }
+            return taggedData;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Document getDocument(String documentParam) {

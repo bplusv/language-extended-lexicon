@@ -4,6 +4,8 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
             <form action="<c:url value="/explore" />" id="exploreForm" method="get">
                 <div id="filters">
                     <div class="exploreField">
@@ -25,7 +27,7 @@
                         </select>
                     </div>
                     <div class="exploreField">
-                        <input id="search" type="text" name="co" value="${param.co}" />
+                        <input id="search" type="text" maxlength="255" name="co" value="${param.co}" />
                         <input id="doSearch" type="submit" class="button" value=""/>
                     </div>
                 </div>
@@ -39,7 +41,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="concept" items="${conceptManager.getConcepts(param.cl, param.ca, param.co)}">
+                        <c:forEach var="concept" items="${conceptManager.getConceptsByFilters(param.cl, param.ca, param.co)}">
                             <tr>
                                 <td><a href="<c:url value="/classify?co=${concept.id}" />">${concept.name}</a></td>
                                 <td>${concept.definition.classification.name}</td>

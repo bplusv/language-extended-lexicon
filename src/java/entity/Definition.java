@@ -51,19 +51,19 @@ public class Definition implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Lob
-    @Size(max = 2147483647)
+    @Size(max = 65535)
     @Column(name = "comments")
     private String comments;
     @Lob
-    @Size(max = 2147483647)
+    @Size(max = 65535)
     @Column(name = "notion")
     private String notion;
     @Lob
-    @Size(max = 2147483647)
+    @Size(max = 65535)
     @Column(name = "actual_intention")
     private String actualIntention;
     @Lob
-    @Size(max = 2147483647)
+    @Size(max = 65535)
     @Column(name = "future_intention")
     private String futureIntention;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")

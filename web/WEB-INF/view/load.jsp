@@ -3,6 +3,9 @@
     Created on : May 16, 2012, 10:15:22 AM
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
             <c:choose>
                 <c:when test="${requestScope.loadDocumentError == true}">
                     <h3 class="notification error">Something went wrong, can't load document.</h3>
@@ -24,7 +27,7 @@
                 <h3 class="title">New document</h3>
                 <div class="loadField">
                     <label for="name" id="nameLabel">Name:&nbsp;</label>
-                    <input type="text" id="name" name="name" />
+                    <input type="text" maxlength="255" id="name" name="name" />
                 </div>
                 <input type="submit" id="save" name="save" value="Save" class="button" />
             </form>

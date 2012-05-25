@@ -29,7 +29,6 @@ import entity.Document;
 import entity.Log;
 import entity.User;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,13 +72,16 @@ public class ControllerServlet extends HttpServlet {
     public void init() throws ServletException {
         getServletContext().setAttribute("classifications", classificationFacade.findAll());
         getServletContext().setAttribute("categories", categoryFacade.findAll());
-        getServletContext().setAttribute("conceptManager", conceptManager);
         getServletContext().setAttribute("documentFacade", documentFacade);
+        getServletContext().setAttribute("conceptManager", conceptManager);
+        getServletContext().setAttribute("documentManager", documentManager);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         session = request.getSession(false);
         String userPath = request.getServletPath();
         
@@ -97,9 +99,11 @@ public class ControllerServlet extends HttpServlet {
             
             
         } else if (userPath.equals("/document")) {
+
             
             if (session.getAttribute("document") == null) userPath = "/load";
   
+            
         } else if (userPath.equals("/explore")) {
             
             
@@ -108,8 +112,10 @@ public class ControllerServlet extends HttpServlet {
             
         } else if (userPath.equals("/test")) {
             
-            String x = "      ";
-            request.setAttribute("foo", x.trim().isEmpty());
+            String x = "Esto es una   prueba    del sistema LeL.";
+            String regex = "prueba";
+            String foo = x.replaceAll(regex, "<a>"+regex+"</a>");
+            request.setAttribute("foo", foo);
         }
 
         String responseView = "/WEB-INF/view" + userPath + ".jsp";
@@ -122,6 +128,8 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         session = request.getSession(false);
         String userPath = request.getServletPath();
         
@@ -197,17 +205,16 @@ public class ControllerServlet extends HttpServlet {
             
             
             String documentParam = request.getParameter("document");
-            
             Document document = documentManager.getDocument(documentParam);
-            
+
             if (document != null) {
                 session.setAttribute("document", document);
                 userPath = "/document";
             } else {
-                request.setAttribute("loadDocumentError", true);
+                request.setAttribute("documentLoadError", true);
                 userPath = "/load";
             }
-            
+
             
         } else if (userPath.equals("/doSignIn")) {
             

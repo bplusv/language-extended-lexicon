@@ -3,6 +3,9 @@
     Created on : May 14, 2012, 10:12:22 AM
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
             <c:choose>
                 <c:when test="${createConceptError == true}">
                     <h3 class="notification error">Something went wrong, can't create new concept.</h3>

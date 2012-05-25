@@ -5,6 +5,8 @@
     Description: Stylesheet for load.jsp.
 */
 
+@charset "UTF-8";
+
 .loadField {
     margin: 0px auto;
     text-align: center;
@@ -18,8 +20,17 @@
 #document {
     border: none;
     margin: 0px 30px;
+    overflow-x: visible;
     overflow-y: auto;
     width: 314px;
+}
+
+#document option {
+    display: block;
+    overflow: visible;
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #document option:nth-of-type(odd) {
