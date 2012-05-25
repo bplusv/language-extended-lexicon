@@ -47,7 +47,7 @@ public class ControllerFilter implements Filter {
             User user = null;
             if (session != null) user = (User) session.getAttribute("user");
 
-            // if not signed in, forward user to welcome page
+            // if not signed in, return user to welcome page
             if (user == null && !"/doSignIn".equals(req.getServletPath())) {
                 try {
                     req.setAttribute("sessionTimedOut", true);
@@ -57,9 +57,10 @@ public class ControllerFilter implements Filter {
             }
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-            // set cache directives
+            // set no cache and encoding header directives
             httpServletResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             httpServletResponse.setDateHeader("Expires", 0L);
+            httpServletResponse.setCharacterEncoding("UTF-8");
             
             chain.doFilter(request, response);
         }

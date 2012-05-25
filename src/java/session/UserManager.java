@@ -47,6 +47,12 @@ public class UserManager {
     
     @EJB private UserFacade userFacade;
     
+    private User findByName(String name) {
+        return (User) em.createQuery("SELECT u FROM User u WHERE u.name = :name;").
+                setParameter("name", name).
+                getSingleResult();
+    }
+        
     private String makeHash(String input) throws Exception {
         MessageDigest m = MessageDigest.getInstance("MD5");
         m.update(input.getBytes(), 0, input.length());
@@ -55,7 +61,7 @@ public class UserManager {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User signIn(String usernameParam, String passwordParam) {
         try {
-            User user = userFacade.findByName(usernameParam);
+            User user = findByName(usernameParam);
             String password = makeHash(passwordParam);
             if (user != null) {
                 if(user.getPassword().equals(password)) {

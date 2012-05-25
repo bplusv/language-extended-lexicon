@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS `lel`.`document` ;
 CREATE  TABLE IF NOT EXISTS `lel`.`document` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
-  `data` LONGTEXT NULL ,
+  `data` MEDIUMTEXT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
 ENGINE = InnoDB;
@@ -67,10 +67,10 @@ DROP TABLE IF EXISTS `lel`.`definition` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`definition` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `comments` LONGTEXT NULL ,
-  `notion` LONGTEXT NULL ,
-  `actual_intention` LONGTEXT NULL ,
-  `future_intention` LONGTEXT NULL ,
+  `comments` TEXT NULL ,
+  `notion` TEXT NULL ,
+  `actual_intention` TEXT NULL ,
+  `future_intention` TEXT NULL ,
   `category` INT UNSIGNED NOT NULL ,
   `classification` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,

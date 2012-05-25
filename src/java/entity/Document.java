@@ -57,7 +57,7 @@ public class Document implements Serializable {
     @Column(name = "name")
     private String name;
     @Lob
-    @Size(max = 2147483647)
+    @Size(max = 16777215)
     @Column(name = "data")
     private String data;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")

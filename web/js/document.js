@@ -93,7 +93,7 @@ $(document).ready(function(){
 
 function updateDocumentData() {
     containerData = docContainer.html();
-
+    containerData = containerData.replace(/<[^>]+>/g,'');
     dataInput.val(containerData);
     return true;
 }

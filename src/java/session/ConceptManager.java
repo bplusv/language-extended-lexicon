@@ -25,8 +25,8 @@
 package session;
 
 import entity.*;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -67,7 +67,7 @@ public class ConceptManager {
                 getSingleResult();
     }
 
-    private List<Concept> findConceptsByFilters(String classificationName, String categoryName, String conceptName) throws Exception {
+    private Collection<Concept> findConceptsByFilters(String classificationName, String categoryName, String conceptName) throws Exception {
         return em.createQuery("SELECT co FROM Concept co, Definition de, Classification cl, Category ca WHERE "
                 + "co.definition = de AND de.classification = cl AND de.category = ca AND "
                 + "cl.name LIKE :classificationName AND ca.name LIKE :categoryName AND LOWER(co.name) LIKE :conceptName "
@@ -163,7 +163,7 @@ public class ConceptManager {
     }
         
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public List<Concept> getConcepts(String classificationParam, String categoryParam, String conceptParam) {
+    public Collection<Concept> getConceptsByFilters(String classificationParam, String categoryParam, String conceptParam) {
         try {
             String classificationName = "%";
             if (classificationParam != null) {
@@ -183,7 +183,7 @@ public class ConceptManager {
             if (conceptParam != null) {
                 conceptName = "%"+conceptParam.toLowerCase()+"%";
             }
-            List<Concept> concepts = this.findConceptsByFilters(classificationName, categoryName, conceptName);
+            Collection<Concept> concepts = this.findConceptsByFilters(classificationName, categoryName, conceptName);
             return concepts;
         } catch (Exception e) {
             context.setRollbackOnly();

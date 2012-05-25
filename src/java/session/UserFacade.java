@@ -48,10 +48,4 @@ public class UserFacade extends AbstractFacade<User> {
     public UserFacade() {
         super(User.class);
     }
-
-    public User findByName(String name) {
-        return (User) em.createQuery("SELECT u FROM User u WHERE u.name = :name;").
-                setParameter("name", name).
-                getSingleResult();
-    }
 }

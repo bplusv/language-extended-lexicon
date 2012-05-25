@@ -5,6 +5,8 @@
     Description: Main Stylesheet for common website items.
 */
 
+@charset "UTF-8";
+
 html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { margin: 0; padding: 0; }
 
 *:focus {
@@ -157,6 +159,7 @@ textarea {
     top:0;
     text-align: center;
     width: 450px;
+    z-index: 99;
 }
 
 .notification.error {
@@ -231,6 +234,7 @@ textarea {
     text-align: justify;
     text-decoration: none;
     width: auto;
+    z-index: 99;
 }
     
 #infoBubble:hover {
