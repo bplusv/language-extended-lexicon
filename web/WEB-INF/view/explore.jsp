@@ -9,20 +9,20 @@
             <form action="<c:url value="/explore" />" id="exploreForm" method="get">
                 <div id="filters">
                     <div class="exploreField">
-                        <label id="classificationLabel" for="classification">Classification:</label>
+                        <label id="classificationLabel" for="classification"><fmt:message key="classification" />:&nbsp;</label>
                         <select id="classification" name="cl" onchange="$('#exploreForm').submit();">
-                            <option value="">All</option>
+                            <option value=""><fmt:message key="all" /></option>
                             <c:forEach var="classification" items="${classifications}">
-                                <option value="${classification.id}" ${param.cl == classification.id ? 'selected="selected"' : ''}>${classification.name}</option>
+                                <option value="${classification.id}" ${param.cl == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="exploreField">
-                        <label id="categoryLabel" for="category">Category:</label>
+                        <label id="categoryLabel" for="category"><fmt:message key="category" />:&nbsp;</label>
                         <select id="category" name="ca" onchange="$('#exploreForm').submit();">
-                            <option value="">All</option>
+                            <option value=""><fmt:message key="all" /></option>
                             <c:forEach var="category" items="${categories}">
-                                <option value="${category.id}" ${param.ca == category.id ? 'selected="selected"' : ''}>${category.name}</option>
+                                <option value="${category.id}" ${param.ca == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
                             </c:forEach>
                         </select>
                     </div>
@@ -34,18 +34,18 @@
                 <table id="conceptsTable">
                     <thead>
                         <tr>
-                            <th>Concept</th>
-                            <th>Classification</th>
-                            <th>Category</th>
-                            <th>Document</th>
+                            <th><fmt:message key="concept" /></th>
+                            <th><fmt:message key="classification" /></th>
+                            <th><fmt:message key="category" /></th>
+                            <th><fmt:message key="document" /></th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="concept" items="${conceptManager.getConceptsByFilters(param.cl, param.ca, param.co)}">
                             <tr>
-                                <td><a href="<c:url value="/classify?co=${concept.id}" />">${concept.name}</a></td>
-                                <td>${concept.definition.classification.name}</td>
-                                <td>${concept.definition.category.name}</td>
+                                <td><a href="<c:url value="/classify"><c:param name="co" value="${concept.id}" /></c:url>">${concept.name}</a></td>
+                                <td><fmt:message key="${concept.definition.classification.name}" /></td>
+                                <td><fmt:message key="${concept.definition.category.name}" /></td>
                                 <td>${concept.document.name}</td>
                             </tr>
                         </c:forEach>

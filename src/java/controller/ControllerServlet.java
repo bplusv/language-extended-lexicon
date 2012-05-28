@@ -45,6 +45,7 @@ import session.*;
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
 urlPatterns = {"/classify",
+                "/chooseLanguage",
                 "/document",
                 "/explore",
                 "/load",
@@ -84,12 +85,12 @@ public class ControllerServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         session = request.getSession(false);
         String userPath = request.getServletPath();
+        //String lang = request.getLocale().getLanguage();
         
         if (userPath.equals("/classify")) {
             
             
             String conceptParam = request.getParameter("co");
-            
             Concept concept = conceptManager.getConcept(conceptParam);
             Log log = conceptManager.getLog(conceptParam);
             
@@ -98,7 +99,16 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("submitAction", "/doUpdateConcept");
             
             
-        } else if (userPath.equals("/document")) {
+        } else if(userPath.equals("/chooseLanguage")) {
+        
+            String language = request.getParameter("language");
+            
+            request.setAttribute("language", language);
+            
+            userPath = "/explore";
+            
+            
+        }else if (userPath.equals("/document")) {
 
             
             if (session.getAttribute("document") == null) userPath = "/load";
@@ -112,9 +122,7 @@ public class ControllerServlet extends HttpServlet {
             
         } else if (userPath.equals("/test")) {
             
-            String x = "Esto es una   prueba    del sistema LeL.";
-            String regex = "prueba";
-            String foo = x.replaceAll(regex, "<a>"+regex+"</a>");
+            String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);
         }
 
@@ -174,7 +182,7 @@ public class ControllerServlet extends HttpServlet {
             String conceptParam = concept != null ? concept.getId().toString() : "";
             Log log = conceptManager.getLog(conceptParam);
             
-            request.setAttribute("createConceptError", concept != null ? false : true);
+            request.setAttribute("createConceptFail", concept != null ? false : true);
             request.setAttribute("concept", concept);
             request.setAttribute("log", log);
             request.setAttribute("submitAction", "/doUpdateConcept");
@@ -188,10 +196,10 @@ public class ControllerServlet extends HttpServlet {
             
             if (document != null) {
                 session.setAttribute("document", document);
-                request.setAttribute("createDocumentError", false);
+                request.setAttribute("createDocumentFail", false);
                 userPath = "/document";
             } else {
-                request.setAttribute("createDocumentError", true);
+                request.setAttribute("createDocumentFail", true);
                 userPath = "/load";
             }
         
@@ -211,7 +219,7 @@ public class ControllerServlet extends HttpServlet {
                 session.setAttribute("document", document);
                 userPath = "/document";
             } else {
-                request.setAttribute("documentLoadError", true);
+                request.setAttribute("loadDocumentFail", true);
                 userPath = "/load";
             }
 
@@ -244,7 +252,7 @@ public class ControllerServlet extends HttpServlet {
             
             try {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
-            } catch (Exception e) {}
+            } catch (Exception ex) {}
             return;
             
             
@@ -265,12 +273,11 @@ public class ControllerServlet extends HttpServlet {
                     futureIntentionParam, commentsParam);
             Log log = conceptManager.getLog(conceptParam);
             
-            
-            request.setAttribute("concept", concept);
+            request.setAttribute("concept", concept != null ? concept : conceptManager.getConcept(conceptParam));
             request.setAttribute("log", log);
-            request.setAttribute("updateConceptError", concept != null ? false : true);
+            request.setAttribute("updateConceptFail", concept != null ? false : true);
             userPath = "/classify";
-            
+
             
         } else if (userPath.equals("/doUpdateDocument")) {
             
@@ -282,9 +289,9 @@ public class ControllerServlet extends HttpServlet {
             
             if (document != null) {
                 session.setAttribute("document", document);
-                request.setAttribute("updateDocumentError", false);
+                request.setAttribute("updateDocumentFail", false);
             } else {
-                request.setAttribute("updateDocumentError", true);
+                request.setAttribute("updateDocumentFail", true);
             }
             userPath = "/document";
             

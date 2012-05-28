@@ -19,6 +19,7 @@
 
 #document {
     border: none;
+    height: auto;
     margin: 0px 30px;
     overflow-x: visible;
     overflow-y: auto;

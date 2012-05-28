@@ -5,6 +5,11 @@
         <param-name>test</param-name>
         <param-value>foo</param-value>
     </context-param>
+    <context-param>
+        <description>Resources for multi-language support.</description>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>resources.messages</param-value>
+    </context-param>
     <session-config>
         <session-timeout>0</session-timeout>
     </session-config>

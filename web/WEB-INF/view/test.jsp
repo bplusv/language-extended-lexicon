@@ -4,6 +4,8 @@
     
 </style>
 
+<p>${pageContext.request.locale.language}</p>
+
 <a id="infoBubble">
     <span>${requestScope.foo}</span>
     <div id="infoBubbleArrow"></div>

@@ -10,6 +10,7 @@
 .exploreField {
     display: inline;
     margin-right: 25px;
+    vertical-align: middle;
 }
 
 .exploreField > label{
@@ -108,9 +109,5 @@
 }
 
 #search {
-    
-}
-
-#searchLabel {
-    
+   width: 120px; 
 }

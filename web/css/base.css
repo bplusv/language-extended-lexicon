@@ -64,6 +64,8 @@ input[type="text"], input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 5px;
     font: 12px 'Century Gothic', sans-serif;
+    height: 18px;
+    margin: 0;
     padding: 5px;
 }
 
@@ -89,6 +91,7 @@ select {
     border: 1px solid #ccc;
     color: #333;
     font: 13px/20px 'Century Gothic', sans-serif;
+    height: 22px;
     margin: 0;
 }
 
@@ -162,7 +165,7 @@ textarea {
     z-index: 99;
 }
 
-.notification.error {
+.notification.fail {
     background-color: #aa3333;
 }
 
