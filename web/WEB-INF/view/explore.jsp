@@ -43,10 +43,10 @@
                     <tbody>
                         <c:forEach var="concept" items="${conceptManager.getConceptsByFilters(param.cl, param.ca, param.co)}">
                             <tr>
-                                <td><a href="<c:url value="/classify"><c:param name="co" value="${concept.id}" /></c:url>">${concept.name}</a></td>
+                                <td class="overflowEllipsis"><a href="<c:url value="/classify"><c:param name="co" value="${concept.id}" /></c:url>">${concept.name}</a></td>
                                 <td><fmt:message key="${concept.definition.classification.name}" /></td>
                                 <td><fmt:message key="${concept.definition.category.name}" /></td>
-                                <td>${concept.document.name}</td>
+                                <td class="overflowEllipsis">${concept.document.name}</td>
                             </tr>
                         </c:forEach>
                     </tbody>

@@ -43,8 +43,5 @@
 
 #title {
     margin-bottom: 25px;
-    overflow: hidden;
     text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }

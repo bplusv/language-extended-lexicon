@@ -44,11 +44,6 @@ select {
     color: #000;
     display: block;
     line-height: 24px;
-    
-    overflow: hidden;
-    display: block;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 #classifyForm {
@@ -116,8 +111,5 @@ select {
 
 #title {
     margin-bottom: 25px;
-    overflow: hidden;
     text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }

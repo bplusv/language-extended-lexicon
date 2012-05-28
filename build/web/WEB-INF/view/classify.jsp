@@ -10,13 +10,13 @@
                 <input type="hidden" id="concept" name="concept" value="${concept.id}" />
                 <input type="hidden" id="name" name="name" value="${concept.name}" />
                 <input type="hidden" id="document" name="document" value="${concept.document.id}" />
-                <h2 id="title"><fmt:message key="concept" />:&nbsp;<span style="color: #222;">${concept.name}</span></h2>
+                <h2 id="title" class="overflowEllipsis"><fmt:message key="concept" />:&nbsp;<span style="color: #222;">${concept.name}</span></h2>
                 <div id="definitionTop">
                     <div>
                         <div id="definitionTopLeft">
                             <div>
                                 <div><label><fmt:message key="document" />:</label></div>
-                                <div><h3 class="info">${concept.document.name}</h3></div>
+                                <div><h3 class="info overflowEllipsis">${concept.document.name}</h3></div>
                             </div>
                             <div>
                                 <div><label id="classificationLabel" for="classification"><fmt:message key="classification" />:</label></div>
@@ -44,7 +44,7 @@
                         <div id="definitionTopRight">
                             <c:if test="${log != null}">
                                 <label><fmt:message key="last edited" />:</label>
-                                <h3 class="info">${log.user.name}</h3>
+                                <h3 class="info overflowEllipsis">${log.user.name}</h3>
                                 <h3 class="info"><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></h3>
                             </c:if>
                         </div>

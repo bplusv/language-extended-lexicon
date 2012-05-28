@@ -69,10 +69,7 @@
 }
 
 #conceptsTable td {
-    overflow: hidden;
-    padding: 0 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    padding: 0;
 }
 
 #conceptsTable td a {
