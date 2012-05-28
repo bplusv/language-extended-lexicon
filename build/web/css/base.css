@@ -173,6 +173,13 @@ textarea {
     background-color: #33aa33;
 }
 
+.overflowEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: none;
+    white-space: nowrap;
+}
+
 .tabs > a, .tab {
     background-color: #fff;
     border: 1px solid #ccc;

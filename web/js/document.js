@@ -31,9 +31,9 @@ $(document).ready(function(){
     dataInput = $('#data');
     docContainer = $('#documentContainer');
     contOffset = docContainer.offset();
-    contSize = { width: docContainer.outerWidth(), height: docContainer.outerHeight() };
-    container = { top: contOffset.top, bottom: contOffset.top + contSize.height,
-                  left: contOffset.left, right: contOffset.left + contSize.width };
+    contSize = {width: docContainer.outerWidth(), height: docContainer.outerHeight()};
+    container = {top: contOffset.top, bottom: contOffset.top + contSize.height,
+                  left: contOffset.left, right: contOffset.left + contSize.width};
     
         
     $(document).on('mouseup', function(e) {
@@ -49,8 +49,8 @@ $(document).ready(function(){
                     href: 'javascript:;',
                     id: 'infoBubble'
                 });
-                infoBubbleText = $('<span>').attr({ id: 'infoBubbleText' });
-                infoBubbleArrow = $('<div>').attr({ id: 'infoBubbleArrow' });
+                infoBubbleText = $('<span>').attr({id: 'infoBubbleText'});
+                infoBubbleArrow = $('<div>').attr({id: 'infoBubbleArrow'});
                 
                 infoBubble.append(infoBubbleText);
                 infoBubble.append(infoBubbleArrow);
@@ -64,7 +64,7 @@ $(document).ready(function(){
             }
             
             infoBubbleText.html(text);
-            newPos = { x: 0, y: 0 };
+            newPos = {x: 0, y: 0};
             
             newPos.y = e.pageY < container.top ? container.top + 10 : e.pageY > container.bottom ? container.bottom - 10 : e.pageY;
             newPos.x = e.pageX < container.left ? container.left + 30 : e.pageX > container.right ? container.right - 30 : e.pageX;
@@ -93,7 +93,10 @@ $(document).ready(function(){
 
 function updateDocumentData() {
     containerData = docContainer.html();
-    containerData = containerData.replace(/<[^>]+>/g,'');
+    containerData = containerData.replace(/<div>/i,'\n');
+    containerData = containerData.replace(/<\/div>/ig,'\n');
+    containerData = containerData.replace(/<[^>]+>/ig,'');
     dataInput.val(containerData);
+    console.log(dataInput.val());
     return true;
 }

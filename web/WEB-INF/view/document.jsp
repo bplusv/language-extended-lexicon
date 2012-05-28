@@ -8,8 +8,8 @@
 
             <form action="<c:url value="/doUpdateDocument" />" id="documentForm" onsubmit="return updateDocumentData();"  method="post">
                 <input type="hidden" name="document" value="${document.id}" />
-                <h2 id="title"><span><fmt:message key="document" />:&nbsp;<span style="color: #222;">${document.name}</span></span></h2>
-                <input type="hidden" id="data" name="data" value="${document.data}" />
+                <h2 id="title" class="overflowEllipsis"><fmt:message key="document" />:&nbsp;<span style="color: #222;">${document.name}</span></h2>
+                <textarea style="display:none;" id="data" name="data">${document.data}</textarea>
                 <pre contenteditable="true" id="documentContainer">${documentManager.getTaggedDataByDoc(document.id)}</pre>
                 <a href="<c:url value="/load" />" id="load" class="button"><fmt:message key="load" /></a>
                 <input id="save" type="submit" name="save" value="<fmt:message key="save" />" class="button" />
