@@ -122,7 +122,7 @@ public class ConceptManager {
             concept.setName(name);
             concept.setDocument(document);
             return concept;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             return null;
         }
     }
@@ -132,7 +132,7 @@ public class ConceptManager {
         try {
             Concept concept = conceptFacade.find(Integer.parseInt(conceptParam));
             return findLastLogByConcept(concept);
-        } catch (Exception e) {
+        } catch (Exception ex) {
             context.setRollbackOnly();
             return null;
         }
@@ -145,7 +145,7 @@ public class ConceptManager {
             String name = nameParam;
             Concept concept = findConceptByDocAndName(document, name);
             return concept;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             context.setRollbackOnly();
             return null;
         }
@@ -156,7 +156,7 @@ public class ConceptManager {
     public Concept getConcept(String conceptParam) {
         try {
             return conceptFacade.find(Integer.parseInt(conceptParam));
-        } catch (Exception e) {
+        } catch (Exception ex) {
             context.setRollbackOnly();
             return null;
         }
@@ -170,14 +170,14 @@ public class ConceptManager {
                 try {
                     Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
                     if (classification != null) classificationName = classification.getName();
-                } catch (Exception e) {}
+                } catch (Exception ex) {}
             }           
             String categoryName = "%";
             if (categoryParam != null) {
                 try {
                     Category category = categoryFacade.find(Integer.parseInt(categoryParam));
                     if (category != null) categoryName = category.getName();
-                } catch (Exception e) {}
+                } catch (Exception ex) {}
             }
             String conceptName = "%";
             if (conceptParam != null) {
@@ -185,7 +185,7 @@ public class ConceptManager {
             }
             Collection<Concept> concepts = this.findConceptsByFilters(classificationName, categoryName, conceptName);
             return concepts;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             context.setRollbackOnly();
             return null;
         }
@@ -216,7 +216,7 @@ public class ConceptManager {
             em.flush();
             logEvent(user, concept, eventFacade.find(2));
             return concept;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             context.setRollbackOnly();
             return null;
         }
@@ -241,7 +241,7 @@ public class ConceptManager {
             Concept concept = addConcept(definition, document, name);
             logEvent(user, concept, eventFacade.find(1));
             return concept;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             context.setRollbackOnly();
             return null;
         }

@@ -6,29 +6,29 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-            <c:choose>
-                <c:when test="${requestScope.loadDocumentError == true}">
-                    <h3 class="notification error">Something went wrong, can't load document.</h3>
-                </c:when>
-                <c:when test="${requestScope.createDocumentError == true}">
-                    <h3 class="notification error">Something went wrong, can't create document.</h3>
-                </c:when>
-            </c:choose>
             <form  id="loadForm"  action="<c:url value="/doLoadDocument" />" method="post">
-                <h3 class="title">Load document</h3>
+                <h3 class="title"><fmt:message key="load document" /></h3>
                     <select id="document" name="document" size="20">
                         <c:forEach var="document" items="${documentFacade.findAll()}">
                             <option value="${document.id}" ${sessionScope.document.id == document.id ? 'selected="selected"' : ''}>${document.name}</option>
                         </c:forEach>
                     </select>
-                <input id="load" type="submit" name="load" value="Load" class="button" />
+                <input id="load" type="submit" name="load" value="<fmt:message key="load" />" class="button" />
             </form>
             <form id="newForm" action="<c:url value="/doCreateDocument" />" method="post">
-                <h3 class="title">New document</h3>
+                <h3 class="title"><fmt:message key="new document" /></h3>
                 <div class="loadField">
-                    <label for="name" id="nameLabel">Name:&nbsp;</label>
+                    <label for="name" id="nameLabel"><fmt:message key="name" />:&nbsp;</label>
                     <input type="text" maxlength="255" id="name" name="name" />
                 </div>
-                <input type="submit" id="save" name="save" value="Save" class="button" />
+                <input type="submit" id="save" name="save" value="<fmt:message key="create" />" class="button" />
             </form>
+            <c:choose>
+                <c:when test="${requestScope.loadDocumentFail == true}">
+                    <h3 class="notification fail"><fmt:message key="load document fail" /></h3>
+                </c:when>
+                <c:when test="${requestScope.createDocumentFail == true}">
+                    <h3 class="notification fail"><fmt:message key="create document fail" /></h3>
+                </c:when>
+            </c:choose>
             <div style="clear:both"></div>

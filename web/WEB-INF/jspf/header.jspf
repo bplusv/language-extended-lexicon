@@ -7,8 +7,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%-- Set language on user's choice --%>
+<c:if test="${!empty language}">
+    <fmt:setLocale value="${language}" scope="session" />
+</c:if>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +24,7 @@
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
+        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="<c:url value="/js/base.js" />" type="text/javascript" charset="UTF-8"></script>
         <script type="text/javascript" src="<c:url value="/js${userPath}.js" />" charset="UTF-8"></script>
@@ -28,12 +33,12 @@
         <header>
             <form id="signOutForm" action=<c:url value="/doSignOut" /> method="POST">
                 <span id="signOutUsername">${user.name}</span>
-                <a href="javascript:;" id="signOut" onclick="$('#signOutForm').submit();">Sign Out</a>
+                <a href="javascript:;" id="signOut" onclick="$('#signOutForm').submit();"><fmt:message key="sign out" /></a>
             </form>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
         </header>
         <nav class="tabs">
-            <a href="<c:url value="/explore" />" class="${userPath == '/explore' ? 'selected' : ''}">Explore</a>
-            <a href="<c:url value="/document" />" class="${userPath == '/document' ? 'selected' : ''}">Document</a>
+            <a href="<c:url value="/explore" />" class="${userPath == '/explore' ? 'selected' : ''}"><fmt:message key="explore" /></a>
+            <a href="<c:url value="/document" />" class="${userPath == '/document' ? 'selected' : ''}"><fmt:message key="document" /></a>
         </nav>
         <div id="center">

@@ -6,48 +6,34 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-            <c:choose>
-                <c:when test="${createConceptError == true}">
-                    <h3 class="notification error">Something went wrong, can't create new concept.</h3>
-                </c:when>
-                <c:when test="${createConceptError == false}">
-                    <h3 class="notification success">Concept created successfully.</h3>
-                </c:when>
-                <c:when test="${updateConceptError == true}">
-                    <h3 class="notification error">Something went wrong, can't update existing concept.</h3>
-                </c:when>
-                <c:when test="${updateConceptError == false}">
-                    <h3 class="notification success">Concept updated successfully.</h3>
-                </c:when>
-            </c:choose>
             <form id="classifyForm" action="<c:url value="${submitAction}" />" method="post">
                 <input type="hidden" id="concept" name="concept" value="${concept.id}" />
                 <input type="hidden" id="name" name="name" value="${concept.name}" />
                 <input type="hidden" id="document" name="document" value="${concept.document.id}" />
-                <h2 id="title">Concept: <span style="color: #222;">${concept.name}</span></h2>
+                <h2 id="title"><fmt:message key="concept" />:&nbsp;<span style="color: #222;">${concept.name}</span></h2>
                 <div id="definitionTop">
                     <div>
                         <div id="definitionTopLeft">
                             <div>
-                                <div><label>Document:</label></div>
+                                <div><label><fmt:message key="document" />:</label></div>
                                 <div><h3 class="info">${concept.document.name}</h3></div>
                             </div>
                             <div>
-                                <div><label id="classificationLabel" for="classification">Classification:</label></div>
+                                <div><label id="classificationLabel" for="classification"><fmt:message key="classification" />:</label></div>
                                 <div>
                                     <select id="classification" name="classification">
                                         <c:forEach var="classification" items="${classifications}">
-                                            <option value="${classification.id}" ${concept.definition.classification.id == classification.id ? 'selected="selected"' : ''}>${classification.name}</option>
+                                            <option value="${classification.id}" ${concept.definition.classification.id == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
                                         </c:forEach>
                                     </select>
                                 </div>
                             </div>
                             <div>
-                                <div><label id="categoryLabel" for="category">Category:</label></div>
+                                <div><label id="categoryLabel" for="category"><fmt:message key="category" />:</label></div>
                                 <div>
                                     <select id="category" name="category">
                                         <c:forEach var="category" items="${categories}">
-                                            <option value="${category.id}" ${concept.definition.category.id == category.id ? 'selected="selected"' : ''}>${category.name}</option>
+                                            <option value="${category.id}" ${concept.definition.category.id == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -57,9 +43,9 @@
                     <div>
                         <div id="definitionTopRight">
                             <c:if test="${log != null}">
-                                <label>Last Edited By:</label>
+                                <label><fmt:message key="last edited" />:</label>
                                 <h3 class="info">${log.user.name}</h3>
-                                <h3 class="info"><fmt:formatDate value="${log.date}" pattern="MM/dd/yyyy hh:mm a" timeZone="GMT-6" /></h3>
+                                <h3 class="info"><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></h3>
                             </c:if>
                         </div>
                     </div>
@@ -67,29 +53,43 @@
                 <div id="definitionBottom">
                     <div class="definitionField">
                         <div class="fixPadding">
-                            <label for="notion" class="tab">Concept Notion</label>
-                            <textarea id="notion" name="notion">${concept.definition.notion}</textarea>
+                            <label for="notion" class="tab"><fmt:message key="notion" /></label>
+                            <textarea maxlength="32767" id="notion" name="notion">${concept.definition.notion}</textarea>
                         </div>
                     </div>
                     <div class="definitionField" style="width: 48%; float: left;">
                         <div class="fixPadding">
-                            <label for="actualIntention" class="tab">Actual Intention</label>
-                            <textarea id="actualIntention" name="actualIntention">${concept.definition.actualIntention}</textarea>
+                            <label for="actualIntention" class="tab"><fmt:message key="actual intention" /></label>
+                            <textarea maxlength="32767" id="actualIntention" name="actualIntention">${concept.definition.actualIntention}</textarea>
                         </div>
                     </div>
                     <div class="definitionField" style="width: 48%; float: right;">
                         <div class="fixPadding"> 
-                            <label for="futureIntention" class="tab">Future Intention</label>
-                            <textarea id="futureIntention" name="futureIntention">${concept.definition.futureIntention}</textarea>
+                            <label for="futureIntention" class="tab"><fmt:message key="future intention" /></label>
+                            <textarea maxlength="32767" id="futureIntention" name="futureIntention">${concept.definition.futureIntention}</textarea>
                         </div>
                     </div>
                     <div style="clear:both;"></div>
                     <div class="definitionField">
                         <div class="fixPadding">
-                            <label for="comments" class="tab">Comments</label>
-                            <textarea id="comments" name="comments">${concept.definition.comments}</textarea>
+                            <label for="comments" class="tab"><fmt:message key="comments" /></label>
+                            <textarea maxlength="32767" id="comments" name="comments">${concept.definition.comments}</textarea>
                         </div>
                     </div>
                 </div>
                 <input type="submit" name="save" value="Save" id="save" class="button" />
             </form>
+            <c:choose>
+                <c:when test="${createConceptFail == true}">
+                    <h3 class="notification fail"><fmt:message key="create concept fail" /></h3>
+                </c:when>
+                <c:when test="${createConceptFail == false}">
+                    <h3 class="notification success"><fmt:message key="create concept success" /></h3>
+                </c:when>
+                <c:when test="${updateConceptFail == true}">
+                    <h3 class="notification fail"><fmt:message key="update concept fail" /></h3>
+                </c:when>
+                <c:when test="${updateConceptFail == false}">
+                    <h3 class="notification success"><fmt:message key="update concept success" /></h3>
+                </c:when>
+            </c:choose>
