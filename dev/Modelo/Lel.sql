@@ -15,6 +15,20 @@ CREATE  TABLE IF NOT EXISTS `lel`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(50) NOT NULL ,
   `password` VARCHAR(255) NOT NULL ,
+  `admin` BIT NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lel`.`project`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lel`.`project` ;
+
+CREATE  TABLE IF NOT EXISTS `lel`.`project` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(255) NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
 ENGINE = InnoDB;
@@ -29,8 +43,15 @@ CREATE  TABLE IF NOT EXISTS `lel`.`document` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   `data` MEDIUMTEXT NULL ,
+  `project` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
+  INDEX `fk_document_project` (`project` ASC) ,
+  CONSTRAINT `fk_document_project1`
+    FOREIGN KEY (`project` )
+    REFERENCES `lel`.`project` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -96,14 +117,17 @@ DROP TABLE IF EXISTS `lel`.`concept` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`concept` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `active` TINYINT(1) NOT NULL DEFAULT 1 ,
+  `active` BIT NOT NULL DEFAULT 1 ,
   `name` VARCHAR(255) NOT NULL ,
   `document` INT UNSIGNED NOT NULL ,
   `definition` INT UNSIGNED NOT NULL ,
+  `project` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_concept_document` (`document` ASC) ,
   INDEX `fk_concept_definition` (`definition` ASC) ,
   UNIQUE INDEX `concept_in_document` (`document` ASC, `name` ASC) ,
+  INDEX `fk_concept_project` (`project` ASC) ,
+  UNIQUE INDEX `concept_in_project` (`project` ASC, `name` ASC) ,
   CONSTRAINT `fk_concept_document`
     FOREIGN KEY (`document` )
     REFERENCES `lel`.`document` (`id` )
@@ -112,6 +136,11 @@ CREATE  TABLE IF NOT EXISTS `lel`.`concept` (
   CONSTRAINT `fk_concept_definition`
     FOREIGN KEY (`definition` )
     REFERENCES `lel`.`definition` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_concept_project1`
+    FOREIGN KEY (`project` )
+    REFERENCES `lel`.`project` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -158,6 +187,30 @@ CREATE  TABLE IF NOT EXISTS `lel`.`log` (
   CONSTRAINT `fk_log_concept1`
     FOREIGN KEY (`concept` )
     REFERENCES `lel`.`concept` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lel`.`project_users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lel`.`project_users` ;
+
+CREATE  TABLE IF NOT EXISTS `lel`.`project_users` (
+  `project` INT UNSIGNED NOT NULL ,
+  `user` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`project`, `user`) ,
+  INDEX `fk_project_users_user` (`user` ASC) ,
+  INDEX `fk_project_users_project` (`project` ASC) ,
+  CONSTRAINT `fk_project_has_user_project1`
+    FOREIGN KEY (`project` )
+    REFERENCES `lel`.`project` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_project_has_user_user1`
+    FOREIGN KEY (`user` )
+    REFERENCES `lel`.`user` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

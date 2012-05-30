@@ -62,6 +62,8 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
+    @ManyToMany(mappedBy = "userCollection")
+    private Collection<Project> projectCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Log> logCollection;
 
@@ -100,6 +102,15 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @XmlTransient
+    public Collection<Project> getProjectCollection() {
+        return projectCollection;
+    }
+
+    public void setProjectCollection(Collection<Project> projectCollection) {
+        this.projectCollection = projectCollection;
     }
 
     @XmlTransient

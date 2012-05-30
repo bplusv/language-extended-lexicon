@@ -54,6 +54,7 @@ header {
     height: 80px;
     margin-bottom: 25px;
     padding-top: 15px;
+    position: relative;
 }
 
 input {
@@ -276,25 +277,69 @@ textarea {
     width: 0px;
 }
 
-#signOut {
-    margin-left: 9px;
-    text-decoration: none;
+#projectTitle {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 500px;
 }
 
-#signOut:hover {
-    cursor: pointer;
-    text-decoration: underline;
+#userMenu {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    display: inline-block;
+    height: auto;
+    min-width: 150px;
+    position: absolute;
+    right: 0;
+    width: auto;
+    z-index: 99;
 }
 
-#signOutForm {
-    color: #333;
+#userMenu:hover .downArrow {
+    border-top-color: #555;
+}
+
+#userMenu:hover .popUp {
+    display: block;
+}
+
+#userMenu a {
+    display: block;
+    color: #555;
+    text-align: center;
+}
+
+#userMenu .downArrow {
+    border-top: 8px solid #ccc;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
     float: right;
-    font: 12px/20px Arial,sans-serif;
-    margin-top: 10px;
-    margin-right: 0px;
+    height: 0;
+    line-height: 20px;
+    margin: 6px 0;
+    width: 0;
 }
 
-#signOutUsername {
-    border-right: 1px solid #ccc;
-    padding-right: 10px;
+#userMenu .languages {
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+    list-style-type: none;
+    margin: 15px 0;
+    padding: 5px;
+}
+
+#userMenu .popUp {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    margin-top: 5px;
+    padding: 10px;
+    position: relative;
+}
+
+#userMenu .user {
+    float: right;
+    margin-right: 15px;
 }

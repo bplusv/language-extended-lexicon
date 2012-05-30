@@ -25,7 +25,6 @@
 package session;
 
 import entity.Concept;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -47,4 +46,5 @@ public class ConceptFacade extends AbstractFacade<Concept> {
     public ConceptFacade() {
         super(Concept.class);
     }
+
 }

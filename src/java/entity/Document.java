@@ -62,6 +62,9 @@ public class Document implements Serializable {
     private String data;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
     private Collection<Concept> conceptCollection;
+    @JoinColumn(name = "project", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Project project;
 
     public Document() {
     }
@@ -106,6 +109,14 @@ public class Document implements Serializable {
 
     public void setConceptCollection(Collection<Concept> conceptCollection) {
         this.conceptCollection = conceptCollection;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override

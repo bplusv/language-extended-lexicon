@@ -1,10 +1,16 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page pageEncoding="UTF-8"%>
 
 <style type="text/css">
-    
-</style>
+    #userMenu {
 
-<p>${pageContext.request.locale.language}</p>
+    }
+    #userMenu.languages {
+        
+    }
+    #userMenu.signOut {
+        
+    }
+</style>
 
 <!--
 <a id="infoBubble">
@@ -13,4 +19,3 @@
 </a>
 -->
 
-<div id="a" class="overflowEllipsis" style="background:#ccc; color:#fff; display:inline-block; width:150px; height: 70px;">Esta es una prueba del sistema LeL.</div>

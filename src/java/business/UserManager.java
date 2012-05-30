@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package session;
+package business;
 
 import entity.User;
 import java.math.BigInteger;
@@ -31,6 +31,7 @@ import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.UserFacade;
 
 /**
  *
