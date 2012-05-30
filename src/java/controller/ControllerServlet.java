@@ -24,10 +24,8 @@
 
 package controller;
 
-import entity.Concept;
-import entity.Document;
-import entity.Log;
-import entity.User;
+import business.*;
+import entity.*;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -48,12 +46,15 @@ urlPatterns = {"/classify",
                 "/chooseLanguage",
                 "/document",
                 "/explore",
-                "/load",
+                "/loadDocument",
+                "/loadProject",
                 "/test",
                 "/doCreateConcept",
                 "/doCreateDocument",
+                "/doCreateProject",
                 "/doDeleteConcept",
                 "/doLoadDocument",
+                "/doLoadProject",
                 "/doSignIn",
                 "/doSignOut",
                 "/doUpdateConcept",
@@ -66,6 +67,8 @@ public class ControllerServlet extends HttpServlet {
     @EJB private ClassificationFacade classificationFacade;
     @EJB private ConceptManager conceptManager;
     @EJB private UserFacade userFacade;
+    @EJB private ProjectFacade projectFacade;
+    @EJB private ProjectManager projectManager;
     @EJB private UserManager userManager;
     private HttpSession session;
 
@@ -76,6 +79,7 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("documentFacade", documentFacade);
         getServletContext().setAttribute("conceptManager", conceptManager);
         getServletContext().setAttribute("documentManager", documentManager);
+        getServletContext().setAttribute("projectFacade", projectFacade);
     }
 
     @Override
@@ -111,16 +115,23 @@ public class ControllerServlet extends HttpServlet {
         }else if (userPath.equals("/document")) {
 
             
-            if (session.getAttribute("document") == null) userPath = "/load";
+            if (session.getAttribute("document") == null) userPath = "/loadDocument";
+            if (session.getAttribute("project") == null) userPath = "/loadProject";
   
             
         } else if (userPath.equals("/explore")) {
             
+            if (session.getAttribute("project") == null) userPath = "/loadProject";
             
-        } else if (userPath.equals("/load")) {
+        } else if (userPath.equals("/loadDocument")) {
             
             
-        } else if (userPath.equals("/test")) {
+        } else if(userPath.equals("/loadProject")) {
+        
+            
+        
+        
+        }else if (userPath.equals("/test")) {
             
             String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);
@@ -166,8 +177,9 @@ public class ControllerServlet extends HttpServlet {
             
             
             String userParam = ((User) session.getAttribute("user")).getId().toString();
-            String nameParam = request.getParameter("name");
+            String projectParam = ((Project) session.getAttribute("project")).getId().toString();
             String documentParam = request.getParameter("document");
+            String nameParam = request.getParameter("name");
             String categoryParam = request.getParameter("category");
             String classificationParam = request.getParameter("classification");
             String notionParam = request.getParameter("notion");
@@ -176,8 +188,8 @@ public class ControllerServlet extends HttpServlet {
             String commentsParam = request.getParameter("comments");
             
             
-            Concept concept = conceptManager.createConcept(userParam, nameParam, documentParam,
-                    categoryParam, classificationParam, notionParam, actualIntentionParam,
+            Concept concept = conceptManager.createConcept(userParam, projectParam, documentParam,
+                    nameParam, categoryParam, classificationParam, notionParam, actualIntentionParam,
                     futureIntentionParam, commentsParam);
             String conceptParam = concept != null ? concept.getId().toString() : "";
             Log log = conceptManager.getLog(conceptParam);
@@ -190,9 +202,12 @@ public class ControllerServlet extends HttpServlet {
             
             
         } else if(userPath.equals("/doCreateDocument")) {
-            String name = request.getParameter("name");
             
-            Document document = documentManager.createDocument(name);
+            
+            String nameParam = request.getParameter("name");
+            String projectParam = ((Project) session.getAttribute("project")).getId().toString();
+            
+            Document document = documentManager.createDocument(nameParam, projectParam);
             
             if (document != null) {
                 session.setAttribute("document", document);
@@ -200,8 +215,29 @@ public class ControllerServlet extends HttpServlet {
                 userPath = "/document";
             } else {
                 request.setAttribute("createDocumentFail", true);
-                userPath = "/load";
+                userPath = "/loadDocument";
             }
+        
+            
+        } else if(userPath.equals("/doCreateProject")) {
+            
+            
+            String nameParam = request.getParameter("name");
+            String userParam = ((User) session.getAttribute("user")).getId().toString();
+            
+            
+            Project project = projectManager.createProject(nameParam, userParam);
+            
+            if (project != null) {
+                session.setAttribute("project", project);
+                session.setAttribute("document", null);
+                request.setAttribute("createProjectFail", false);
+                userPath = "/loadDocument";
+            } else {
+                request.setAttribute("createProjectFail", true);
+                userPath = "/loadProject";
+            }
+        
         
         } else if (userPath.equals("/doDeleteConcept")) {
             
@@ -220,10 +256,27 @@ public class ControllerServlet extends HttpServlet {
                 userPath = "/document";
             } else {
                 request.setAttribute("loadDocumentFail", true);
-                userPath = "/load";
+                userPath = "/loadDocument";
             }
 
             
+        } else if(userPath.equals("/doLoadProject")) {
+        
+            
+            String projectParam = request.getParameter("project");
+            Project project = projectManager.getProject(projectParam);
+            
+            if (project != null) {
+                session.setAttribute("project", project);
+                session.setAttribute("document", null);
+                userPath = "/explore";
+            } else {
+                request.setAttribute("loadProjectFail", true);
+                userPath = "/loadProject";
+            }
+        
+        
+        
         } else if (userPath.equals("/doSignIn")) {
             
             
@@ -234,7 +287,7 @@ public class ControllerServlet extends HttpServlet {
             
             if (user != null) {
                 session.setAttribute("user", user);
-                response.sendRedirect("explore");
+                userPath = "/loadProject";
             } else {
                 request.setAttribute("signInError", true);
                 try {

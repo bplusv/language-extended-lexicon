@@ -31,11 +31,27 @@
     </head>
     <body>
         <header>
-            <form id="signOutForm" action=<c:url value="/doSignOut" /> method="POST">
-                <span id="signOutUsername">${user.name}</span>
-                <a href="javascript:;" id="signOut" onclick="$('#signOutForm').submit();"><fmt:message key="sign out" /></a>
-            </form>
+            <div id="userMenu">
+                <div> 
+                    <div class="downArrow"></div>
+                    <span class="user">${user.name}</span>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="popUp">
+                    <a href="loadProject"><fmt:message key="load project" /></a>
+                    <ul class="languages">
+                        <li><a href="chooseLanguage?language=en">English</a></li>
+                        <li><a href="chooseLanguage?language=es">Español</a></li>
+                    </ul> 
+                    <form id="signOutForm" class="signOut" action="<c:url value="/doSignOut" />" method="POST">
+                        <a href="javascript:;" onclick="$('#signOutForm').submit();"><fmt:message key="sign out" /></a>
+                    </form>
+                </div>
+            </div>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
+            <div id="projectTitle">
+                <h3 class="overflowEllipsis"><fmt:message key="project" /> - ${project.name}</h3>
+            </div>
         </header>
         <nav class="tabs">
             <a href="<c:url value="/explore" />" class="${userPath == '/explore' ? 'selected' : ''}"><fmt:message key="explore" /></a>

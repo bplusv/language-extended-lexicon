@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package session;
+package business;
 
 import entity.*;
 import java.util.Collection;
@@ -31,6 +31,7 @@ import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.*;
 
 /**
  *
@@ -50,6 +51,7 @@ public class ConceptManager {
     @EJB private CategoryFacade categoryFacade;
     @EJB private ClassificationFacade classificationFacade;
     @EJB private UserFacade userFacade;
+    @EJB private ProjectFacade projectFacade;
     @EJB private EventFacade eventFacade;
     
     private Concept findConceptByDocAndName(Document document, String name) {
@@ -67,11 +69,12 @@ public class ConceptManager {
                 getSingleResult();
     }
 
-    private Collection<Concept> findConceptsByFilters(String classificationName, String categoryName, String conceptName) throws Exception {
+    private Collection<Concept> findConceptsByFilters(Project project, String classificationName, String categoryName, String conceptName) throws Exception {
         return em.createQuery("SELECT co FROM Concept co, Definition de, Classification cl, Category ca WHERE "
-                + "co.definition = de AND de.classification = cl AND de.category = ca AND "
-                + "cl.name LIKE :classificationName AND ca.name LIKE :categoryName AND LOWER(co.name) LIKE :conceptName "
-                + "ORDER BY LOWER(co.name) ASC;").
+                + "co.definition = de AND de.classification = cl AND de.category = ca AND co.project = :project AND "
+                + "cl.name LIKE :classificationName AND ca.name LIKE :categoryName AND "
+                + "LOWER(co.name) LIKE :conceptName ORDER BY LOWER(co.name) ASC;").
+                setParameter("project", project).
                 setParameter("classificationName", classificationName).
                 setParameter("categoryName", categoryName).
                 setParameter("conceptName", conceptName).
@@ -103,11 +106,12 @@ public class ConceptManager {
         return definition;
     }
 
-    private Concept addConcept(Definition definition, Document document, String name) throws Exception {
+    private Concept addConcept(Project project, Document document, String name, Definition definition) throws Exception {
         Concept concept = new Concept();
-        concept.setDefinition(definition);
+        concept.setProject(project);
         concept.setDocument(document);
         concept.setName(name);
+        concept.setDefinition(definition);
         em.persist(concept);
         em.flush();
         return concept;
@@ -161,17 +165,19 @@ public class ConceptManager {
             return null;
         }
     }
-        
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Collection<Concept> getConceptsByFilters(String classificationParam, String categoryParam, String conceptParam) {
+    public Collection<Concept> getConceptsByFilters(String projectParam, String classificationParam,
+                                                    String categoryParam, String conceptParam) {
         try {
+            Project project = projectFacade.find(Integer.parseInt(projectParam));
             String classificationName = "%";
             if (classificationParam != null) {
                 try {
                     Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
                     if (classification != null) classificationName = classification.getName();
                 } catch (Exception ex) {}
-            }           
+            }         
             String categoryName = "%";
             if (categoryParam != null) {
                 try {
@@ -183,7 +189,7 @@ public class ConceptManager {
             if (conceptParam != null) {
                 conceptName = "%"+conceptParam.toLowerCase()+"%";
             }
-            Collection<Concept> concepts = this.findConceptsByFilters(classificationName, categoryName, conceptName);
+            Collection<Concept> concepts = this.findConceptsByFilters(project, classificationName, categoryName, conceptName);
             return concepts;
         } catch (Exception ex) {
             context.setRollbackOnly();
@@ -223,13 +229,14 @@ public class ConceptManager {
     }
         
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Concept createConcept(String userParam, String nameParam, String documentParam, String categoryParam, 
+    public Concept createConcept(String userParam, String projectParam, String documentParam, String nameParam, String categoryParam, 
             String classificationParam, String notionParam, String actualIntentionParam, 
             String futureIntentionParam, String commentsParam) {
         try {
             User user = userFacade.find(Integer.parseInt(userParam));
-            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
+            Project project = projectFacade.find(Integer.parseInt(projectParam));
             Document document = documentFacade.find(Integer.parseInt(documentParam));
+            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
             Category category = categoryFacade.find(Integer.parseInt(categoryParam));
             Classification classification = classificationFacade.find(Integer.parseInt(classificationParam));
             String notion = notionParam;
@@ -238,7 +245,7 @@ public class ConceptManager {
             String comments = commentsParam;
             Definition definition = addDefinition(category, classification, notion, 
                     actualIntention, futureIntention, comments);
-            Concept concept = addConcept(definition, document, name);
+            Concept concept = addConcept(project, document, name, definition);
             logEvent(user, concept, eventFacade.find(1));
             return concept;
         } catch (Exception ex) {

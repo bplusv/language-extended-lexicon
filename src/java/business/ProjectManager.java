@@ -21,16 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package business;
 
-package session;
-
-import entity.Concept;
-import entity.Document;
+import entity.Project;
+import entity.User;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Vector;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.ProjectFacade;
+import session.UserFacade;
 
 /**
  *
@@ -38,26 +41,21 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class DocumentManager {
+public class ProjectManager {
 
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
     @Resource
     private SessionContext context;
     
-    @EJB private DocumentFacade documentFacade;
-    @EJB private ConceptManager conceptManager;
+    @EJB private ProjectFacade projectFacade;
+    @EJB private UserFacade userFacade;
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String getTaggedDataByDoc(String documentParam) {
+    public Project getProject(String projectParam) {
         try {
-            Document document = documentFacade.find(Integer.parseInt(documentParam));
-            Collection<Concept> concepts = document.getConceptCollection();
-            String taggedData = document.getData();
-            for (Concept concept : concepts) {
-                taggedData = taggedData.replaceAll(concept.getName(), "<a href=\"classify?co=" + concept.getId() + "\" contenteditable=\"false\">" + concept.getName() + "</a>");
-            }
-            return taggedData;
+            Project project = projectFacade.find(Integer.parseInt(projectParam));
+            return project;
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
@@ -65,40 +63,18 @@ public class DocumentManager {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document getDocument(String documentParam) {
-        try {
-            return documentFacade.find(Integer.parseInt(documentParam));
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            return null;
-        }
-    }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document createDocument(String nameParam) {
+    public Project createProject(String nameParam, String userParam) {
         try {
             String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
-            Document document = new Document();
-            document.setName(name);
-            em.persist(document);
+            User user = userFacade.find(Integer.parseInt(userParam));
+            Project project = new Project();
+            Collection<User> users = new ArrayList<User>();
+            users.add(user);
+            project.setName(name);
+            project.setUserCollection(users);
+            em.persist(project);
             em.flush();
-            return document;
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            return null;
-        }
-    }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document updateDocument(String documentParam, String dataParam) {
-        try {
-            Document document = documentFacade.find(Integer.parseInt(documentParam));
-            String data = dataParam;
-            
-            document.setData(data);
-            em.merge(document);
-            em.flush();
-            return document;
+            return project;
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

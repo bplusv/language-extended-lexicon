@@ -24,9 +24,7 @@
 
 package session;
 
-import entity.Concept;
 import entity.User;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,4 +46,5 @@ public class UserFacade extends AbstractFacade<User> {
     public UserFacade() {
         super(User.class);
     }
+
 }

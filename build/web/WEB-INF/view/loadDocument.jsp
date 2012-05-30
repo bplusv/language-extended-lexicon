@@ -9,7 +9,7 @@
             <form  id="loadForm"  action="<c:url value="/doLoadDocument" />" method="post">
                 <h3 class="title"><fmt:message key="load document" /></h3>
                     <select id="document" name="document" size="20">
-                        <c:forEach var="document" items="${documentFacade.findAll()}">
+                        <c:forEach var="document" items="${project.getDocumentCollection()}">
                             <option value="${document.id}" ${sessionScope.document.id == document.id ? 'selected="selected"' : ''}>${document.name}</option>
                         </c:forEach>
                     </select>
@@ -24,6 +24,9 @@
                 <input type="submit" id="save" name="save" value="<fmt:message key="create" />" class="button" />
             </form>
             <c:choose>
+                <c:when test="${requestScope.createProjectFail == false}">
+                    <h3 class="notification success"><fmt:message key="create project success" /></h3>
+                </c:when>
                 <c:when test="${requestScope.loadDocumentFail == true}">
                     <h3 class="notification fail"><fmt:message key="load document fail" /></h3>
                 </c:when>

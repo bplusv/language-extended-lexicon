@@ -61,6 +61,9 @@ public class Concept implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
+    @JoinColumn(name = "project", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Project project;
     @JoinColumn(name = "definition", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Definition definition;
@@ -105,6 +108,14 @@ public class Concept implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Definition getDefinition() {

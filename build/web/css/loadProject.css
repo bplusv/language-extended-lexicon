@@ -1,0 +1,76 @@
+/* 
+    Document   : loadProject
+    Created on : May 29, 2012, 9:20:57 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Stylesheet for loadProject.jsp.
+*/
+
+@charset "UTF-8";
+
+.loadField {
+    margin: 0px auto;
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#project {
+    border: none;
+    height: auto;
+    margin: 0px 30px;
+    overflow-x: visible;
+    overflow-y: auto;
+    width: 314px;
+}
+
+#project option {
+    display: block;
+    overflow: visible;
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#project option:nth-of-type(odd) {
+    background: #f9f9f9;
+}
+
+#load {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+
+#loadForm {
+    border-right: 1px solid #ccc;
+    float: left;
+    height: 500px;
+    position: relative;
+    width: 373px;
+}
+
+#name {
+    display: inline-block;
+    width: 150px;
+}
+
+#nameLabel {
+
+}
+
+#newForm {
+    float: right;
+    height: 500px;
+    position: relative;
+    width: 374px;
+}
+
+#save {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
+}
