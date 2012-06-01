@@ -42,7 +42,7 @@
                     </div>
                     <div>
                         <div id="definitionTopRight">
-                            <c:if test="${log != null}">
+                            <c:if test="${!empty log}">
                                 <label><fmt:message key="last edited" />:</label>
                                 <h3 class="info overflowEllipsis">${log.user.name}</h3>
                                 <h3 class="info"><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></h3>

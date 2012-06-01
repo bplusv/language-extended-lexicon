@@ -122,6 +122,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/explore")) {
             
             if (session.getAttribute("project") == null) userPath = "/loadProject";
+
             
         } else if (userPath.equals("/loadDocument")) {
             

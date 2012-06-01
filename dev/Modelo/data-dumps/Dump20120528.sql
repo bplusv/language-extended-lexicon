@@ -23,7 +23,7 @@ USE `lel`;
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'object'),(2,'state'),(3,'subject'),(4,'verb');
+INSERT INTO `category` VALUES (1,'general'),(2,'requirement'),(3,'system');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +60,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `classification` WRITE;
 /*!40000 ALTER TABLE `classification` DISABLE KEYS */;
-INSERT INTO `classification` VALUES (1,'general'),(2,'requirement'),(3,'system');
+INSERT INTO `classification` VALUES (1,'object'),(2,'state'),(3,'subject'),(4,'verb');
 /*!40000 ALTER TABLE `classification` ENABLE KEYS */;
 UNLOCK TABLES;
 
