@@ -36,24 +36,25 @@ function getSelectedText() {
 $(document).ready(function() {
    $('.overflowEllipsis').wrapInner('<span class="overflowText" />');
    $('.notification').delay(3000).fadeOut();
+   
    $('body').on('mouseenter', '.overflowEllipsis', function(e) {
        $this = $(this);
+       $this.css('text-overflow', 'clip');
        $that = $this.find('span.overflowText');
        offset = $this.outerWidth() - $that.outerWidth();
        
        if (offset < 0) {
-        $this.css('text-overflow', 'clip');
         $that.animate({'margin-left': offset}, {duration: offset * -10});
        } 
    });
    $('body').on('mouseleave', '.overflowEllipsis', function(e) {
        $this = $(this);
+       $this.css('text-overflow', 'ellipsis');
        $that = $this.find('span.overflowText');
        offset = $this.outerWidth() - $that.outerWidth();
        
        if (offset < 0) {
         $that.clearQueue().stop();
-        $this.css('text-overflow', 'ellipsis');
         $that.css('margin-left', 0);
        }
    });

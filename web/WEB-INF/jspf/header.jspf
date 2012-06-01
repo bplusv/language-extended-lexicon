@@ -32,25 +32,28 @@
     <body>
         <header>
             <div id="userMenu">
-                <div> 
-                    <div class="downArrow"></div>
-                    <span class="user">${user.name}</span>
-                    <div style="clear:both"></div>
-                </div>
-                <div class="popUp">
-                    <a href="loadProject"><fmt:message key="load project" /></a>
-                    <ul class="languages">
-                        <li><a href="chooseLanguage?language=en">English</a></li>
-                        <li><a href="chooseLanguage?language=es">Español</a></li>
-                    </ul> 
-                    <form id="signOutForm" class="signOut" action="<c:url value="/doSignOut" />" method="POST">
-                        <a href="javascript:;" onclick="$('#signOutForm').submit();"><fmt:message key="sign out" /></a>
-                    </form>
-                </div>
+                <form id="signOutForm" class="signOut" action="<c:url value="/doSignOut" />" method="POST"></form>
+                <div class="downArrow"></div>
+                <span class="user">${user.name}</span>
+                <div style="clear:both"></div>
+                <ul class="popUp">
+                    <li><a href="loadProject"><fmt:message key="load project" /></a></li>
+                    <li>
+                        <span class="lang"><fmt:message key="language" /></span>
+                        <div class="leftArrow"></div>
+                        <ul class="langPopUp">
+                            <li><a href="chooseLanguage?language=en">English</a></li>
+                            <li><a href="chooseLanguage?language=es">Español</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="javascript:;" onclick="$('#signOutForm').submit();"><fmt:message key="sign out" /></a></li>
+                </ul>
             </div>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
             <div id="projectTitle">
-                <h3 class="overflowEllipsis"><fmt:message key="project" /> - ${project.name}</h3>
+                <c:if test="${!empty project}" >
+                    <h3 class="overflowEllipsis"><fmt:message key="project" /> - ${project.name}</h3>
+                </c:if>
             </div>
         </header>
         <nav class="tabs">

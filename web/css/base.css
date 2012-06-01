@@ -176,9 +176,15 @@ textarea {
 
 .overflowEllipsis {
     overflow: hidden;
+    position: relative;
     text-overflow: ellipsis;
+}
+
+.overflowText {
     text-wrap: none;
+    position: relative;
     white-space: nowrap;
+    width: auto;
 }
 
 .tabs > a, .tab {
@@ -285,11 +291,9 @@ textarea {
 }
 
 #userMenu {
-    border: 1px solid #fff;
-    border-radius: 5px;
+    cursor: pointer;
     display: inline-block;
     height: auto;
-    min-width: 150px;
     position: absolute;
     right: 0;
     width: auto;
@@ -304,10 +308,41 @@ textarea {
     display: block;
 }
 
-#userMenu a {
-    display: block;
+#userMenu:hover .user {
     color: #555;
-    text-align: center;
+}
+
+#userMenu a {
+    border-radius: 5px;
+    color: #555;
+    display: block;
+    font: 12px Arial,sans-serif;
+    text-decoration: none;
+    padding: 5px 20px;
+}
+
+#userMenu a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+#userMenu a:active {
+    background-color: #CA322D;
+}
+
+#userMenu li {
+    border-radius: 5px;
+    display: block;
+    position: relative;
+}
+
+#userMenu li:hover {
+    background: #FF7056;
+    color: #fff;
+}
+
+#userMenu li:hover span {
+    color: #fff;
 }
 
 #userMenu .downArrow {
@@ -315,18 +350,44 @@ textarea {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     float: right;
-    height: 0;
-    line-height: 20px;
     margin: 6px 0;
     width: 0;
 }
 
-#userMenu .languages {
-    border-top: 1px solid #efefef;
-    border-bottom: 1px solid #efefef;
-    list-style-type: none;
-    margin: 15px 0;
-    padding: 5px;
+#userMenu .lang {
+    display: block;
+}
+
+#userMenu .lang:hover ~ .langPopUp {
+    display: block;
+}
+
+#userMenu .leftArrow {
+    border-right: 4px solid #ddd;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    left: 8px;
+    top: 10px;
+    position: absolute;
+}
+
+#userMenu .leftArrow:hover ~ .langPopUp {
+    display: block;
+}
+
+#userMenu .langPopUp {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    left: -76px;
+    position: absolute;
+    top: -4px;
+    width: 80px
+}
+
+#userMenu .langPopUp:hover {
+    display: block;
 }
 
 #userMenu .popUp {
@@ -334,12 +395,28 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     display: none;
-    margin-top: 5px;
-    padding: 10px;
+    list-style-type: none;
+    margin-top: 2px;
+    overflow: visible;
+    padding: 0;
     position: relative;
+    width: auto;
+}
+
+#userMenu .popUp span {
+    color: #555;
+    display: block;
+    font: 12px Arial,sans-serif;
+    padding: 5px 20px;
+}
+
+#userMenu .popUp span:hover {
+    color: #fff;
 }
 
 #userMenu .user {
+    color: #777;
     float: right;
-    margin-right: 15px;
+    margin-right: 10px;
+    line-height: 20px;
 }
