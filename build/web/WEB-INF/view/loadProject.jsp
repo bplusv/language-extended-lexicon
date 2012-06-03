@@ -8,13 +8,14 @@
 
             <form  id="loadForm"  action="<c:url value="/doLoadProject" />" method="post">
                 <h3 class="title"><fmt:message key="load project" /></h3>
-                    <select id="project" name="project" size="20">
+                    <select id="project" name="project" size="11">
                         <c:forEach var="project" items="${projectFacade.findAll()}">
                             <option value="${project.id}" ${sessionScope.project.id == project.id ? 'selected="selected"' : ''}>${project.name}</option>
                         </c:forEach>
                     </select>
                 <input id="load" type="submit" name="load" value="<fmt:message key="load" />" class="button" />
             </form>
+            <div class="spacer"></div>
             <form id="newForm" action="<c:url value="/doCreateProject" />" method="post">
                 <h3 class="title"><fmt:message key="new project" /></h3>
                 <div class="loadField">

@@ -7,7 +7,7 @@
 
 @charset "UTF-8";
 
-html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { margin: 0; padding: 0; }
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { box-sizing: content-box; margin: 0; padding: 0; }
 
 *:focus {
     outline: none;
@@ -176,15 +176,20 @@ textarea {
 
 .overflowEllipsis {
     overflow: hidden;
-    position: relative;
     text-overflow: ellipsis;
 }
 
 .overflowText {
     text-wrap: none;
-    position: relative;
     white-space: nowrap;
     width: auto;
+}
+
+.spacer {
+    background-color: #ccc;
+    display: block;
+    height: 1px;
+    margin: 25px 0;
 }
 
 .tabs > a, .tab {

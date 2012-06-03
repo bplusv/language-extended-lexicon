@@ -28,9 +28,9 @@ function getSelectedText() {
     else {
         var selection = document.selection && document.selection.createRange();
         if(selection.text) { return selection.text; }
-        return false;
+        return '';
     }
-    return false;
+    return '';
 }
 
 $(document).ready(function() {

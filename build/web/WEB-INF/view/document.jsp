@@ -10,7 +10,7 @@
                 <input type="hidden" name="document" value="${document.id}" />
                 <h2 id="title" class="overflowEllipsis"><fmt:message key="document" />:&nbsp;<span style="color: #222;">${document.name}</span></h2>
                 <textarea style="display:none;" id="data" name="data">${document.data}</textarea>
-                <pre contenteditable="true" id="documentContainer">${documentManager.getTaggedDataByDoc(document.id)}</pre>
+                <div contenteditable="true" id="documentContainer">${documentManager.getTaggedDataByDoc(document.id)}</div>
                 <a href="<c:url value="/loadDocument" />" id="load" class="button"><fmt:message key="load" /></a>
                 <input id="save" type="submit" name="save" value="<fmt:message key="save" />" class="button" />
             </form>

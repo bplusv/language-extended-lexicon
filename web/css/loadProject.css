@@ -19,11 +19,12 @@
 
 #project {
     border: none;
+    display: block;
     height: auto;
-    margin: 0px 30px;
+    margin: 0 auto;
     overflow-x: visible;
     overflow-y: auto;
-    width: 314px;
+    width: 600px;
 }
 
 #project option {
@@ -41,21 +42,18 @@
 #load {
     position: absolute;
     bottom: 0px;
-    left: 0px;
+    right: 0px;
 }
 
 
 #loadForm {
-    border-right: 1px solid #ccc;
-    float: left;
-    height: 500px;
+    height: 325px;
     position: relative;
-    width: 373px;
 }
 
 #name {
     display: inline-block;
-    width: 150px;
+    width: 200px;
 }
 
 #nameLabel {
@@ -63,10 +61,8 @@
 }
 
 #newForm {
-    float: right;
-    height: 500px;
+    height: 150px;
     position: relative;
-    width: 374px;
 }
 
 #save {

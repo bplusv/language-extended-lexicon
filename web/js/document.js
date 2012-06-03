@@ -93,10 +93,22 @@ $(document).ready(function(){
 
 function updateDocumentData() {
     containerData = docContainer.html();
-    containerData = containerData.replace(/<div>/i,'\n');
-    containerData = containerData.replace(/<\/div>/ig,'\n');
+    
+    // internet explorer
+    containerData = containerData.replace(/<p>/i, '');
+    containerData = containerData.replace(/<p>&nbsp;<\/p>/ig,'\n');
+    containerData = containerData.replace(/<p>/ig,'\n');
+    
+    // chrome
+    containerData = containerData.replace(/<div><br><\/div>/ig,'\n');
+    containerData = containerData.replace(/<div>/ig,'\n');
+    
+    // firefox
+    containerData = containerData.replace(/<br>/ig, '\n');
+    
     containerData = containerData.replace(/<[^>]+>/ig,'');
+    containerData = containerData.replace(/&nbsp;/ig,' ');
     dataInput.val(containerData);
-    console.log(dataInput.val());
+
     return true;
 }
