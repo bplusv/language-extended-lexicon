@@ -10,9 +10,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%-- Set language on user's choice --%>
-<c:if test="${!empty language}">
-    <fmt:setLocale value="${language}" scope="session" />
-</c:if>
+<c:choose>
+    <%-- Cookie just saved at response to client --%>
+    <c:when test="${!empty language}">
+        <fmt:setLocale value="${language}" scope="session" />
+    </c:when>
+    <%-- Cookie read from request of client --%>
+    <c:when test="${!empty cookie.language}">
+        <fmt:setLocale value="${cookie.language.value}" scope="session" />
+    </c:when>
+</c:choose>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,8 +49,31 @@
                         <span class="lang"><fmt:message key="language" /></span>
                         <div class="leftArrow"></div>
                         <ul class="langPopUp">
-                            <li><a href="chooseLanguage?language=en">English</a></li>
-                            <li><a href="chooseLanguage?language=es">Español</a></li>
+                            <%-- When user hasn't explicitly set language,
+                                    render toggle according to browser's preferred locale --%>
+                            <c:set var="lang" value="${empty sessionScope['javax.servlet.jsp.jstl.fmt.locale.session'] ? pageContext.request.locale.language : sessionScope['javax.servlet.jsp.jstl.fmt.locale.session']}" />
+                            
+                            <%-- language selection widget --%>
+                            <c:choose>
+                                <c:when test="${lang eq 'en'}">
+                                    <li>
+                                        <span>English</span>
+                                        <div class="circle"></div>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="/chooseLanguage"><c:param name="language" value="es"/></c:url>">Español</a>
+                                    </li>
+                                </c:when>
+                                <c:when test="${lang eq 'es'}">
+                                    <li>
+                                        <a href="<c:url value="/chooseLanguage"><c:param name="language" value="en"/></c:url>">English</a>
+                                    </li>
+                                    <li>
+                                        <span>Español</span>
+                                        <div class="circle"></div>
+                                    </li>
+                                </c:when>
+                            </c:choose>
                         </ul>
                     </li>
                     <li><a href="javascript:;" onclick="$('#signOutForm').submit();"><fmt:message key="sign out" /></a></li>

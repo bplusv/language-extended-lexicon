@@ -5,10 +5,14 @@
 --%>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<% if (session.getAttribute("user") != null) response.sendRedirect("explore"); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% if (session.getAttribute("user") != null) response.sendRedirect("loadProject"); %>
+<c:if test="${!empty cookie.language}">
+    <fmt:setLocale value="${cookie.language.value}" scope="session" />
+</c:if>
+
 <!DOCTYPE html>
 <html>
     <head>
