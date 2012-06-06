@@ -19,3 +19,9 @@
 </a>
 -->
 
+<a href="#1">
+    This is
+    <a href="#2">a</a>
+    test.
+</a>
+

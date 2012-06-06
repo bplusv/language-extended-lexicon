@@ -30,6 +30,7 @@ import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -109,7 +110,12 @@ public class ControllerServlet extends HttpServlet {
             
             request.setAttribute("language", language);
             
-            userPath = "/explore";
+            Cookie langCookie = new Cookie("language", language);
+            langCookie.setMaxAge(60*60*24*365);
+            response.addCookie(langCookie);
+            
+            
+            userPath = "/loadProject";
             
             
         }else if (userPath.equals("/document")) {
