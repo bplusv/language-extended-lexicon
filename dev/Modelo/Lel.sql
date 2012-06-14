@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS `lel`.`project` ;
 CREATE  TABLE IF NOT EXISTS `lel`.`project` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NULL ,
+  `description` VARCHAR(255) NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
 ENGINE = InnoDB;
@@ -93,7 +94,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`definition` (
   `actual_intention` TEXT NULL ,
   `future_intention` TEXT NULL ,
   `category` INT UNSIGNED NOT NULL ,
-  `classification` INT UNSIGNED NOT NULL ,
+  `classification` INT UNSIGNED NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_definition_category` (`category` ASC) ,
   INDEX `fk_definition_classification` (`classification` ASC) ,
@@ -111,11 +112,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `lel`.`concept`
+-- Table `lel`.`symbol`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lel`.`concept` ;
+DROP TABLE IF EXISTS `lel`.`symbol` ;
 
-CREATE  TABLE IF NOT EXISTS `lel`.`concept` (
+CREATE  TABLE IF NOT EXISTS `lel`.`symbol` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `active` BIT NOT NULL DEFAULT 1 ,
   `name` VARCHAR(255) NOT NULL ,
@@ -169,11 +170,11 @@ CREATE  TABLE IF NOT EXISTS `lel`.`log` (
   `date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
   `user` INT UNSIGNED NOT NULL ,
   `event` INT UNSIGNED NOT NULL ,
-  `concept` INT UNSIGNED NOT NULL ,
+  `symbol` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_log_user` (`user` ASC) ,
   INDEX `fk_log_event` (`event` ASC) ,
-  INDEX `fk_log_concept` (`concept` ASC) ,
+  INDEX `fk_log_symbol` (`symbol` ASC) ,
   CONSTRAINT `fk_log_user`
     FOREIGN KEY (`user` )
     REFERENCES `lel`.`user` (`id` )
@@ -184,9 +185,9 @@ CREATE  TABLE IF NOT EXISTS `lel`.`log` (
     REFERENCES `lel`.`event` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_log_concept1`
-    FOREIGN KEY (`concept` )
-    REFERENCES `lel`.`concept` (`id` )
+  CONSTRAINT `fk_log_symbol`
+    FOREIGN KEY (`symbol` )
+    REFERENCES `lel`.`symbol` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

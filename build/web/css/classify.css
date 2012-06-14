@@ -48,6 +48,7 @@ select {
 
 #classifyForm {
     height: auto;
+    min-height: 450px;
     padding-bottom: 25px;
     position: relative;
     width: 748px;
@@ -87,7 +88,7 @@ select {
 #definitionTopLeft > div > div {
     display: inline-block;
     float: left;
-    height: 24;
+    height: 24px;
     margin-bottom: 10px;
     width: 50%;
 }

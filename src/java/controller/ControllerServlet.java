@@ -27,6 +27,8 @@ package controller;
 import business.*;
 import entity.*;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,23 +52,23 @@ urlPatterns = {"/classify",
                 "/loadDocument",
                 "/loadProject",
                 "/test",
-                "/doCreateConcept",
+                "/doCreateSymbol",
                 "/doCreateDocument",
                 "/doCreateProject",
-                "/doDeleteConcept",
+                "/doDeleteSymbol",
                 "/doLoadDocument",
                 "/doLoadProject",
                 "/doSignIn",
                 "/doSignOut",
-                "/doUpdateConcept",
+                "/doUpdateSymbol",
                 "/doUpdateDocument"})
 public class ControllerServlet extends HttpServlet {
     @EJB private DocumentManager documentManager;
     @EJB private DocumentFacade documentFacade;
-    @EJB private ConceptFacade conceptFacade;
+    @EJB private SymbolFacade symbolFacade;
     @EJB private CategoryFacade categoryFacade;
     @EJB private ClassificationFacade classificationFacade;
-    @EJB private ConceptManager conceptManager;
+    @EJB private SymbolManager symbolManager;
     @EJB private UserFacade userFacade;
     @EJB private ProjectFacade projectFacade;
     @EJB private ProjectManager projectManager;
@@ -75,10 +77,14 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        getServletContext().setAttribute("classifications", classificationFacade.findAll());
-        getServletContext().setAttribute("categories", categoryFacade.findAll());
+        List<Category> categories = categoryFacade.findAll();
+        Collections.reverse(categories);
+        getServletContext().setAttribute("categories", categories);
+        List<Classification> classifications = classificationFacade.findAll();
+        Collections.reverse(classifications);
+        getServletContext().setAttribute("classifications", classifications);
         getServletContext().setAttribute("documentFacade", documentFacade);
-        getServletContext().setAttribute("conceptManager", conceptManager);
+        getServletContext().setAttribute("symbolManager", symbolManager);
         getServletContext().setAttribute("documentManager", documentManager);
         getServletContext().setAttribute("projectFacade", projectFacade);
     }
@@ -90,18 +96,17 @@ public class ControllerServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         session = request.getSession(false);
         String userPath = request.getServletPath();
-        //String lang = request.getLocale().getLanguage();
         
         if (userPath.equals("/classify")) {
             
             
-            String conceptParam = request.getParameter("co");
-            Concept concept = conceptManager.getConcept(conceptParam);
-            Log log = conceptManager.getLog(conceptParam);
+            String symbolParam = request.getParameter("co");
+            Symbol symbol = symbolManager.getSymbol(symbolParam);
+            Log log = symbolManager.getLog(symbolParam);
             
-            request.setAttribute("concept", concept);
+            request.setAttribute("symbol", symbol);
             request.setAttribute("log", log);
-            request.setAttribute("submitAction", "/doUpdateConcept");
+            request.setAttribute("submitAction", "/doUpdateSymbol");
             
             
         } else if(userPath.equals("/chooseLanguage")) {
@@ -165,22 +170,22 @@ public class ControllerServlet extends HttpServlet {
             String documentParam = request.getParameter("document");
             String nameParam = request.getParameter("name");
             
-            Concept concept = conceptManager.getConceptByDocAndName(documentParam, nameParam);
+            Symbol symbol = symbolManager.getSymbolByDocAndName(documentParam, nameParam);
             
-            if (concept != null) {
-                String conceptParam = concept.getId().toString();
-                Log log = conceptManager.getLog(conceptParam);
-                request.setAttribute("concept", concept);
+            if (symbol != null) {
+                String symbolParam = symbol.getId().toString();
+                Log log = symbolManager.getLog(symbolParam);
+                request.setAttribute("symbol", symbol);
                 request.setAttribute("log", log);
-                request.setAttribute("submitAction", "/doUpdateConcept");   
+                request.setAttribute("submitAction", "/doUpdateSymbol");   
             } else {
-                concept = conceptManager.createPossibleConcept(nameParam, documentParam);
-                request.setAttribute("concept", concept);
-                request.setAttribute("submitAction", "/doCreateConcept");
+                symbol = symbolManager.createPossibleSymbol(nameParam, documentParam);
+                request.setAttribute("symbol", symbol);
+                request.setAttribute("submitAction", "/doCreateSymbol");
             }
             
             
-        } else if (userPath.equals("/doCreateConcept")) {
+        } else if (userPath.equals("/doCreateSymbol")) {
             
             
             String userParam = ((User) session.getAttribute("user")).getId().toString();
@@ -195,16 +200,16 @@ public class ControllerServlet extends HttpServlet {
             String commentsParam = request.getParameter("comments");
             
             
-            Concept concept = conceptManager.createConcept(userParam, projectParam, documentParam,
+            Symbol symbol = symbolManager.createSymbol(userParam, projectParam, documentParam,
                     nameParam, categoryParam, classificationParam, notionParam, actualIntentionParam,
                     futureIntentionParam, commentsParam);
-            String conceptParam = concept != null ? concept.getId().toString() : "";
-            Log log = conceptManager.getLog(conceptParam);
+            String symbolParam = symbol != null ? symbol.getId().toString() : "";
+            Log log = symbolManager.getLog(symbolParam);
             
-            request.setAttribute("createConceptFail", concept != null ? false : true);
-            request.setAttribute("concept", concept);
+            request.setAttribute("createSymbolFail", symbol != null ? false : true);
+            request.setAttribute("symbol", symbol);
             request.setAttribute("log", log);
-            request.setAttribute("submitAction", "/doUpdateConcept");
+            request.setAttribute("submitAction", "/doUpdateSymbol");
             userPath = "/classify";
             
             
@@ -246,7 +251,7 @@ public class ControllerServlet extends HttpServlet {
             }
         
         
-        } else if (userPath.equals("/doDeleteConcept")) {
+        } else if (userPath.equals("/doDeleteSymbol")) {
             
             
             userPath = "/explore";
@@ -316,11 +321,11 @@ public class ControllerServlet extends HttpServlet {
             return;
             
             
-        } else if (userPath.equals("/doUpdateConcept")) {
+        } else if (userPath.equals("/doUpdateSymbol")) {
             
             
             String userParam = ((User) session.getAttribute("user")).getId().toString();
-            String conceptParam = request.getParameter("concept");
+            String symbolParam = request.getParameter("symbol");
             String categoryParam = request.getParameter("category");
             String classificationParam = request.getParameter("classification");
             String notionParam = request.getParameter("notion");
@@ -328,14 +333,14 @@ public class ControllerServlet extends HttpServlet {
             String futureIntentionParam = request.getParameter("futureIntention");
             String commentsParam = request.getParameter("comments");
             
-            Concept concept = conceptManager.updateConcept(userParam, conceptParam, categoryParam,
+            Symbol symbol = symbolManager.updateSymbol(userParam, symbolParam, categoryParam,
                     classificationParam, notionParam, actualIntentionParam,
                     futureIntentionParam, commentsParam);
-            Log log = conceptManager.getLog(conceptParam);
+            Log log = symbolManager.getLog(symbolParam);
             
-            request.setAttribute("concept", concept != null ? concept : conceptManager.getConcept(conceptParam));
+            request.setAttribute("symbol", symbol != null ? symbol : symbolManager.getSymbol(symbolParam));
             request.setAttribute("log", log);
-            request.setAttribute("updateConceptFail", concept != null ? false : true);
+            request.setAttribute("updateSymbolFail", symbol != null ? false : true);
             userPath = "/classify";
 
             

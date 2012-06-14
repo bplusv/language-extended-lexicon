@@ -48,7 +48,7 @@
 #loadForm {
     border-right: 1px solid #ccc;
     float: left;
-    height: 500px;
+    height: 450px;
     position: relative;
     width: 373px;
 }
@@ -64,7 +64,7 @@
 
 #newForm {
     float: right;
-    height: 500px;
+    height: 450px;
     position: relative;
     width: 374px;
 }

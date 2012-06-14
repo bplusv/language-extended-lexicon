@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p"),
     @NamedQuery(name = "Project.findById", query = "SELECT p FROM Project p WHERE p.id = :id"),
-    @NamedQuery(name = "Project.findByName", query = "SELECT p FROM Project p WHERE p.name = :name")})
+    @NamedQuery(name = "Project.findByName", query = "SELECT p FROM Project p WHERE p.name = :name"),
+    @NamedQuery(name = "Project.findByDescription", query = "SELECT p FROM Project p WHERE p.description = :description")})
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,15 +55,18 @@ public class Project implements Serializable {
     @Size(max = 255)
     @Column(name = "name")
     private String name;
+    @Size(max = 255)
+    @Column(name = "description")
+    private String description;
     @JoinTable(name = "project_users", joinColumns = {
         @JoinColumn(name = "project", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user", referencedColumnName = "id")})
     @ManyToMany
     private Collection<User> userCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-    private Collection<Concept> conceptCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Collection<Document> documentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private Collection<Symbol> symbolCollection;
 
     public Project() {
     }
@@ -87,6 +91,14 @@ public class Project implements Serializable {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @XmlTransient
     public Collection<User> getUserCollection() {
         return userCollection;
@@ -97,21 +109,21 @@ public class Project implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Concept> getConceptCollection() {
-        return conceptCollection;
-    }
-
-    public void setConceptCollection(Collection<Concept> conceptCollection) {
-        this.conceptCollection = conceptCollection;
-    }
-
-    @XmlTransient
     public Collection<Document> getDocumentCollection() {
         return documentCollection;
     }
 
     public void setDocumentCollection(Collection<Document> documentCollection) {
         this.documentCollection = documentCollection;
+    }
+
+    @XmlTransient
+    public Collection<Symbol> getSymbolCollection() {
+        return symbolCollection;
+    }
+
+    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
+        this.symbolCollection = symbolCollection;
     }
 
     @Override

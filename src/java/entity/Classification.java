@@ -56,7 +56,7 @@ public class Classification implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classification")
+    @OneToMany(mappedBy = "classification")
     private Collection<Definition> definitionCollection;
 
     public Classification() {

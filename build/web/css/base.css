@@ -143,19 +143,19 @@ textarea {
     text-decoration: none;
 }
 
-.concept {
+.symbol {
     background-color: #F15945;
     border-radius: 5px;
     color: #fff;
 }
 
-.concept:hover {
+.symbol:hover {
     background-color: #FF9076;
     color: #fff;
     text-decoration: none;
 }
 
-.concept:active {
+.symbol:active {
     background-color: #CA322D;
     color: #fff;
     text-decoration: none;
@@ -240,7 +240,7 @@ textarea {
     border-top-left-radius: 0;
     height: auto;
     margin-bottom: 50px;
-    min-height: 500px;
+    min-height: 450px;
     padding: 25px;
     width: 748px;
 }

@@ -66,14 +66,14 @@ public class Definition implements Serializable {
     @Size(max = 65535)
     @Column(name = "future_intention")
     private String futureIntention;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
-    private Collection<Concept> conceptCollection;
     @JoinColumn(name = "classification", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Classification classification;
     @JoinColumn(name = "category", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category category;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
+    private Collection<Symbol> symbolCollection;
 
     public Definition() {
     }
@@ -122,15 +122,6 @@ public class Definition implements Serializable {
         this.futureIntention = futureIntention;
     }
 
-    @XmlTransient
-    public Collection<Concept> getConceptCollection() {
-        return conceptCollection;
-    }
-
-    public void setConceptCollection(Collection<Concept> conceptCollection) {
-        this.conceptCollection = conceptCollection;
-    }
-
     public Classification getClassification() {
         return classification;
     }
@@ -145,6 +136,15 @@ public class Definition implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @XmlTransient
+    public Collection<Symbol> getSymbolCollection() {
+        return symbolCollection;
+    }
+
+    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
+        this.symbolCollection = symbolCollection;
     }
 
     @Override

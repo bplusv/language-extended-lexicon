@@ -37,12 +37,12 @@ LOCK TABLES `definition` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping data for table `concept`
+-- Dumping data for table `symbol`
 --
 
-LOCK TABLES `concept` WRITE;
-/*!40000 ALTER TABLE `concept` DISABLE KEYS */;
-/*!40000 ALTER TABLE `concept` ENABLE KEYS */;
+LOCK TABLES `symbol` WRITE;
+/*!40000 ALTER TABLE `symbol` DISABLE KEYS */;
+/*!40000 ALTER TABLE `symbol` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
