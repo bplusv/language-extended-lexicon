@@ -57,7 +57,7 @@ $(document).ready(function(){
                 infoBubble.hide();
                 
                 infoBubble.on('click', function(e){
-                    $('#conceptForm').submit();
+                    $('#symbolForm').submit();
                 });
                 
                 $('body').append(infoBubble);

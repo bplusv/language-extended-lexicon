@@ -37,22 +37,20 @@ $(document).ready(function() {
    $('.overflowEllipsis').wrapInner('<span class="overflowText" />');
    $('.notification').delay(3000).fadeOut();
    
-   $('body').on('mouseenter', '.overflowEllipsis', function(e) {
+   $('.overflowEllipsis').on('mouseenter', function(e) {
        $this = $(this);
        $this.css('text-overflow', 'clip');
        $that = $this.find('span.overflowText');
-       offset = $this.outerWidth() - $that.outerWidth();
-       
+       offset = $this.width() - $that.width();
        if (offset < 0) {
         $that.animate({'margin-left': offset}, {duration: offset * -10});
        } 
    });
-   $('body').on('mouseleave', '.overflowEllipsis', function(e) {
+   $('.overflowEllipsis').on('mouseleave', function(e) {
        $this = $(this);
        $this.css('text-overflow', 'ellipsis');
        $that = $this.find('span.overflowText');
-       offset = $this.outerWidth() - $that.outerWidth();
-       
+       offset = $this.width() - $that.width();
        if (offset < 0) {
         $that.clearQueue().stop();
         $that.css('margin-left', 0);

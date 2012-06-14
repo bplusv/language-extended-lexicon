@@ -14,7 +14,7 @@
                 <a href="<c:url value="/loadDocument" />" id="load" class="button"><fmt:message key="load" /></a>
                 <input id="save" type="submit" name="save" value="<fmt:message key="save" />" class="button" />
             </form>
-            <form action="<c:url value="/classify" />" id="conceptForm" method="post">
+            <form action="<c:url value="/classify" />" id="symbolForm" method="post">
                 <input type="hidden" name="document" value="${document.id}" />
                 <input type="hidden" id="name" name="name" value="" />
             </form>

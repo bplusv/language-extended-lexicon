@@ -8,7 +8,7 @@
 
             <form  id="loadForm"  action="<c:url value="/doLoadDocument" />" method="post">
                 <h3 class="title"><fmt:message key="load document" /></h3>
-                    <select id="document" name="document" size="20">
+                    <select id="document" name="document" size="18">
                         <c:forEach var="document" items="${project.getDocumentCollection()}">
                             <option value="${document.id}" ${sessionScope.document.id == document.id ? 'selected="selected"' : ''}>${document.name}</option>
                         </c:forEach>

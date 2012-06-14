@@ -60,11 +60,11 @@ public class Document implements Serializable {
     @Size(max = 16777215)
     @Column(name = "data")
     private String data;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
-    private Collection<Concept> conceptCollection;
     @JoinColumn(name = "project", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Project project;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
+    private Collection<Symbol> symbolCollection;
 
     public Document() {
     }
@@ -102,21 +102,21 @@ public class Document implements Serializable {
         this.data = data;
     }
 
-    @XmlTransient
-    public Collection<Concept> getConceptCollection() {
-        return conceptCollection;
-    }
-
-    public void setConceptCollection(Collection<Concept> conceptCollection) {
-        this.conceptCollection = conceptCollection;
-    }
-
     public Project getProject() {
         return project;
     }
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    @XmlTransient
+    public Collection<Symbol> getSymbolCollection() {
+        return symbolCollection;
+    }
+
+    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
+        this.symbolCollection = symbolCollection;
     }
 
     @Override

@@ -9,15 +9,6 @@
             <form action="<c:url value="/explore" />" id="exploreForm" method="get">
                 <div id="filters">
                     <div class="exploreField">
-                        <label id="classificationLabel" for="classification"><fmt:message key="classification" />:&nbsp;</label>
-                        <select id="classification" name="cl" onchange="$('#exploreForm').submit();">
-                            <option value=""><fmt:message key="all" /></option>
-                            <c:forEach var="classification" items="${classifications}">
-                                <option value="${classification.id}" ${param.cl == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="exploreField">
                         <label id="categoryLabel" for="category"><fmt:message key="category" />:&nbsp;</label>
                         <select id="category" name="ca" onchange="$('#exploreForm').submit();">
                             <option value=""><fmt:message key="all" /></option>
@@ -27,26 +18,39 @@
                         </select>
                     </div>
                     <div class="exploreField">
-                        <input id="search" type="text" maxlength="255" name="co" value="${param.co}" />
+                        <label id="classificationLabel" for="classification"><fmt:message key="classification" />:&nbsp;</label>
+                        <select id="classification" name="cl" onchange="$('#exploreForm').submit();">
+                            <option value=""><fmt:message key="all" /></option>
+                            <c:forEach var="classification" items="${classifications}">
+                                <option value="${classification.id}" ${param.cl == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="exploreField">
+                        <input id="search" type="text" maxlength="255" name="sy" value="${param.sy}" />
                         <input id="doSearch" type="submit" class="button" value=""/>
                     </div>
                 </div>
-                <table id="conceptsTable">
+                <table id="symbolsTable">
                     <thead>
                         <tr>
-                            <th><fmt:message key="concept" /></th>
-                            <th><fmt:message key="classification" /></th>
+                            <th><fmt:message key="symbol" /></th>
                             <th><fmt:message key="category" /></th>
+                            <th><fmt:message key="classification" /></th>
                             <th><fmt:message key="document" /></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="concept" items="${conceptManager.getConceptsByFilters(project.id, param.cl, param.ca, param.co)}">
+                        <c:forEach var="symbol" items="${symbolManager.getSymbolsByFilters(project.id, param.cl, param.ca, param.sy)}" varStatus="iter">
                             <tr>
-                                <td class="overflowEllipsis"><a href="<c:url value="/classify"><c:param name="co" value="${concept.id}" /></c:url>">${concept.name}</a></td>
-                                <td><fmt:message key="${concept.definition.classification.name}" /></td>
-                                <td><fmt:message key="${concept.definition.category.name}" /></td>
-                                <td class="overflowEllipsis">${concept.document.name}</td>
+                                <td colspan="4" style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
+                                    <a class="symbolsRow" href="<c:url value="/classify"><c:param name="co" value="${symbol.id}"/></c:url>">
+                                        <span class="overflowEllipsis">${symbol.name}</span>
+                                        <span class="overflowEllipsis"><fmt:message key="${symbol.definition.category.name}" /></span>
+                                        <span class="overflowEllipsis"><fmt:message key="${empty symbol.definition.classification.name ? 'n/a' : symbol.definition.classification.name}" /></span>
+                                        <span class="overflowEllipsis">${symbol.document.name}</span>
+                                    </a>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>

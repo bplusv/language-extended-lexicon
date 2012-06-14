@@ -22,4 +22,16 @@
  * THE SOFTWARE.
  */
 
-
+$(document).ready(function() {
+   $('#category').on('change', function() {
+       $this = $(this);
+       // is 'general' category selected?
+       if ($this.val() == 1) {
+           $('#classificationField').css('display', 'none');
+           $('#intentionFields').css('display', 'none');
+       } else {
+           $('#classificationField').css('display', 'block');
+           $('#intentionFields').css('display', 'block');
+       }
+   });
+});

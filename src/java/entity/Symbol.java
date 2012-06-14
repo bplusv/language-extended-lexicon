@@ -37,14 +37,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Entity
-@Table(name = "concept")
+@Table(name = "symbol")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Concept.findAll", query = "SELECT c FROM Concept c"),
-    @NamedQuery(name = "Concept.findById", query = "SELECT c FROM Concept c WHERE c.id = :id"),
-    @NamedQuery(name = "Concept.findByActive", query = "SELECT c FROM Concept c WHERE c.active = :active"),
-    @NamedQuery(name = "Concept.findByName", query = "SELECT c FROM Concept c WHERE c.name = :name")})
-public class Concept implements Serializable {
+    @NamedQuery(name = "Symbol.findAll", query = "SELECT s FROM Symbol s"),
+    @NamedQuery(name = "Symbol.findById", query = "SELECT s FROM Symbol s WHERE s.id = :id"),
+    @NamedQuery(name = "Symbol.findByActive", query = "SELECT s FROM Symbol s WHERE s.active = :active"),
+    @NamedQuery(name = "Symbol.findByName", query = "SELECT s FROM Symbol s WHERE s.name = :name")})
+public class Symbol implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,17 +70,17 @@ public class Concept implements Serializable {
     @JoinColumn(name = "document", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Document document;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "symbol")
     private Collection<Log> logCollection;
 
-    public Concept() {
+    public Symbol() {
     }
 
-    public Concept(Integer id) {
+    public Symbol(Integer id) {
         this.id = id;
     }
 
-    public Concept(Integer id, boolean active, String name) {
+    public Symbol(Integer id, boolean active, String name) {
         this.id = id;
         this.active = active;
         this.name = name;
@@ -153,10 +153,10 @@ public class Concept implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Concept)) {
+        if (!(object instanceof Symbol)) {
             return false;
         }
-        Concept other = (Concept) object;
+        Symbol other = (Symbol) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -165,7 +165,7 @@ public class Concept implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Concept[ id=" + id + " ]";
+        return "entity.Symbol[ id=" + id + " ]";
     }
 
 }

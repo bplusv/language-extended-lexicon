@@ -1,15 +1,23 @@
 <%@page pageEncoding="UTF-8"%>
 
 <style type="text/css">
-    #userMenu {
-
-    }
-    #userMenu.languages {
+    #test {
+        background-color: #ccc;
+        width: 100px;
+        height: 20px;
+        display: inline-block;
         
+    }  
+    
+    #test:hover {
+        background-color: #555;
     }
-    #userMenu.signOut {
-        
+    
+    #test:active {
+        background-color: #c00;
     }
+    
+    
 </style>
 
 <!--
@@ -18,10 +26,6 @@
     <div id="infoBubbleArrow"></div>
 </a>
 -->
-
-<a href="#1">
-    This is
-    <a href="#2">a</a>
-    test.
+<a href="http://www.google.com" id="test">
+    <span class="overflowEllipsis" style="background-color: transparent; display:block; height: 20px; width: 100px;">This is a test of a long text.</span>
 </a>
-
