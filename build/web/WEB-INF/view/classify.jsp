@@ -11,6 +11,17 @@
                 <input type="hidden" id="name" name="name" value="${symbol.name}" />
                 <input type="hidden" id="document" name="document" value="${symbol.document.id}" />
                 <h2 id="title" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;">${symbol.name}</span></h2>
+                <div id="synonyms">
+                    <label>Synonyms:&nbsp;</label>
+                    <c:forEach var="synonym" items="${symbolManager.getSymbolSynonyms(symbol.id)}" varStatus="iter">
+                        <a href="<c:url value='/classify'><c:param name="sy" value="${synonym.id}" /></c:url>">${synonym.name}</a><c:if test="${!iter.last}">,&nbsp;</c:if>
+                    </c:forEach>  
+                </div>
+                <select id="selectedSynonym" name="selectedSynonym" size="7">
+                        <c:forEach var="symbol" items="${project.getSymbolCollection()}">
+                            <option value="${symbol.id}">${symbol.name}</option>
+                        </c:forEach>
+                    </select>
                 <div id="definitionTop">
                     <div>
                         <div id="definitionTopLeft">

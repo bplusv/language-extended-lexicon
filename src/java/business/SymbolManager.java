@@ -59,6 +59,13 @@ public class SymbolManager {
     @EJB
     private EventFacade eventFacade;
 
+    private Collection<Symbol> findSymbolSynonyms(Symbol symbol) {
+        return em.createQuery("SELECT sy FROM Symbol sy WHERE sy <> :symbol AND sy.definition = :definition;").
+                setParameter("symbol", symbol).
+                setParameter("definition", symbol.getDefinition()).
+                getResultList();
+    }
+    
     private Symbol findSymbolByDocAndName(Document document, String name) {
         return (Symbol) em.createQuery("SELECT sy FROM Symbol sy WHERE sy.document = :document AND sy.name = :name;").
                 setParameter("document", document).
@@ -154,6 +161,18 @@ public class SymbolManager {
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Symbol> getSymbolSynonyms(String symbolParam) {
+        try {
+            Symbol symbol = symbolFacade.find(Integer.parseInt(symbolParam));
+            Collection<Symbol> synonyms = findSymbolSynonyms(symbol);
+            return synonyms;
+        } catch (Exception ex) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Symbol getSymbolByDocAndName(String documentParam, String nameParam) {
         try {

@@ -15,9 +15,13 @@
     </session-config>
     <jsp-config>
         <jsp-property-group>
-            <description>header and footer settings</description>
-            <url-pattern>/WEB-INF/view/*</url-pattern>
+            <description>header settings</description>
+            <url-pattern>/WEB-INF/view/signIn.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
+        </jsp-property-group>
+        <jsp-property-group>
+            <description>footer settings</description>
+            <url-pattern>/WEB-INF/view/signIn.jsp</url-pattern>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>

@@ -110,6 +110,25 @@ select {
     right: 0;
 }
 
+#selectedSynonym {
+    border: 1px solid #ccc;
+    display: block;
+    height: auto;
+    margin: 0 auto 25px auto;
+    overflow-x: visible;
+    overflow-y: auto;
+    width: 400px;
+}
+
+#synonyms {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#synonyms label {
+    display: inline-block;
+}
+
 #title {
     margin-bottom: 25px;
     text-align: center;

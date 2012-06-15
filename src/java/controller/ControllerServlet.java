@@ -27,6 +27,7 @@ package controller;
 import business.*;
 import entity.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
@@ -51,6 +52,7 @@ urlPatterns = {"/classify",
                 "/explore",
                 "/loadDocument",
                 "/loadProject",
+                "/signIn",
                 "/test",
                 "/doCreateSymbol",
                 "/doCreateDocument",
@@ -100,7 +102,7 @@ public class ControllerServlet extends HttpServlet {
         if (userPath.equals("/classify")) {
             
             
-            String symbolParam = request.getParameter("co");
+            String symbolParam = request.getParameter("sy");
             Symbol symbol = symbolManager.getSymbol(symbolParam);
             Log log = symbolManager.getLog(symbolParam);
             
@@ -143,7 +145,10 @@ public class ControllerServlet extends HttpServlet {
             
         
         
-        }else if (userPath.equals("/test")) {
+        } if (userPath.equals("/signIn")) {
+            
+            
+        } if (userPath.equals("/test")) {
             
             String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);
@@ -291,7 +296,6 @@ public class ControllerServlet extends HttpServlet {
         
         } else if (userPath.equals("/doSignIn")) {
             
-            
             String usernameParam = request.getParameter("username");
             String passwordParam = request.getParameter("password");
             
@@ -299,26 +303,18 @@ public class ControllerServlet extends HttpServlet {
             
             if (user != null) {
                 session.setAttribute("user", user);
-                userPath = "/loadProject";
+                request.setAttribute("success", true);
+                
             } else {
-                request.setAttribute("signInError", true);
-                try {
-                    request.getRequestDispatcher("/index.jsp").forward(request, response);
-                } catch (Exception ex) {}
-                return;
+                request.setAttribute("success", false);
             }
-            
             
         } else if (userPath.equals("/doSignOut")) {
             
             
             session.setAttribute("user", null);
             session.invalidate();
-            
-            try {
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
-            } catch (Exception ex) {}
-            return;
+            request.setAttribute("response", true);
             
             
         } else if (userPath.equals("/doUpdateSymbol")) {
