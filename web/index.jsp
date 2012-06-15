@@ -8,58 +8,78 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("user") != null) response.sendRedirect("loadProject"); %>
+<% if (session.getAttribute("user") == null) response.sendRedirect("signIn"); %>
 <c:if test="${!empty cookie.language}">
     <fmt:setLocale value="${cookie.language.value}" scope="session" />
 </c:if>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>LeL</title>
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="<c:url value="/css/base.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/index.css" />" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/css${userPath}.css" />" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
-        <!--[if lt IE 9]>
-            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8" ></script>
-        <script src="<c:url value="/js/base.js" />" type="text/javascript" charset="UTF-8" ></script>
+        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="<c:url value="/js/controller.js" />" type="text/javascript" charset="UTF-8"></script>
+        <script type="text/javascript" src="<c:url value="/js${userPath}.js" />" charset="UTF-8"></script>
     </head>
     <body>
-        <div id="center">
-            <div id="leftSide">
-                <img id="lelLogo" src="img/lelLogo.png" />
-                <img id="bubblesBackground" src="img/signInBackground.png" />
+        <header>
+            <div id="userMenu">
+                <form id="signOutForm" class="signOut" action="<c:url value="/doSignOut" />" method="POST" onsubmit="return controller('doSignOut', $(this).serialize());"></form>
+                <div class="downArrow"></div>
+                <span class="user">${user.name}</span>
+                <div style="clear:both"></div>
+                <ul class="popUp">
+                    <li><a href="loadProject"><fmt:message key="load project" /></a></li>
+                    <li>
+                        <span class="lang"><fmt:message key="language" /></span>
+                        <div class="leftArrow"></div>
+                        <ul class="langPopUp">
+                            <%-- When user hasn't explicitly set language,
+                                    render toggle according to browser's preferred locale --%>
+                            <c:set var="lang" value="${empty sessionScope['javax.servlet.jsp.jstl.fmt.locale.session'] ? pageContext.request.locale.language : sessionScope['javax.servlet.jsp.jstl.fmt.locale.session']}" />
+                            
+                            <%-- language selection widget --%>
+                            <c:choose>
+                                <c:when test="${lang eq 'en'}">
+                                    <li>
+                                        <span>English</span>
+                                        <div class="circle"></div>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="/chooseLanguage"><c:param name="language" value="es"/></c:url>">Español</a>
+                                    </li>
+                                </c:when>
+                                <c:when test="${lang eq 'es'}">
+                                    <li>
+                                        <a href="<c:url value="/chooseLanguage"><c:param name="language" value="en"/></c:url>">English</a>
+                                    </li>
+                                    <li>
+                                        <span>Español</span>
+                                        <div class="circle"></div>
+                                    </li>
+                                </c:when>
+                            </c:choose>
+                        </ul>
+                    </li>
+                    <li><a href="javascript:;" onclick="$('#signOutForm').submit();"><fmt:message key="sign out" /></a></li>
+                </ul>
             </div>
-            <div id="rightSide">
-                <form action="<c:url value="/doSignIn" />" id="signInForm" method="post">
-                    <h2 id="signInAd"><fmt:message key="sign in" /></h2>
-                    <div class="signInField">
-                        <label for="username"><strong><fmt:message key="username" /></strong></label>
-                        <input type="text" maxlength="50" id="username" name="username" />
-                    </div>
-                    <div class="signInField">
-                        <label for="password"><strong><fmt:message key="password" /></strong></label>
-                        <input type="password" maxlength="255" id="password" name="password" />
-                    </div>
-                    <input type="submit" name="signIn" value="<fmt:message key="sign in" />" id="SignIn" class="button" />
-                </form>
+            <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
+            <div id="projectTitle">
+                <c:if test="${!empty project}" >
+                    <h3 class="overflowEllipsis"><fmt:message key="project" /> - ${project.name}</h3>
+                </c:if>
             </div>
-            <div style="clear:both"></div>
-        </div>
-        <c:choose>
-            <c:when test="${requestScope.signInError == true}">
-                <h3 class="notification fail"><fmt:message key="sign in fail" /></h3>
-            </c:when>
-        </c:choose>
-        <c:choose>
-            <c:when test="${requestScope.sessionTimedOut == true}">
-                <h3 class="notification fail"><fmt:message key="session timed out" /></h3>
-            </c:when>
-        </c:choose>
-    </body>
-</html>
+        </header>
+        <nav class="tabs">
+            <a href="<c:url value="/explore" />" class="${userPath == '/explore' ? 'selected' : ''}"><fmt:message key="explore" /></a>
+            <a href="<c:url value="/document" />" class="${userPath == '/document' ? 'selected' : ''}"><fmt:message key="document" /></a>
+        </nav>
+    <div id="central"></div>

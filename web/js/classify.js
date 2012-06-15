@@ -34,4 +34,7 @@ $(document).ready(function() {
            $('#intentionFields').css('display', 'block');
        }
    });
+   $('#synonyms').on('click', function() {
+       $('#selectedSynonym').slideToggle();
+   })
 });

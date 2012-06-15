@@ -32,12 +32,67 @@ function getSelectedText() {
     }
     return '';
 }
+var res;
+function controller(request, vars) {
+    switch (request) {
+        case 'getExplore':
+            
+            break;
+        case 'getDocument':
+            
+            break;
+        case 'viewLoadProject':
+            
+            break;
+            
+        case 'doSignIn':
+            $.ajax({
+                type: 'POST',
+                url: '/lel/doSignIn',
+                data: vars,
+                dataType: 'xml',
+                success: function(data) { 
+                    res = $(data).find("success").text();
+                    if (res == 'true') {
+                        document.location.href = '/lel';
+                    } else if (res == 'false') {
+                        err = $(data).find("error").text();
+                        $('#notification').html(err);
+                        $('#notification').show();
+                    }
+                }
+            });
+            break;
+        case 'doSignOut':
+            $.ajax({
+                type: 'POST',
+                url: '/lel/doSignOut',
+                data: vars,
+                dataType: 'xml',
+                success: function(data) { 
+                    res = $(data).find("response").text();
+                    if (res == "true") {
+                        location.reload();
+                    }
+                }
+            });
+            break;
+    }
+    return false;
+    
+}
 
 $(document).ready(function() {
+   
+   $('form').on('submit', function(e) {
+       e.preventDefault();
+       
+   });
+   
    $('.overflowEllipsis').wrapInner('<span class="overflowText" />');
    $('.notification').delay(3000).fadeOut();
    
-   $('.overflowEllipsis').on('mouseenter', function(e) {
+   $(document).on('mouseenter', '.overflowEllipsis', function(e) {
        $this = $(this);
        $this.css('text-overflow', 'clip');
        $that = $this.find('span.overflowText');
@@ -46,7 +101,7 @@ $(document).ready(function() {
         $that.animate({'margin-left': offset}, {duration: offset * -10});
        } 
    });
-   $('.overflowEllipsis').on('mouseleave', function(e) {
+   $(document).on('mouseleave', '.overflowEllipsis', function(e) {
        $this = $(this);
        $this.css('text-overflow', 'ellipsis');
        $that = $this.find('span.overflowText');

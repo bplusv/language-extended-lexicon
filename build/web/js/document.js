@@ -73,7 +73,7 @@ $(document).ready(function(){
                 top: newPos.y - infoBubble.outerHeight() - 35,
                 left: newPos.x - infoBubble.outerWidth() / 2,
                 opacity: 1
-            }).fadeIn(0);
+            }).fadeIn(300);
         }
     });
     
@@ -86,7 +86,7 @@ $(document).ready(function(){
     });
     
     $(document).on('mousedown', function (e) {
-        if (infoBubble) infoBubble.fadeOut();
+        if (infoBubble) infoBubble.fadeOut(300);
     });
     
 });

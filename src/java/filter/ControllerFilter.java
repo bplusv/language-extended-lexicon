@@ -51,7 +51,7 @@ public class ControllerFilter implements Filter {
             if (user == null && !"/doSignIn".equals(req.getServletPath())) {
                 try {
                     req.setAttribute("sessionTimedOut", true);
-                    req.getRequestDispatcher("/index.jsp").forward(request, response);
+                    req.getRequestDispatcher("/signIn").forward(request, response);
                 } catch (Exception ex) {}
                 return;
             }
