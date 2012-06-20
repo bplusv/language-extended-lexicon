@@ -39,9 +39,10 @@ $(document).ready(function(){
     $(document).on('mouseup', function(e) {
         text = getSelectedText();
         text = new String(text).replace(/^\s+|\s+$/g,'') // remove spaces before & after
-        if (text != false && text != '') {
+        if (text != false && text != '' && document.location.hash == '#!nav=document') {
             text = text.substr(0,255);
             $('#name').val(text);
+            
             
             if(!infoBubble) {
                 infoBubble = $('<a>').attr({
@@ -58,10 +59,13 @@ $(document).ready(function(){
                 
                 infoBubble.on('click', function(e){
                     $('#symbolForm').submit();
+                    infoBubble.fadeOut(0);
                 });
                 
                 $('body').append(infoBubble);
             }
+            
+            infoBubble.attr('href', '#!nav=classify&' + $('#symbolForm').serialize());
             
             infoBubbleText.html(text);
             newPos = {x: 0, y: 0};
@@ -110,5 +114,5 @@ function updateDocumentData() {
     containerData = containerData.replace(/&nbsp;/ig,' ');
     dataInput.val(containerData);
 
-    return true;
+    return false;
 }

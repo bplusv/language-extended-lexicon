@@ -55,7 +55,7 @@ public class DocumentManager {
             Collection<Symbol> symbols = document.getSymbolCollection();
             String taggedData = document.getData();
             for (Symbol symbol : symbols) {
-                taggedData = taggedData.replaceAll(symbol.getName(), "<a href=\"classify?sy=" + symbol.getId() + "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+                taggedData = taggedData.replaceAll(symbol.getName(), "<a href=\"#!nav=classify&sy=" + symbol.getId() + "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
             }
             return taggedData;
         } catch (Exception e) {

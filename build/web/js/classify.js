@@ -23,7 +23,7 @@
  */
 
 $(document).ready(function() {
-   $('#category').on('change', function() {
+   $('#category').off().on('change', function() {
        $this = $(this);
        // is 'general' category selected?
        if ($this.val() == 1) {
@@ -34,7 +34,8 @@ $(document).ready(function() {
            $('#intentionFields').css('display', 'block');
        }
    });
-   $('#synonyms').on('click', function() {
+   $('#synonyms').off().on('click', function() {
+       display = $('#selectedSynonym').css('display');
        $('#selectedSynonym').slideToggle();
    })
 });

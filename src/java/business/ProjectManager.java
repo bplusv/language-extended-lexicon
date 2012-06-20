@@ -23,11 +23,12 @@
  */
 package business;
 
+import entity.Document;
 import entity.Project;
+import entity.Symbol;
 import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -75,6 +76,34 @@ public class ProjectManager {
             em.persist(project);
             em.flush();
             return project;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Document> getProjectDocuments(String projectParam) {
+        try {
+            Project project = projectFacade.find(Integer.parseInt(projectParam));
+            em.refresh(project);
+            Collection<Document> documents = project.getDocumentCollection();
+            em.flush();
+            return documents;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Symbol> getProjectSymbols(String projectParam) {
+        try {
+            Project project = projectFacade.find(Integer.parseInt(projectParam));
+            em.refresh(project);
+            Collection<Symbol> symbols = project.getSymbolCollection();
+            em.flush();
+            return symbols;
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

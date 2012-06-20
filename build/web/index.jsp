@@ -4,39 +4,30 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% if (session.getAttribute("user") == null) response.sendRedirect("signIn"); %>
-<c:if test="${!empty cookie.language}">
-    <fmt:setLocale value="${cookie.language.value}" scope="session" />
-</c:if>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>LeL</title>
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="<c:url value="/css/base.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css${userPath}.css" />" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
-        <meta name="description" content="LÃ©xico Extendido del lenguaje" />
+        <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
         <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="<c:url value="/js/controller.js" />" type="text/javascript" charset="UTF-8"></script>
-        <script type="text/javascript" src="<c:url value="/js${userPath}.js" />" charset="UTF-8"></script>
     </head>
     <body>
+        <h3 id="notification"></h3>
         <header>
             <div id="userMenu">
                 <form id="signOutForm" class="signOut" action="<c:url value="/doSignOut" />" method="POST" onsubmit="return controller('doSignOut', $(this).serialize());"></form>
                 <div class="downArrow"></div>
-                <span class="user">${user.name}</span>
+                <span class="user overflowEllipsis">${user.name}</span>
                 <div style="clear:both"></div>
                 <ul class="popUp">
-                    <li><a href="loadProject"><fmt:message key="load project" /></a></li>
+                    <li><a href="#!nav=loadProject"><fmt:message key="load project" /></a></li>
                     <li>
                         <span class="lang"><fmt:message key="language" /></span>
                         <div class="leftArrow"></div>
@@ -53,7 +44,7 @@
                                         <div class="circle"></div>
                                     </li>
                                     <li>
-                                        <a href="<c:url value="/chooseLanguage"><c:param name="language" value="es"/></c:url>">EspaÃ±ol</a>
+                                        <a href="<c:url value="/chooseLanguage"><c:param name="language" value="es"/></c:url>">Español</a>
                                     </li>
                                 </c:when>
                                 <c:when test="${lang eq 'es'}">
@@ -61,7 +52,7 @@
                                         <a href="<c:url value="/chooseLanguage"><c:param name="language" value="en"/></c:url>">English</a>
                                     </li>
                                     <li>
-                                        <span>EspaÃ±ol</span>
+                                        <span>Español</span>
                                         <div class="circle"></div>
                                     </li>
                                 </c:when>
@@ -72,14 +63,15 @@
                 </ul>
             </div>
             <img id="headerLogo" src="img/lelLogo.png" alt="LeL logo" />
-            <div id="projectTitle">
-                <c:if test="${!empty project}" >
-                    <h3 class="overflowEllipsis"><fmt:message key="project" /> - ${project.name}</h3>
-                </c:if>
+            <div id="projectTitle" style="display: ${empty project ? 'none' : 'block'}}">
+                <h3 class="overflowEllipsis"><fmt:message key="project" /> - <span id="projectName">${project.name}</span></h3>
             </div>
         </header>
         <nav class="tabs">
-            <a href="<c:url value="/explore" />" class="${userPath == '/explore' ? 'selected' : ''}"><fmt:message key="explore" /></a>
-            <a href="<c:url value="/document" />" class="${userPath == '/document' ? 'selected' : ''}"><fmt:message key="document" /></a>
+            <a href="#!nav=explore" id="exploreTab"><fmt:message key="explore" /></a>
+            <a href="#!nav=document" id="documentTab"><fmt:message key="document" /></a>
         </nav>
-    <div id="central"></div>
+        <div id="central"></div>
+        <footer></footer>
+    </body>
+</html>

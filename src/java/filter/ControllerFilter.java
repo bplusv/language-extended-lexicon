@@ -50,7 +50,6 @@ public class ControllerFilter implements Filter {
             // if not signed in, return user to welcome page
             if (user == null && !"/doSignIn".equals(req.getServletPath())) {
                 try {
-                    req.setAttribute("sessionTimedOut", true);
                     req.getRequestDispatcher("/signIn").forward(request, response);
                 } catch (Exception ex) {}
                 return;
