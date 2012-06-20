@@ -2,8 +2,7 @@
     Document   : classify
     Created on : May 16, 2012, 11:10:30 AM
     Author     : Luis Salazar <bp.lusv@gmail.com>
-    Description:
-        Purpose of the stylesheet follows.
+    Description: classify stylesheet
 */
 
 @charset "UTF-8";
@@ -112,7 +111,7 @@ select {
 
 #selectedSynonym {
     border: 1px solid #ccc;
-    display: block;
+    display: none;
     height: auto;
     margin: 0 auto 25px auto;
     overflow-x: visible;

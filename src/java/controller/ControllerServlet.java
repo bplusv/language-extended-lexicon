@@ -24,20 +24,18 @@
 
 package controller;
 
-import business.*;
+import business.DocumentManager;
+import business.ProjectManager;
+import business.SymbolManager;
+import business.UserManager;
 import entity.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import session.*;
 
 /**
@@ -46,34 +44,33 @@ import session.*;
  */
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
-urlPatterns = {"/classify",
-                "/chooseLanguage",
+urlPatterns = {"/chooseLanguage",
+                "/classify",
                 "/document",
                 "/explore",
                 "/loadDocument",
                 "/loadProject",
                 "/signIn",
                 "/test",
-                "/doCreateSymbol",
                 "/doCreateDocument",
                 "/doCreateProject",
-                "/doDeleteSymbol",
+                "/doCreateSymbol",
                 "/doLoadDocument",
                 "/doLoadProject",
                 "/doSignIn",
                 "/doSignOut",
-                "/doUpdateSymbol",
-                "/doUpdateDocument"})
+                "/doUpdateDocument",
+                "/doUpdateSymbol"})
 public class ControllerServlet extends HttpServlet {
-    @EJB private DocumentManager documentManager;
-    @EJB private DocumentFacade documentFacade;
-    @EJB private SymbolFacade symbolFacade;
     @EJB private CategoryFacade categoryFacade;
     @EJB private ClassificationFacade classificationFacade;
-    @EJB private SymbolManager symbolManager;
-    @EJB private UserFacade userFacade;
+    @EJB private DocumentFacade documentFacade;
     @EJB private ProjectFacade projectFacade;
+    @EJB private SymbolFacade symbolFacade;
+    @EJB private UserFacade userFacade;
+    @EJB private DocumentManager documentManager;
     @EJB private ProjectManager projectManager;
+    @EJB private SymbolManager symbolManager;
     @EJB private UserManager userManager;
     private HttpSession session;
 
@@ -86,9 +83,10 @@ public class ControllerServlet extends HttpServlet {
         Collections.reverse(classifications);
         getServletContext().setAttribute("classifications", classifications);
         getServletContext().setAttribute("documentFacade", documentFacade);
-        getServletContext().setAttribute("symbolManager", symbolManager);
-        getServletContext().setAttribute("documentManager", documentManager);
         getServletContext().setAttribute("projectFacade", projectFacade);
+        getServletContext().setAttribute("documentManager", documentManager);
+        getServletContext().setAttribute("projectManager", projectManager);
+        getServletContext().setAttribute("symbolManager", symbolManager);
     }
 
     @Override
@@ -99,33 +97,50 @@ public class ControllerServlet extends HttpServlet {
         session = request.getSession(false);
         String userPath = request.getServletPath();
         
-        if (userPath.equals("/classify")) {
-            
-            
-            String symbolParam = request.getParameter("sy");
-            Symbol symbol = symbolManager.getSymbol(symbolParam);
-            Log log = symbolManager.getLog(symbolParam);
-            
-            request.setAttribute("symbol", symbol);
-            request.setAttribute("log", log);
-            request.setAttribute("submitAction", "/doUpdateSymbol");
-            
-            
-        } else if(userPath.equals("/chooseLanguage")) {
         
+        if(userPath.equals("/chooseLanguage")) {
+        
+            
             String language = request.getParameter("language");
-            
             request.setAttribute("language", language);
-            
             Cookie langCookie = new Cookie("language", language);
             langCookie.setMaxAge(60*60*24*365);
             response.addCookie(langCookie);
+            try {
+                response.sendRedirect("/lel");
+            } catch (Exception ex) {}
+            return;
             
             
-            userPath = "/loadProject";
+        } else if (userPath.equals("/classify")) {
             
             
-        }else if (userPath.equals("/document")) {
+            String symbolParam = request.getParameter("sy");
+            if (symbolParam != null) {
+                Symbol symbol = symbolManager.getSymbol(symbolParam);
+                Log log = symbolManager.getLog(symbolParam);
+                request.setAttribute("symbol", symbol);
+                request.setAttribute("log", log);
+                request.setAttribute("submitAction", "/doUpdateSymbol");
+            } else {
+                String documentParam = request.getParameter("document");
+                String nameParam = request.getParameter("name");
+                Symbol symbol = symbolManager.getSymbolByDocAndName(documentParam, nameParam);
+                if (symbol != null) {
+                    symbolParam = symbol.getId().toString();
+                    Log log = symbolManager.getLog(symbolParam);
+                    request.setAttribute("symbol", symbol);
+                    request.setAttribute("log", log);
+                    request.setAttribute("submitAction", "/doUpdateSymbol");   
+                } else {
+                    symbol = symbolManager.createPossibleSymbol(nameParam, documentParam);
+                    request.setAttribute("symbol", symbol);
+                    request.setAttribute("submitAction", "/doCreateSymbol");
+                }
+            }
+            
+            
+        } else if (userPath.equals("/document")) {
 
             
             if (session.getAttribute("document") == null) userPath = "/loadDocument";
@@ -134,10 +149,13 @@ public class ControllerServlet extends HttpServlet {
             
         } else if (userPath.equals("/explore")) {
             
+            
             if (session.getAttribute("project") == null) userPath = "/loadProject";
-
+            
             
         } else if (userPath.equals("/loadDocument")) {
+            
+            
             
             
         } else if(userPath.equals("/loadProject")) {
@@ -145,16 +163,23 @@ public class ControllerServlet extends HttpServlet {
             
         
         
-        } if (userPath.equals("/signIn")) {
+        } else if (userPath.equals("/signIn")) {
             
             
-        } if (userPath.equals("/test")) {
+            
+            
+        } else if (userPath.equals("/test")) {
+            
             
             String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);
+            
+            
         }
 
-        String responseView = "/WEB-INF/view" + userPath + ".jsp";
+        
+        
+        String responseView = "/WEB-INF/view/html" + userPath + ".jsp";
         request.setAttribute("userPath", userPath);
         try {
             request.getRequestDispatcher(responseView).forward(request, response);
@@ -169,24 +194,34 @@ public class ControllerServlet extends HttpServlet {
         session = request.getSession(false);
         String userPath = request.getServletPath();
         
-        if (userPath.equals("/classify")) {
+        
+        
+        if (userPath.equals("/doCreateDocument")) {
             
             
-            String documentParam = request.getParameter("document");
             String nameParam = request.getParameter("name");
-            
-            Symbol symbol = symbolManager.getSymbolByDocAndName(documentParam, nameParam);
-            
-            if (symbol != null) {
-                String symbolParam = symbol.getId().toString();
-                Log log = symbolManager.getLog(symbolParam);
-                request.setAttribute("symbol", symbol);
-                request.setAttribute("log", log);
-                request.setAttribute("submitAction", "/doUpdateSymbol");   
+            String projectParam = ((Project) session.getAttribute("project")).getId().toString();
+            Document document = documentManager.createDocument(nameParam, projectParam);
+            if (document != null) {
+                session.setAttribute("document", document);
+                request.setAttribute("success", true);
             } else {
-                symbol = symbolManager.createPossibleSymbol(nameParam, documentParam);
-                request.setAttribute("symbol", symbol);
-                request.setAttribute("submitAction", "/doCreateSymbol");
+                request.setAttribute("success", false);
+            }
+        
+            
+        } else if(userPath.equals("/doCreateProject")) {
+            
+            
+            String nameParam = request.getParameter("name");
+            String userParam = ((User) session.getAttribute("user")).getId().toString();
+            Project project = projectManager.createProject(nameParam, userParam);
+            if (project != null) {
+                session.setAttribute("project", project);
+                session.setAttribute("document", null);
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
             }
             
             
@@ -203,77 +238,27 @@ public class ControllerServlet extends HttpServlet {
             String actualIntentionParam = request.getParameter("actualIntention");
             String futureIntentionParam = request.getParameter("futureIntention");
             String commentsParam = request.getParameter("comments");
-            
-            
             Symbol symbol = symbolManager.createSymbol(userParam, projectParam, documentParam,
                     nameParam, categoryParam, classificationParam, notionParam, actualIntentionParam,
                     futureIntentionParam, commentsParam);
             String symbolParam = symbol != null ? symbol.getId().toString() : "";
             Log log = symbolManager.getLog(symbolParam);
-            
-            request.setAttribute("createSymbolFail", symbol != null ? false : true);
+            request.setAttribute("success", symbol != null ? true : false);
             request.setAttribute("symbol", symbol);
             request.setAttribute("log", log);
             request.setAttribute("submitAction", "/doUpdateSymbol");
-            userPath = "/classify";
-            
-            
-        } else if(userPath.equals("/doCreateDocument")) {
-            
-            
-            String nameParam = request.getParameter("name");
-            String projectParam = ((Project) session.getAttribute("project")).getId().toString();
-            
-            Document document = documentManager.createDocument(nameParam, projectParam);
-            
-            if (document != null) {
-                session.setAttribute("document", document);
-                request.setAttribute("createDocumentFail", false);
-                userPath = "/document";
-            } else {
-                request.setAttribute("createDocumentFail", true);
-                userPath = "/loadDocument";
-            }
-        
-            
-        } else if(userPath.equals("/doCreateProject")) {
-            
-            
-            String nameParam = request.getParameter("name");
-            String userParam = ((User) session.getAttribute("user")).getId().toString();
-            
-            
-            Project project = projectManager.createProject(nameParam, userParam);
-            
-            if (project != null) {
-                session.setAttribute("project", project);
-                session.setAttribute("document", null);
-                request.setAttribute("createProjectFail", false);
-                userPath = "/loadDocument";
-            } else {
-                request.setAttribute("createProjectFail", true);
-                userPath = "/loadProject";
-            }
-        
-        
-        } else if (userPath.equals("/doDeleteSymbol")) {
-            
-            
-            userPath = "/explore";
-            
+
             
         } else if (userPath.equals("/doLoadDocument")) {
             
             
             String documentParam = request.getParameter("document");
             Document document = documentManager.getDocument(documentParam);
-
             if (document != null) {
                 session.setAttribute("document", document);
-                userPath = "/document";
+                request.setAttribute("success", true);
             } else {
-                request.setAttribute("loadDocumentFail", true);
-                userPath = "/loadDocument";
+                request.setAttribute("success", false);
             }
 
             
@@ -282,25 +267,22 @@ public class ControllerServlet extends HttpServlet {
             
             String projectParam = request.getParameter("project");
             Project project = projectManager.getProject(projectParam);
-            
             if (project != null) {
                 session.setAttribute("project", project);
                 session.setAttribute("document", null);
-                userPath = "/explore";
+                
+                request.setAttribute("success", true);
             } else {
-                request.setAttribute("loadProjectFail", true);
-                userPath = "/loadProject";
+                request.setAttribute("success", false);
             }
-        
-        
-        
+            
+            
         } else if (userPath.equals("/doSignIn")) {
+            
             
             String usernameParam = request.getParameter("username");
             String passwordParam = request.getParameter("password");
-            
             User user = userManager.signIn(usernameParam, passwordParam);
-            
             if (user != null) {
                 session.setAttribute("user", user);
                 request.setAttribute("success", true);
@@ -309,12 +291,31 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("success", false);
             }
             
+            
         } else if (userPath.equals("/doSignOut")) {
             
             
-            session.setAttribute("user", null);
-            session.invalidate();
-            request.setAttribute("response", true);
+            try {
+                session.setAttribute("user", null);
+                session.invalidate();
+                request.setAttribute("success", true);
+            } catch (Exception ex) {
+                request.setAttribute("success", false);
+            }
+            
+            
+        } else if (userPath.equals("/doUpdateDocument")) {
+            
+            
+            String documentParam = request.getParameter("document");
+            String dataParam = request.getParameter("data");
+            Document document = documentManager.updateDocument(documentParam, dataParam);
+            if (document != null) {
+                session.setAttribute("document", document);
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
             
             
         } else if (userPath.equals("/doUpdateSymbol")) {
@@ -328,40 +329,20 @@ public class ControllerServlet extends HttpServlet {
             String actualIntentionParam = request.getParameter("actualIntention");
             String futureIntentionParam = request.getParameter("futureIntention");
             String commentsParam = request.getParameter("comments");
-            
             Symbol symbol = symbolManager.updateSymbol(userParam, symbolParam, categoryParam,
                     classificationParam, notionParam, actualIntentionParam,
                     futureIntentionParam, commentsParam);
             Log log = symbolManager.getLog(symbolParam);
-            
             request.setAttribute("symbol", symbol != null ? symbol : symbolManager.getSymbol(symbolParam));
             request.setAttribute("log", log);
-            request.setAttribute("updateSymbolFail", symbol != null ? false : true);
-            userPath = "/classify";
+            request.setAttribute("success", symbol != null ? true : false);
 
             
-        } else if (userPath.equals("/doUpdateDocument")) {
-            
-            
-            String documentParam = request.getParameter("document");
-            String dataParam = request.getParameter("data");
-            
-            Document document = documentManager.updateDocument(documentParam, dataParam);
-            
-            if (document != null) {
-                session.setAttribute("document", document);
-                request.setAttribute("updateDocumentFail", false);
-            } else {
-                request.setAttribute("updateDocumentFail", true);
-            }
-            userPath = "/document";
-            
-            
-        }
-
+        } 
         
         
-        String responseView = "/WEB-INF/view" + userPath + ".jsp";
+        
+        String responseView = "/WEB-INF/view/xml" + userPath + ".jsp";
         request.setAttribute("userPath", userPath);
         try {
             request.getRequestDispatcher(responseView).forward(request, response);
