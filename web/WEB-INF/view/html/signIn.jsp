@@ -1,7 +1,7 @@
- <%-- 
-    Document   : classify
-    Created on : May 14, 2012, 10:12:22 AM
-    Author     : Luis Salazar <bp.lusv@gmail.com>
+<%-- 
+   Document   : classify
+   Created on : May 14, 2012, 10:12:22 AM
+   Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
 <% if (session.getAttribute("user") != null) response.sendRedirect("/lel/"); %>
@@ -24,23 +24,23 @@
     </head>
     <body>
         <h3 id="notification"></h3>
-        <div id="center">
-            <div id="leftSide">
-                <img id="lelLogo" src="img/lelLogo.png" />
-                <img id="bubblesBackground" src="img/signInBackground.png" />
+        <div id="siCentral">
+            <div id="siLeftSide">
+                <img id="siLelLogo" src="img/lelLogo.png" />
+                <img id="siBubblesBackground" src="img/signInBackground.png" />
             </div>
-            <div id="rightSide">
-                <form action="<c:url value="/doSignIn" />" id="signInForm" method="post" onsubmit="return controller('doSignIn', $(this).serialize());">
-                    <h2 id="signInAd"><fmt:message key="sign in" /></h2>
-                    <div class="signInField">
-                        <label for="username"><strong><fmt:message key="username" /></strong></label>
-                        <input type="text" maxlength="50" id="username" name="username" />
+            <div id="siRightSide">
+                <form id="siForm" action="<c:url value="/doSignIn" />" method="POST">
+                    <h2 id="siAd"><fmt:message key="sign in" /></h2>
+                    <div class="siField">
+                        <label id="siUsernameLabel" for="siUsername"><strong><fmt:message key="username" /></strong></label>
+                        <input id="siUsername" type="text" name="username" maxlength="50"  />
                     </div>
-                    <div class="signInField">
-                        <label for="password"><strong><fmt:message key="password" /></strong></label>
-                        <input type="password" maxlength="255" id="password" name="password" />
+                    <div class="siField">
+                        <label for="siPassword" id="siPasswordLabel"><strong><fmt:message key="password" /></strong></label>
+                        <input type="password" maxlength="255" id="siPassword" name="password" />
                     </div>
-                    <input type="submit" name="signIn" value="<fmt:message key="sign in" />" id="SignIn" class="button" />
+                    <input id="siDoSignIn" type="submit" class="button" value="<fmt:message key="sign in" />" />
                 </form>
             </div>
             <div style="clear:both"></div>

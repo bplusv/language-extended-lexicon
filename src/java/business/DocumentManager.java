@@ -55,7 +55,7 @@ public class DocumentManager {
             Collection<Symbol> symbols = document.getSymbolCollection();
             String taggedData = document.getData();
             for (Symbol symbol : symbols) {
-                taggedData = taggedData.replaceAll(symbol.getName(), "<a href=\"#!nav=classify&sy=" + symbol.getId() + "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+                taggedData = taggedData.replaceAll(symbol.getName(), "<a href=\"#!/classify?sy=" + symbol.getId() + "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
             }
             return taggedData;
         } catch (Exception e) {
@@ -75,13 +75,13 @@ public class DocumentManager {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document createDocument(String nameParam, String projectParam) {
+    public Document createDocument(String documentNameParam, String projectParam) {
         try {
-            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
+            String documentName = documentNameParam.trim().isEmpty() ? null : documentNameParam.trim();
             Project project = projectFacade.find(Integer.parseInt(projectParam));
             
             Document document = new Document();
-            document.setName(name);
+            document.setName(documentName);
             document.setProject(project);
             em.persist(document);
             em.flush();

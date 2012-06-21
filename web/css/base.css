@@ -39,11 +39,6 @@ body {
     width: 800px;
 }
 
-footer {
-    background: url('../img/footer.png');
-    height: 154px;
-}
-
 h1 {
     color: #777;
     font: 23px 'Century Gothic', sans-serif;
@@ -57,13 +52,6 @@ h2 {
 h3 {
     color: #777;
     font: 13px 'Century Gothic', sans-serif;
-}
-
-header {
-    height: 80px;
-    margin-bottom: 25px;
-    padding-top: 15px;
-    position: relative;
 }
 
 input {
@@ -223,10 +211,6 @@ textarea {
     width: 748px;
 }
 
-#headerLogo {
-    float: left;
-}
-
 #infoBubble {
     background-color: #F15945;
     border-radius: 50px;
@@ -295,154 +279,4 @@ textarea {
 
 #notification.success {
     background-color: #33aa33;
-}
-
-#projectTitle {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    width: 400px;
-}
-
-#userMenu {
-    cursor: pointer;
-    display: inline-block;
-    height: auto;
-    position: absolute;
-    right: 0;
-    width: auto;
-    z-index: 99;
-}
-
-#userMenu:hover .downArrow {
-    border-top-color: #555;
-}
-
-#userMenu:hover .popUp {
-    display: block;
-}
-
-#userMenu:hover .user {
-    color: #555;
-}
-
-#userMenu a {
-    border-radius: 5px;
-    color: #555;
-    display: block;
-    font: 12px Arial,sans-serif;
-    text-decoration: none;
-    padding: 5px 20px;
-}
-
-#userMenu a:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
-#userMenu a:active {
-    background-color: #CA322D;
-}
-
-#userMenu li {
-    border-radius: 5px;
-    display: block;
-    position: relative;
-}
-
-#userMenu li:hover {
-    background: #FF7056;
-    color: #fff;
-}
-
-#userMenu li:hover > span {
-    color: #fff;
-}
-
-#userMenu .circle {
-    background-color: #ddd;
-    border-radius: 5px;
-    height: 5px;
-    left: 8px;
-    position: absolute;
-    top: 10px;
-    width: 5px;
-}
-
-#userMenu .downArrow {
-    border-top: 8px solid #ccc;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    float: right;
-    margin: 6px 0;
-    width: 0;
-}
-
-#userMenu .lang {
-    display: block;
-}
-
-#userMenu .lang:hover ~ .langPopUp {
-    display: block;
-}
-
-#userMenu .leftArrow {
-    border-right: 4px solid #ddd;
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
-    left: 8px;
-    top: 10px;
-    position: absolute;
-}
-
-#userMenu .leftArrow:hover ~ .langPopUp {
-    display: block;
-}
-
-#userMenu .langPopUp {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: none;
-    left: -76px;
-    position: absolute;
-    top: -4px;
-    width: 80px
-}
-
-#userMenu .langPopUp:hover {
-    display: block;
-}
-
-#userMenu .popUp {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: none;
-    list-style-type: none;
-    margin-top: 2px;
-    overflow: visible;
-    padding: 0;
-    position: relative;
-    width: auto;
-}
-
-#userMenu .popUp span {
-    color: #555;
-    display: block;
-    font: 12px Arial,sans-serif;
-    padding: 5px 20px;
-}
-
-#userMenu .popUp span:hover {
-    color: #fff;
-}
-
-#userMenu .user {
-    color: #777;
-    float: right;
-    margin-right: 10px;
-    line-height: 20px;
-    text-align: right;
-    width: 100px;
 }

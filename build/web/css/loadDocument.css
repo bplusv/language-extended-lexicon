@@ -7,17 +7,17 @@
 
 @charset "UTF-8";
 
-.loadField {
+.ldField {
     margin: 0px auto;
     text-align: center;
 }
 
-.title {
+.ldTitle {
     margin-bottom: 50px;
     text-align: center;
 }
 
-#document {
+#ldDocument {
     border: none;
     height: auto;
     margin: 0px 30px;
@@ -26,7 +26,7 @@
     width: 314px;
 }
 
-#document option {
+#ldDocument option {
     display: block;
     overflow: visible;
     padding: 0 10px;
@@ -34,18 +34,17 @@
     white-space: nowrap;
 }
 
-#document option:nth-of-type(odd) {
+#ldDocument option:nth-of-type(odd) {
     background: #f9f9f9;
 }
 
-#load {
+#ldDoLoadDocument {
     position: absolute;
     bottom: 0px;
     left: 0px;
 }
 
-
-#loadForm {
+#ldForm {
     border-right: 1px solid #ccc;
     float: left;
     height: 450px;
@@ -53,23 +52,23 @@
     width: 373px;
 }
 
-#name {
+#ldName {
     display: inline-block;
     width: 150px;
 }
 
-#nameLabel {
+#ldNameLabel {
 
 }
 
-#newForm {
+#ldNewForm {
     float: right;
     height: 450px;
     position: relative;
     width: 374px;
 }
 
-#save {
+#ldDoCreateDocument {
     bottom: 0px;
     position: absolute;
     right: 0px;

@@ -1,0 +1,182 @@
+/* 
+    Document   : index
+    Created on : Jun 21, 2012, 11:43:35 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: index stylesheet
+*/
+
+@charset "UTF-8";
+
+#ixFooter {
+    background: url('../img/footer.png');
+    height: 154px;
+}
+
+#ixHeader {
+    height: 80px;
+    margin-bottom: 25px;
+    padding-top: 15px;
+    position: relative;
+}
+
+#ixHeaderLogo {
+    float: left;
+}
+
+#ixProjectTitle {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 400px;
+}
+
+#ixChooseLangForm {
+    display: none;
+}
+
+#ixSignOutForm {
+    display: none;
+}
+
+#ixUserMenu {
+    cursor: pointer;
+    display: inline-block;
+    height: auto;
+    position: absolute;
+    right: 0;
+    width: auto;
+    z-index: 99;
+}
+
+#ixUserMenu:hover .downArrow {
+    border-top-color: #555;
+}
+
+#ixUserMenu:hover .popUp {
+    display: block;
+}
+
+#ixUserMenu:hover .user {
+    color: #555;
+}
+
+#ixUserMenu a {
+    border-radius: 5px;
+    color: #555;
+    display: block;
+    font: 12px Arial,sans-serif;
+    text-decoration: none;
+    padding: 5px 20px;
+}
+
+#ixUserMenu a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+#ixUserMenu a:active {
+    background-color: #CA322D;
+}
+
+#ixUserMenu li {
+    border-radius: 5px;
+    display: block;
+    position: relative;
+}
+
+#ixUserMenu li:hover {
+    background: #FF7056;
+    color: #fff;
+}
+
+#ixUserMenu li:hover > span {
+    color: #fff;
+}
+
+#ixUserMenu .circle {
+    background-color: #ddd;
+    border-radius: 5px;
+    height: 5px;
+    left: 8px;
+    position: absolute;
+    top: 10px;
+    width: 5px;
+}
+
+#ixUserMenu .downArrow {
+    border-top: 8px solid #ccc;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    float: right;
+    margin: 6px 0;
+    width: 0;
+}
+
+#ixUserMenu .lang {
+    display: block;
+}
+
+#ixUserMenu .lang:hover ~ .langPopUp {
+    display: block;
+}
+
+#ixUserMenu .leftArrow {
+    border-right: 4px solid #ddd;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    left: 8px;
+    top: 10px;
+    position: absolute;
+}
+
+#ixUserMenu .leftArrow:hover ~ .langPopUp {
+    display: block;
+}
+
+#ixUserMenu .langPopUp {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    left: -76px;
+    position: absolute;
+    top: -4px;
+    width: 80px
+}
+
+#ixUserMenu .langPopUp:hover {
+    display: block;
+}
+
+#ixUserMenu .popUp {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    list-style-type: none;
+    margin-top: 2px;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    width: auto;
+}
+
+#ixUserMenu .popUp span {
+    color: #555;
+    display: block;
+    font: 12px Arial,sans-serif;
+    padding: 5px 20px;
+}
+
+#ixUserMenu .popUp span:hover {
+    color: #fff;
+}
+
+#ixUserMenu .user {
+    color: #777;
+    float: right;
+    margin-right: 10px;
+    line-height: 20px;
+    text-align: right;
+    width: 100px;
+}

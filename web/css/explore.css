@@ -7,62 +7,21 @@
 
 @charset "UTF-8";
 
-.exploreField {
+.exField {
     display: inline;
     margin: 0 12px;
     vertical-align: middle;
 }
 
-.exploreField > label{
+.exField > label{
     margin-right: 5px;
 }
 
-.exploreField > select {
+.exField > select {
     width: 120px;
 }
 
-#category {
-    
-}
-
-#categoryLabel {
-    
-}
-
-#symbols {
-    height: 450px;
-    overflow-y: scroll;
-}
-
-#symbolsTable {
-    color: #555;
-    font: 13px/24px 'Century Gothic', sans-serif;
-    height: auto;
-    table-layout: fixed;
-    width: 748px;
-}
-
-#symbolsTable a {
-    color: #555;
-    display: block;
-    font: 13px/24px 'Century Gothic', sans-serif;
-    text-decoration: none;
-}
-
-#symbolsTable th {
-    color: #222;
-    font: 15px/24px 'Century Gothic', sans-serif;
-}
-
-#symbolsTable tr {
-    height: 30px;
-}
-
-#symbolsTable td {
-    height: 30px;
-}
-
-.symbolsRow {
+.exSymbolsRow {
     color: #555;
     display: block;
     font: 13px/24px 'Century Gothic', sans-serif;
@@ -70,15 +29,15 @@
     z-index: 2;
 }
 
-.symbolsRow:hover {
+.exSymbolsRow:hover {
     background-color: #FFE0C6;
 }
 
-.symbolsRow:hover span {
+.exSymbolsRow:hover span {
     color: #000;
 }
 
-.symbolsRow span.overflowEllipsis {
+.exSymbolsRow span.overflowEllipsis {
     background-color: transparent;
     border-color: #fff;
     border-style: solid;
@@ -91,15 +50,23 @@
     z-index: 1;
 }
 
-#classification {
-    
+#exCategory {
+
 }
 
-#classificationLabel {
-    
+#exCategoryLabel {
+
 }
 
-#doSearch {
+#exClassification {
+
+}
+
+#exClassificationLabel {
+
+}
+
+#exDoSearch {
     background-image: url('../img/searchIcon.png');
     background-repeat: no-repeat;
     background-position: center center;
@@ -109,11 +76,7 @@
     width: 30px;
 }
 
-#exploreForm {
-  
-}
-
-#filters {
+#exFilters {
     display: block;
     height: 30px;
     margin-bottom: 25px;
@@ -121,6 +84,38 @@
     width: auto;
 }
 
-#search {
-   width: 120px; 
+#exForm {
+
+}
+
+#exSearch {
+    width: 120px; 
+}
+
+#exSymbolsTable {
+    color: #555;
+    font: 13px/24px 'Century Gothic', sans-serif;
+    height: auto;
+    table-layout: fixed;
+    width: 748px;
+}
+
+#exSymbolsTable a {
+    color: #555;
+    display: block;
+    font: 13px/24px 'Century Gothic', sans-serif;
+    text-decoration: none;
+}
+
+#exSymbolsTable td {
+    height: 30px;
+}
+
+#exSymbolsTable th {
+    color: #222;
+    font: 15px/24px 'Century Gothic', sans-serif;
+}
+
+#exSymbolsTable tr {
+    height: 30px;
 }

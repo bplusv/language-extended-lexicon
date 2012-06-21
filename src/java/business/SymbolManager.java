@@ -136,9 +136,9 @@ public class SymbolManager {
         return symbol;
     }
 
-    public Symbol createPossibleSymbol(String nameParam, String documentParam) {
+    public Symbol createPossibleSymbol(String symbolNameParam, String documentParam) {
         try {
-            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
+            String name = symbolNameParam.trim().isEmpty() ? null : symbolNameParam.trim();
             Document document = documentFacade.find(Integer.parseInt(documentParam));
 
             Symbol symbol = new Symbol();
@@ -174,10 +174,10 @@ public class SymbolManager {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Symbol getSymbolByDocAndName(String documentParam, String nameParam) {
+    public Symbol getSymbolByDocAndName(String documentParam, String symbolNameParam) {
         try {
             Document document = documentFacade.find(Integer.parseInt(documentParam));
-            String name = nameParam;
+            String name = symbolNameParam;
             Symbol symbol = findSymbolByDocAndName(document, name);
             return symbol;
         } catch (Exception ex) {

@@ -7,8 +7,3 @@
 <c:if test="${!empty cookie.language}">
     <fmt:setLocale value="${cookie.language.value}" scope="session" />
 </c:if>
-
-<c:if test="${!fn:contains(pageContext.request.getServletPath(), 'index') and !fn:contains(pageContext.request.getServletPath(), 'signIn')}">
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css${userPath}.css" />" media="all" charset="UTF-8" />
-    <script src="<c:url value="/js${userPath}.js" />" type="text/javascript" charset="UTF-8"></script>
-</c:if>

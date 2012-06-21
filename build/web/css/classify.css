@@ -7,25 +7,17 @@
 
 @charset "UTF-8";
 
-label {
-    display: block;
-}
-
-select {
-    width: 100%;
-}
-
-.definitionField {
+.clDefinitionField {
     display: block;
     margin-bottom: 15px;
     width: 100%;
 }
 
-.definitionField label {
+.clDefinitionField label {
     display:block;
 }
 
-.definitionField textarea {
+.clDefinitionField textarea {
     border-top-left-radius: 0;
     display: block;
     height: auto;
@@ -35,56 +27,98 @@ select {
     width: 100%;
 }
 
-.fixPadding {
+.clFixPadding {
     margin-right: 22px;
 }
 
-.info {
+.clInfo {
     color: #000;
     display: block;
     line-height: 24px;
 }
 
-#classifyForm {
-    height: auto;
-    min-height: 450px;
-    padding-bottom: 25px;
-    position: relative;
-    width: 748px;
+.clDefinitionField.Left {
+    float: left;
+    width: 48%;
 }
 
-#definitionBottom {
+.clDefinitionField.Right {
+    float: right;
+    width: 48%;
+}
+
+#clActualIntention {
+    
+}
+
+#clActualIntentionLabel {
+    
+}
+
+#clCategory {
+    
+}
+
+#clCategoryLabel {
+    
+}
+
+#clClassification {
+    
+}
+
+#clClassificationLabel {
+    
+}
+
+#clComments {
+    
+}
+
+#clCommentsLabel {
+    
+}
+
+#clDefinitionBottom {
     display: block;
     margin-bottom: 54px;
 }
 
-#definitionTop {
+#clDefinitionTop {
     height: 100px;
     margin-bottom: 25px;
     overflow: hidden;
     width: 748px;
 }
 
-#definitionTop > div {
+#clDefinitionTop > div {
     display: inline-block;
     float: left;
     height: 100%;
     width: 50%;
 }
 
-#definitionTopLeft {
+#clDefinitionTop label {
+    display: block;
+}
+
+#clDefinitionTop select {
+    width: 100%;
+}
+
+#clDefinitionTopLeft {
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
     width: 250px;
 }
 
-#definitionTopLeft > div {
+#clDefinitionTopLeft > div {
     display: block;
     overflow: hidden;
 }
 
-#definitionTopLeft > div > div {
+#clDefinitionTopLeft > div > div {
     display: inline-block;
     float: left;
     height: 24px;
@@ -93,7 +127,7 @@ select {
 }
 
 
-#definitionTopRight {
+#clDefinitionTopRight {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -103,13 +137,49 @@ select {
     width: 200px;
 }
 
-#save {
+#clDocument {
+    
+}
+
+#clDoSaveSymbol {
     bottom: 0;
     position: absolute;
     right: 0;
 }
 
-#selectedSynonym {
+#clForm {
+    height: auto;
+    min-height: 450px;
+    padding-bottom: 25px;
+    position: relative;
+    width: 748px;
+}
+
+#clFutureIntention {
+    
+}
+
+#clFutureIntentionLabel {
+    
+}
+
+#clIntentionFields {
+    
+}
+
+#clName {
+    
+}
+
+#clNotion {
+    
+}
+
+#clNotionLabel {
+    
+}
+
+#clSelectedSynonym {
     border: 1px solid #ccc;
     display: none;
     height: auto;
@@ -119,16 +189,20 @@ select {
     width: 400px;
 }
 
-#synonyms {
+#clSymbol{
+    
+}
+
+#clSynonyms {
     margin-bottom: 25px;
     text-align: center;
 }
 
-#synonyms label {
+#clSynonyms label {
     display: inline-block;
 }
 
-#title {
+#clTitle {
     margin-bottom: 25px;
     text-align: center;
 }

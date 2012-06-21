@@ -23,19 +23,18 @@
  */
 
 $(document).ready(function() {
-   $('#category').off().on('change', function() {
+   $(document).on('change', '#clCategory', function() {
        $this = $(this);
        // is 'general' category selected?
-       if ($this.val() == 1) {
-           $('#classificationField').css('display', 'none');
-           $('#intentionFields').css('display', 'none');
+       if ($this.val() === '1') {
+           $('#clClassificationField').hide();
+           $('#clIntentionFields').hide();
        } else {
-           $('#classificationField').css('display', 'block');
-           $('#intentionFields').css('display', 'block');
+           $('#clClassificationField').show();
+           $('#clIntentionFields').show();
        }
    });
-   $('#synonyms').off().on('click', function() {
-       display = $('#selectedSynonym').css('display');
-       $('#selectedSynonym').slideToggle();
+   $(document).on('click', '#clSynonyms', function() {
+       $('#clSelectedSynonym').toggle();
    })
 });

@@ -7,17 +7,17 @@
 
 @charset "UTF-8";
 
-.loadField {
+.lpField {
     margin: 0px auto;
     text-align: center;
 }
 
-.title {
+.lpTitle {
     margin-bottom: 50px;
     text-align: center;
 }
 
-#project {
+#lpProject {
     border: none;
     display: block;
     height: auto;
@@ -27,7 +27,7 @@
     width: 600px;
 }
 
-#project option {
+#lpProject option {
     display: block;
     overflow: visible;
     padding: 0 10px;
@@ -35,37 +35,36 @@
     white-space: nowrap;
 }
 
-#project option:nth-of-type(odd) {
+#lpProject option:nth-of-type(odd) {
     background: #f9f9f9;
 }
 
-#load {
+#lpDoLoadProject {
     position: absolute;
     bottom: 0px;
     right: 0px;
 }
 
-
-#loadForm {
+#lpLoadForm {
     height: 325px;
     position: relative;
 }
 
-#name {
+#lpName {
     display: inline-block;
     width: 200px;
 }
 
-#nameLabel {
+#lpNameLabel {
 
 }
 
-#newForm {
+#lpNewForm {
     height: 150px;
     position: relative;
 }
 
-#save {
+#lpDoCreateProject {
     bottom: 0px;
     position: absolute;
     right: 0px;
