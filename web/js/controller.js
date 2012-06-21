@@ -112,8 +112,8 @@ function controller(form) {
                     action = function(response) { 
                         if ($(response).find('success').text() == 'true') {
                             projectName = $(response).find('project').find('name').text();
-                            $('#projectTitle').css('display', 'block');
-                            $('#projectName').html(projectName);
+                            $('#ixProjectTitle').css('display', 'block');
+                            $('#ixProjectName').html(projectName);
                             if (document.location.hash.indexOf('/explore') > 0) $(window).hashchange();
                             else document.location.hash = '#!/explore';
                         }
@@ -134,8 +134,8 @@ function controller(form) {
                     action = function(response) { 
                         if ($(response).find('success').text() === 'true') {
                             projectName = $(response).find('project').find('name').text();
-                            $('#projectTitle').css('display', 'block');
-                            $('#projectName').html(projectName);
+                            $('#ixProjectTitle').css('display', 'block');
+                            $('#ixProjectName').html(projectName);
                             if (document.location.hash.indexOf('/explore') > 0) $(window).hashchange();
                             else document.location.hash = '#!/explore';
                         }
