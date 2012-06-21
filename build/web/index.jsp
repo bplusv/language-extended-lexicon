@@ -75,7 +75,7 @@
             </div>
             <img id="ixHeaderLogo" src="img/lelLogo.png" alt="LeL logo" />
             <div id="ixProjectTitle" style="display: ${empty project ? 'none' : 'block'}}">
-                <h3 class="overflowEllipsis"><fmt:message key="project" /> - <span id="projectName">${project.name}</span></h3>
+                <h3 class="overflowEllipsis"><fmt:message key="project" /> - <span id="ixProjectName">${project.name}</span></h3>
             </div>
         </header>
         <nav class="tabs">
