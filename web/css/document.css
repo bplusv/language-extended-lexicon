@@ -7,11 +7,19 @@
 
 @charset "UTF-8";
 
-#symbolForm {
+#dcSymbolForm {
     display: none;
 }
 
-#documentContainer {
+#dcUfDocument {
+    
+}
+
+#dcDocumentData {
+    
+}
+
+#dcDocumentContainer {
     border: 1px solid #ccc;
     border-radius: 5px;
     display: block;
@@ -27,24 +35,32 @@
     white-space: pre-wrap;
 }
 
-#load {
-    bottom: 0px;
-    left: 0px;
-    position: absolute;
-}
-
-#documentForm {
-    height: 500px;
-    position: relative;
-}
-
-#save {
+#dcDoUpdateDocument {
     bottom: 0px;
     position: absolute;
     right: 0px;
 }
 
-#title {
+#dcLoadDocument {
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+}
+
+#dcSfDocument {
+    
+}
+
+#dcSymbolName {
+    
+}
+
+#dcTitle {
     margin-bottom: 25px;
     text-align: center;
+}
+
+#dcUpdateForm {
+    height: 500px;
+    position: relative;
 }

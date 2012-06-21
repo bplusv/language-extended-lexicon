@@ -44,14 +44,14 @@ import session.*;
  */
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
-urlPatterns = {"/chooseLanguage",
-                "/classify",
+urlPatterns = {"/classify",
                 "/document",
                 "/explore",
                 "/loadDocument",
                 "/loadProject",
                 "/signIn",
                 "/test",
+                "/doChooseLanguage",
                 "/doCreateDocument",
                 "/doCreateProject",
                 "/doCreateSymbol",
@@ -98,21 +98,7 @@ public class ControllerServlet extends HttpServlet {
         String userPath = request.getServletPath();
         
         
-        if(userPath.equals("/chooseLanguage")) {
-        
-            
-            String language = request.getParameter("language");
-            request.setAttribute("language", language);
-            Cookie langCookie = new Cookie("language", language);
-            langCookie.setMaxAge(60*60*24*365);
-            response.addCookie(langCookie);
-            try {
-                response.sendRedirect("/lel");
-            } catch (Exception ex) {}
-            return;
-            
-            
-        } else if (userPath.equals("/classify")) {
+        if (userPath.equals("/classify")) {
             
             
             String symbolParam = request.getParameter("sy");
@@ -124,8 +110,8 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("submitAction", "/doUpdateSymbol");
             } else {
                 String documentParam = request.getParameter("document");
-                String nameParam = request.getParameter("name");
-                Symbol symbol = symbolManager.getSymbolByDocAndName(documentParam, nameParam);
+                String symbolNameParam = request.getParameter("symbolName");
+                Symbol symbol = symbolManager.getSymbolByDocAndName(documentParam, symbolNameParam);
                 if (symbol != null) {
                     symbolParam = symbol.getId().toString();
                     Log log = symbolManager.getLog(symbolParam);
@@ -133,7 +119,7 @@ public class ControllerServlet extends HttpServlet {
                     request.setAttribute("log", log);
                     request.setAttribute("submitAction", "/doUpdateSymbol");   
                 } else {
-                    symbol = symbolManager.createPossibleSymbol(nameParam, documentParam);
+                    symbol = symbolManager.createPossibleSymbol(symbolNameParam, documentParam);
                     request.setAttribute("symbol", symbol);
                     request.setAttribute("submitAction", "/doCreateSymbol");
                 }
@@ -196,12 +182,27 @@ public class ControllerServlet extends HttpServlet {
         
         
         
-        if (userPath.equals("/doCreateDocument")) {
+        if(userPath.equals("/doChooseLanguage")) {
+        
+            
+            try {
+                String language = request.getParameter("language");
+                request.setAttribute("language", language);
+                Cookie langCookie = new Cookie("language", language);
+                langCookie.setMaxAge(60*60*24*365);
+                response.addCookie(langCookie);
+                request.setAttribute("success", true);
+            } catch (Exception ex) {
+                request.setAttribute("success", false);
+            }
+
+                        
+        } else if (userPath.equals("/doCreateDocument")) {
             
             
-            String nameParam = request.getParameter("name");
+            String documentNameParam = request.getParameter("documentName");
             String projectParam = ((Project) session.getAttribute("project")).getId().toString();
-            Document document = documentManager.createDocument(nameParam, projectParam);
+            Document document = documentManager.createDocument(documentNameParam, projectParam);
             if (document != null) {
                 session.setAttribute("document", document);
                 request.setAttribute("success", true);
@@ -213,9 +214,9 @@ public class ControllerServlet extends HttpServlet {
         } else if(userPath.equals("/doCreateProject")) {
             
             
-            String nameParam = request.getParameter("name");
+            String projectNameParam = request.getParameter("projectName");
             String userParam = ((User) session.getAttribute("user")).getId().toString();
-            Project project = projectManager.createProject(nameParam, userParam);
+            Project project = projectManager.createProject(projectNameParam, userParam);
             if (project != null) {
                 session.setAttribute("project", project);
                 session.setAttribute("document", null);

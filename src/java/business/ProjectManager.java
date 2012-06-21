@@ -64,14 +64,14 @@ public class ProjectManager {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Project createProject(String nameParam, String userParam) {
+    public Project createProject(String projectNameParam, String userParam) {
         try {
-            String name = nameParam.trim().isEmpty() ? null : nameParam.trim();
+            String projectName = projectNameParam.trim().isEmpty() ? null : projectNameParam.trim();
             User user = userFacade.find(Integer.parseInt(userParam));
             Project project = new Project();
             Collection<User> users = new ArrayList<User>();
             users.add(user);
-            project.setName(name);
+            project.setName(projectName);
             project.setUserCollection(users);
             em.persist(project);
             em.flush();

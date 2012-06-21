@@ -21,63 +21,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+function getSelectedText() {
+    if(window.getSelection) {return window.getSelection();}
+    else if(document.getSelection) {return document.getSelection();}
+    else {
+        var selection = document.selection && document.selection.createRange();
+        if(selection.text) {return selection.text;}
+        return '';
+    }
+    return '';
+}
+
 var infoBubble;
-var infoBubbleText;
-var infoBubbleArrow;
-var dataInput = $('#data');
-var docContainer = $('#documentContainer');
-    
 $(document).ready(function(){
-    dataInput = $('#data');
-    docContainer = $('#documentContainer');
-    contOffset = docContainer.offset();
-    contSize = {width: docContainer.outerWidth(), height: docContainer.outerHeight()};
-    container = {top: contOffset.top, bottom: contOffset.top + contSize.height,
-                  left: contOffset.left, right: contOffset.left + contSize.width};
-    
-        
     $(document).on('mouseup', function(e) {
-        text = getSelectedText();
-        text = new String(text).replace(/^\s+|\s+$/g,'') // remove spaces before & after
-        if (text != false && text != '' && document.location.hash == '#!nav=document') {
-            text = text.substr(0,255);
-            $('#name').val(text);
+        if ($('#dcDocumentContainer').length > 0) {               
+            selectedText = new String(getSelectedText()).replace(/^\s+|\s+$/g,'').substr(0,255);
             
-            
-            if(!infoBubble) {
-                infoBubble = $('<a>').attr({
-                    contenteditable: 'false',
-                    href: 'javascript:;',
-                    id: 'infoBubble'
-                });
-                infoBubbleText = $('<span>').attr({id: 'infoBubbleText'});
-                infoBubbleArrow = $('<div>').attr({id: 'infoBubbleArrow'});
+            if (selectedText != '') {
+                $('#dcSymbolName').val(selectedText);
                 
-                infoBubble.append(infoBubbleText);
-                infoBubble.append(infoBubbleArrow);
-                infoBubble.hide();
+                if(!infoBubble) {
+                    infoBubble = $('<a>').attr({
+                        contenteditable: 'false',
+                        href: 'javascript:;',
+                        id: 'infoBubble'
+                    });
+                    infoBubbleText = $('<span>').attr({id: 'infoBubbleText'});
+                    infoBubbleArrow = $('<div>').attr({id: 'infoBubbleArrow'});
+                    infoBubble.append(infoBubbleText);
+                    infoBubble.append(infoBubbleArrow);
+                    infoBubble.hide();
+                    infoBubble.on('click', function(e){
+                        infoBubble.hide();
+                    });
+                    $('body').append(infoBubble);
+                }
                 
-                infoBubble.on('click', function(e){
-                    $('#symbolForm').submit();
-                    infoBubble.fadeOut(0);
-                });
-                
-                $('body').append(infoBubble);
+                infoBubble.attr('href', '#!/classify?' + $('#dcSymbolForm').serialize());
+                infoBubbleText.html(selectedText);
+
+                cont = $('#dcDocumentContainer');
+                container = {top: cont.offset().top, bottom: cont.offset().top + cont.outerHeight(),
+                            left: cont.offset().left, right: cont.offset().left + cont.outerWidth()};                
+                newPos = {x: 0, y: 0};
+                newPos.y = e.pageY < container.top ? container.top + 10 : e.pageY > container.bottom ? container.bottom - 10 : e.pageY;
+                newPos.x = e.pageX < container.left ? container.left + 30 : e.pageX > container.right ? container.right - 30 : e.pageX;
+
+                infoBubble.clearQueue().stop().css({
+                    top: newPos.y - infoBubble.outerHeight() - 35,
+                    left: newPos.x - infoBubble.outerWidth() / 2,
+                    opacity: 1
+                }).show();
             }
-            
-            infoBubble.attr('href', '#!nav=classify&' + $('#symbolForm').serialize());
-            
-            infoBubbleText.html(text);
-            newPos = {x: 0, y: 0};
-            
-            newPos.y = e.pageY < container.top ? container.top + 10 : e.pageY > container.bottom ? container.bottom - 10 : e.pageY;
-            newPos.x = e.pageX < container.left ? container.left + 30 : e.pageX > container.right ? container.right - 30 : e.pageX;
-            
-            infoBubble.clearQueue().stop().css({
-                top: newPos.y - infoBubble.outerHeight() - 35,
-                left: newPos.x - infoBubble.outerWidth() / 2,
-                opacity: 1
-            }).fadeIn(300);
         }
     });
     
@@ -90,29 +86,28 @@ $(document).ready(function(){
     });
     
     $(document).on('mousedown', function (e) {
-        if (infoBubble) infoBubble.fadeOut(300);
+        if (infoBubble) infoBubble.hide();
     });
-    
 });
 
 function updateDocumentData() {
-    containerData = docContainer.html();
+    containerData = $('#dcDocumentContainer').html();
     
-    // internet explorer
+    // Internet Explorer
     containerData = containerData.replace(/<p>/i, '');
     containerData = containerData.replace(/<p>&nbsp;<\/p>/ig,'\n');
     containerData = containerData.replace(/<p>/ig,'\n');
     
-    // chrome
+    // Chrome
     containerData = containerData.replace(/<div><br><\/div>/ig,'\n');
     containerData = containerData.replace(/<div>/ig,'\n');
     
-    // firefox
+    // Firefox
     containerData = containerData.replace(/<br>/ig, '\n');
     
     containerData = containerData.replace(/<[^>]+>/ig,'');
     containerData = containerData.replace(/&nbsp;/ig,' ');
-    dataInput.val(containerData);
-
+    
+    $('#dcDocumentData').val(containerData);
     return false;
 }

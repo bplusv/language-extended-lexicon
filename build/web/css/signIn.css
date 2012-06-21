@@ -7,41 +7,67 @@
 
 @charset "UTF-8";
 
-.signInField {
+.siField {
     margin-bottom: 15px;
     margin-top: 15px;
     width: 250px;
 }
 
-.signInField label {
+.siField label {
     display: block;
     margin-bottom: 5px;
 }
 
-.signInField > input[type="text"], .signInField > input[type="password"] {
+.siField > input[type="text"], .siField > input[type="password"] {
     width: 238px;
 }
 
-#bubblesBackground {
+#siCentral {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    height: auto;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    min-height: 450px;
+    padding: 25px;
+    width: 748px;
+}
+
+#siAd {
+    margin-bottom: 30px;
+}
+
+#siBubblesBackground {
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 137px;
 }
 
-#center {
-    border-color: #fff;
-    margin-top: 50px;
+#siDoSignIn {
+    bottom: 0;
+    left: 0;
+    position: absolute;
 }
 
-#lelLogo {
+#siForm {
+    height: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 70px;
+    position: relative;
+    width: 250px;
+}
+
+#siLelLogo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 30px;
+    margin-top: 70px;
 }
 
-#leftSide {
+#siLeftSide {
     border-right: 1px solid #ccc;
     float: left;
     height: 500px;
@@ -49,21 +75,25 @@
     width: 373px;
 }
 
-#rightSide {
+#siPassword {
+    
+}
+
+#siPasswordLabel {
+    
+}
+
+#siRightSide {
     float: right;
     height: 500px;
     position: relative;
     width: 374px;
 }
 
-#signInAd {
-    margin-bottom: 30px;
+#siUserName {
+    
 }
 
-#signInForm {
-    height: 250px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    width: 250px;
+#siUsernameLabel {
+    
 }
