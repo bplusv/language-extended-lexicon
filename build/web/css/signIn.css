@@ -26,23 +26,15 @@
     border: 1px solid #fff;
     border-radius: 5px;
     border-top-left-radius: 0;
-    height: auto;
+    height: 400px;
     margin-bottom: 50px;
     margin-top: 50px;
-    min-height: 450px;
     padding: 25px;
     width: 748px;
 }
 
 #siAd {
     margin-bottom: 30px;
-}
-
-#siBubblesBackground {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 137px;
 }
 
 #siDoSignIn {
@@ -53,24 +45,28 @@
 
 #siForm {
     height: 250px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 70px;
-    position: relative;
+    left: 50%;
+    margin-left: -125px;
+    margin-top: -125px;
+    position: absolute;
+    top: 50%;
     width: 250px;
 }
 
 #siLelLogo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 70px;
+    height: 250px;
+    left: 50%;
+    margin-left: -125px;
+    margin-top: -125px;
+    top: 50%;
+    width: 250px;
+    position: absolute;
 }
 
 #siLeftSide {
     border-right: 1px solid #ccc;
     float: left;
-    height: 500px;
+    height: 400px;
     position: relative;
     width: 373px;
 }
@@ -85,7 +81,7 @@
 
 #siRightSide {
     float: right;
-    height: 500px;
+    height: 400px;
     position: relative;
     width: 374px;
 }

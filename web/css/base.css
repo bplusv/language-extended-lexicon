@@ -259,6 +259,10 @@ textarea {
     width: 0px;
 }
 
+#networkFail {
+    display: none;
+}
+
 #notification {
     border-radius: 5px;
     color: #fff;

@@ -4,7 +4,7 @@
    Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<% if (session.getAttribute("user") != null) response.sendRedirect("/lel/"); %>
+<% if (session.getAttribute("user") != null) response.sendRedirect("/lel"); %>
 
 <!DOCTYPE html>
 <html>
@@ -20,17 +20,18 @@
             <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8" ></script>
+        <script src="<c:url value="/js/base.js" />" type="text/javascript" charset="UTF-8" ></script>
         <script src="<c:url value="/js/controller.js" />" type="text/javascript" charset="UTF-8" ></script>
     </head>
     <body>
+        <span id="networkFail"><fmt:message key="network fail" /></span>
         <h3 id="notification"></h3>
         <div id="siCentral">
             <div id="siLeftSide">
-                <img id="siLelLogo" src="img/lelLogo.png" />
-                <img id="siBubblesBackground" src="img/signInBackground.png" />
+                <img id="siLelLogo" src="/lel/img/signInLogo.png" />
             </div>
             <div id="siRightSide">
-                <form id="siForm" action="<c:url value="/doSignIn" />" method="POST">
+                <form id="siForm" action="<c:url value="/ajax/doSignIn" />" method="POST">
                     <h2 id="siAd"><fmt:message key="sign in" /></h2>
                     <div class="siField">
                         <label id="siUsernameLabel" for="siUsername"><strong><fmt:message key="username" /></strong></label>

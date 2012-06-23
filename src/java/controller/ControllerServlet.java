@@ -44,23 +44,23 @@ import session.*;
  */
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
-urlPatterns = {"/classify",
-                "/document",
-                "/explore",
-                "/loadDocument",
-                "/loadProject",
+urlPatterns = {"/ajax/classify",
+                "/ajax/document",
+                "/ajax/explore",
+                "/ajax/loadDocument",
+                "/ajax/loadProject",
+                "/ajax/test",
                 "/signIn",
-                "/test",
-                "/doChooseLanguage",
-                "/doCreateDocument",
-                "/doCreateProject",
-                "/doCreateSymbol",
-                "/doLoadDocument",
-                "/doLoadProject",
-                "/doSignIn",
-                "/doSignOut",
-                "/doUpdateDocument",
-                "/doUpdateSymbol"})
+                "/ajax/doChooseLanguage",
+                "/ajax/doCreateDocument",
+                "/ajax/doCreateProject",
+                "/ajax/doCreateSymbol",
+                "/ajax/doLoadDocument",
+                "/ajax/doLoadProject",
+                "/ajax/doSignIn",
+                "/ajax/doSignOut",
+                "/ajax/doUpdateDocument",
+                "/ajax/doUpdateSymbol"})
 public class ControllerServlet extends HttpServlet {
     @EJB private CategoryFacade categoryFacade;
     @EJB private ClassificationFacade classificationFacade;
@@ -98,16 +98,17 @@ public class ControllerServlet extends HttpServlet {
         String userPath = request.getServletPath();
         
         
-        if (userPath.equals("/classify")) {
+        
+        if (userPath.equals("/ajax/classify")) {
             
-            
+
             String symbolParam = request.getParameter("sy");
             if (symbolParam != null) {
                 Symbol symbol = symbolManager.getSymbol(symbolParam);
                 Log log = symbolManager.getLog(symbolParam);
                 request.setAttribute("symbol", symbol);
                 request.setAttribute("log", log);
-                request.setAttribute("submitAction", "/doUpdateSymbol");
+                request.setAttribute("submitAction", "/ajax/doUpdateSymbol");
             } else {
                 String documentParam = request.getParameter("document");
                 String symbolNameParam = request.getParameter("symbolName");
@@ -117,51 +118,53 @@ public class ControllerServlet extends HttpServlet {
                     Log log = symbolManager.getLog(symbolParam);
                     request.setAttribute("symbol", symbol);
                     request.setAttribute("log", log);
-                    request.setAttribute("submitAction", "/doUpdateSymbol");   
+                    request.setAttribute("submitAction", "/ajax/doUpdateSymbol");   
                 } else {
                     symbol = symbolManager.createPossibleSymbol(symbolNameParam, documentParam);
                     request.setAttribute("symbol", symbol);
-                    request.setAttribute("submitAction", "/doCreateSymbol");
+                    request.setAttribute("submitAction", "/ajax/doCreateSymbol");
                 }
             }
             
             
-        } else if (userPath.equals("/document")) {
+        } else if (userPath.equals("/ajax/document")) {
 
             
-            if (session.getAttribute("document") == null) userPath = "/loadDocument";
-            if (session.getAttribute("project") == null) userPath = "/loadProject";
+            if (session.getAttribute("document") == null) userPath = "/ajax/loadDocument";
+            if (session.getAttribute("project") == null) userPath = "/ajax/loadProject";
   
             
-        } else if (userPath.equals("/explore")) {
+        } else if (userPath.equals("/ajax/explore")) {
             
             
-            if (session.getAttribute("project") == null) userPath = "/loadProject";
+            if (session.getAttribute("project") == null) userPath = "/ajax/loadProject";
             
             
-        } else if (userPath.equals("/loadDocument")) {
+        } else if (userPath.equals("/ajax/loadDocument")) {
             
             
             
             
-        } else if(userPath.equals("/loadProject")) {
+        } else if(userPath.equals("/ajax/loadProject")) {
         
             
         
         
+        } else if (userPath.equals("/ajax/test")) {
+            
+            
+            String x = null;
+            x.charAt(0);
+            String foo = "Esto es una prueba del sistema LeL.";
+            request.setAttribute("foo", foo);
+            
+            
         } else if (userPath.equals("/signIn")) {
             
             
             
             
-        } else if (userPath.equals("/test")) {
-            
-            
-            String foo = "Esto es una prueba del sistema LeL.";
-            request.setAttribute("foo", foo);
-            
-            
-        }
+        } 
 
         
         
@@ -182,14 +185,14 @@ public class ControllerServlet extends HttpServlet {
         
         
         
-        if(userPath.equals("/doChooseLanguage")) {
+        if(userPath.equals("/ajax/doChooseLanguage")) {
         
             
             try {
                 String language = request.getParameter("language");
-                request.setAttribute("language", language);
                 Cookie langCookie = new Cookie("language", language);
                 langCookie.setMaxAge(60*60*24*365);
+                langCookie.setPath(request.getContextPath());
                 response.addCookie(langCookie);
                 request.setAttribute("success", true);
             } catch (Exception ex) {
@@ -197,7 +200,7 @@ public class ControllerServlet extends HttpServlet {
             }
 
                         
-        } else if (userPath.equals("/doCreateDocument")) {
+        } else if (userPath.equals("/ajax/doCreateDocument")) {
             
             
             String documentNameParam = request.getParameter("documentName");
@@ -211,7 +214,7 @@ public class ControllerServlet extends HttpServlet {
             }
         
             
-        } else if(userPath.equals("/doCreateProject")) {
+        } else if(userPath.equals("/ajax/doCreateProject")) {
             
             
             String projectNameParam = request.getParameter("projectName");
@@ -226,7 +229,7 @@ public class ControllerServlet extends HttpServlet {
             }
             
             
-        } else if (userPath.equals("/doCreateSymbol")) {
+        } else if (userPath.equals("/ajax/doCreateSymbol")) {
             
             
             String userParam = ((User) session.getAttribute("user")).getId().toString();
@@ -247,10 +250,10 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("success", symbol != null ? true : false);
             request.setAttribute("symbol", symbol);
             request.setAttribute("log", log);
-            request.setAttribute("submitAction", "/doUpdateSymbol");
+            request.setAttribute("submitAction", "/ajax/doUpdateSymbol");
 
             
-        } else if (userPath.equals("/doLoadDocument")) {
+        } else if (userPath.equals("/ajax/doLoadDocument")) {
             
             
             String documentParam = request.getParameter("document");
@@ -263,7 +266,7 @@ public class ControllerServlet extends HttpServlet {
             }
 
             
-        } else if(userPath.equals("/doLoadProject")) {
+        } else if(userPath.equals("/ajax/doLoadProject")) {
         
             
             String projectParam = request.getParameter("project");
@@ -278,7 +281,7 @@ public class ControllerServlet extends HttpServlet {
             }
             
             
-        } else if (userPath.equals("/doSignIn")) {
+        } else if (userPath.equals("/ajax/doSignIn")) {
             
             
             String usernameParam = request.getParameter("username");
@@ -293,7 +296,7 @@ public class ControllerServlet extends HttpServlet {
             }
             
             
-        } else if (userPath.equals("/doSignOut")) {
+        } else if (userPath.equals("/ajax/doSignOut")) {
             
             
             try {
@@ -305,7 +308,7 @@ public class ControllerServlet extends HttpServlet {
             }
             
             
-        } else if (userPath.equals("/doUpdateDocument")) {
+        } else if (userPath.equals("/ajax/doUpdateDocument")) {
             
             
             String documentParam = request.getParameter("document");
@@ -319,7 +322,7 @@ public class ControllerServlet extends HttpServlet {
             }
             
             
-        } else if (userPath.equals("/doUpdateSymbol")) {
+        } else if (userPath.equals("/ajax/doUpdateSymbol")) {
             
             
             String userParam = ((User) session.getAttribute("user")).getId().toString();

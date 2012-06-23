@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-            <form id="ldForm" action="<c:url value="/doLoadDocument" />" method="POST">
+            <form id="ldForm" action="<c:url value="/ajax/doLoadDocument" />" method="POST">
                 <h3 class="ldTitle"><fmt:message key="load document" /></h3>
                     <select id="ldDocument" name="document" size="18">
                         <c:forEach var="document" items="${projectManager.getProjectDocuments(project.id)}">
@@ -13,7 +13,7 @@
                     </select>
                 <input id="ldDoLoadDocument" type="submit" class="button" value="<fmt:message key="load" />" />
             </form>
-            <form id="ldNewForm" action="<c:url value="/doCreateDocument" />" method="POST">
+            <form id="ldNewForm" action="<c:url value="/ajax/doCreateDocument" />" method="POST">
                 <h3 class="ldTitle"><fmt:message key="new document" /></h3>
                 <div class="ldField">
                     <label id="ldNameLabel" for="ldName"><fmt:message key="name" />:&nbsp;</label>
