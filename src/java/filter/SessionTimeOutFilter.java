@@ -26,6 +26,7 @@ package filter;
 
 import entity.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -37,28 +38,30 @@ import javax.servlet.http.HttpSession;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @WebFilter(servletNames = "ControllerServlet")
-public class ControllerFilter implements Filter {
+public class SessionTimeOutFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
                 throws IOException, ServletException {
 
             HttpServletRequest req = (HttpServletRequest) request;
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            
             HttpSession session = req.getSession(false);
             User user = null;
             if (session != null) user = (User) session.getAttribute("user");
 
-            // if not signed in, return user to welcome page
-            if (user == null && !"/doSignIn".equals(req.getServletPath())) {
+            // if not signed in, return session timeout response
+            if (user == null && !"/signIn".equals(req.getServletPath()) && !"/ajax/doSignIn".equals(req.getServletPath())) {
                 try {
-                    req.getRequestDispatcher("/signIn").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/view/xml/ajax/sessionTimeOut.jsp").forward(request, response);
                 } catch (Exception ex) {}
                 return;
             }
-            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-
+            
             // set no cache and encoding header directives
             httpServletResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-            httpServletResponse.setDateHeader("Expires", 0L);
+            httpServletResponse.setHeader("Pragma", "no-cache");
+            httpServletResponse.setDateHeader("Expires", -1);
             httpServletResponse.setCharacterEncoding("UTF-8");
             
             chain.doFilter(request, response);

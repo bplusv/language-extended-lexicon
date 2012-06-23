@@ -21,16 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-function getSelectedText() {
-    if(window.getSelection) {return window.getSelection();}
-    else if(document.getSelection) {return document.getSelection();}
-    else {
-        var selection = document.selection && document.selection.createRange();
-        if(selection.text) {return selection.text;}
-        return '';
-    }
-    return '';
-}
 
 var infoBubble;
 $(document).ready(function(){

@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-            <form id="exForm" action="<c:url value="/explore" />" method="GET">
+            <form id="exForm" action="<c:url value="/ajax/explore" />" method="GET">
                 <div id="exFilters">
                     <div class="exField">
                         <label id="exCategoryLabel" for="exCategory"><fmt:message key="category" />:&nbsp;</label>

@@ -7,15 +7,22 @@
 
 @charset "UTF-8";
 
+#ixChooseLanguageForm {
+    display: none;
+}
+
 #ixFooter {
-    background: url('../img/footer.png');
-    height: 154px;
+    height: auto;
+}
+
+#ixFooterBackground {
+    
 }
 
 #ixHeader {
     height: 80px;
     margin-bottom: 25px;
-    padding-top: 15px;
+    margin-top: 15px;
     position: relative;
 }
 
@@ -28,10 +35,6 @@
     margin-right: auto;
     text-align: center;
     width: 400px;
-}
-
-#ixChooseLangForm {
-    display: none;
 }
 
 #ixSignOutForm {
