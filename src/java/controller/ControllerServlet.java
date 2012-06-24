@@ -110,8 +110,8 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("log", log);
                 request.setAttribute("submitAction", "/ajax/doUpdateSymbol");
             } else {
-                String documentParam = request.getParameter("document");
-                String symbolNameParam = request.getParameter("symbolName");
+                String documentParam = request.getParameter("dc");
+                String symbolNameParam = request.getParameter("sn");
                 Symbol symbol = symbolManager.getSymbolByDocAndName(documentParam, symbolNameParam);
                 if (symbol != null) {
                     symbolParam = symbol.getId().toString();

@@ -131,10 +131,13 @@ function controller(form) {
  
     if (!isRequesting) {
         isRequesting = true;
+        $('#notification').hide();
+        $('#ajaxLoader').show();
         $.ajax({
             url: form.attr('action'),
             type: form.attr('method'),
             data: form.serialize(),
+            timeout: 5000,
             success: function(data) {
                 if ($(data).find('sessionTimeOut').text() === 'true')
                     document.location.href = '/lel/signIn';

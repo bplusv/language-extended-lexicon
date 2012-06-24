@@ -200,6 +200,20 @@ textarea {
     text-decoration: none;
 }
 
+#ajaxLoader {
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    display: none;
+    height: 24px;
+    left: 50%;
+    margin-left: -225px;
+    padding: 6px 213px 5px 213px;
+    position: fixed; 
+    top: 0;
+    width: 24px;
+    z-index: 100;
+}
+
 #central {
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -266,21 +280,22 @@ textarea {
 #notification {
     border-radius: 5px;
     color: #fff;
-    display: none;
-    padding: 10px;
-    position: fixed;
+    display: block;
+    height: 35px;
     left: 50%;
+    line-height: 35px;
     margin-left: -225px;
-    top:0;
+    position: fixed; 
     text-align: center;
+    top: 0;
     width: 450px;
     z-index: 99;
 }
 
 #notification.fail {
-    background-color: #aa3333;
+    background-color: #a33;
 }
 
 #notification.success {
-    background-color: #33aa33;
+    background-color: #3a3;
 }
