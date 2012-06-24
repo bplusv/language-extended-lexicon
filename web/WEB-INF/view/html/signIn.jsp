@@ -16,16 +16,15 @@
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
-        <!--[if lt IE 9]>
-            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8" ></script>
+         <!--[if lt IE 9]><script src="/lel/js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
+        <script src="/lel/js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="<c:url value="/js/base.js" />" type="text/javascript" charset="UTF-8" ></script>
         <script src="<c:url value="/js/controller.js" />" type="text/javascript" charset="UTF-8" ></script>
     </head>
     <body>
         <span id="networkFail"><fmt:message key="network fail" /></span>
         <h3 id="notification"></h3>
+        <img id="ajaxLoader" src="/lel/img/ajaxLoader.gif" />
         <div id="siCentral">
             <div id="siLeftSide">
                 <img id="siLelLogo" src="/lel/img/signInLogo.png" />

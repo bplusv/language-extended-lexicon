@@ -13,6 +13,6 @@
                 <input id="dcDoUpdateDocument" type="submit" name="save" class="button" value="<fmt:message key="save" />" />
             </form>
             <form id="dcSymbolForm" action="<c:url value="/ajax/classify" />" method="GET">
-                <input id="dcSfDocument" type="hidden" name="document" value="${document.id}" />
-                <input id="dcSymbolName" type="hidden" name="symbolName" value="" />
+                <input id="dcSfDocument" type="hidden" name="dc" value="${document.id}" />
+                <input id="dcSymbolName" type="hidden" name="sn" value="" />
             </form>

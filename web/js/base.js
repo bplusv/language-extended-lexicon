@@ -33,6 +33,18 @@ function getSelectedText() {
     return '';
 }
 
+function notify(cssClass, message) {
+    $notification = $('#notification');
+    $notification
+        .removeClass()
+        .addClass(cssClass)
+        .stop(true, true)
+        .show()
+        .html(message)
+        .animate({opacity: 1},3000)
+        .fadeOut(500);
+}
+
 function update(response, redirect) {
     $('.overflowEllipsis').wrapInner('<span class="overflowText" />');
 
@@ -42,17 +54,11 @@ function update(response, redirect) {
     else if (document.location.hash.indexOf('/document') > 0)
         $('#documentTab').addClass('selected');  
     
+    $('#ajaxLoader').hide();
     if (response) {
         success = $(response).find('success').text();
         message = $(response).find('message').text();
-        if (message) {
-            $('#notification')
-                .removeClass()
-                .addClass(success === 'true' ? 'success' : 'fail')
-                .html(message)
-                .show()
-                .delay(3000).fadeOut();
-        }
+        if (message) notify(success === 'true' ? 'success' : 'fail', message);
     }
     
     if (redirect) {
