@@ -24,6 +24,8 @@
 
 package business;
 
+import session.DocumentFacade;
+import session.ProjectFacade;
 import entity.*;
 import session.*;
 import java.util.Collection;
@@ -53,11 +55,11 @@ public class DocumentManager {
         try {
             Document document = documentFacade.find(Integer.parseInt(documentParam));
             Collection<Symbol> symbols = document.getSymbolCollection();
-            String taggedData = document.getData();
+            String taggedContent = document.getContent();
             for (Symbol symbol : symbols) {
-                taggedData = taggedData.replaceAll(symbol.getName(), "<a href=\"#!/classify?sy=" + symbol.getId() + "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+                taggedContent = taggedContent.replaceAll(symbol.getName(), "<a href=\"#!/classify?sy=" + symbol.getId() + "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
             }
-            return taggedData;
+            return taggedContent;
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
@@ -93,12 +95,12 @@ public class DocumentManager {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document updateDocument(String documentParam, String dataParam) {
+    public Document updateDocument(String documentParam, String contentParam) {
         try {
             Document document = documentFacade.find(Integer.parseInt(documentParam));
-            String data = dataParam;
+            String content = contentParam;
             
-            document.setData(data);
+            document.setContent(content);
             em.merge(document);
             em.flush();
             return document;

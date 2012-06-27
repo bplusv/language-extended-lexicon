@@ -23,6 +23,13 @@
  */
 package business;
 
+import session.CategoryFacade;
+import session.DocumentFacade;
+import session.EventFacade;
+import session.SymbolFacade;
+import session.ProjectFacade;
+import session.UserFacade;
+import session.ClassificationFacade;
 import entity.*;
 import java.util.Collection;
 import java.util.Date;

@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS `lel`.`document` ;
 CREATE  TABLE IF NOT EXISTS `lel`.`document` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
-  `data` MEDIUMTEXT NULL ,
+  `content` MEDIUMTEXT NULL ,
   `project` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
