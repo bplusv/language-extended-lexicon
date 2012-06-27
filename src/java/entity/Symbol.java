@@ -64,12 +64,12 @@ public class Symbol implements Serializable {
     @JoinColumn(name = "project", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Project project;
-    @JoinColumn(name = "definition", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Definition definition;
     @JoinColumn(name = "document", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Document document;
+    @JoinColumn(name = "definition", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Definition definition;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "symbol")
     private Collection<Log> logCollection;
 
@@ -118,20 +118,20 @@ public class Symbol implements Serializable {
         this.project = project;
     }
 
-    public Definition getDefinition() {
-        return definition;
-    }
-
-    public void setDefinition(Definition definition) {
-        this.definition = definition;
-    }
-
     public Document getDocument() {
         return document;
     }
 
     public void setDocument(Document document) {
         this.document = document;
+    }
+
+    public Definition getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(Definition definition) {
+        this.definition = definition;
     }
 
     @XmlTransient

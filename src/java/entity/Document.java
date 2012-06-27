@@ -58,8 +58,8 @@ public class Document implements Serializable {
     private String name;
     @Lob
     @Size(max = 16777215)
-    @Column(name = "data")
-    private String data;
+    @Column(name = "content")
+    private String content;
     @JoinColumn(name = "project", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Project project;
@@ -94,12 +94,12 @@ public class Document implements Serializable {
         this.name = name;
     }
 
-    public String getData() {
-        return data;
+    public String getContent() {
+        return content;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Project getProject() {

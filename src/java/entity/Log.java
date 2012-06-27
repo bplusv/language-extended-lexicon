@@ -52,15 +52,15 @@ public class Log implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @JoinColumn(name = "user", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User user;
     @JoinColumn(name = "symbol", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Symbol symbol;
     @JoinColumn(name = "event", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Event event;
-    @JoinColumn(name = "user", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private User user;
 
     public Log() {
     }
@@ -85,6 +85,14 @@ public class Log implements Serializable {
         this.date = date;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Symbol getSymbol() {
         return symbol;
     }
@@ -99,14 +107,6 @@ public class Log implements Serializable {
 
     public void setEvent(Event event) {
         this.event = event;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override
