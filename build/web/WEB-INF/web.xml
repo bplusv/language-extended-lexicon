@@ -3,7 +3,7 @@
     <context-param>
         <description>Resources for multi-language support.</description>
         <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-        <param-value>resources.messages</param-value>
+        <param-value>language.messages</param-value>
     </context-param>
     <session-config>
         <session-timeout>0</session-timeout>
@@ -12,21 +12,22 @@
         <jsp-property-group>
             <description>HTML Header</description>
             <url-pattern>/index.jsp</url-pattern>
-            <url-pattern>/WEB-INF/view/html/*</url-pattern>
+            <url-pattern>/WEB-INF/view/signIn.jsp</url-pattern>
+            <url-pattern>/WEB-INF/view/get/*</url-pattern>
             <include-prelude>/WEB-INF/jspf/htmlHeader.jspf</include-prelude>
         </jsp-property-group>
         <jsp-property-group>
             <display-name>XML Header</display-name>
-            <url-pattern>/WEB-INF/view/xml/*</url-pattern>
+            <url-pattern>/WEB-INF/view/do/*</url-pattern>
             <include-prelude>/WEB-INF/jspf/xmlHeader.jspf</include-prelude>
         </jsp-property-group>
     </jsp-config>
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/view/html/error/404.jsp</location>
+        <location>/WEB-INF/404.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/view/html/error/500.jsp</location>
+        <location>/WEB-INF/500.jsp</location>
     </error-page>
 </web-app>

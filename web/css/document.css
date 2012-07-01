@@ -7,16 +7,8 @@
 
 @charset "UTF-8";
 
-#dcSymbolForm {
-    display: none;
-}
-
-#dcUfDocument {
+#dcDocument {
     
-}
-
-#dcDocumentContent {
-    display: none;
 }
 
 #dcDocumentContainer {
@@ -35,6 +27,10 @@
     white-space: pre-wrap;
 }
 
+#dcDocumentContent {
+    display: none;
+}
+
 #dcDoUpdateDocument {
     bottom: 0px;
     position: absolute;
@@ -45,14 +41,6 @@
     bottom: 0px;
     left: 0px;
     position: absolute;
-}
-
-#dcSfDocument {
-    
-}
-
-#dcSymbolName {
-    
 }
 
 #dcTitle {

@@ -40,8 +40,8 @@
         <header id="ixHeader">
             <img id="ixHeaderLogo" src="/lel/img/headerLogo.png" />
             <div id="ixUserMenu">
-                <form id="ixSignOutForm" class="signOut" action="<c:url value="/ajax/doSignOut" />" method="POST"></form>
-                <form id="ixChooseLanguageForm" action="<c:url value="/ajax/doChooseLanguage" />" method="POST">
+                <form id="ixSignOutForm" class="signOut" action="<c:url value="/do/signOut" />" method="POST"></form>
+                <form id="ixChooseLanguageForm" action="<c:url value="/do/chooseLanguage" />" method="POST">
                     <input id="ixLanguage" type="hidden" name="language" />
                 </form>
                 <div class="downArrow"></div>
