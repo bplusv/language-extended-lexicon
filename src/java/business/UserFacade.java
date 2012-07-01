@@ -27,6 +27,10 @@ package business;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.User;
@@ -36,6 +40,7 @@ import model.User;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserFacade extends AbstractFacade<User> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
@@ -49,18 +54,39 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
     
-    private String makeHash(String input) throws Exception {
-        MessageDigest m = MessageDigest.getInstance("MD5");
-        m.update(input.getBytes(), 0, input.length());
-        return new BigInteger(1, m.digest()).toString(16);
+    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
+    public User findByName(String name) {
+        try {
+            return (User) em.createNamedQuery("User.findByName").
+                setParameter("name", name).
+                getSingleResult();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
+    private String makeHash(String input) {
+        try {
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(input.getBytes(), 0, input.length());
+            return new BigInteger(1, m.digest()).toString(16);
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
 
-    public User signIn(String username, String password) throws Exception {
-        User user = (User) em.createNamedQuery("User.findByName").
-            setParameter("name", username).
-            getSingleResult();
-        if (!user.getPassword().equals(makeHash(password)))
-            throw new Exception("Wrong password.");
-        return user;
+    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
+    public User signIn(String username, String password) {
+        try {       
+            User user = findByName(username);
+            if (user.getPassword().equals(makeHash(password))) return user;
+            else return null;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }   
     }
 }

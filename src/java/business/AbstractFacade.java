@@ -25,6 +25,11 @@
 package business;
 
 import java.util.Collection;
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.ejb.SessionContext;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 
 /**
@@ -37,41 +42,71 @@ public abstract class AbstractFacade<T> {
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
+    
+    @Resource protected SessionContext context;
+    
+    @EJB protected CategoryFacade categoryFacade;
+    @EJB protected ClassificationFacade classificationFacade;
+    @EJB protected DefinitionFacade definitionFacade;
+    @EJB protected DocumentFacade documentFacade;
+    @EJB protected EventFacade eventFacade;
+    @EJB protected LogFacade logFacade;
+    @EJB protected ProjectFacade projectFacade;
+    @EJB protected SymbolFacade symbolFacade;
+    @EJB protected UserFacade userFacade;
 
     protected abstract EntityManager getEntityManager();
 
-    public T find(Object id) {
-        javax.persistence.criteria.CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        javax.persistence.criteria.CriteriaQuery cq = cb.createQuery();
-        javax.persistence.criteria.Root r = cq.from(entityClass);
-        cq.select(r);
-        cq.where(cb.equal(r.get("id"), id));
-        javax.persistence.Query q =  getEntityManager().createQuery(cq);
-        return (T) q.getSingleResult();
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public T find(String id) {  
+        try {
+            return getEntityManager().find(entityClass, Integer.parseInt(id));
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<T> findAll() {
-        EntityManager em = this.getEntityManager();
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return  getEntityManager().createQuery(cq).getResultList();
+        try {
+            EntityManager em = this.getEntityManager();
+            javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            cq.select(cq.from(entityClass));
+            return  getEntityManager().createQuery(cq).getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<T> findRange(int[] range) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        javax.persistence.Query q =  getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0]);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
+        try {
+            javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            cq.select(cq.from(entityClass));
+            javax.persistence.Query q =  getEntityManager().createQuery(cq);
+            q.setMaxResults(range[1] - range[0]);
+            q.setFirstResult(range[0]);
+            return q.getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
 
-    public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Integer count() {
+        try {
+            javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
+            cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+            javax.persistence.Query q = getEntityManager().createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
 
 }

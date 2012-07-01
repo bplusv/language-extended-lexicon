@@ -25,18 +25,18 @@
 package business;
 
 import java.util.Collection;
-import javax.ejb.Stateless;
+import model.Symbol;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Document;
-import model.Project;
-import model.Symbol;
 
 /**
  *
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class DocumentFacade extends AbstractFacade<Document> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
@@ -50,37 +50,53 @@ public class DocumentFacade extends AbstractFacade<Document> {
         super(Document.class);
     }
     
-    public Document createDocument(String documentName, Project project) throws Exception {
-        if (documentName.isEmpty())
-            throw new Exception("Empty document name");
-        documentName = documentName.trim();
-        Document document = new Document();
-        document.setName(documentName);
-        document.setProject(project);
-        em.persist(document);
-        em.flush();
-        return document;
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document createDocument(String projectId, String name) {
+        try {
+            if (name.isEmpty()) return null;
+            name = name.trim();
+            Document document = new Document();
+            document.setName(name);
+            document.setProject(projectFacade.find(projectId));
+            em.persist(document);
+            em.flush();
+            return document;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }  
     }
     
-    public Document updateDocumentContent(Integer documentId, String documentContent) throws Exception {
-        Document document = this.find(documentId);
-        document.setContent(documentContent);
-        em.merge(document);
-        em.flush();
-        return document;
-    }
-    
-    public String getTaggedContent(Integer DocumentId) {
-        Document document = this.find(DocumentId);
-        em.refresh(document);
-        Collection<Symbol> symbols = document.getSymbolCollection();
-        String taggedContent = document.getContent();
-        for (Symbol symbol : symbols) {
-            taggedContent = taggedContent.replaceAll(symbol.getName(), 
-                    "<a href=\"#!/classify?sy=" + symbol.getId() + 
-                    "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document updateContent(String documentId, String content) {
+        try {
+            Document document = find(documentId);
+            document.setContent(content);
+            em.merge(document);
+            em.flush();
+            return document;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
         }
-        return taggedContent;
     }
     
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String getTaggedContent(String documentId) {
+        try {
+            Document document = find(documentId);
+            em.refresh(document);
+            Collection<Symbol> symbols = document.getSymbolCollection();
+            String taggedContent = document.getContent();
+            for (Symbol symbol : symbols) {
+                taggedContent = taggedContent.replaceAll(symbol.getName(), 
+                        "<a href=\"#!/classify?sy=" + symbol.getId() + 
+                        "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+            }
+            return taggedContent;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
 }

@@ -26,7 +26,7 @@ package business;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Document;
@@ -39,6 +39,7 @@ import model.User;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class ProjectFacade extends AbstractFacade<Project> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
@@ -52,30 +53,50 @@ public class ProjectFacade extends AbstractFacade<Project> {
         super(Project.class);
     }
     
-    public Collection<Document> getDocumentCollection(Integer projectId) {
-        Project project = this.find(projectId);
-        em.refresh(project);
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Document> getDocumentCollection(String projectId) {
+        try {
+            Project project = find(projectId);
+            em.refresh(project);
         return project.getDocumentCollection();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
     
-    public Collection<Symbol> getSymbolCollection(Integer projectId) {
-        Project project = this.find(projectId);
-        em.refresh(project);
-        return project.getSymbolCollection();
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Symbol> getSymbolCollection(String projectId) {
+        try {
+            Project project = find(projectId);
+            em.refresh(project);
+            return project.getSymbolCollection();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
         
-    public Project createProject(String projectName, User user) throws Exception {
-        if (projectName.isEmpty())
-            throw new Exception("Empty project name");
-        projectName = projectName.trim();
-        Project project = new Project();
-        Collection<User> users = new ArrayList<User>();
-        users.add(user);
-        project.setName(projectName);
-        project.setUserCollection(users);
-        em.persist(project);
-        em.flush();
-        return project;
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Project createProject(String userId, String name) {
+        try {
+            if (name.isEmpty()) return null;
+            name = name.trim();
+            Project project = new Project();
+            Collection<User> users = new ArrayList<User>();
+            users.add(userFacade.find(userId));
+            project.setName(name);
+            project.setUserCollection(users);
+            em.persist(project);
+            em.flush();
+            return project;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+                
+       
     }
 
 }

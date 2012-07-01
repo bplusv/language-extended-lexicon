@@ -24,7 +24,10 @@
 
 package business;
 
+import java.util.Date;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Log;
@@ -34,6 +37,7 @@ import model.Log;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class LogFacade extends AbstractFacade<Log> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
@@ -46,5 +50,15 @@ public class LogFacade extends AbstractFacade<Log> {
     public LogFacade() {
         super(Log.class);
     }
-
+    
+    public Log createLog(String userId, String symbolId, String eventId) {
+        Log log = new Log();
+        log.setUser(userFacade.find(userId));
+        log.setSymbol(symbolFacade.find(symbolId));
+        log.setEvent(eventFacade.find(eventId));
+        log.setDate(new Date());
+        em.persist(log);
+        em.flush();
+        return log;
+    }
 }

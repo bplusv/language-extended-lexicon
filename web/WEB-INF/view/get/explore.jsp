@@ -39,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="symbol" items="${symbolFacade.findByFilters(project, param.ca, param.cl, param.sy)}" varStatus="iter">
+                        <c:forEach var="symbol" items="${symbolFacade.findByFilters(project.id, param.ca, param.cl, param.sy)}" varStatus="iter">
                             <tr>
                                 <td colspan="4" style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
                                     <a class="exSymbolsRow" href="#!/classify?sy=${symbol.id}">

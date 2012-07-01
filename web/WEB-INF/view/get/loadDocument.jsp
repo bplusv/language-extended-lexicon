@@ -7,8 +7,8 @@
             <form id="ldForm" action="<c:url value="/do/loadDocument" />" method="POST">
                 <h3 class="ldTitle"><fmt:message key="load document" /></h3>
                     <select id="ldDocument" name="document" size="18">
-                        <c:forEach var="document" items="${projectFacade.getDocumentCollection(project.id)}">
-                            <option value="${document.id}" ${sessionScope.document.id == document.id ? 'selected="selected"' : ''}>${document.name}</option>
+                        <c:forEach var="document" items="${projectFacade.getDocumentCollection(project.id)}" varStatus="iter">
+                            <option value="${document.id}" ${!empty sessionScope.document.id and sessionScope.document.id == document.id ? 'selected="selected"' : iter.first ? 'selected="selected"' : ''}>${document.name}</option>
                         </c:forEach>
                     </select>
                 <input id="ldDoLoadDocument" type="submit" class="button" value="<fmt:message key="load" />" />

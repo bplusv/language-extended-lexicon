@@ -16,8 +16,8 @@
                     </c:forEach>  
                 </div>
                 <select id="clSelectedSynonym" name="selectedSynonym" size="7">
-                        <c:forEach var="symbol" items="${projectFacade.getSymbolCollection(project.id)}">
-                            <option value="${symbol.id}">${symbol.name}</option>
+                        <c:forEach var="symbol" items="${projectFacade.getSymbolCollection(project.id)}" varStatus="iter">
+                            <option value="${symbol.id}" ${iter.first ? 'selected="selected"' : ''}>${symbol.name}</option>
                         </c:forEach>
                     </select>
                 <div id="clDefinitionTop">

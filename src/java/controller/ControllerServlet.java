@@ -90,34 +90,28 @@ public class ControllerServlet extends HttpServlet {
         
         
         if (userPath.equals("/get/classify")) {
-
             
-            try {
-                if (request.getParameter("sy") != null) {
-                    Symbol symbol = symbolFacade.find(Integer.parseInt(request.getParameter("sy")));
-                    request.setAttribute("symbol", symbol);
-                    request.setAttribute("log", symbolFacade.findLastLog(symbol));
-                    request.setAttribute("submitAction", "/do/updateSymbol");
-                } else {
-                    Document document = documentFacade.find(Integer.parseInt(request.getParameter("dc")));
-                    String name = request.getParameter("sn");
-                    try {
-                        Symbol symbol = symbolFacade.findByDocumentAndName(document, name);
-                        request.setAttribute("symbol", symbol);
-                        request.setAttribute("log", symbolFacade.findLastLog(symbol));
-                        request.setAttribute("submitAction", "/do/updateSymbol");
-                    } catch (Exception e) {
-                        Symbol symbol = new Symbol();
-                        symbol.setDocument(document);
-                        symbol.setName(name);
-                        request.setAttribute("symbol", symbol);
-                        request.setAttribute("submitAction", "/do/createSymbol");
-                    }
-                }
-            } catch (Exception e) {}
+
+            Symbol symbol = request.getParameter("sy") != null ? 
+                symbolFacade.find(request.getParameter("sy")) : 
+                symbolFacade.findByDocumentAndName(
+                    request.getParameter("dc"),
+                    request.getParameter("na"));
+            
+            if (symbol != null) {
+                request.setAttribute("log", 
+                symbolFacade.getLastLog(symbol.getId().toString()));
+                request.setAttribute("submitAction", "/do/updateSymbol");
+            } else {
+                symbol = symbolFacade.createPossibleSymbol(
+                    request.getParameter("dc"), request.getParameter("na"));
+                request.setAttribute("submitAction", "/do/createSymbol");
+            }            
+            request.setAttribute("symbol", symbol);
+
             
         } else if (userPath.equals("/get/document")) {
-
+        //*
             
             if (session.getAttribute("document") == null) userPath = "/get/loadDocument";
             if (session.getAttribute("project") == null) userPath = "/get/loadProject";
@@ -130,12 +124,12 @@ public class ControllerServlet extends HttpServlet {
             
             
         } else if (userPath.equals("/get/loadDocument")) {
-            
-            
+        //* 
+
             
             
         } else if(userPath.equals("/get/loadProject")) {
-        
+        //*
             
         
         
@@ -147,7 +141,7 @@ public class ControllerServlet extends HttpServlet {
             
             
         } else if (userPath.equals("/signIn")) {
-            
+        //*
             
         }
         
@@ -170,7 +164,7 @@ public class ControllerServlet extends HttpServlet {
         
         
         if(userPath.equals("/do/chooseLanguage")) {
-        
+        //*
             
             try {
                 String language = request.getParameter("language");
@@ -185,95 +179,105 @@ public class ControllerServlet extends HttpServlet {
 
                         
         } else if (userPath.equals("/do/createDocument")) {
+        //*
             
+            Document document = documentFacade.createDocument(
+                ((Project) session.getAttribute("project")).
+                        getId().toString(),
+                request.getParameter("name"));
             
-            try {
-                Document document = documentFacade.createDocument(
-                        request.getParameter("name"), 
-                        (Project) session.getAttribute("project"));
+            if (document != null) {
                 session.setAttribute("document", document);
                 request.setAttribute("success", true);
-            } catch (Exception e) {
+            } else {
                 request.setAttribute("success", false);
             }
             
             
         } else if(userPath.equals("/do/createProject")) {
-            
-            
-            try {
-                Project project = projectFacade.createProject(
-                        request.getParameter("name"), 
-                        (User) session.getAttribute("user"));
+        //*
+
+            Project project = projectFacade.createProject(
+                    ((User) session.getAttribute("user")).
+                            getId().toString(),
+                    request.getParameter("name"));
+            if (project != null) {
                 session.setAttribute("project", project);
                 session.setAttribute("document", null);
                 request.setAttribute("success", true);
-            } catch (Exception e) {
-                request.setAttribute("success", false);
+            } else {
+                request.setAttribute("success", false);   
             }
             
             
         } else if (userPath.equals("/do/createSymbol")) {
             
             
-            try {
-                symbolFacade.createSymbol(
-                    (Project) session.getAttribute("project"), 
-                    (User) session.getAttribute("user"), 
-                    documentFacade.find(Integer.parseInt(request.getParameter("document"))), 
-                    request.getParameter("name"), 
-                    categoryFacade.find(Integer.parseInt(request.getParameter("category"))), 
-                    classificationFacade.find(Integer.parseInt(request.getParameter("classification"))), 
-                    request.getParameter("notion"), request.getParameter("actualIntention"), 
-                    request.getParameter("futureIntention"), request.getParameter("comments"));
-                
+            Symbol symbol = symbolFacade.createSymbol(
+                ((Project) session.getAttribute("project")).getId().toString(), 
+                ((User) session.getAttribute("user")).getId().toString(), 
+                request.getParameter("document"), 
+                request.getParameter("name"), 
+                request.getParameter("category"), 
+                request.getParameter("classification"), 
+                request.getParameter("notion"),
+                request.getParameter("actualIntention"), 
+                request.getParameter("futureIntention"),
+                request.getParameter("comments"));
+            
+            if (symbol != null) {
                 request.setAttribute("success", true);
-            } catch (Exception e) {
+                request.setAttribute("symbol", symbol);
+            } else {
                 request.setAttribute("success", false);
             }
             
             
         } else if (userPath.equals("/do/loadDocument")) {
+        //* 
             
-
-            try {
-                Document document = documentFacade.find(Integer.parseInt(request.getParameter("document")));
+            Document document = documentFacade.find(
+                    request.getParameter("document"));
+            if (document != null) {
                 session.setAttribute("document", document);
                 request.setAttribute("success", true);
-            } catch (Exception e) {
+            } else {
                 request.setAttribute("success", false);
             }
 
             
         } else if(userPath.equals("/do/loadProject")) {
-        
-
-            try {
-                Project project = projectFacade.find(Integer.parseInt(request.getParameter("project")));
+        //* 
+            
+            Project project = projectFacade.find(
+                    request.getParameter("project"));
+            
+            if (project != null) {
                 session.setAttribute("project", project);
                 session.setAttribute("document", null);
                 request.setAttribute("success", true);
-            } catch (Exception e) {
+            } else {
+                request.setAttribute("success", false); 
+            }
+            
+                        
+        } else if (userPath.equals("/do/signIn")) {
+        //*
+            
+            User user = userFacade.signIn(
+                request.getParameter("username"), 
+                request.getParameter("password"));
+            
+            if (user != null) {
+                session.setAttribute("user", user);
+                request.setAttribute("success", true);
+            } else {
                 request.setAttribute("success", false);
             }
 
-                        
-        } else if (userPath.equals("/do/signIn")) {
-            
-            
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            try {
-                User user = userFacade.signIn(username, password);
-                session.setAttribute("user", user);
-                request.setAttribute("success", true);
-            } catch (Exception e) {
-                request.setAttribute("success", false);
-            }
-            
             
         } else if (userPath.equals("/do/signOut")) {
-            
+        //*    
             
             try {
                 session.setAttribute("user", null);
@@ -285,40 +289,40 @@ public class ControllerServlet extends HttpServlet {
             
             
         } else if (userPath.equals("/do/updateDocument")) {
+        //*
             
+            Document document = documentFacade.updateContent(
+                    request.getParameter("document"), 
+                    request.getParameter("content"));
             
-            try {
-                Document document = documentFacade.updateDocumentContent(
-                        Integer.parseInt(request.getParameter("document")), 
-                        request.getParameter("content"));
-                
+            if (document != null) {
                 session.setAttribute("document", document);
                 request.setAttribute("success", true);
-            } catch (Exception e) {
-                request.setAttribute("success", false);
+            } else {
+                request.setAttribute("success", true);
             }
             
             
         } else if (userPath.equals("/do/updateSymbol")) {
             
-            
-            try {
-                symbolFacade.updateSymbol(
-                    (User) session.getAttribute("user"), 
-                    Integer.parseInt(request.getParameter("symbol")), 
-                    categoryFacade.find(Integer.parseInt(request.getParameter("category"))),
-                    classificationFacade.find(Integer.parseInt(request.getParameter("classification"))),
-                    request.getParameter("notion"),
-                    request.getParameter("actualIntention"),
-                    request.getParameter("futureIntention"),
-                    request.getParameter("comments"));
 
+            Symbol symbol = symbolFacade.updateSymbol(
+                ((User) session.getAttribute("user")).getId().toString(), 
+                request.getParameter("symbol"), 
+                request.getParameter("category"),
+                request.getParameter("classification"),
+                request.getParameter("notion"),
+                request.getParameter("actualIntention"),
+                request.getParameter("futureIntention"),
+                request.getParameter("comments"));
+
+            if (symbol != null) {
                 request.setAttribute("success", true);
-            } catch (Exception e) {
-                request.setAttribute("success", false);
+            } else {
+                request.setAttribute("success", true);
             }
             
-            
+                            
         } 
         
         

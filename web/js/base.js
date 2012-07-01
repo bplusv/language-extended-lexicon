@@ -62,10 +62,10 @@ function update(response, redirect) {
     }
     
     if (redirect) {
-        if (document.location.hash.indexOf(redirect) > 0)
+        if (document.location.hash.indexOf(redirect) > -1)
             $(window).trigger('hashchange');
         else
-            document.location.hash = "#!" + redirect;
+            document.location.hash = redirect;
     }
 }
 
