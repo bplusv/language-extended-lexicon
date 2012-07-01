@@ -48,7 +48,7 @@ $(document).ready(function(){
                     $('body').append(infoBubble);
                 }
                 
-                infoBubble.attr('href', '#!/classify?dc=' + $('#dcDocument').val() + '&sn=' + selectedText);
+                infoBubble.attr('href', '#!/classify?dc=' + $('#dcDocument').val() + '&na=' + selectedText);
                 infoBubbleText.html(selectedText);
 
                 cont = $('#dcDocumentContainer');

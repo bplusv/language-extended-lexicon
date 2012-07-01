@@ -67,7 +67,7 @@ function controller(form) {
                 case '/do/createDocument':
                     action = function() {
                         if ($(response).find('success').text() === 'true') {
-                            redirect = '/document';
+                            redirect = '#!/document';
                         }
                     };
                     break;
@@ -77,17 +77,22 @@ function controller(form) {
                             projectName = $(response).find('project').find('name').text();
                             $('#ixProjectTitle').show();
                             $('#ixProjectName').html(projectName);
-                            redirect = '/explore';
+                            redirect = '#!/explore';
                         }
                     };
                     break;
                 case '/do/createSymbol':
-                    action = function() {};
+                    action = function() {
+                        if ($(response).find('success').text() === 'true') {
+                            $('#clSymbol').val($(response).find('symbol').text());
+                            $('#clForm').attr('action', '/lel/do/updateSymbol');
+                        }
+                    };
                     break;
                 case '/do/loadDocument':
                     action = function() {
                         if ($(response).find('success').text() === 'true') {
-                            redirect = '/document';
+                            redirect = '#!/document';
                         }
                     };
                     break;
@@ -97,7 +102,7 @@ function controller(form) {
                             projectName = $(response).find('project').find('name').text();
                             $('#ixProjectTitle').show();
                             $('#ixProjectName').html(projectName);
-                            redirect = '/explore';
+                            redirect = '#!/explore';
                         }
                     };
                     break;

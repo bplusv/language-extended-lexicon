@@ -25,9 +25,7 @@
 package business;
 
 import java.util.Collection;
-import java.util.Date;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.*;
@@ -37,6 +35,7 @@ import model.*;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class SymbolFacade extends AbstractFacade<Symbol> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
@@ -45,128 +44,102 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-    @EJB private EventFacade eventFacade;
-    @EJB private CategoryFacade categoryFacade;
-    @EJB private ClassificationFacade classificationFacade;
-    
+
     public SymbolFacade() {
         super(Symbol.class);
     }
-    
-    private Definition createDefinition(Category category, Classification classification,
-            String notion, String actualIntention, String futureIntention,String comments) {
-        Definition definition = new Definition();
-        definition.setCategory(category);
-        definition.setClassification(classification);
-        definition.setNotion(notion);
-        definition.setActualIntention(actualIntention);
-        definition.setFutureIntention(futureIntention);
-        definition.setComments(comments);
-        em.persist(definition);
-        em.flush();
-        return definition;
-    }
-    
-    private Definition updateDefinition(Definition definition, Category category, Classification classification, String notion,
+     
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Symbol createSymbol(String projectId, String userId, String documentId, 
+            String name, String categoryId, String classificationId, String notion, 
             String actualIntention, String futureIntention, String comments) {
-        definition.setCategory(category);
-        definition.setClassification(classification);
-        definition.setNotion(notion);
-        definition.setActualIntention(actualIntention);
-        definition.setFutureIntention(futureIntention);
-        definition.setComments(comments);
-        em.merge(definition);
-        em.flush();
-        return definition;
-    }
-    
-    private Log createLog(User user, Symbol symbol, Event event) {
-        Log log = new Log();
-        log.setUser(user);
-        log.setSymbol(symbol);
-        log.setEvent(event);
-        log.setDate(new Date());
-        em.persist(log);
-        em.flush();
-        return log;
-    }
-    
-    public Symbol createSymbol(Project project, User user, Document document, String name, Category category,
-            Classification classification, String notion, String actualIntention,
-            String futureIntention, String comments) throws Exception {
-            
-        if (name.isEmpty()) throw new Exception("Empty document name");
-        name = name.trim();
-        
-        Definition definition = createDefinition(category, classification,
-            notion, actualIntention, futureIntention, comments);
-        
-        Symbol symbol = new Symbol();
-        symbol.setProject(project);
-        symbol.setDocument(document);
-        symbol.setName(name);
-        symbol.setDefinition(definition);
-        em.persist(symbol);
-        em.flush();
-
-        createLog(user, symbol, eventFacade.find(1));
-        return symbol;
-    }
-    
-    public Symbol updateSymbol(User user, Integer symbolId, Category category,
-            Classification classification, String notion, String actualIntention,
-            String futureIntention, String comments) {
-       
-        Symbol symbol = this.find(symbolId);
-        Definition definition = symbol.getDefinition();
-        
-        definition.setCategory(category);
-        // category is 'general'?
-        if (category.getId() == 1) {
-            classification = null;
-            actualIntention = null;
-            futureIntention = null;
+        try {
+            if (name.isEmpty()) return null;
+            name = name.trim();
+            Symbol symbol = new Symbol();
+            symbol.setProject(projectFacade.find(projectId));
+            symbol.setDocument(documentFacade.find(documentId));
+            symbol.setName(name);
+            symbol.setDefinition(definitionFacade.createDefinition(categoryId, 
+                classificationId, notion, actualIntention, futureIntention, comments));
+            em.persist(symbol);
+            em.flush();
+            logFacade.createLog(userId, symbol.getId().toString(), "1");
+            return symbol;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
         }
-        
-        updateDefinition(definition, category, classification, notion,
-            actualIntention, futureIntention, comments);
-        
-        createLog(user, symbol, eventFacade.find(2));
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Symbol updateSymbol(String userId, String symbolId, String categoryId,
+            String classificationId, String notion, String actualIntention,
+            String futureIntention, String comments) {
+        try {
+            Symbol symbol = symbolFacade.find(symbolId);
+            definitionFacade.updateDefinition(
+                symbol.getDefinition().getId().toString(), 
+                categoryId, classificationId, notion,
+                actualIntention, futureIntention, comments);
+            logFacade.createLog(userId, symbolId, "2");
         return symbol;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
     
-    public Collection<Symbol> findSynonyms(Integer symbolId) {
-        Symbol symbol = this.find(symbolId);
-        return em.createQuery("SELECT sy FROM Symbol sy WHERE sy <> :symbol AND sy.definition = :definition;").
-                setParameter("symbol", symbol).
-                setParameter("definition", symbol.getDefinition()).
-                getResultList();
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Symbol> findSynonyms(String symbolId) {
+        try {
+            Symbol symbol = symbolFacade.find(symbolId);
+            return em.createQuery("SELECT sy FROM Symbol sy WHERE "
+                    + "sy <> :symbol AND sy.definition = :definition AND "
+                    + "sy.project = :project;").
+                    setParameter("symbol", symbol).
+                    setParameter("project", symbol.getProject()).
+                    setParameter("definition", symbol.getDefinition()).
+                    getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
     
-    public Log findLastLog(Symbol symbol) throws Exception {
-        return (Log) em.createQuery("SELECT lo FROM Log lo WHERE lo.symbol = :symbol "
-                + "ORDER BY lo.date DESC;").
-                setParameter("symbol", symbol).
-                setMaxResults(1).
-                getSingleResult();
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Log getLastLog(String symbolId) {
+        try {
+            Symbol symbol = symbolFacade.find(symbolId);
+            return (Log) em.createQuery("SELECT lo FROM Log lo WHERE "
+                    + "lo.symbol = :symbol "
+                    + "ORDER BY lo.date DESC;").
+                    setParameter("symbol", symbol).
+                    setMaxResults(1).
+                    getSingleResult();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
 
-    public Collection<Symbol> findByFilters(Project project, String categoryId, String classificationId, String name) throws Exception {
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Symbol> findByFilters(String projectId, String categoryId, String classificationId, String name) {
         String categoryName;
         if (categoryId == null || categoryId.isEmpty()) {
             categoryName = "%";
         } else {
-            Category category = categoryFacade.find(Integer.parseInt(categoryId));
+            Category category = categoryFacade.find(categoryId);
             categoryName = category.getName();
         }
         String classificationName;
         if (classificationId == null || classificationId.isEmpty()) {
             classificationName = "%";
         } else {
-            Classification classification = classificationFacade.find(Integer.parseInt(classificationId));
+            Classification classification = classificationFacade.find(classificationId);
             classificationName = classification.getName();
         }
+        Project project = projectFacade.find(projectId);
         return em.createQuery("SELECT sy FROM Symbol sy LEFT JOIN sy.definition de LEFT JOIN de.category ca "
                 + "LEFT JOIN de.classification cl WHERE sy.project = :project AND "
                 + "ca.name LIKE :categoryName AND (cl.name LIKE :classificationName OR "
@@ -179,11 +152,32 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
                 getResultList();
     }
 
-    public Symbol findByDocumentAndName(Document document, String name) {
-        return (Symbol) em.createQuery("SELECT sy FROM Symbol sy WHERE sy.document = :document AND sy.name = :name;").
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Symbol findByDocumentAndName(String documentId, String name) {
+        try {
+            Document document = documentFacade.find(documentId);
+            return (Symbol) em.createQuery("SELECT sy FROM Symbol sy WHERE "
+                    + "sy.document = :document AND sy.name = :name;").
                 setParameter("document", document).
                 setParameter("name", name).
                 getSingleResult();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Symbol createPossibleSymbol(String documentId, String name) {
+        try {
+            Symbol symbol = new Symbol();
+            symbol.setDocument(documentFacade.find(documentId));
+            symbol.setName(name);
+            return symbol;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
     }
     
 }

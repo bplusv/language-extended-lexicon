@@ -7,4 +7,5 @@
 <response>
     <success>${success}</success>
     <message><fmt:message key="create symbol ${success ? 'success' : 'fail'}" /></message>
+    <symbol>${symbol.id}</symbol>
 </response>

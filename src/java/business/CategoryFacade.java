@@ -25,6 +25,8 @@
 package business;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Category;
@@ -34,6 +36,7 @@ import model.Category;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class CategoryFacade extends AbstractFacade<Category> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;

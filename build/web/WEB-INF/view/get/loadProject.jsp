@@ -7,8 +7,8 @@
             <form  id="lpLoadForm" action="<c:url value="/do/loadProject" />" method="POST">
                 <h3 class="lpTitle"><fmt:message key="load project" /></h3>
                     <select id="lpProject" name="project" size="11">
-                        <c:forEach var="project" items="${projectFacade.findAll()}">
-                            <option value="${project.id}" ${sessionScope.project.id == project.id ? 'selected="selected"' : ''}>${project.name}</option>
+                        <c:forEach var="project" items="${projectFacade.findAll()}" varStatus="iter">
+                            <option value="${project.id}" ${!empty sessionScope.project.id and sessionScope.project.id == project.id ? 'selected="selected"' : iter.first ? 'selected="selected"' : ''}>${project.name}</option>
                         </c:forEach>
                     </select>
                 <input id="lpDoLoadProject" type="submit" class="button" value="<fmt:message key="load" />" />
