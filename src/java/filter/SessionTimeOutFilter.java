@@ -24,7 +24,7 @@
 
 package filter;
 
-import entity.User;
+import model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.*;
@@ -51,9 +51,9 @@ public class SessionTimeOutFilter implements Filter {
             if (session != null) user = (User) session.getAttribute("user");
 
             // if not signed in, return session timeout response
-            if (user == null && !"/signIn".equals(req.getServletPath()) && !"/ajax/doSignIn".equals(req.getServletPath())) {
+            if (user == null && !"/signIn".equals(req.getServletPath()) && !"/do/signIn".equals(req.getServletPath())) {
                 try {
-                    request.getRequestDispatcher("/WEB-INF/view/xml/ajax/sessionTimeOut.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/view/do/sessionTimeOut.jsp").forward(request, response);
                 } catch (Exception ex) {}
                 return;
             }

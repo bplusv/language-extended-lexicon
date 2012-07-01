@@ -25,28 +25,28 @@
 var isRequesting = false;
 function controller(form) {
     var method = form.attr('method').toUpperCase();
-    var request = form.attr('action').replace('/lel/ajax', '');
+    var request = form.attr('action').replace('/lel', '');
     var response, action, redirect;
     
     switch (method) {
         case 'GET':
             switch (request) {
-                case '/classify':
+                case '/get/classify':
                     action = function() {};
                     break;
-                case '/document':
+                case '/get/document':
                     action = function() {};
                     break;
-                case '/explore':
+                case '/get/explore':
                     action = function() {};
                     break;
-                case '/loadDocument':
+                case '/get/loadDocument':
                     action = function() {};
                     break;
-                case '/loadProject':
+                case '/get/loadProject':
                     action = function() {};
                     break;
-                case '/test':
+                case '/get/test':
                     action = function() {};
                     break;
                 default:
@@ -57,21 +57,21 @@ function controller(form) {
             break;
         case 'POST':
             switch (request) {
-                case '/doChooseLanguage':
+                case '/do/chooseLanguage':
                     action = function() {
                         if ($(response).find('success').text() === 'true') {
                             document.location.reload();
                         }
                     }
                     break;
-                case '/doCreateDocument':
+                case '/do/createDocument':
                     action = function() {
                         if ($(response).find('success').text() === 'true') {
                             redirect = '/document';
                         }
                     };
                     break;
-                case '/doCreateProject':
+                case '/do/createProject':
                     action = function() { 
                         if ($(response).find('success').text() == 'true') {
                             projectName = $(response).find('project').find('name').text();
@@ -81,17 +81,17 @@ function controller(form) {
                         }
                     };
                     break;
-                case '/doCreateSymbol':
+                case '/do/createSymbol':
                     action = function() {};
                     break;
-                case '/doLoadDocument':
+                case '/do/loadDocument':
                     action = function() {
                         if ($(response).find('success').text() === 'true') {
                             redirect = '/document';
                         }
                     };
                     break;
-                case '/doLoadProject':
+                case '/do/loadProject':
                     action = function() { 
                         if ($(response).find('success').text() === 'true') {
                             projectName = $(response).find('project').find('name').text();
@@ -101,24 +101,24 @@ function controller(form) {
                         }
                     };
                     break;
-                case '/doSignIn':
+                case '/do/signIn':
                     action = function() { 
                         if ($(response).find('success').text() === 'true') {
                             document.location.href = '/lel/';
                         }
                     };
                     break;
-                case '/doSignOut':
+                case '/do/signOut':
                     action = function() { 
                         if ($(response).find('success').text() === 'true') {
                             window.location.href = '/lel/signIn';
                         }
                     };
                     break;
-                case '/doUpdateDocument':
+                case '/do/updateDocument':
                     action = function() {};
                     break;
-                case '/doUpdateSymbol':
+                case '/do/updateSymbol':
                     action = function() {};
                     break;
                 default:
@@ -171,7 +171,7 @@ $(document).ready(function() {
         switch ($(this).attr('method').toUpperCase()) {
             case 'GET':
                 document.location.hash = '#!' + 
-                $(this).attr('action').replace('/lel/ajax','') + 
+                $(this).attr('action').replace('/lel/get','') + 
                 '?' + $(this).serialize();
                 break;
             case 'POST':
@@ -184,7 +184,7 @@ $(document).ready(function() {
 	hash = hash.split('?');
         form = $('<form>');
         form
-            .attr('action', '/lel/ajax' + hash[0])
+            .attr('action', '/lel/get' + hash[0])
             .attr('method', 'GET')
             .serialize = function() {return hash[1];} 
         controller(form); 

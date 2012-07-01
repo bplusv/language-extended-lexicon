@@ -48,7 +48,7 @@ $(document).ready(function(){
                     $('body').append(infoBubble);
                 }
                 
-                infoBubble.attr('href', '#!/classify?' + $('#dcSymbolForm').serialize());
+                infoBubble.attr('href', '#!/classify?dc=' + $('#dcDocument').val() + '&sn=' + selectedText);
                 infoBubbleText.html(selectedText);
 
                 cont = $('#dcDocumentContainer');
@@ -80,24 +80,24 @@ $(document).ready(function(){
     });
 });
 
-function updateDocumentData() {
-    containerData = $('#dcDocumentContainer').html();
+function updateDocumentContent() {
+    containerText = $('#dcDocumentContainer').html();
     
     // Internet Explorer
-    containerData = containerData.replace(/<p>/i, '');
-    containerData = containerData.replace(/<p>&nbsp;<\/p>/ig,'\n');
-    containerData = containerData.replace(/<p>/ig,'\n');
+    containerText = containerText.replace(/<p>/i, '');
+    containerText = containerText.replace(/<p>&nbsp;<\/p>/ig,'\n');
+    containerText = containerText.replace(/<p>/ig,'\n');
     
     // Chrome
-    containerData = containerData.replace(/<div><br><\/div>/ig,'\n');
-    containerData = containerData.replace(/<div>/ig,'\n');
+    containerText = containerText.replace(/<div><br><\/div>/ig,'\n');
+    containerText = containerText.replace(/<div>/ig,'\n');
     
     // Firefox
-    containerData = containerData.replace(/<br>/ig, '\n');
+    containerText = containerText.replace(/<br>/ig, '\n');
     
-    containerData = containerData.replace(/<[^>]+>/ig,'');
-    containerData = containerData.replace(/&nbsp;/ig,' ');
+    containerText = containerText.replace(/<[^>]+>/ig,'');
+    containerText = containerText.replace(/&nbsp;/ig,' ');
     
-    $('#dcDocumentData').val(containerData);
+    $('#dcDocumentContent').val(containerText);
     return false;
 }
