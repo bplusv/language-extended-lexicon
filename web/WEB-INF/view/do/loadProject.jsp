@@ -6,14 +6,13 @@
 
 <response>
     <success>${success}</success>
-    <c:if test="${success}">
-        <project>
-            <name>
-                ${project.name}
-            </name>
-        </project>
-    </c:if>
     <c:if test="${!success}">
         <message><fmt:message key="load project fail" /></message>
+    </c:if>
+    <c:if test="${success}">
+        <project id="{project.id}">
+            <name>${project.name}</name>
+            <description>${project.description}</description>
+        </project>
     </c:if>
 </response>

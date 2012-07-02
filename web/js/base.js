@@ -76,7 +76,8 @@ $(document).ready(function() {
         $that = $this.find('span.overflowText');
         offset = $this.width() - $that.width();
         if (offset < 0) {
-            $that.animate({'margin-left': offset}, {duration: offset * -10, easing: 'linear'});
+            $that.animate({'margin-left': offset}, 
+            {duration: offset * -10, easing: 'linear'});
         } 
     });
     $(document).on('mouseleave', '.overflowEllipsis', function(e) {

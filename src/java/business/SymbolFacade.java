@@ -28,7 +28,8 @@ import java.util.Collection;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import model.*;
+import model.Log;
+import model.Symbol;
 
 /**
  *
@@ -73,6 +74,19 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Symbol createPossibleSymbol(String documentId, String name) {
+        try {
+            Symbol symbol = new Symbol();
+            symbol.setDocument(documentFacade.find(documentId));
+            symbol.setName(name);
+            return symbol;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+        
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Symbol updateSymbol(String userId, String symbolId, String categoryId,
             String classificationId, String notion, String actualIntention,
             String futureIntention, String comments) {
@@ -91,6 +105,20 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Log getLastLog(String symbolId) {
+        try {
+            return (Log) em.createQuery("SELECT lo FROM Log lo WHERE "
+                    + "lo.symbol = :symbol ORDER BY lo.date DESC;").
+                    setParameter("symbol", symbolFacade.find(symbolId)).
+                    setMaxResults(1).
+                    getSingleResult();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+        
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Symbol> findSynonyms(String symbolId) {
         try {
             Symbol symbol = symbolFacade.find(symbolId);
@@ -106,59 +134,13 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
             return null;
         }
     }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Log getLastLog(String symbolId) {
-        try {
-            Symbol symbol = symbolFacade.find(symbolId);
-            return (Log) em.createQuery("SELECT lo FROM Log lo WHERE "
-                    + "lo.symbol = :symbol "
-                    + "ORDER BY lo.date DESC;").
-                    setParameter("symbol", symbol).
-                    setMaxResults(1).
-                    getSingleResult();
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            return null;
-        }
-    }
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Collection<Symbol> findByFilters(String projectId, String categoryId, String classificationId, String name) {
-        String categoryName;
-        if (categoryId == null || categoryId.isEmpty()) {
-            categoryName = "%";
-        } else {
-            Category category = categoryFacade.find(categoryId);
-            categoryName = category.getName();
-        }
-        String classificationName;
-        if (classificationId == null || classificationId.isEmpty()) {
-            classificationName = "%";
-        } else {
-            Classification classification = classificationFacade.find(classificationId);
-            classificationName = classification.getName();
-        }
-        Project project = projectFacade.find(projectId);
-        return em.createQuery("SELECT sy FROM Symbol sy LEFT JOIN sy.definition de LEFT JOIN de.category ca "
-                + "LEFT JOIN de.classification cl WHERE sy.project = :project AND "
-                + "ca.name LIKE :categoryName AND (cl.name LIKE :classificationName OR "
-                + "(cl.name IS NULL AND :classificationName = '%')) AND "
-                + "LOWER(sy.name) LIKE :name ORDER BY LOWER(sy.name) ASC;").
-                setParameter("project", project).
-                setParameter("categoryName", categoryName).
-                setParameter("classificationName", classificationName).
-                setParameter("name", "%"+name.toLowerCase()+"%").
-                getResultList();
-    }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Symbol findByDocumentAndName(String documentId, String name) {
         try {
-            Document document = documentFacade.find(documentId);
             return (Symbol) em.createQuery("SELECT sy FROM Symbol sy WHERE "
                     + "sy.document = :document AND sy.name = :name;").
-                setParameter("document", document).
+                setParameter("document", documentFacade.find(documentId)).
                 setParameter("name", name).
                 getSingleResult();
         } catch (Exception e) {
@@ -166,18 +148,26 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
             return null;
         }
     }
-    
+        
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Symbol createPossibleSymbol(String documentId, String name) {
+    public Collection<Symbol> findByFilters(String projectId, String categoryId, String classificationId, String name) {
         try {
-            Symbol symbol = new Symbol();
-            symbol.setDocument(documentFacade.find(documentId));
-            symbol.setName(name);
-            return symbol;
+            return em.createQuery("SELECT sy FROM Symbol sy LEFT JOIN sy.definition de "
+                + "INNER JOIN de.category ca LEFT JOIN de.classification cl WHERE "
+                + "sy.project = :project AND ca.name LIKE :categoryName AND "
+                + "(cl.name LIKE :classificationName OR (cl.name IS NULL AND "
+                + ":classificationName = '%')) AND LOWER(sy.name) LIKE :name "
+                + "ORDER BY LOWER(sy.name) ASC;").
+                setParameter("project", projectFacade.find(projectId)).
+                setParameter("categoryName", !"".equals(categoryId) ? 
+                    (String) categoryFacade.find(categoryId).getName() : "%").
+                setParameter("classificationName", !"".equals(classificationId) ? 
+                    (String) classificationFacade.find(classificationId).getName() : "%").
+                setParameter("name", "%"+name.toLowerCase()+"%").
+                getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
     }
-    
 }

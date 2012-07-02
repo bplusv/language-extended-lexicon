@@ -6,5 +6,4 @@
 
 <response>
     <success>${success}</success>
-    <error></error>
 </response>

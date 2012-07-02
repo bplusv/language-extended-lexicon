@@ -53,7 +53,25 @@ public class ProjectFacade extends AbstractFacade<Project> {
         super(Project.class);
     }
     
-    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Project createProject(String userId, String name) {
+        try {
+            if (name.isEmpty()) return null;
+            name = name.trim();
+            Project project = new Project();
+            Collection<User> users = new ArrayList<User>();
+            users.add(userFacade.find(userId));
+            project.setName(name);
+            project.setUserCollection(users);
+            em.persist(project);
+            em.flush();
+            return project;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+        
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Document> getDocumentCollection(String projectId) {
         try {
@@ -77,26 +95,4 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-        
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Project createProject(String userId, String name) {
-        try {
-            if (name.isEmpty()) return null;
-            name = name.trim();
-            Project project = new Project();
-            Collection<User> users = new ArrayList<User>();
-            users.add(userFacade.find(userId));
-            project.setName(name);
-            project.setUserCollection(users);
-            em.persist(project);
-            em.flush();
-            return project;
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            return null;
-        }
-                
-       
-    }
-
 }

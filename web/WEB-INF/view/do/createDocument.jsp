@@ -7,4 +7,10 @@
 <response>
     <success>${success}</success>
     <message><fmt:message key="create document ${success ? 'success' : 'fail'}" /></message>
+    <c:if test="${success}">
+        <document id="${document.id}">
+            <name>${document.name}</name>
+            <project>${document.project.id}</project>
+        </document>
+    </c:if>
 </response>

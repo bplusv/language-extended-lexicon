@@ -8,10 +8,9 @@
     <success>${success}</success>
     <message><fmt:message key="create project ${success ? 'success' : 'fail'}" /></message>
     <c:if test="${success}">
-        <project>
-            <name>
-                ${project.name}
-            </name>
+        <project id="{project.id}">
+            <name>${project.name}</name>
+            <description>${project.description}</description>
         </project>
     </c:if>
 </response>
