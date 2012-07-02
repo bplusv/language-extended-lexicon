@@ -84,7 +84,7 @@ function controller(form) {
                 case '/do/createSymbol':
                     action = function() {
                         if ($(response).find('success').text() === 'true') {
-                            $('#clSymbol').val($(response).find('symbol').text());
+                            $('#clSymbol').val($(response).find('symbol').attr('id'));
                             $('#clForm').attr('action', '/lel/do/updateSymbol');
                         }
                     };

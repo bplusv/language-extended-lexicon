@@ -7,4 +7,13 @@
 <response>
     <success>${success}</success>
     <message><fmt:message key="update symbol ${success ? 'success' : 'fail'}" /></message>
+    <c:if test="${success}">
+        <symbol id="${symbol.id}">
+            <active>${symbol.active}</active>
+            <name>${symbol.name}</name>
+            <document>${symbol.document}</document>
+            <definition>${symbol.definition}</definition>
+            <project>${symbol.project}</project>
+        </symbol>
+    </c:if>
 </response>

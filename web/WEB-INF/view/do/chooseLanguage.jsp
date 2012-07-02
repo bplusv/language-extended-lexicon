@@ -6,4 +6,5 @@
 
 <response>
     <success>${success}</success>
+    <language>${language}</language>
 </response>
