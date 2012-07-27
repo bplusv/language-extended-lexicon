@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package controller;
 
 import business.*;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
@@ -40,229 +40,265 @@ import model.*;
  */
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
-urlPatterns = {"/get/classify",
-                "/get/document",
-                "/get/explore",
-                "/get/loadDocument",
-                "/get/loadProject",
-                "/get/test",
-                "/signIn",
-                "/do/chooseLanguage",
-                "/do/createDocument",
-                "/do/createProject",
-                "/do/createSymbol",
-                "/do/loadDocument",
-                "/do/loadProject",
-                "/do/signIn",
-                "/do/signOut",
-                "/do/updateDocument",
-                "/do/updateSymbol"})
+urlPatterns = {"/get/data/classifySelectSynonym",
+	"/get/data/classifyShowSynonyms",
+	"/get/view/classify",
+	"/get/view/document",
+	"/get/view/explore",
+	"/get/view/loadDocument",
+	"/get/view/loadProject",
+	"/get/view/test",
+	"/signIn",
+	"/post/chooseLanguage",
+	"/post/createDocument",
+	"/post/createProject",
+	"/post/createSymbol",
+	"/post/loadDocument",
+	"/post/loadProject",
+	"/post/signIn",
+	"/post/signOut",
+	"/post/updateDocument",
+	"/post/updateSymbol"})
 public class ControllerServlet extends HttpServlet {
-    @EJB private CategoryFacade categoryFacade;
-    @EJB private ClassificationFacade classificationFacade;
-    @EJB private DocumentFacade documentFacade;
-    @EJB private ProjectFacade projectFacade;
-    @EJB private SymbolFacade symbolFacade;
-    @EJB private UserFacade userFacade;
-    private HttpSession session;
 
-    @Override
-    public void init() throws ServletException {
-        List<Category> categories = (List) categoryFacade.findAll();
-        Collections.reverse(categories);
-        getServletContext().setAttribute("categories", categories);
-        List<Classification> classifications = (List) classificationFacade.findAll();
-        Collections.reverse(classifications);
-        getServletContext().setAttribute("classifications", classifications);
-        getServletContext().setAttribute("documentFacade", documentFacade);
-        getServletContext().setAttribute("projectFacade", projectFacade);
-        getServletContext().setAttribute("symbolFacade", symbolFacade);
-    }
+	@EJB
+	private CategoryFacade categoryFacade;
+	@EJB
+	private ClassificationFacade classificationFacade;
+	@EJB
+	private DocumentFacade documentFacade;
+	@EJB
+	private ProjectFacade projectFacade;
+	@EJB
+	private SymbolFacade symbolFacade;
+	@EJB
+	private UserFacade userFacade;
+	private HttpSession session;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        session = request.getSession(false);
-        String userPath = request.getServletPath();
+	@Override
+	public void init() throws ServletException {
+		List<Category> categories = (List) categoryFacade.findAll();
+		Collections.reverse(categories);
+		getServletContext().setAttribute("categories", categories);
+		List<Classification> classifications = (List) classificationFacade.findAll();
+		Collections.reverse(classifications);
+		getServletContext().setAttribute("classifications", classifications);
+		getServletContext().setAttribute("documentFacade", documentFacade);
+		getServletContext().setAttribute("projectFacade", projectFacade);
+		getServletContext().setAttribute("symbolFacade", symbolFacade);
+	}
 
-        if (userPath.equals("/get/classify")) {
-            Symbol symbol = request.getParameter("sy") != null ? 
-                symbolFacade.find(request.getParameter("sy")) : 
-                symbolFacade.findByDocumentAndName(
-                    request.getParameter("dc"),
-                    request.getParameter("na"));
-            if (symbol != null) {
-                request.setAttribute("log", 
-                symbolFacade.getLastLog(symbol.getId().toString()));
-                request.setAttribute("submitAction", "/do/updateSymbol");
-            } else {
-                symbol = symbolFacade.createPossibleSymbol(
-                    request.getParameter("dc"), request.getParameter("na"));
-                request.setAttribute("submitAction", "/do/createSymbol");
-            }            
-            request.setAttribute("symbol", symbol);
-        } else if (userPath.equals("/get/document")) {
-            if (session.getAttribute("document") == null) 
-                userPath = "/get/loadDocument";
-            if (session.getAttribute("project") == null) 
-                userPath = "/get/loadProject";
-        } else if (userPath.equals("/get/explore")) {
-            if (session.getAttribute("project") == null) 
-                userPath = "/get/loadProject";
-        } else if (userPath.equals("/get/loadDocument")) {
-        
-        } else if(userPath.equals("/get/loadProject")) {
-        
-        } else if (userPath.equals("/get/test")) {
-            String foo = "Esto es una prueba del sistema LeL.";
-            request.setAttribute("foo", foo);
-        } else if (userPath.equals("/signIn")) {}
-        
-        String responseView = "/WEB-INF/view" + userPath + ".jsp";
-        request.setAttribute("userPath", userPath);
-        try {
-            request.getRequestDispatcher(responseView).forward(request, response);
-        } catch (Exception e) {}
-    }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		session = request.getSession(false);
+		String userPath = request.getServletPath();
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        session = request.getSession(false);
-        String userPath = request.getServletPath();
+		if (userPath.equals("/get/data/classifySelectSynonym")) {
+			request.setAttribute("symbol",
+					symbolFacade.find(request.getParameter("sy")));
+		} else if (userPath.equals("/get/data/classifyShowSynonyms")) {
+			request.setAttribute("synonyms",
+					projectFacade.getSymbolCollection(
+					((Project) session.getAttribute("project")).getId().toString()));
+		} else if (userPath.equals("/get/view/classify")) {
+			Symbol symbol = request.getParameter("sy") != null
+					? symbolFacade.find(request.getParameter("sy"))
+					: symbolFacade.findByDocumentAndName(
+					request.getParameter("dc"),
+					request.getParameter("na"));
+			if (symbol != null) {
+				request.setAttribute("log",
+						symbolFacade.getLastLog(symbol.getId().toString()));
+				request.setAttribute("submitAction", "/post/updateSymbol");
+			} else {
+				symbol = symbolFacade.createPossibleSymbol(
+						request.getParameter("dc"), request.getParameter("na"));
+				request.setAttribute("submitAction", "/post/createSymbol");
+			}
+			request.setAttribute("symbol", symbol);
+		} else if (userPath.equals("/get/view/document")) {
+			if (session.getAttribute("document") == null) {
+				userPath = "/get/view/loadDocument";
+			}
+			if (session.getAttribute("project") == null) {
+				userPath = "/get/view/loadProject";
+			}
+		} else if (userPath.equals("/get/view/explore")) {
+			if (session.getAttribute("project") == null) {
+				userPath = "/get/view/loadProject";
+			}
+		} else if (userPath.equals("/get/view/loadDocument")) {
+		} else if (userPath.equals("/get/view/loadProject")) {
+		} else if (userPath.equals("/get/view/test")) {
+			String foo = "Esto es una prueba del sistema LeL.";
+			request.setAttribute("foo", foo);
+		} else if (userPath.equals("/signIn")) {
+		}
 
-        if(userPath.equals("/do/chooseLanguage")) {
-            try {
-                String language = request.getParameter("language");
-                Cookie languageCookie = new Cookie("language", language);
-                languageCookie.setMaxAge(60*60*24*365);
-                languageCookie.setPath(request.getContextPath());
-                response.addCookie(languageCookie);
-                request.setAttribute("success", true);
-                request.setAttribute("language", language);
-            } catch (Exception e) {
-                request.setAttribute("success", false);
-            }         
-        } else if (userPath.equals("/do/createDocument")) {
-            Document document = documentFacade.createDocument(
-                ((Project) session.getAttribute("project")).
-                        getId().toString(),
-                request.getParameter("name"));
-            if (document != null) {
-                session.setAttribute("document", document);
-                request.setAttribute("success", true);
-                request.setAttribute("document", document);
-            } else {
-                request.setAttribute("success", false);
-            }
-        } else if(userPath.equals("/do/createProject")) {
-            Project project = projectFacade.createProject(
-                    ((User) session.getAttribute("user")).
-                            getId().toString(),
-                    request.getParameter("name"));
-            if (project != null) {
-                session.setAttribute("project", project);
-                session.setAttribute("document", null);
-                request.setAttribute("success", true);
-                request.setAttribute("project", project);
-            } else {
-                request.setAttribute("success", false);   
-            }
-        } else if (userPath.equals("/do/createSymbol")) {
-            Symbol symbol = symbolFacade.createSymbol(
-                ((Project) session.getAttribute("project")).getId().toString(), 
-                ((User) session.getAttribute("user")).getId().toString(), 
-                request.getParameter("document"), 
-                request.getParameter("name"), 
-                request.getParameter("category"), 
-                request.getParameter("classification"), 
-                request.getParameter("notion"),
-                request.getParameter("actualIntention"), 
-                request.getParameter("futureIntention"),
-                request.getParameter("comments"));
-            if (symbol != null) {
-                request.setAttribute("success", true);
-                request.setAttribute("symbol", symbol);
-            } else {
-                request.setAttribute("success", false);
-            }
-        } else if (userPath.equals("/do/loadDocument")) {
-            Document document = documentFacade.find(
-                    request.getParameter("document"));
-            if (document != null) {
-                session.setAttribute("document", document);
-                request.setAttribute("success", true);
-                request.setAttribute("document", document);
-            } else {
-                request.setAttribute("success", false);
-            }
-        } else if(userPath.equals("/do/loadProject")) {
-            Project project = projectFacade.find(
-                    request.getParameter("project"));
-            
-            if (project != null) {
-                session.setAttribute("project", project);
-                session.setAttribute("document", null);
-                request.setAttribute("success", true);
-                request.setAttribute("project", project);
-            } else {
-                request.setAttribute("success", false); 
-            }          
-        } else if (userPath.equals("/do/signIn")) {
-            User user = userFacade.signIn(
-                request.getParameter("username"), 
-                request.getParameter("password"));
-            if (user != null) {
-                session.setAttribute("user", user);
-                request.setAttribute("success", true);
-            } else {
-                request.setAttribute("success", false);
-            }
-        } else if (userPath.equals("/do/signOut")) {
-            try {
-                session.setAttribute("user", null);
-                session.invalidate();
-                request.setAttribute("success", true);
-            } catch (Exception e) {
-                request.setAttribute("success", false);
-            }
-        } else if (userPath.equals("/do/updateDocument")) {
-            Document document = documentFacade.updateContent(
-                    request.getParameter("document"), 
-                    request.getParameter("content"));
-            if (document != null) {
-                request.setAttribute("success", true);
-                session.setAttribute("document", document);
-            } else {
-                request.setAttribute("success", false);
-            }
-        } else if (userPath.equals("/do/updateSymbol")) {
-            Symbol symbol = symbolFacade.updateSymbol(
-                ((User) session.getAttribute("user")).getId().toString(), 
-                request.getParameter("symbol"), 
-                request.getParameter("category"),
-                request.getParameter("classification"),
-                request.getParameter("notion"),
-                request.getParameter("actualIntention"),
-                request.getParameter("futureIntention"),
-                request.getParameter("comments"));
-            if (symbol != null) {
-                request.setAttribute("success", true);
-                request.setAttribute("symbol", symbol);
-            } else {
-                request.setAttribute("success", false);
-            }              
-        } 
+		String responseView = "/WEB-INF" + userPath + ".jsp";
+		request.setAttribute("userPath", userPath);
+		try {
+			request.getRequestDispatcher(responseView).forward(request, response);
+		} catch (Exception e) {
+		}
+	}
 
-        String responseView = "/WEB-INF/view" + userPath + ".jsp";
-        request.setAttribute("userPath", userPath);
-        try {
-            request.getRequestDispatcher(responseView).forward(request, response);
-        } catch (Exception e) {}
-    }    
-        
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		session = request.getSession(false);
+		String userPath = request.getServletPath();
+
+		if (userPath.equals("/post/chooseLanguage")) {
+			try {
+				String language = request.getParameter("language");
+				Cookie languageCookie = new Cookie("language", language);
+				languageCookie.setMaxAge(60 * 60 * 24 * 365);
+				languageCookie.setPath(request.getContextPath());
+				languageCookie.setHttpOnly(true);
+				response.addCookie(languageCookie);
+				request.setAttribute("success", true);
+				request.setAttribute("language", language);
+			} catch (Exception e) {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/createDocument")) {
+			Document document = documentFacade.createDocument(
+					((Project) session.getAttribute("project")).getId().toString(),
+					request.getParameter("name"));
+			if (document != null) {
+				session.setAttribute("document", document);
+				request.setAttribute("success", true);
+				request.setAttribute("document", document);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/createProject")) {
+			Project project = projectFacade.createProject(
+					((User) session.getAttribute("user")).getId().toString(),
+					request.getParameter("name"));
+			if (project != null) {
+				session.setAttribute("project", project);
+				session.setAttribute("document", null);
+				request.setAttribute("success", true);
+				request.setAttribute("project", project);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/createSymbol")) {
+			Symbol symbol;
+			if (request.getParameter("synonym") != null) {
+				symbol = symbolFacade.createSymbolBySynonym(
+					((Project) session.getAttribute("project")).getId().toString(),
+					((User) session.getAttribute("user")).getId().toString(),
+					request.getParameter("document"),
+					request.getParameter("name"),
+					request.getParameter("synonym"));
+			} else {
+				symbol = symbolFacade.createSymbol(
+					((Project) session.getAttribute("project")).getId().toString(),
+					((User) session.getAttribute("user")).getId().toString(),
+					request.getParameter("document"),
+					request.getParameter("name"),
+					request.getParameter("category"),
+					request.getParameter("classification"),
+					request.getParameter("notion"),
+					request.getParameter("actualIntention"),
+					request.getParameter("futureIntention"),
+					request.getParameter("comments"));
+			}
+			if (symbol != null) {
+				request.setAttribute("success", true);
+				request.setAttribute("symbol", symbol);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/loadDocument")) {
+			Document document = documentFacade.find(
+					request.getParameter("document"));
+			if (document != null) {
+				session.setAttribute("document", document);
+				request.setAttribute("success", true);
+				request.setAttribute("document", document);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/loadProject")) {
+			Project project = projectFacade.find(
+					request.getParameter("project"));
+
+			if (project != null) {
+				session.setAttribute("project", project);
+				session.setAttribute("document", null);
+				request.setAttribute("success", true);
+				request.setAttribute("project", project);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/signIn")) {
+			User user = userFacade.signIn(
+					request.getParameter("username"),
+					request.getParameter("password"));
+			if (user != null) {
+				session.setAttribute("user", user);
+				request.setAttribute("success", true);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/signOut")) {
+			try {
+				session.setAttribute("user", null);
+				session.invalidate();
+				request.setAttribute("success", true);
+			} catch (Exception e) {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/updateDocument")) {
+			Document document = documentFacade.updateContent(
+					request.getParameter("document"),
+					request.getParameter("content"));
+			if (document != null) {
+				request.setAttribute("success", true);
+				session.setAttribute("document", document);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/updateSymbol")) {
+			Symbol symbol;
+			if (request.getParameter("synonym") != null) {
+				symbol = symbolFacade.updateSymbolBySynonym(
+					((User) session.getAttribute("user")).getId().toString(),
+					request.getParameter("symbol"),
+					request.getParameter("synonym"));
+			} else {
+				symbol = symbolFacade.updateSymbol(
+					((User) session.getAttribute("user")).getId().toString(),
+					request.getParameter("symbol"),
+					request.getParameter("category"),
+					request.getParameter("classification"),
+					request.getParameter("notion"),
+					request.getParameter("actualIntention"),
+					request.getParameter("futureIntention"),
+					request.getParameter("comments"));
+			}
+			if (symbol != null) {
+				request.setAttribute("success", true);
+				request.setAttribute("symbol", symbol);
+			} else {
+				request.setAttribute("success", false);
+			}
+		}
+
+		String responseView = "/WEB-INF" + userPath + ".jsp";
+		request.setAttribute("userPath", userPath);
+		try {
+			request.getRequestDispatcher(responseView).forward(request, response);
+		} catch (Exception e) {
+		}
+	}
 }

@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
+var appContext = '/lel';
+
 function getSelectedText() {
     if(window.getSelection) {return window.getSelection();}
     else if(document.getSelection) {return document.getSelection();}

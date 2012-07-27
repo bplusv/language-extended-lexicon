@@ -147,6 +147,14 @@
     right: 0;
 }
 
+#clEditSynonyms {
+    display: inline;
+}
+
+#clCancelEditSynonyms {
+    display: none;
+}
+
 #clForm {
     height: auto;
     min-height: 450px;
@@ -179,11 +187,11 @@
     
 }
 
-#clSelectedSynonym {
+#clSynonymsSelect {
     border: 1px solid #ccc;
     display: none;
     height: auto;
-    margin: 0 auto 25px auto;
+    margin: 25px auto 0 auto;
     overflow-x: visible;
     overflow-y: auto;
     width: 400px;
@@ -194,12 +202,16 @@
 }
 
 #clSynonyms {
-    margin-bottom: 25px;
-    text-align: center;
+    
 }
 
 #clSynonyms label {
     display: inline-block;
+}
+
+#clSynonymsField {
+    margin-bottom: 25px;
+    text-align: center;
 }
 
 #clTitle {

@@ -23,114 +23,131 @@
  */
 
 var isRequesting = false;
-function controller(form) {
-    var method = form.attr('method').toUpperCase();
-    var request = form.attr('action').replace('/lel', '');
+function controller(request, params) {
     var response, action, redirect;
-    
-    switch (method) {
-        case 'GET':
-            switch (request) {
-                case '/get/classify':
-                    action = function() {};
-                    break;
-                case '/get/document':
-                    action = function() {};
-                    break;
-                case '/get/explore':
-                    action = function() {};
-                    break;
-                case '/get/loadDocument':
-                    action = function() {};
-                    break;
-                case '/get/loadProject':
-                    action = function() {};
-                    break;
-                case '/get/test':
-                    action = function() {};
-                    break;
-                default:
-                    if (document.location.href.indexOf('/signIn') < 0)
-                        document.location.href = '/lel/#!/explore';
-                    return;
+
+    switch (request) {
+        case '/get/data/classifySelectSynonym':
+            action = function() {
+                var $xmlSynonyms = $(response).find('synonym').add($(response).find('symbol'));
+                var synonyms = '';
+                $xmlSynonyms.each(function(i, e) {
+                    if ($(e).attr('id') != $('#clSymbol').val()) {
+                        synonyms += '<a href="#!/classify?sy=' + $(e).attr('id') + '">' + $(e).children('name').text() + '</a>';
+                        synonyms +=  i < $xmlSynonyms.length - 1 ? ', ' : '';
+                    }
+                });
+                $('#clSynonyms').html(synonyms);
+                $('#clDocumentTitle').html($(response).find('document > name').text());
+                $('#clCategory').val($(response).find('category').text());
+                $('#clCategory').trigger('change');
+                $('#clClassification').val($(response).find('classification').text());
+                $('#clLogUserName').html($(response).find('log > user > name').text());
+                $('#clLogDate').html($(response).find('log > date').text());
+                $('#clNotion').html($(response).find('notion').text());
+                $('#clActualIntention').html($(response).find('actualIntention').text());
+                $('#clFutureIntention').html($(response).find('futureIntention').text());
+                $('#clComments').html($(response).find('comments').text());
+            };
+            break;
+        case '/get/data/classifyShowSynonyms':
+            action = function() {
+                var $xmlSynonyms = $(response).find('synonym');
+                var synonyms = '';
+                $xmlSynonyms.each(function(i, e) {
+                    if ($(e).attr('id') != $('#clSymbol').val()) {
+                        synonyms += '<option value="' + $(e).attr('id') + '">' + $(e).children('name').text() + '</option>';
+                    }
+                });
+                $('#clSynonymsSelect').html(synonyms);
+            };
+        break;
+        case '/get/view/classify':
+        case '/get/view/document':
+        case '/get/view/explore':
+        case '/get/view/loadDocument':
+        case '/get/view/loadProject':
+        case '/get/view/test':
+            action = function() {$('#central').html(response);};
+            break;
+        case '/post/chooseLanguage':
+            action = function() {
+                if ($(response).find('success').text() === 'true') {
+                    document.location.reload();
+                }
             }
             break;
-        case 'POST':
-            switch (request) {
-                case '/do/chooseLanguage':
-                    action = function() {
-                        if ($(response).find('success').text() === 'true') {
-                            document.location.reload();
-                        }
-                    }
-                    break;
-                case '/do/createDocument':
-                    action = function() {
-                        if ($(response).find('success').text() === 'true') {
-                            redirect = '#!/document';
-                        }
-                    };
-                    break;
-                case '/do/createProject':
-                    action = function() { 
-                        if ($(response).find('success').text() == 'true') {
-                            projectName = $(response).find('project').find('name').text();
-                            $('#ixProjectTitle').show();
-                            $('#ixProjectName').html(projectName);
-                            redirect = '#!/explore';
-                        }
-                    };
-                    break;
-                case '/do/createSymbol':
-                    action = function() {
-                        if ($(response).find('success').text() === 'true') {
-                            $('#clSymbol').val($(response).find('symbol').attr('id'));
-                            $('#clForm').attr('action', '/lel/do/updateSymbol');
-                        }
-                    };
-                    break;
-                case '/do/loadDocument':
-                    action = function() {
-                        if ($(response).find('success').text() === 'true') {
-                            redirect = '#!/document';
-                        }
-                    };
-                    break;
-                case '/do/loadProject':
-                    action = function() { 
-                        if ($(response).find('success').text() === 'true') {
-                            projectName = $(response).find('project').find('name').text();
-                            $('#ixProjectTitle').show();
-                            $('#ixProjectName').html(projectName);
-                            redirect = '#!/explore';
-                        }
-                    };
-                    break;
-                case '/do/signIn':
-                    action = function() { 
-                        if ($(response).find('success').text() === 'true') {
-                            document.location.href = '/lel/';
-                        }
-                    };
-                    break;
-                case '/do/signOut':
-                    action = function() { 
-                        if ($(response).find('success').text() === 'true') {
-                            window.location.href = '/lel/signIn';
-                        }
-                    };
-                    break;
-                case '/do/updateDocument':
-                    action = function() {};
-                    break;
-                case '/do/updateSymbol':
-                    action = function() {};
-                    break;
-                default:
-                    return;
-        }
-        break;
+        case '/post/createDocument':
+            action = function() {
+                if ($(response).find('success').text() === 'true') {
+                    redirect = '#!/document';
+                }
+            };
+            break;
+        case '/post/createProject':
+            action = function() { 
+                if ($(response).find('success').text() == 'true') {
+                    projectName = $(response).find('project').find('name').text();
+                    $('#ixProjectTitle').show();
+                    $('#ixProjectName').html(projectName);
+                    redirect = '#!/explore';
+                }
+            };
+            break;
+        case '/post/createSymbol':
+            action = function() {
+                if ($(response).find('success').text() === 'true') {
+                    $('#clSymbol').val($(response).find('symbol').attr('id'));
+                    $('#clForm').attr('action', appContext + 'do/updateSymbol');
+                    $('#clDefinitionTopRight').css('visibility', 'visible');
+                    $('#clLogUserName').html($(response).find('log > user > name').text());
+                    $('#clLogDate').html($(response).find('log > date').text());
+                }
+            };
+            break;
+        case '/post/loadDocument':
+            action = function() {
+                if ($(response).find('success').text() === 'true') {
+                    redirect = '#!/document';
+                }
+            };
+            break;
+        case '/post/loadProject':
+            action = function() { 
+                if ($(response).find('success').text() === 'true') {
+                    projectName = $(response).find('project').find('name').text();
+                    $('#ixProjectTitle').show();
+                    $('#ixProjectName').html(projectName);
+                    redirect = '#!/explore';
+                }
+            };
+            break;
+        case '/post/signIn':
+            action = function() { 
+                if ($(response).find('success').text() === 'true') {
+                    document.location.href = appContext;
+                }
+            };
+            break;
+        case '/post/signOut':
+            action = function() { 
+                if ($(response).find('success').text() === 'true') {
+                    window.location.href = appContext + '/signIn';
+                }
+            };
+            break;
+        case '/post/updateDocument':
+            action = function() {};
+            break;
+        case '/post/updateSymbol':
+            action = function() {
+                $('#clLogUserName').html($(response).find('log > user > name').text());
+                $('#clLogDate').html($(response).find('log > date').text());
+            };
+            break;
         default:
+            if (document.location.href.indexOf('/signIn') < 0)
+                document.location.hash = '#!/explore';
             return;
     }
  
@@ -139,24 +156,18 @@ function controller(form) {
         $('#notification').hide();
         $('#ajaxLoader').show();
         $.ajax({
-            url: form.attr('action'),
-            type: form.attr('method'),
-            data: form.serialize(),
+            url: appContext + request,
+            type: /\/([^\/]*)\//.exec(request)[1],
+            data: params,
             timeout: 5000,
             success: function(data) {
                 if ($(data).find('sessionTimeOut').text() === 'true')
-                    document.location.href = '/lel/signIn';
-                switch (form.attr('method').toUpperCase()) {
-                    case 'GET':
-                        $('#central').html(data);
-                        break;
-                    case 'POST':
-                        response = $(data).find('response');
-                        break;
-                }
+                    document.location.href = appContext + '/signIn';
+                response = $(data);
                 action();
             },
-            error: function() {
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
                 response = $('<response>').html(
                     $('<message>').html(
                     $('#networkFail').html())
@@ -173,27 +184,12 @@ function controller(form) {
 $(document).ready(function() {   
     $(document).on('submit', 'form', function(e) {
         e.preventDefault();
-        switch ($(this).attr('method').toUpperCase()) {
-            case 'GET':
-                document.location.hash = '#!' + 
-                $(this).attr('action').replace('/lel/get','') + 
-                '?' + $(this).serialize();
-                break;
-            case 'POST':
-                controller($(this));
-                break;
-        }
+        controller($(this).attr('action'), $(this).serialize());
     });
     $(window).on('hashchange', function(){
         var hash = document.location.hash.replace(/#!/, '');
-	hash = hash.split('?');
-        form = $('<form>');
-        form
-            .attr('action', '/lel/get' + hash[0])
-            .attr('method', 'GET')
-            .serialize = function() {return hash[1];} 
-        controller(form); 
+        hash = hash.split('?');
+        controller('/get/view' + hash[0], hash[1]);
     });
     $(window).trigger('hashchange');
-    $window = $(window);
 });
