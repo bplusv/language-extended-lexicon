@@ -16,34 +16,31 @@
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
         <meta http-equiv="pragma" content="no-cache" /> 
         <meta http-equiv="expires" content="-1" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/base.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/index.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/classify.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/document.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/explore.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/loadDocument.css" />" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/loadProject.css" />" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/classify.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/document.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/explore.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/loadDocument.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/loadProject.css" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
-        <!--[if lt IE 9]><script src="/lel/js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
-        <script src="/lel/js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="<c:url value="/js/base.js" />" type="text/javascript" charset="UTF-8"></script>
-        <script src="<c:url value="/js/controller.js" />" type="text/javascript" charset="UTF-8"></script>
-        <script src="<c:url value="/js/classify.js" />" type="text/javascript" charset="UTF-8"></script>
-        <script src="<c:url value="/js/document.js" />" type="text/javascript" charset="UTF-8"></script>
+        <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
+        <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/index.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
     </head>
     <body>
         <span id="networkFail"><fmt:message key="network fail" /></span>
         <h3 id="notification"></h3>
-        <img id="ajaxLoader" src="/lel/img/ajaxLoader.gif" />
+        <img id="ajaxLoader" src="img/ajaxLoader.gif" />
         <header id="ixHeader">
-            <img id="ixHeaderLogo" src="/lel/img/headerLogo.png" />
+            <img id="ixHeaderLogo" src="img/headerLogo.png" />
             <div id="ixUserMenu">
-                <form id="ixSignOutForm" class="signOut" action="<c:url value="/do/signOut" />" method="POST"></form>
-                <form id="ixChooseLanguageForm" action="<c:url value="/do/chooseLanguage" />" method="POST">
-                    <input id="ixLanguage" type="hidden" name="language" />
-                </form>
                 <div class="downArrow"></div>
                 <span class="user overflowEllipsis">${user.name}</span>
                 <div style="clear:both"></div>
@@ -65,12 +62,12 @@
                                         <div class="circle"></div>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" onclick="$($('#ixLanguage').val('es').prop('form')).submit();">Español</a>
+                                        <a id="ixChooseLanguageEs" href="javascript:;">Español</a>
                                     </li>
                                 </c:when>
                                 <c:when test="${lang eq 'es'}">
                                     <li>
-                                        <a href="javascript:;" onclick="$($('#ixLanguage').val('en').prop('form')).submit();">English</a>
+                                        <a id="ixChooseLanguageEn" href="javascript:;">English</a>
                                     </li>
                                     <li>
                                         <span>Español</span>
@@ -80,7 +77,7 @@
                             </c:choose>
                         </ul>
                     </li>
-                    <li><a href="javascript:;" onclick="$('#ixSignOutForm').submit();"><fmt:message key="sign out" /></a></li>
+                    <li><a id="ixSignOut" href="javascript:;" ><fmt:message key="sign out" /></a></li>
                 </ul>
             </div>
             <div id="ixProjectTitle" style="display: ${empty project ? 'none' : 'block'}}">
@@ -93,7 +90,7 @@
         </nav>
         <div id="central"></div>
         <footer id="ixFooter">
-            <img id="ixFooterBackground" src="/lel/img/footerBackground.png" />
+            <img id="ixFooterBackground" src="img/footerBackground.png" />
         </footer>
     </body>
 </html>

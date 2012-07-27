@@ -12,14 +12,15 @@
         <jsp-property-group>
             <description>HTML Header</description>
             <url-pattern>/index.jsp</url-pattern>
-            <url-pattern>/WEB-INF/view/signIn.jsp</url-pattern>
-            <url-pattern>/WEB-INF/view/get/*</url-pattern>
-            <include-prelude>/WEB-INF/jspf/htmlHeader.jspf</include-prelude>
+            <url-pattern>/WEB-INF/signIn.jsp</url-pattern>
+            <url-pattern>/WEB-INF/get/view/*</url-pattern>
+            <include-prelude>/WEB-INF/header/html.jspf</include-prelude>
         </jsp-property-group>
         <jsp-property-group>
             <display-name>XML Header</display-name>
-            <url-pattern>/WEB-INF/view/do/*</url-pattern>
-            <include-prelude>/WEB-INF/jspf/xmlHeader.jspf</include-prelude>
+            <url-pattern>/WEB-INF/get/data/*</url-pattern>
+            <url-pattern>/WEB-INF/post/*</url-pattern>
+            <include-prelude>/WEB-INF/header/xml.jspf</include-prelude>
         </jsp-property-group>
     </jsp-config>
     <error-page>

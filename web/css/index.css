@@ -7,10 +7,6 @@
 
 @charset "UTF-8";
 
-#ixChooseLanguageForm {
-    display: none;
-}
-
 #ixFooter {
     height: auto;
 }
@@ -35,10 +31,6 @@
     margin-right: auto;
     text-align: center;
     width: 400px;
-}
-
-#ixSignOutForm {
-    display: none;
 }
 
 #ixUserMenu {

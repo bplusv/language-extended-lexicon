@@ -23,18 +23,47 @@
  */
 
 $(document).ready(function() {
-   $(document).on('change', '#clCategory', function() {
-       $this = $(this);
-       // is 'general' category selected?
-       if ($this.val() === '1') {
-           $('#clClassificationField').hide();
-           $('#clIntentionFields').hide();
-       } else {
-           $('#clClassificationField').show();
-           $('#clIntentionFields').show();
-       }
-   });
-   $(document).on('click', '#clSynonyms', function() {
-       $('#clSelectedSynonym').toggle();
-   })
+    $(document).on('change', '#clCategory', function() {
+        $this = $(this);
+        // is 'general' category selected?
+        if ($this.val() === '1') {
+            $('#clClassificationField').hide();
+            $('#clIntentionFields').hide();
+        } else {
+            $('#clClassificationField').show();
+            $('#clIntentionFields').show();
+        }
+    });
+    $(document).on('change', '#clSynonymsSelect', function() {
+        controller('/get/data/classifySelectSynonym', 'sy=' + $(this).val()); 
+    });
+    $(document).on('click', '#clEditSynonyms', function() {
+        $(window).scrollTop($('#clTitle').offset().top);
+        
+        $('#clSynonymsSelect').css('display', 'block');
+        $('#clEditSynonyms').css('display', 'none');
+        $('#clCancelEditSynonyms').css('display', 'inline');
+        controller('/get/data/classifyShowSynonyms');
+    });
+    $(document).on('click', '#clCancelEditSynonyms', function() {
+        
+        $('#clSynonymsSelect').css('display', 'none');
+        $('#clEditSynonyms').css('display', 'inline');
+        $('#clCancelEditSynonyms').css('display', 'none');
+        
+        if ($('#clSymbol').val()) {
+            controller('/get/data/classifySelectSynonym', 'sy=' + $('#clSymbol').val());
+        } else {
+            $('#clCategory').val(-1);
+            $('#clCategory').trigger('change');
+            $('#clClassification').val(-1);
+            $('#clNotion').html('');
+            $('#clActualIntention').html('');
+            $('#clFutureIntention').html('');
+            $('#clComments').html('');
+            $('#clDocumentTitle').html($('#clDocumentName').val());
+            $('#clSynonymsSelect').val(-1);
+        }
+
+    });
 });
