@@ -53,6 +53,19 @@ public class ProjectFacade extends AbstractFacade<Project> {
         super(Project.class);
     }
     
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Project> findAll() {
+        try {
+            return em.createQuery("SELECT pr FROM Project pr "
+				+ "ORDER BY LOWER(pr.name) ASC;").
+				getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+		
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Project createProject(String userId, String name) {
         try {
@@ -75,21 +88,25 @@ public class ProjectFacade extends AbstractFacade<Project> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Document> getDocumentCollection(String projectId) {
         try {
-            Project project = find(projectId);
-            em.refresh(project);
-        return project.getDocumentCollection();
+            return em.createQuery("SELECT do FROM Document do "
+				+ "WHERE do.project = :project "
+				+ "ORDER BY LOWER(do.name) ASC;").
+				setParameter("project", projectFacade.find(projectId)).
+				getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
     }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Collection<Symbol> getSymbolCollection(String projectId) {
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Document> getSymbolCollection(String projectId) {
         try {
-            Project project = find(projectId);
-            em.refresh(project);
-            return project.getSymbolCollection();
+            return em.createQuery("SELECT sy FROM Symbol sy "
+				+ "WHERE sy.project = :project "
+				+ "ORDER BY LOWER(sy.name) ASC;").
+				setParameter("project", projectFacade.find(projectId)).
+				getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

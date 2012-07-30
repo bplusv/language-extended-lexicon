@@ -93,7 +93,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			em.persist(symbol);
 			em.flush();
 			logFacade.createLog(userId, symbol.getId().toString(), "1");
-			Collection<Symbol> synonyms = symbolFacade.findSynonyms(symbol.getId().toString());
+			Collection<Symbol> synonyms = symbolFacade.getSynonyms(symbol.getId().toString());
 			for (Symbol synonym : synonyms) {
 				logFacade.createLog(userId, synonym.getId().toString(), "1");
 			}
@@ -130,7 +130,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			em.merge(symbol);
 			em.flush();
 			logFacade.createLog(userId, symbolId, "2");
-			Collection<Symbol> synonyms = symbolFacade.findSynonyms(symbol.getId().toString());
+			Collection<Symbol> synonyms = symbolFacade.getSynonyms(symbol.getId().toString());
 			for (Symbol synonym : synonyms) {
 				logFacade.createLog(userId, synonym.getId().toString(), "2");
 			}
@@ -149,7 +149,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			em.merge(symbol);
 			em.flush();
 			logFacade.createLog(userId, symbolId, "2");
-			Collection<Symbol> synonyms = symbolFacade.findSynonyms(symbol.getId().toString());
+			Collection<Symbol> synonyms = symbolFacade.getSynonyms(symbol.getId().toString());
 			for (Symbol synonym : synonyms) {
 				logFacade.createLog(userId, synonym.getId().toString(), "2");
 			}
@@ -173,14 +173,30 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			return null;
 		}
 	}
-
+	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Collection<Symbol> findSynonyms(String symbolId) {
+	public Collection<Symbol> getSynonymsGroup(String symbolId) {
 		try {
 			Symbol symbol = symbolFacade.find(symbolId);
 			return em.createQuery("SELECT sy FROM Symbol sy WHERE "
-				+ "sy <> :symbol AND sy.definition = :definition AND "
-				+ "sy.project = :project;").
+				+ "sy.definition = :definition AND sy.project = :project "
+				+ "ORDER BY LOWER(sy.name) ASC;").
+				setParameter("project", symbol.getProject()).
+				setParameter("definition", symbol.getDefinition()).
+				getResultList();
+		} catch (Exception e) {
+			context.setRollbackOnly();
+			return null;
+		}
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public Collection<Symbol> getSynonyms(String symbolId) {
+		try {
+			Symbol symbol = symbolFacade.find(symbolId);
+			return em.createQuery("SELECT sy FROM Symbol sy WHERE "
+				+ "sy <> :symbol AND sy.definition = :definition "
+				+ "AND sy.project = :project ORDER BY LOWER(sy.name) ASC;").
 				setParameter("symbol", symbol).
 				setParameter("project", symbol.getProject()).
 				setParameter("definition", symbol.getDefinition()).

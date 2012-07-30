@@ -48,7 +48,10 @@ function notify(cssClass, message) {
 }
 
 function update(response, redirect) {
-    $('.overflowEllipsis').wrapInner('<span class="overflowText" />');
+    $('.overflowEllipsis').each(function(i,e) {
+        if ($(e).children('.overflowText').length < 1)
+            $(e).wrapInner('<span class="overflowText">');
+    });
 
     $('.tabs a').removeClass('selected');
     if (document.location.hash.indexOf('/explore') > 0)
