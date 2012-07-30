@@ -31,6 +31,11 @@ import javax.ejb.SessionContext;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import model.Project_;
 
 /**
  *
@@ -71,8 +76,10 @@ public abstract class AbstractFacade<T> {
     public Collection<T> findAll() {
         try {
             EntityManager em = this.getEntityManager();
-            javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-            cq.select(cq.from(entityClass));
+			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery cq = cb.createQuery();
+			Root<T> root = cq.from(entityClass);
+            cq.select(root);
             return  getEntityManager().createQuery(cq).getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
@@ -83,9 +90,9 @@ public abstract class AbstractFacade<T> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<T> findRange(int[] range) {
         try {
-            javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
             cq.select(cq.from(entityClass));
-            javax.persistence.Query q =  getEntityManager().createQuery(cq);
+            Query q =  getEntityManager().createQuery(cq);
             q.setMaxResults(range[1] - range[0]);
             q.setFirstResult(range[0]);
             return q.getResultList();
@@ -98,10 +105,10 @@ public abstract class AbstractFacade<T> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Integer count() {
         try {
-            javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-            javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
+            CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            Root<T> rt = cq.from(entityClass);
             cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-            javax.persistence.Query q = getEntityManager().createQuery(cq);
+            Query q = getEntityManager().createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } catch (Exception e) {
             context.setRollbackOnly();

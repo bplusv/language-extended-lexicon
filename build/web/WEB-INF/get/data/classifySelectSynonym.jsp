@@ -25,12 +25,12 @@
             </user>
             <date><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></date>
         </log>
-        <synonyms>
-            <c:forEach var="synonym" items="${symbolFacade.findSynonyms(symbol.id)}">
+        <synonymsGroup>
+            <c:forEach var="synonym" items="${symbolFacade.getSynonymsGroup(symbol.id)}">
                 <synonym id="${synonym.id}">
                     <name>${synonym.name}</name>
                 </synonym>
             </c:forEach>
-        </synonyms>
+        </synonymsGroup>
     </symbol>
 </response>

@@ -29,15 +29,14 @@ function controller(request, params) {
     switch (request) {
         case '/get/data/classifySelectSynonym':
             action = function() {
-                var $xmlSynonyms = $(response).find('synonym').add($(response).find('symbol'));
-                var synonyms = '';
+                $xmlSynonyms = $(response).find('synonymsGroup').children();
+                var synonyms = [];
                 $xmlSynonyms.each(function(i, e) {
-                    if ($(e).attr('id') != $('#clSymbol').val()) {
-                        synonyms += '<a href="#!/classify?sy=' + $(e).attr('id') + '">' + $(e).children('name').text() + '</a>';
-                        synonyms +=  i < $xmlSynonyms.length - 1 ? ', ' : '';
-                    }
+                    if ($(e).attr('id') != $('#clSymbol').val())
+                        synonyms.push('<a href="#!/classify?sy=' + $(e).attr('id') + 
+                        '">' + $(e).children('name').text() + '</a>');
                 });
-                $('#clSynonyms').html(synonyms);
+                $('#clSynonyms').html(synonyms.join(', '));
                 $('#clDocumentTitle').html($(response).find('document > name').text());
                 $('#clCategory').val($(response).find('category').text());
                 $('#clCategory').trigger('change');

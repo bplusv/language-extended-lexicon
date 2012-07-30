@@ -30,6 +30,7 @@ import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Document;
+import model.Project;
 
 /**
  *
@@ -49,7 +50,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
     public DocumentFacade() {
         super(Document.class);
     }
-    
+		
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Document createDocument(String projectId, String name) {
         try {
