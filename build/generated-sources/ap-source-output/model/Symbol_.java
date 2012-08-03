@@ -9,7 +9,7 @@ import model.Document;
 import model.Log;
 import model.Project;
 
-@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2012-07-25T10:25:49")
+@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2012-08-03T12:26:46")
 @StaticMetamodel(Symbol.class)
 public class Symbol_ { 
 
