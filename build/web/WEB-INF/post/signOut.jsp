@@ -4,6 +4,6 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<response>
+<root>
     <success>${success}</success>
-</response>
+</root>

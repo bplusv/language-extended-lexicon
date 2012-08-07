@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<response>
+<root>
     <success>${success}</success>
     <message><fmt:message key="update symbol ${success ? 'success' : 'fail'}" /></message>
     <c:if test="${success}">
@@ -23,4 +23,4 @@
             </log>
         </symbol>
     </c:if>
-</response>
+</root>

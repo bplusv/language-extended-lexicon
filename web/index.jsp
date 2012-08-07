@@ -33,6 +33,7 @@
         <script src="js/index.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
     </head>
     <body>
         <span id="networkFail"><fmt:message key="network fail" /></span>

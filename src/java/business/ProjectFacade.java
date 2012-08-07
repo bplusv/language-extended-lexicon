@@ -103,7 +103,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
     public Collection<Document> getSymbolCollection(String projectId) {
         try {
             return em.createQuery("SELECT sy FROM Symbol sy "
-				+ "WHERE sy.project = :project "
+				+ "WHERE sy.project = :project AND sy.active = TRUE "
 				+ "ORDER BY LOWER(sy.name) ASC;").
 				setParameter("project", projectFacade.find(projectId)).
 				getResultList();

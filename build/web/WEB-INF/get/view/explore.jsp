@@ -29,24 +29,26 @@
                         <input id="exDoSearch" type="submit" class="button" value=""/>
                     </div>
                 </div>
-                <table id="exSymbolsTable">
+                <table id="exSymbolsTable" cellspacing="0">
                     <thead>
                         <tr>
-                            <th><fmt:message key="symbol" /></th>
-                            <th><fmt:message key="category" /></th>
-                            <th><fmt:message key="classification" /></th>
-                            <th><fmt:message key="document" /></th>
+                            <th width="182"><fmt:message key="symbol" /></th>
+                            <th width="182"><fmt:message key="category" /></th>
+                            <th width="182"><fmt:message key="classification" /></th>
+                            <th width="182"><fmt:message key="document" /></th>
+                            <th width="20" class="syRem" style="width: 20px;"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="symbol" items="${symbolFacade.findByFilters(project.id, param.ca, param.cl, param.sy)}" varStatus="iter">
                             <tr>
-                                <td colspan="4" style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
+                                <td colspan="5" style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
                                     <a class="exSymbolsRow" href="#!/classify?sy=${symbol.id}">
                                         <span class="overflowEllipsis">${symbol.name}</span>
                                         <span class="overflowEllipsis"><fmt:message key="${symbol.definition.category.name}" /></span>
                                         <span class="overflowEllipsis"><fmt:message key="${empty symbol.definition.classification.name ? 'n/a' : symbol.definition.classification.name}" /></span>
                                         <span class="overflowEllipsis">${symbol.document.name}</span>
+                                        <span id="exSy${symbol.id}" class="removeSymbol">x</span>
                                     </a>
                                 </td>
                             </tr>

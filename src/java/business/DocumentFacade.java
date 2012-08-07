@@ -81,18 +81,31 @@ public class DocumentFacade extends AbstractFacade<Document> {
             return null;
         }
     }
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Symbol> getSymbolCollection(String documentId) {
+        try {
+			return em.createQuery("SELECT sy FROM Symbol sy WHERE "
+				+ "sy.document = :document AND sy.active = TRUE;").
+				setParameter("document", documentFacade.find(documentId)).
+				getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String getTaggedContent(String documentId) {
         try {
-            Document document = find(documentId);
-            em.refresh(document);
-            Collection<Symbol> symbols = document.getSymbolCollection();
-            String taggedContent = document.getContent();
+            Collection<Symbol> symbols = 
+					documentFacade.getSymbolCollection(documentId);
+            String taggedContent = 
+					documentFacade.find(documentId).getContent();
             for (Symbol symbol : symbols) {
-                taggedContent = taggedContent.replaceAll(symbol.getName(), 
-                        "<a href=\"#!/classify?sy=" + symbol.getId() + 
-                        "\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+				taggedContent = taggedContent.replaceAll(symbol.getName(), 
+						"<a href=\"#!/classify?sy=" + symbol.getId() + 
+						"\" contenteditable=\"false\">" + symbol.getName() + "</a>");
             }
             return taggedContent;
         } catch (Exception e) {

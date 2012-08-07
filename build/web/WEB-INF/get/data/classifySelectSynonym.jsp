@@ -4,7 +4,7 @@
     Author     : lu
 --%>
 
-<response>
+<root>
     <symbol id="${symbol.id}">
         <name>${symbol.name}</name>
         <document id="${symbol.document.id}">
@@ -33,4 +33,4 @@
             </c:forEach>
         </synonymsGroup>
     </symbol>
-</response>
+</root>

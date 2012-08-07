@@ -4,7 +4,7 @@
     Author     : lu
 --%>
 
-<response>
+<root>
     <synonyms>
         <c:forEach items="${synonyms}" var="synonym">
             <synonym id="${synonym.id}">
@@ -12,4 +12,4 @@
             </synonym>
         </c:forEach>
     </synonyms>
-</response>
+</root>

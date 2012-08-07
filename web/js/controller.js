@@ -121,6 +121,13 @@ function controller(request, params) {
                 }
             };
             break;
+        case '/post/removeSymbol':
+            action = function() {
+                if ($(response).find('success').text() === 'true') {
+                    redirect = '#!/explore';
+                }
+            }
+            break;
         case '/post/signIn':
             action = function() { 
                 if ($(response).find('success').text() === 'true') {
