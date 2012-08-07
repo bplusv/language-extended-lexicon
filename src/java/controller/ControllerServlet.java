@@ -55,6 +55,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
 	"/post/createSymbol",
 	"/post/loadDocument",
 	"/post/loadProject",
+	"/post/removeSymbol",
 	"/post/signIn",
 	"/post/signOut",
 	"/post/updateDocument",
@@ -237,6 +238,14 @@ public class ControllerServlet extends HttpServlet {
 				session.setAttribute("document", null);
 				request.setAttribute("success", true);
 				request.setAttribute("project", project);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if(userPath.equals("/post/removeSymbol")) {
+			Symbol symbol = symbolFacade.removeSymbol(
+					request.getParameter("symbol"));
+			if (symbol != null) {
+				request.setAttribute("success", true);
 			} else {
 				request.setAttribute("success", false);
 			}

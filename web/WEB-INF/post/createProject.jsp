@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<response>
+<root>
     <success>${success}</success>
     <message><fmt:message key="create project ${success ? 'success' : 'fail'}" /></message>
     <c:if test="${success}">
@@ -13,4 +13,4 @@
             <description>${project.description}</description>
         </project>
     </c:if>
-</response>
+</root>

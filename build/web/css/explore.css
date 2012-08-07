@@ -24,7 +24,7 @@
 .exSymbolsRow {
     color: #555;
     display: block;
-    font: 13px/24px 'Century Gothic', sans-serif;
+    font: 13px/30px 'Century Gothic', sans-serif;
     height: 30px;
     z-index: 2;
 }
@@ -33,8 +33,12 @@
     background-color: #FFE0C6;
 }
 
-.exSymbolsRow:hover span {
+.exSymbolsRow:hover span.overflowEllipsis {
     color: #000;
+}
+
+.exSymbolsRow:hover span.removeSymbol {
+    visibility: visible;
 }
 
 .exSymbolsRow span.overflowEllipsis {
@@ -45,9 +49,26 @@
     display: block;
     float: left;
     height: 30px;
+    line-height: 30px;
     padding: 0 8px;
-    width: 168px;
+    width: 164px;
     z-index: 1;
+}
+
+.exSymbolsRow span.removeSymbol {
+    color: #777;
+    display: block;
+    float: left;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    visibility: hidden;
+    width: 20px;
+}
+
+.exSymbolsRow span.removeSymbol:hover {
+    color: #000;
 }
 
 #exCategory {
@@ -93,6 +114,8 @@
 }
 
 #exSymbolsTable {
+    border-collapse: collapse;
+    border-spacing: 0;
     color: #555;
     font: 13px/24px 'Century Gothic', sans-serif;
     height: auto;
@@ -114,6 +137,11 @@
 #exSymbolsTable th {
     color: #222;
     font: 15px/24px 'Century Gothic', sans-serif;
+    width: 182px;
+}
+
+#exSymbolsTable th.syRem {
+    width: 20px;
 }
 
 #exSymbolsTable tr {

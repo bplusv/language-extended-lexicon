@@ -116,6 +116,20 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			return null;
 		}
 	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public Symbol removeSymbol(String symbolId) {
+		try {
+			Symbol symbol = symbolFacade.find(symbolId);
+			symbol.setActive(false);
+			em.merge(symbol);
+			em.flush();
+			return symbol;
+		} catch (Exception e) {
+			context.setRollbackOnly();
+			return null;
+		}
+	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Symbol updateSymbol(String userId, String symbolId,
@@ -179,7 +193,8 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 		try {
 			Symbol symbol = symbolFacade.find(symbolId);
 			return em.createQuery("SELECT sy FROM Symbol sy WHERE "
-				+ "sy.definition = :definition AND sy.project = :project "
+				+ "sy.definition = :definition AND "
+				+ "sy.project = :project AND sy.active = TRUE "
 				+ "ORDER BY LOWER(sy.name) ASC;").
 				setParameter("project", symbol.getProject()).
 				setParameter("definition", symbol.getDefinition()).
@@ -196,7 +211,8 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			Symbol symbol = symbolFacade.find(symbolId);
 			return em.createQuery("SELECT sy FROM Symbol sy WHERE "
 				+ "sy <> :symbol AND sy.definition = :definition "
-				+ "AND sy.project = :project ORDER BY LOWER(sy.name) ASC;").
+				+ "AND sy.project = :project AND sy.active = TRUE "
+				+ "ORDER BY LOWER(sy.name) ASC;").
 				setParameter("symbol", symbol).
 				setParameter("project", symbol.getProject()).
 				setParameter("definition", symbol.getDefinition()).
@@ -211,7 +227,8 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 	public Symbol findByDocumentAndName(String documentId, String name) {
 		try {
 			return (Symbol) em.createQuery("SELECT sy FROM Symbol sy WHERE "
-				+ "sy.document = :document AND sy.name = :name;").
+				+ "sy.document = :document AND sy.name = :name AND "
+				+ "sy.active = TRUE;").
 				setParameter("document", documentFacade.find(documentId)).
 				setParameter("name", name).
 				getSingleResult();
@@ -228,8 +245,8 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 				+ "INNER JOIN de.category ca LEFT JOIN de.classification cl WHERE "
 				+ "sy.project = :project AND ca.name LIKE :categoryName AND "
 				+ "(cl.name LIKE :classificationName OR (cl.name IS NULL AND "
-				+ ":classificationName = '%')) AND LOWER(sy.name) LIKE :name "
-				+ "ORDER BY LOWER(sy.name) ASC;").
+				+ ":classificationName = '%')) AND LOWER(sy.name) LIKE :name AND "
+				+ "sy.active = TRUE ORDER BY LOWER(sy.name) ASC;").
 				setParameter("project", projectFacade.find(projectId)).
 				setParameter("categoryName", !"".equals(categoryId)
 				? (String) categoryFacade.find(categoryId).getName() : "%").
