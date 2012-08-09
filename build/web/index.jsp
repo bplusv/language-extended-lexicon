@@ -16,6 +16,7 @@
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
         <meta http-equiv="pragma" content="no-cache" /> 
         <meta http-equiv="expires" content="-1" />
+        <link rel="stylesheet" type="text/css" href="js/lib/jquery.confirm/jquery.confirm.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/index.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/classify.css" media="all" charset="UTF-8" />
@@ -28,6 +29,7 @@
         <meta name="keywords" content="UACJ,LEL" />
         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/index.js" type="text/javascript" charset="UTF-8"></script>
@@ -36,7 +38,6 @@
         <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
     </head>
     <body>
-        <span id="networkFail"><fmt:message key="network fail" /></span>
         <h3 id="notification"></h3>
         <img id="ajaxLoader" src="img/ajaxLoader.gif" />
         <header id="ixHeader">
@@ -93,5 +94,12 @@
         <footer id="ixFooter">
             <img id="ixFooterBackground" src="img/footerBackground.png" />
         </footer>
+        <div id="messages">
+            <span class="ixCancel"><fmt:message key="cancel" /></span>
+            <span class="ixDelete"><fmt:message key="delete" /></span>
+            <span class="ixDeleteConfirmation"><fmt:message key="delete confirmation" /></span>
+            <span class="ixDeleteConfirmationTitle"><fmt:message key="delete confirmation title" /></span>
+            <span class="ixNetworkFail"><fmt:message key="network fail" /></span>
+        </div>
     </body>
 </html>

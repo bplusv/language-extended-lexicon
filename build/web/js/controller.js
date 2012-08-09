@@ -176,7 +176,7 @@ function controller(request, params) {
                 console.log(textStatus);
                 response = $('<response>').html(
                     $('<message>').html(
-                    $('#networkFail').html())
+                    $('#messages .ixNetworkFail').html())
                 );
             },
             complete: function() {

@@ -22,7 +22,6 @@
         <script src="js/controller.js" type="text/javascript" charset="UTF-8" ></script>
     </head>
     <body>
-        <span id="networkFail"><fmt:message key="network fail" /></span>
         <h3 id="notification"></h3>
         <img id="ajaxLoader" src="img/ajaxLoader.gif" />
         <div id="siCentral">
@@ -44,6 +43,9 @@
                 </form>
             </div>
             <div style="clear:both"></div>
+        </div>
+        <div id="messages">
+            <span id="ixNetworkFail"><fmt:message key="network fail" /></span>
         </div>
     </body>
 </html>

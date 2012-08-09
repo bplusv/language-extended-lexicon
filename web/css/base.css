@@ -122,29 +122,29 @@ textarea {
 }
 
 .buttons > a:hover, .button:hover {
-    background-color: #38BDF1;
+    background-color: #38bdf1;
     text-decoration: none;
 }
 
 .buttons > a:active, .button:active {
-    background-color: #0489C7;
+    background-color: #0489c7;
     text-decoration: none;
 }
 
 .symbol {
-    background-color: #F15945;
+    background-color: #f15945;
     border-radius: 5px;
     color: #fff;
 }
 
 .symbol:hover {
-    background-color: #FF9076;
+    background-color: #ff9076;
     color: #fff;
     text-decoration: none;
 }
 
 .symbol:active {
-    background-color: #CA322D;
+    background-color: #ca322d;
     color: #fff;
     text-decoration: none;
 }
@@ -183,19 +183,19 @@ textarea {
 }
 
 .tabs > a.selected, tab.selected {
-    background-color: #F15945;
+    background-color: #f15945;
     color: #fff;
     text-decoration: none;
 }
 
 .tabs > a:hover, tab:hover {
-    background-color: #FF7056;
+    background-color: #ff7056;
     color: #fff;
     text-decoration: none;
 }
 
 .tabs > a:active, tab:active {
-    background-color: #CA322D;
+    background-color: #ca322d;
     color: #fff;
     text-decoration: none;
 }
@@ -273,7 +273,7 @@ textarea {
     width: 0px;
 }
 
-#networkFail {
+#messages {
     display: none;
 }
 
