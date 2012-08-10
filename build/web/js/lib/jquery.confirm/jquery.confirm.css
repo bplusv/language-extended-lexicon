@@ -25,7 +25,7 @@
 #confirmBox p{
 	color:#666;
 	font: 19px/30px 'Trebuchet MS', Helvetica, sans-serif;
-    background-color: #F15945;
+    background-color: #f15945;
     border-radius: 5px 5px 0 0;
 	padding: 10px 25px;
 }
@@ -55,8 +55,7 @@
 }
 
 #confirmBox .button{
-    
-    border: 1px solid #189DE1;
+    border: 1px solid #189de1;
     border-radius: 5px;
     border-style: none;
     color: #fff;
@@ -73,11 +72,11 @@
 #confirmBox .button:last-child{	margin-right:0;}
 
 #confirmBox .button.blue {
-    background-color: #189DE1;
+    background-color: #189de1;
 }
 
 #confirmBox .button.blue:hover {
-    background-color: #38BDF1;
+    background-color: #38Bdf1;
     text-decoration: none;
 }
 

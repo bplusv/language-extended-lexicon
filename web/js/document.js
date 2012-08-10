@@ -25,46 +25,8 @@
 var infoBubble;
 $(document).ready(function(){
     $(document).on('mouseup', function(e) {
-        if ($('#dcDocumentContainer').length > 0) {               
-            selectedText = new String(getSelectedText()).replace(/^\s+|\s+$/g,'').substr(0,255);
-            
-            if (selectedText != '') {
-                $('#dcSymbolName').val(selectedText);
-                
-                if(!infoBubble) {
-                    infoBubble = $('<a>').attr({
-                        contenteditable: 'false',
-                        href: 'javascript:;',
-                        id: 'infoBubble'
-                    });
-                    infoBubbleText = $('<span>').attr({id: 'infoBubbleText'});
-                    infoBubbleArrow = $('<div>').attr({id: 'infoBubbleArrow'});
-                    infoBubble.append(infoBubbleText);
-                    infoBubble.append(infoBubbleArrow);
-                    infoBubble.hide();
-                    infoBubble.on('click', function(e){
-                        infoBubble.hide();
-                    });
-                    $('body').append(infoBubble);
-                }
-                
-                infoBubble.attr('href', '#!/classify?dc=' + $('#dcDocument').val() + '&na=' + selectedText);
-                infoBubbleText.html(selectedText);
-
-                cont = $('#dcDocumentContainer');
-                container = {top: cont.offset().top, bottom: cont.offset().top + cont.outerHeight(),
-                            left: cont.offset().left, right: cont.offset().left + cont.outerWidth()};                
-                newPos = {x: 0, y: 0};
-                newPos.y = e.pageY < container.top ? container.top + 10 : e.pageY > container.bottom ? container.bottom - 10 : e.pageY;
-                newPos.x = e.pageX < container.left ? container.left + 30 : e.pageX > container.right ? container.right - 30 : e.pageX;
-
-                infoBubble.clearQueue().stop().css({
-                    top: newPos.y - infoBubble.outerHeight() - 35,
-                    left: newPos.x - infoBubble.outerWidth() / 2,
-                    opacity: 1
-                }).show();
-            }
-        }
+        selectedText = new String(getSelectedText()).replace(/^\s+|\s+$/g,'').substr(0,255);
+        popBubble(selectedText, e.pageX, e.pageY);
     });
     
     $(document).on('mouseup', '#infoBubble', function(e) {
@@ -76,7 +38,7 @@ $(document).ready(function(){
     });
     
     $(document).on('mousedown', function (e) {
-        if (infoBubble) infoBubble.hide();
+        pushBubble();
     });
 });
 

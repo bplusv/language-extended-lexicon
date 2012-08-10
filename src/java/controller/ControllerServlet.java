@@ -42,6 +42,7 @@ import model.*;
 loadOnStartup = 1,
 urlPatterns = {"/get/data/classifySelectSynonym",
 	"/get/data/classifyShowSynonyms",
+	"/get/data/exploreSymbols",
 	"/get/view/classify",
 	"/get/view/document",
 	"/get/view/explore",
@@ -104,6 +105,8 @@ public class ControllerServlet extends HttpServlet {
 			request.setAttribute("synonyms",
 					projectFacade.getSymbolCollection(
 					((Project) session.getAttribute("project")).getId().toString()));
+		} else if (userPath.equals("/get/data/exploreSymbols")) {
+			
 		} else if (userPath.equals("/get/view/classify")) {
 			Symbol symbol = request.getParameter("sy") != null
 					? symbolFacade.find(request.getParameter("sy"))

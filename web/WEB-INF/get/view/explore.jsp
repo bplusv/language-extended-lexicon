@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-            <form id="exForm" action="/get/view/explore" method="GET">
+            <form id="exForm" action="/get/data/exploreSymbols" method="GET">
                 <div id="exFilters">
                     <div class="exField">
                         <label id="exCategoryLabel" for="exCategory"><fmt:message key="category" />:&nbsp;</label>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="exField">
                         <input id="exSearch" type="text" name="sy" maxlength="255" value="${param.sy}" />
-                        <input id="exDoSearch" type="submit" class="button" value=""/>
+                        <span id="exSearchClear">&#215;</span>
                     </div>
                 </div>
                 <table id="exSymbolsTable" cellspacing="0">

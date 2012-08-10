@@ -51,7 +51,7 @@ function controller(request, params) {
             break;
         case '/get/data/classifyShowSynonyms':
             action = function() {
-                var $xmlSynonyms = $(response).find('synonym');
+                var $xmlSynonyms = $(response).find('synonyms').children();
                 var synonyms = '';
                 $xmlSynonyms.each(function(i, e) {
                     if ($(e).attr('id') != $('#clSymbol').val()) {
@@ -61,6 +61,27 @@ function controller(request, params) {
                 $('#clSynonymsSelect').html(synonyms);
             };
         break;
+        case '/get/data/exploreSymbols':
+            action = function() {
+                var $xmlSymbols = $(response).find('symbol');
+                var symbols = '';
+                $xmlSymbols.each(function(i, e) {
+                    symbols += 
+                        '<tr>' +
+                            '<td colspan="5" style="background-color:'+(i % 2 == 0 ? '#fff' : '#f9f9f9')+';">' +
+                                '<a class="exSymbolsRow" href="#!/classify?sy='+$(e).attr('id')+'">' +
+                                    '<span class="overflowEllipsis exSyName">'+ $(e).children('name').text()+'</span>' +
+                                    '<span class="overflowEllipsis">'+$(e).find('classification > name').text()+'</span>' +
+                                    '<span class="overflowEllipsis">'+$(e).find('category > name').text()+'</span>' +
+                                    '<span class="overflowEllipsis">'+$(e).find('document > name').text()+'</span>' +
+                                    '<span id="exSy'+$(e).attr('id')+'" class="removeSymbol">&#215;</span>' +
+                                '</a>' +
+                            '</td>' +
+                        '</tr>';
+                });
+                $('#exSymbolsTable tbody').html(symbols);
+            };
+            break;
         case '/get/view/classify':
         case '/get/view/document':
         case '/get/view/explore':
