@@ -23,6 +23,15 @@
  */
 
 $(document).ready(function() {
+    $(document).on('keyup', '#exSearch', function() {
+        $('#exForm').submit();
+    });
+    
+    $(document).on('click', '#exSearchClear', function() {
+        $('#exSearch').val('');
+        $('#exForm').submit();
+    });
+    
     $(document).on('click', '.exSymbolsRow span.removeSymbol', function(e) {
         e.preventDefault();
         var id = /exSy(.*)/.exec($(this).attr('id'))[1];

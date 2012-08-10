@@ -64,6 +64,5 @@ $(document).ready(function() {
             $('#clDocumentTitle').html($('#clDocumentName').val());
             $('#clSynonymsSelect').val(-1);
         }
-
     });
 });

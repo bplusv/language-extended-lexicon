@@ -10,6 +10,7 @@
 .exField {
     display: inline;
     margin: 0 12px;
+    position: relative;
     vertical-align: middle;
 }
 
@@ -87,16 +88,6 @@
 
 }
 
-#exDoSearch {
-    background-image: url('../img/searchIcon.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 30px;
-    padding: 0;
-    vertical-align: bottom;
-    width: 30px;
-}
-
 #exFilters {
     display: block;
     height: 30px;
@@ -110,7 +101,24 @@
 }
 
 #exSearch {
-    width: 120px; 
+    background: url('../img/searchIcon.png') no-repeat left center;
+    background-color: #fff;
+    padding-left: 25px;
+    padding-right: 18px;
+    width: 100px; 
+}
+
+#exSearchClear {
+    color: #777;
+    cursor: default;
+    font: 19px/30px 'Century Gothic', sans-serif;
+    height: 30px;
+    right: 6px;
+    position:absolute;
+}
+
+#exSearchClear:hover {
+    color: #000;
 }
 
 #exSymbolsTable {

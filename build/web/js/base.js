@@ -23,6 +23,7 @@
  */
 
 var appContext = '/lel';
+var bubble;
 
 function getSelectedText() {
     if(window.getSelection) {return window.getSelection();}
@@ -33,6 +34,37 @@ function getSelectedText() {
         return '';
     }
     return '';
+}
+
+function popBubble(text, left, top) {
+    if (text != '') {
+        if(!bubble) {
+            bubble = $('<a>').attr({
+                contenteditable: 'false',
+                href: 'javascript:;',
+                id: 'infoBubble'
+            });
+            bubbleText = $('<span>').attr({id: 'infoBubbleText'});
+            bubbleArrow = $('<div>').attr({id: 'infoBubbleArrow'});
+            bubble.append(bubbleText);
+            bubble.append(bubbleArrow);
+            bubble.hide();
+            bubble.on('click', function(e){
+                bubble.hide();
+            });
+            $('body').append(bubble);
+        }
+
+        bubble.attr('href', '#!/classify?dc=' + $('#dcDocument').val() + '&na=' + text);
+        bubbleText.html(text);
+        bubble.css('top', top - bubble.outerHeight() - 35);
+        bubble.css('left', left - bubble.outerWidth() / 2);
+        bubble.show();
+    }
+}
+
+function pushBubble() {
+     if (bubble) bubble.hide();
 }
 
 function notify(cssClass, message) {
