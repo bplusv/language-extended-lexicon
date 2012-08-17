@@ -43,6 +43,7 @@ loadOnStartup = 1,
 urlPatterns = {"/get/data/classifySelectSynonym",
 	"/get/data/classifyShowSynonyms",
 	"/get/data/exploreSymbols",
+	"/get/data/projectSymbols",
 	"/get/view/classify",
 	"/get/view/document",
 	"/get/view/explore",
@@ -106,6 +107,8 @@ public class ControllerServlet extends HttpServlet {
 					projectFacade.getSymbolCollection(
 					((Project) session.getAttribute("project")).getId().toString()));
 		} else if (userPath.equals("/get/data/exploreSymbols")) {
+			
+		} else if (userPath.equals("/get/data/projectSymbols")) {
 			
 		} else if (userPath.equals("/get/view/classify")) {
 			Symbol symbol = request.getParameter("sy") != null

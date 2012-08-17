@@ -94,23 +94,4 @@ public class DocumentFacade extends AbstractFacade<Document> {
             return null;
         }
     }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String getTaggedContent(String documentId) {
-        try {
-            Collection<Symbol> symbols = 
-					documentFacade.getSymbolCollection(documentId);
-            String taggedContent = 
-					documentFacade.find(documentId).getContent();
-            for (Symbol symbol : symbols) {
-				taggedContent = taggedContent.replaceAll(symbol.getName(), 
-						"<a href=\"#!/classify?sy=" + symbol.getId() + 
-						"\" contenteditable=\"false\">" + symbol.getName() + "</a>");
-            }
-            return taggedContent;
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            return null;
-        }
-    }
 }
