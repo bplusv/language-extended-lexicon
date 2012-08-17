@@ -6,9 +6,9 @@
 
             <form  id="lpLoadForm" action="/post/loadProject" method="POST">
                 <h3 class="lpTitle"><fmt:message key="load project" /></h3>
-                    <select id="lpProject" name="project" size="11">
+                    <select id="lpProject" name="project" size="11" autofocus>
                         <c:forEach var="project" items="${projectFacade.findAll()}" varStatus="iter">
-                            <option value="${project.id}" ${!empty sessionScope.project.id and sessionScope.project.id == project.id ? 'selected="selected"' : iter.first ? 'selected="selected"' : ''}>${project.name}</option>
+                            <option value="${project.id}" ${!empty sessionScope.project.id and sessionScope.project.id == project.id ? 'selected="selected"' : empty sessionScope.project.id and iter.first ? 'selected="selected"' : ''}>${project.name}</option>
                         </c:forEach>
                     </select>
                 <input id="lpDoLoadProject" type="submit" class="button" value="<fmt:message key="load" />" />

@@ -31,7 +31,7 @@
 }
 
 .exSymbolsRow:hover {
-    background-color: #FFE0C6;
+    background-color: #ffe0c6;
 }
 
 .exSymbolsRow:hover span.overflowEllipsis {
@@ -113,8 +113,10 @@
     cursor: default;
     font: 19px/30px 'Century Gothic', sans-serif;
     height: 30px;
-    right: 6px;
+    right: 0px;
+    padding-right: 6px;
     position:absolute;
+    visibility: hidden;
 }
 
 #exSearchClear:hover {

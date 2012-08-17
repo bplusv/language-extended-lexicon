@@ -23,9 +23,11 @@
  */
 
 var infoBubble;
-$(document).ready(function(){
-    $(document).on('mouseup', function(e) {
-        selectedText = new String(getSelectedText()).replace(/^\s+|\s+$/g,'').substr(0,255);
+
+$(document).ready(function(){  
+    
+    $(document).on('mouseup', '.CodeMirror', function(e) {
+        selectedText = new String(myCode.getSelection()).replace(/^\s+|\s+$/g,'').substr(0,255);
         popBubble(selectedText, e.pageX, e.pageY);
     });
     
@@ -40,26 +42,5 @@ $(document).ready(function(){
     $(document).on('mousedown', function (e) {
         pushBubble();
     });
+    
 });
-
-function updateDocumentContent() {
-    containerText = $('#dcDocumentContainer').html();
-    
-    // Internet Explorer
-    containerText = containerText.replace(/<p>/i, '');
-    containerText = containerText.replace(/<p>&nbsp;<\/p>/ig,'\n');
-    containerText = containerText.replace(/<p>/ig,'\n');
-    
-    // Chrome
-    containerText = containerText.replace(/<div><br><\/div>/ig,'\n');
-    containerText = containerText.replace(/<div>/ig,'\n');
-    
-    // Firefox
-    containerText = containerText.replace(/<br>/ig, '\n');
-    
-    containerText = containerText.replace(/<[^>]+>/ig,'');
-    containerText = containerText.replace(/&nbsp;/ig,' ');
-    
-    $('#dcDocumentContent').val(containerText);
-    return false;
-}

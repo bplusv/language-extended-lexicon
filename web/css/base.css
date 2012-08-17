@@ -132,21 +132,11 @@ textarea {
 }
 
 .symbol {
-    background-color: #f15945;
-    border-radius: 5px;
-    color: #fff;
-}
-
-.symbol:hover {
-    background-color: #ff9076;
-    color: #fff;
-    text-decoration: none;
-}
-
-.symbol:active {
-    background-color: #ca322d;
-    color: #fff;
-    text-decoration: none;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: #ffe0c6;
+    color: #000;
 }
 
 .overflowEllipsis {

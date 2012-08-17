@@ -23,7 +23,7 @@
  */
 
 var isRequesting = false;
-function controller(request, params) {
+function controller(request, params, asynchronous) {
     var response, action, redirect;
 
     switch (request) {
@@ -33,8 +33,8 @@ function controller(request, params) {
                 var synonyms = [];
                 $xmlSynonyms.each(function(i, e) {
                     if ($(e).attr('id') != $('#clSymbol').val())
-                        synonyms.push('<a href="#!/classify?sy=' + $(e).attr('id') + 
-                        '">' + $(e).children('name').text() + '</a>');
+                        synonyms.push('<a href="#!/classify?sy=' + $(e).attr('id') + '">' + 
+                        $(e).children('name').text() + '</a>');
                 });
                 $('#clSynonyms').html(synonyms.join(', '));
                 $('#clDocumentTitle').html($(response).find('document > name').text());
@@ -63,7 +63,7 @@ function controller(request, params) {
         break;
         case '/get/data/exploreSymbols':
             action = function() {
-                var $xmlSymbols = $(response).find('symbol');
+                var $xmlSymbols = $(response).find('symbols').children();
                 var symbols = '';
                 $xmlSymbols.each(function(i, e) {
                     symbols += 
@@ -71,8 +71,8 @@ function controller(request, params) {
                             '<td colspan="5" style="background-color:'+(i % 2 == 0 ? '#fff' : '#f9f9f9')+';">' +
                                 '<a class="exSymbolsRow" href="#!/classify?sy='+$(e).attr('id')+'">' +
                                     '<span class="overflowEllipsis exSyName">'+ $(e).children('name').text()+'</span>' +
-                                    '<span class="overflowEllipsis">'+$(e).find('classification > name').text()+'</span>' +
                                     '<span class="overflowEllipsis">'+$(e).find('category > name').text()+'</span>' +
+                                    '<span class="overflowEllipsis">'+$(e).find('classification > name').text()+'</span>' +
                                     '<span class="overflowEllipsis">'+$(e).find('document > name').text()+'</span>' +
                                     '<span id="exSy'+$(e).attr('id')+'" class="removeSymbol">&#215;</span>' +
                                 '</a>' +
@@ -80,10 +80,31 @@ function controller(request, params) {
                         '</tr>';
                 });
                 $('#exSymbolsTable tbody').html(symbols);
+                $('#exSearchClear').css('visibility', $('#exSearch').val() ? 'visible' : 'hidden');
             };
             break;
-        case '/get/view/classify':
+        case '/get/data/projectSymbols':
+            action = function() {
+                var $xmlSymbols = $(response).find('symbols').children();
+                projectSymbols = [];
+                $xmlSymbols.each(function(i, e) {
+                    projectSymbols.push({'id':$(e).attr('id'), 'name':$(e).children('name').text()});
+                });
+            }
+            break;
         case '/get/view/document':
+            action = function() {
+                    $('#central').html(response);
+                    isRequesting = false;
+                    controller('/get/data/projectSymbols', '', false);
+                    if ($('#dcDocumentContent').length > 0) {
+                        myCode = CodeMirror.fromTextArea($('#dcDocumentContent')[0],
+                        {'onChange': tagSymbols, 'mode': 'text/plain'});
+                        tagSymbols();
+                    }
+            }
+            break;
+        case '/get/view/classify':
         case '/get/view/explore':
         case '/get/view/loadDocument':
         case '/get/view/loadProject':
@@ -95,7 +116,7 @@ function controller(request, params) {
                 if ($(response).find('success').text() === 'true') {
                     document.location.reload();
                 }
-            }
+            };
             break;
         case '/post/createDocument':
             action = function() {
@@ -138,6 +159,7 @@ function controller(request, params) {
                     projectName = $(response).find('project').find('name').text();
                     $('#ixProjectTitle').show();
                     $('#ixProjectName').html(projectName);
+                    controller('/get/data/projectSymbols');
                     redirect = '#!/explore';
                 }
             };
@@ -203,7 +225,8 @@ function controller(request, params) {
             complete: function() {
                 isRequesting = false;
                 update(response, redirect);
-            }
+            },
+            async: asynchronous === false ? false : true
         });
     }
 }

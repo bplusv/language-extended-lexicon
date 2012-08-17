@@ -24,6 +24,18 @@
 
 var appContext = '/lel';
 var bubble;
+var projectSymbols = [];
+var myCode;
+
+function tagSymbols(content) {
+    $(projectSymbols).each(function(i,e) {
+        var patt = new RegExp(e.name, 'g');
+        content = content.replace(patt, 
+            '<a href="#!/classify?sy=' + e.id + '" ' + 
+            'contenteditable="false">' + e.name + '</a>');
+    });
+    return content;
+}
 
 function getSelectedText() {
     if(window.getSelection) {return window.getSelection();}
@@ -79,7 +91,32 @@ function notify(cssClass, message) {
         .fadeOut(500);
 }
 
+function tagSymbols() {
+    $('.symbol').remove();
+    symbols = projectSymbols;
+    for (i in symbols) {
+        line = 0;
+        ch = 0;
+        for (line = 0; line < myCode.lineCount(); line++) {
+            ch = myCode.getLine(line).indexOf(symbols[i].name);
+            while (ch > -1) {
+                widget = $('<a class="symbol" href="#!/classify?sy='+symbols[i].id+'">'+symbols[i].name+'</a>')[0];
+                pos = {'ch': ch, 'line': line};
+                myCode.addWidget(pos, widget);
+                ch = myCode.getLine(line).indexOf(symbols[i].name, ch + 1);
+            }
+        }
+    }
+}
+
 function update(response, redirect) {
+    if (redirect) {
+        if (document.location.hash.indexOf(redirect) > -1)
+            $(window).trigger('hashchange');
+        else
+            document.location.hash = redirect;
+    }
+    
     $('.overflowEllipsis').each(function(i,e) {
         if ($(e).children('.overflowText').length < 1)
             $(e).wrapInner('<span class="overflowText">');
@@ -96,13 +133,6 @@ function update(response, redirect) {
         success = $(response).find('success').text();
         message = $(response).find('message').text();
         if (message) notify(success === 'true' ? 'success' : 'fail', message);
-    }
-    
-    if (redirect) {
-        if (document.location.hash.indexOf(redirect) > -1)
-            $(window).trigger('hashchange');
-        else
-            document.location.hash = redirect;
     }
 }
 
@@ -126,5 +156,8 @@ $(document).ready(function() {
             $that.clearQueue().stop();
             $that.css('margin-left', 0);
         }
+    });
+    $(document).on('dblclick', 'option', function() {
+        $(this.form).submit();
     });
 });

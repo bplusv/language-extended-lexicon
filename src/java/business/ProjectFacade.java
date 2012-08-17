@@ -100,13 +100,28 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Collection<Document> getSymbolCollection(String projectId) {
+    public Collection<Symbol> getSymbolCollection(String projectId) {
         try {
             return em.createQuery("SELECT sy FROM Symbol sy "
 				+ "WHERE sy.project = :project AND sy.active = TRUE "
 				+ "ORDER BY LOWER(sy.name) ASC;").
 				setParameter("project", projectFacade.find(projectId)).
 				getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String tagSymbols(String projectId, String content) {
+        try {
+            for (Symbol symbol : projectFacade.getSymbolCollection(projectId)) {
+				content = content.replaceAll(symbol.getName(), 
+						"<a href=\"#!/classify?sy=" + symbol.getId() + 
+						"\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+            }
+            return content;
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

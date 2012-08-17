@@ -36,6 +36,11 @@
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
+        
+        <script src="js/lib/CodeMirror-2.32/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="js/lib/CodeMirror-2.32/lib/codemirror.css">
+        
+
     </head>
     <body>
         <h3 id="notification"></h3>
