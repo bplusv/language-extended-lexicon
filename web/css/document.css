@@ -12,8 +12,10 @@
 }
 
 #dcDocumentContent {
-    height: 570px;
+    height: 350px;
+    padding: 0px;
     width: 748px;
+
 }
 
 #dcDoUpdateDocument {

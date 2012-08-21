@@ -10,7 +10,7 @@
 .clDefinitionField {
     display: block;
     margin-bottom: 15px;
-    width: 100%;
+    width: 748px;
 }
 
 .clDefinitionField label {
@@ -21,14 +21,10 @@
     border-top-left-radius: 0;
     display: block;
     height: auto;
-    min-height: 50px;
+    min-height: 80px;
     max-height: 200px;
-    padding: 10px;
+    padding: 0px;
     width: 100%;
-}
-
-.clFixPadding {
-    margin-right: 22px;
 }
 
 .clInfo {
