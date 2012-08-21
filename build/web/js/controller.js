@@ -33,8 +33,8 @@ function controller(request, params, asynchronous) {
                 var synonyms = [];
                 $xmlSynonyms.each(function(i, e) {
                     if ($(e).attr('id') != $('#clSymbol').val())
-                        synonyms.push('<a href="#!/classify?sy=' + $(e).attr('id') + '">' + 
-                        $(e).children('name').text() + '</a>');
+                        synonyms.push($('<a>').attr('href','#!/classify?sy='+ 
+                        $(e).attr('id')).html($(e).children('name').text())[0].outerHTML);
                 });
                 $('#clSynonyms').html(synonyms.join(', '));
                 $('#clDocumentTitle').html($(response).find('document > name').text());
@@ -43,73 +43,64 @@ function controller(request, params, asynchronous) {
                 $('#clClassification').val($(response).find('classification').text());
                 $('#clLogUserName').html($(response).find('log > user > name').text());
                 $('#clLogDate').html($(response).find('log > date').text());
-                $('#clNotion').html($(response).find('notion').text());
-                $('#clActualIntention').html($(response).find('actualIntention').text());
-                $('#clFutureIntention').html($(response).find('futureIntention').text());
-                $('#clComments').html($(response).find('comments').text());
+                $('#cm-clNotion').data('instance').setValue($(response).find('notion').text());
+                $('#cm-clActualIntention').data('instance').setValue($(response).find('actualIntention').text());
+                $('#cm-clFutureIntention').data('instance').setValue($(response).find('futureIntention').text());
+                $('#cm-clComments').data('instance').setValue($(response).find('comments').text());
             };
             break;
         case '/get/data/classifyShowSynonyms':
             action = function() {
                 var $xmlSynonyms = $(response).find('synonyms').children();
-                var synonyms = '';
+                $sel = $('#clSynonymsSelect');
+                syId = $('#clSymbol').val();
+                $sel.empty();
                 $xmlSynonyms.each(function(i, e) {
-                    if ($(e).attr('id') != $('#clSymbol').val()) {
-                        synonyms += '<option value="' + $(e).attr('id') + '">' + $(e).children('name').text() + '</option>';
+                    if ($(e).attr('id') != syId) {
+                        $sel.append($('<option>').attr('value', 
+                        $(e).attr('id')).html($(e).children('name').text()));
                     }
                 });
-                $('#clSynonymsSelect').html(synonyms);
             };
         break;
         case '/get/data/exploreSymbols':
             action = function() {
                 var $xmlSymbols = $(response).find('symbols').children();
-                var symbols = '';
+                $tbody = $('#exSymbolsTable tbody');
+                $tbody.empty();
                 $xmlSymbols.each(function(i, e) {
-                    symbols += 
-                        '<tr>' +
-                            '<td colspan="5" style="background-color:'+(i % 2 == 0 ? '#fff' : '#f9f9f9')+';">' +
-                                '<a class="exSymbolsRow" href="#!/classify?sy='+$(e).attr('id')+'">' +
-                                    '<span class="overflowEllipsis exSyName">'+ $(e).children('name').text()+'</span>' +
-                                    '<span class="overflowEllipsis">'+$(e).find('category > name').text()+'</span>' +
-                                    '<span class="overflowEllipsis">'+$(e).find('classification > name').text()+'</span>' +
-                                    '<span class="overflowEllipsis">'+$(e).find('document > name').text()+'</span>' +
-                                    '<span id="exSy'+$(e).attr('id')+'" class="removeSymbol">&#215;</span>' +
-                                '</a>' +
-                            '</td>' +
-                        '</tr>';
+                    $('<tr>').wrapInner($('<td>').attr('colspan', '5')
+                    .css('background', i % 2 == 0 ? '#fff' : '#f9f9f9').wrapInner(
+                        $('<a>').addClass('exSymbolsRow').attr('href', '#!/classify?sy='+$(e).attr('id'))
+                        .append($('<span>').addClass('overflowEllipsis exSyName').html($(e).children('name').text()))
+                        .append($('<span>').addClass('overflowEllipsis').html($(e).find('category > name').text()))
+                        .append($('<span>').addClass('overflowEllipsis').html($(e).find('classification > name').text()))
+                        .append($('<span>').addClass('overflowEllipsis').html($(e).find('document > name').text()))
+                        .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))
+                    )).appendTo($tbody);
                 });
-                $('#exSymbolsTable tbody').html(symbols);
                 $('#exSearchClear').css('visibility', $('#exSearch').val() ? 'visible' : 'hidden');
             };
             break;
         case '/get/data/projectSymbols':
             action = function() {
-                var $xmlSymbols = $(response).find('symbols').children();
+                $xmlSymbols = $(response).find('symbols').children();
                 projectSymbols = [];
                 $xmlSymbols.each(function(i, e) {
                     projectSymbols.push({'id':$(e).attr('id'), 'name':$(e).children('name').text()});
                 });
             }
             break;
-        case '/get/view/document':
-            action = function() {
-                    $('#central').html(response);
-                    isRequesting = false;
-                    controller('/get/data/projectSymbols', '', false);
-                    if ($('#dcDocumentContent').length > 0) {
-                        myCode = CodeMirror.fromTextArea($('#dcDocumentContent')[0],
-                        {'onChange': tagSymbols, 'mode': 'text/plain'});
-                        tagSymbols();
-                    }
-            }
-            break;
         case '/get/view/classify':
+        case '/get/view/document':
         case '/get/view/explore':
         case '/get/view/loadDocument':
         case '/get/view/loadProject':
         case '/get/view/test':
-            action = function() {$('#central').html(response);};
+            action = function() {
+                $('#central').html(response); 
+                updateSymbolicEditors();
+            };
             break;
         case '/post/chooseLanguage':
             action = function() {

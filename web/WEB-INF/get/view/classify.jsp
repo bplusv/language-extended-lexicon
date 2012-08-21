@@ -63,31 +63,23 @@
     </div>
     <div id="clDefinitionBottom">
         <div class="clDefinitionField">
-            <div class="clFixPadding">
-                <label id="clNotionLabel" for="clNotion" class="tab"><fmt:message key="notion" /></label>
-                <textarea id="clNotion" name="notion" maxlength="32767">${symbol.definition.notion}</textarea>
-            </div>
+            <label id="clNotionLabel" for="clNotion" class="tab"><fmt:message key="notion" /></label>
+            <textarea id="clNotion" class="symbolicEditor" name="notion" maxlength="32767">${symbol.definition.notion}</textarea>
         </div>
         <div id="clIntentionFields" style="display: ${symbol.definition.category.id == 1 or generalSelected ? 'none' : 'block'};">
             <div class="clDefinitionField Left">
-                <div class="clFixPadding">
-                    <label id="clActualIntentionLabel" for="clActualIntention" class="tab"><fmt:message key="actual intention" /></label>
-                    <textarea id="clActualIntention" name="actualIntention" maxlength="32767">${symbol.definition.actualIntention}</textarea>
-                </div>
+                <label id="clActualIntentionLabel" for="clActualIntention" class="tab"><fmt:message key="actual intention" /></label>
+                <textarea id="clActualIntention" class="symbolicEditor" name="actualIntention" maxlength="32767">${symbol.definition.actualIntention}</textarea>
             </div>
             <div class="clDefinitionField Right">
-                <div class="clFixPadding"> 
-                    <label id="clFutureIntentionLabel" for="clFutureIntention" class="tab"><fmt:message key="future intention" /></label>
-                    <textarea id="clFutureIntention" name="futureIntention" maxlength="32767">${symbol.definition.futureIntention}</textarea>
-                </div>
+                <label id="clFutureIntentionLabel" for="clFutureIntention" class="tab"><fmt:message key="future intention" /></label>
+                <textarea id="clFutureIntention" class="symbolicEditor" name="futureIntention" maxlength="32767">${symbol.definition.futureIntention}</textarea>
             </div>
             <div style="clear:both;"></div>
         </div>
         <div class="clDefinitionField">
-            <div class="clFixPadding">
-                <label id="clCommentsLabel" for="clComments" class="tab"><fmt:message key="comments" /></label>
-                <textarea id="clComments" name="comments" maxlength="32767">${symbol.definition.comments}</textarea>
-            </div>
+            <label id="clCommentsLabel" for="clComments" class="tab"><fmt:message key="comments" /></label>
+            <textarea id="clComments" class="symbolicEditor" name="comments" maxlength="32767">${symbol.definition.comments}</textarea>
         </div>
     </div>
     <input id="clDoSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />

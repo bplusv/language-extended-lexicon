@@ -277,6 +277,15 @@ var CodeMirror = (function() {
         if (scroll)
           scrollIntoView(left, top, left + node.offsetWidth, top + node.offsetHeight);
       },
+      addWidgetTop: function(pos, node) {
+        pos = localCoords(clipPos(pos));
+        var top = pos.y, left = pos.x;
+        node.style.position = "absolute";
+        mover.appendChild(node);
+        node.style.top = (top + paddingTop()) + "px";
+        node.style.left = node.style.right = "";
+        node.style.left = (left + paddingLeft()) + "px";
+      },
 
       lineCount: function() {return doc.size;},
       clipPos: clipPos,

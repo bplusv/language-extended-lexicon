@@ -27,8 +27,11 @@ var infoBubble;
 $(document).ready(function(){  
     
     $(document).on('mouseup', '.CodeMirror', function(e) {
-        selectedText = new String(myCode.getSelection()).replace(/^\s+|\s+$/g,'').substr(0,255);
-        popBubble(selectedText, e.pageX, e.pageY);
+        if ($(this).attr('id') == 'cm-dcDocumentContent') {
+            var editor = $(this).data('instance');
+            selectedText = new String(editor.getSelection()).replace(/^\s+|\s+$/g,'').substr(0,255);
+            popBubble(selectedText, e.pageX, e.pageY);
+        }
     });
     
     $(document).on('mouseup', '#infoBubble', function(e) {

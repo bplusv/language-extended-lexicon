@@ -1,7 +1,8 @@
 .CodeMirror {
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 15px;
+  border-top-left-radius: 0;
+  
   
   line-height: 1em;
   font-family: monospace;

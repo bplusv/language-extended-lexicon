@@ -91,22 +91,42 @@ function notify(cssClass, message) {
         .fadeOut(500);
 }
 
+function updateSymbolicEditors() {
+    isRequesting = false;
+    controller('/get/data/projectSymbols', '', false);
+    $('textarea.symbolicEditor').each(function(i,e) {
+        if ($(e).css('display') != 'none') {
+            w = $(e).outerWidth();
+            h = $(e).outerHeight();
+            var editor = CodeMirror.fromTextArea(e,
+            {'onChange': tagSymbols, 'mode': 'text/plain'});
+            $(editor.getWrapperElement()).attr('id', 
+                'cm-' + $(e).attr('id')).data('instance', editor);
+            editor.setSize(w, h);
+            editor.refresh();
+        }
+    });
+    tagSymbols();
+}
+
 function tagSymbols() {
     $('.symbol').remove();
-    symbols = projectSymbols;
-    for (i in symbols) {
-        line = 0;
-        ch = 0;
-        for (line = 0; line < myCode.lineCount(); line++) {
-            ch = myCode.getLine(line).indexOf(symbols[i].name);
-            while (ch > -1) {
-                widget = $('<a class="symbol" href="#!/classify?sy='+symbols[i].id+'">'+symbols[i].name+'</a>')[0];
-                pos = {'ch': ch, 'line': line};
-                myCode.addWidget(pos, widget);
-                ch = myCode.getLine(line).indexOf(symbols[i].name, ch + 1);
+    $('.CodeMirror').each(function(i,e) {
+        var editor = $(e).data('instance');
+        for (i in projectSymbols) {
+            var line = 0, ch = 0;
+            for (line = 0; line < editor.lineCount(); line++) {
+                ch = editor.getLine(line).indexOf(projectSymbols[i].name);
+                while (ch > -1) {
+                    widget = $('<a class="symbol" href="#!/classify?sy=' + projectSymbols[i].id + '">' +
+                        projectSymbols[i].name.replace(' ', '&nbsp;') + '</a>')[0];
+                    pos = {'ch': ch, 'line': line};
+                    editor.addWidgetTop(pos, widget);
+                    ch = editor.getLine(line).indexOf(projectSymbols[i].name, ch + 1);
+                }
             }
         }
-    }
+    });
 }
 
 function update(response, redirect) {
@@ -126,7 +146,8 @@ function update(response, redirect) {
     if (document.location.hash.indexOf('/explore') > 0)
         $('#exploreTab').addClass('selected');
     else if (document.location.hash.indexOf('/document') > 0)
-        $('#documentTab').addClass('selected');  
+        $('#documentTab').addClass('selected'); 
+
     
     $('#ajaxLoader').hide();
     if (response) {

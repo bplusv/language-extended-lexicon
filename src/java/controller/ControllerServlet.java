@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

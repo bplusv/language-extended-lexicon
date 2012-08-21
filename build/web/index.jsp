@@ -16,7 +16,9 @@
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
         <meta http-equiv="pragma" content="no-cache" /> 
         <meta http-equiv="expires" content="-1" />
+        <link rel="stylesheet" href="js/lib/CodeMirror-2.32/lib/codemirror.css">
         <link rel="stylesheet" type="text/css" href="js/lib/jquery.confirm/jquery.confirm.css" media="all" charset="UTF-8" />
+        
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/index.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/classify.css" media="all" charset="UTF-8" />
@@ -28,19 +30,16 @@
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
+        <script src="js/lib/CodeMirror-2.32/lib/codemirror.js"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
+        
         <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/index.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
-        
-        <script src="js/lib/CodeMirror-2.32/lib/codemirror.js"></script>
-        <link rel="stylesheet" href="js/lib/CodeMirror-2.32/lib/codemirror.css">
-        
-
     </head>
     <body>
         <h3 id="notification"></h3>
