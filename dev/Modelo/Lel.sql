@@ -89,7 +89,6 @@ DROP TABLE IF EXISTS `lel`.`definition` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`definition` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `comments` TEXT NULL ,
   `notion` TEXT NULL ,
   `actual_intention` TEXT NULL ,
   `future_intention` TEXT NULL ,
@@ -212,6 +211,50 @@ CREATE  TABLE IF NOT EXISTS `lel`.`project_users` (
   CONSTRAINT `fk_project_has_user_user1`
     FOREIGN KEY (`user` )
     REFERENCES `lel`.`user` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lel`.`comment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lel`.`comment` ;
+
+CREATE  TABLE IF NOT EXISTS `lel`.`comment` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `content` TEXT NOT NULL ,
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `user` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_comments_user` (`user` ASC) ,
+  CONSTRAINT `fk_comments_user`
+    FOREIGN KEY (`user` )
+    REFERENCES `lel`.`user` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lel`.`definition_comments`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lel`.`definition_comments` ;
+
+CREATE  TABLE IF NOT EXISTS `lel`.`definition_comments` (
+  `definition_id` INT UNSIGNED NOT NULL ,
+  `comments_id` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`definition_id`, `comments_id`) ,
+  INDEX `fk_definition_has_comments_comments1` (`comments_id` ASC) ,
+  INDEX `fk_definition_has_comments_definition1` (`definition_id` ASC) ,
+  CONSTRAINT `fk_definition_has_comments_definition1`
+    FOREIGN KEY (`definition_id` )
+    REFERENCES `lel`.`definition` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_definition_has_comments_comments1`
+    FOREIGN KEY (`comments_id` )
+    REFERENCES `lel`.`comment` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

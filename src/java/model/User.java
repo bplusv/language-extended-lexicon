@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 Luis Salazar <bp.lusv@gmail.com>.
+ * Copyright 2012 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,131 +33,142 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Luis Salazar <bp.lusv@gmail.com>
+ * @author lu
  */
 @Entity
 @Table(name = "user")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByAdmin", query = "SELECT u FROM User u WHERE u.admin = :admin")})
+	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+	@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+	@NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+	@NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+	@NamedQuery(name = "User.findByAdmin", query = "SELECT u FROM User u WHERE u.admin = :admin")})
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
+	private Integer id;
+	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "name")
-    private String name;
-    @Basic(optional = false)
+	private String name;
+	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "password")
-    private String password;
-    @Basic(optional = false)
+	private String password;
+	@Basic(optional = false)
     @NotNull
     @Column(name = "admin")
-    private boolean admin;
-    @ManyToMany(mappedBy = "userCollection")
-    private Collection<Project> projectCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<Log> logCollection;
+	private boolean admin;
+	@ManyToMany(mappedBy = "userCollection")
+	private Collection<Project> projectCollection;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private Collection<Comment> commentCollection;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private Collection<Log> logCollection;
 
-    public User() {
-    }
+	public User() {
+	}
 
-    public User(Integer id) {
-        this.id = id;
-    }
+	public User(Integer id) {
+		this.id = id;
+	}
 
-    public User(Integer id, String name, String password, boolean admin) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.admin = admin;
-    }
+	public User(Integer id, String name, String password, boolean admin) {
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.admin = admin;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public boolean getAdmin() {
-        return admin;
-    }
+	public boolean getAdmin() {
+		return admin;
+	}
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
 
-    @XmlTransient
-    public Collection<Project> getProjectCollection() {
-        return projectCollection;
-    }
+	@XmlTransient
+	public Collection<Project> getProjectCollection() {
+		return projectCollection;
+	}
 
-    public void setProjectCollection(Collection<Project> projectCollection) {
-        this.projectCollection = projectCollection;
-    }
+	public void setProjectCollection(Collection<Project> projectCollection) {
+		this.projectCollection = projectCollection;
+	}
 
-    @XmlTransient
-    public Collection<Log> getLogCollection() {
-        return logCollection;
-    }
+	@XmlTransient
+	public Collection<Comment> getCommentCollection() {
+		return commentCollection;
+	}
 
-    public void setLogCollection(Collection<Log> logCollection) {
-        this.logCollection = logCollection;
-    }
+	public void setCommentCollection(Collection<Comment> commentCollection) {
+		this.commentCollection = commentCollection;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@XmlTransient
+	public Collection<Log> getLogCollection() {
+		return logCollection;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
-            return false;
-        }
-        User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	public void setLogCollection(Collection<Log> logCollection) {
+		this.logCollection = logCollection;
+	}
 
-    @Override
-    public String toString() {
-        return "business.User[ id=" + id + " ]";
-    }
-    
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are not set
+		if (!(object instanceof User)) {
+			return false;
+		}
+		User other = (User) object;
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "model.User[ id=" + id + " ]";
+	}
+	
 }

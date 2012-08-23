@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package business;
+package session;
 
 import java.util.ArrayList;
 import java.util.Collection;

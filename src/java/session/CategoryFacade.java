@@ -22,14 +22,14 @@
  * THE SOFTWARE.
  */
 
-package business;
+package session;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import model.Event;
+import model.Category;
 
 /**
  *
@@ -37,7 +37,7 @@ import model.Event;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class EventFacade extends AbstractFacade<Event> {
+public class CategoryFacade extends AbstractFacade<Category> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -46,8 +46,8 @@ public class EventFacade extends AbstractFacade<Event> {
         return em;
     }
     
-    public EventFacade() {
-        super(Event.class);
+    public CategoryFacade() {
+        super(Category.class);
     }
 
 }
