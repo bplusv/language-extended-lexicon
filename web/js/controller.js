@@ -92,14 +92,24 @@ function controller(request, params, asynchronous) {
             }
             break;
         case '/get/view/classify':
+        action = function() {
+                $('#central').html(response);
+                updateSymbolicEditors();
+                updateClassifyFields();
+            };
+            break;
         case '/get/view/document':
+        action = function() {
+                $('#central').html(response); 
+                updateSymbolicEditors();
+            };
+            break;
         case '/get/view/explore':
         case '/get/view/loadDocument':
         case '/get/view/loadProject':
         case '/get/view/test':
             action = function() {
                 $('#central').html(response); 
-                updateSymbolicEditors();
             };
             break;
         case '/post/chooseLanguage':

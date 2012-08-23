@@ -33,15 +33,12 @@
                     <div>
                         <select id="clCategory" name="category">
                             <c:forEach var="category" items="${categories}" varStatus="iter">
-                                <c:if test="${iter.first and category.id == 1 and empty symbol.id}">
-                                    <c:set var="generalSelected" value="${true}" />
-                                </c:if>
                                 <option value="${category.id}" ${symbol.definition.category.id == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
                             </c:forEach>
                         </select>
                     </div>
                 </div>
-                <div id="clClassificationField" style="display: ${symbol.definition.category.id == 1 or generalSelected ? 'none' : 'block'};">
+                <div id="clClassificationField">
                     <div><label id="clClassificationLabel" for="clClassification"><fmt:message key="classification" />:</label></div>
                     <div>
                         <select id="clClassification" name="classification">
@@ -66,7 +63,7 @@
             <label id="clNotionLabel" for="clNotion" class="tab"><fmt:message key="notion" /></label>
             <textarea id="clNotion" class="symbolicEditor" name="notion" maxlength="32767">${symbol.definition.notion}</textarea>
         </div>
-        <div id="clIntentionFields" style="display: ${symbol.definition.category.id == 1 or generalSelected ? 'none' : 'block'};">
+        <div id="clIntentionFields">
             <div class="clDefinitionField Left">
                 <label id="clActualIntentionLabel" for="clActualIntention" class="tab"><fmt:message key="actual intention" /></label>
                 <textarea id="clActualIntention" class="symbolicEditor" name="actualIntention" maxlength="32767">${symbol.definition.actualIntention}</textarea>
@@ -79,7 +76,12 @@
         </div>
         <div class="clDefinitionField">
             <label id="clCommentsLabel" for="clComments" class="tab"><fmt:message key="comments" /></label>
-            <textarea id="clComments" class="symbolicEditor" name="comments" maxlength="32767">${symbol.definition.comments}</textarea>
+            <ul>
+                <c:forEach var="comment" items="${symbol.definition.commentCollection}">
+                    <li>${comment.content} / ${comment.user.name} / <fmt:formatDate value="${comment.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></li>
+                </c:forEach>
+            </ul>
+            <textarea id="clComments" class="symbolicEditor" name="comments" maxlength="32767">NEW_COMMENT</textarea>
         </div>
     </div>
     <input id="clDoSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />

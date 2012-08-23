@@ -22,17 +22,20 @@
  * THE SOFTWARE.
  */
 
+function updateClassifyFields() {
+    // is 'general' category selected?
+    if ($('#clCategory').val() === '1') {
+        $('#clClassificationField').hide();
+        $('#clIntentionFields').hide();
+    } else {
+        $('#clClassificationField').show();
+        $('#clIntentionFields').show();
+    }
+}
+    
 $(document).ready(function() {
     $(document).on('change', '#clCategory', function() {
-        $this = $(this);
-        // is 'general' category selected?
-        if ($this.val() === '1') {
-            $('#clClassificationField').hide();
-            $('#clIntentionFields').hide();
-        } else {
-            $('#clClassificationField').show();
-            $('#clIntentionFields').show();
-        }
+       updateClassifyFields(); 
     });
     $(document).on('change', '#clSynonymsSelect', function() {
         controller('/get/data/classifySelectSynonym', 'sy=' + $(this).val()); 

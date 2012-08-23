@@ -16,7 +16,7 @@
             <notion>${symbol.definition.notion}</notion>
             <actualIntention>${symbol.definition.actualIntention}</actualIntention>
             <futureIntention>${symbol.definition.futureIntention}</futureIntention>
-            <comments>${symbol.definition.comments}</comments>
+            <comments>LIST_OF_COMMENTS</comments>
         </definition>
         <c:set var="log" value="${symbolFacade.getLastLog(symbol.id)}" />
         <log>

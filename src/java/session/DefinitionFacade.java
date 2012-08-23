@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package business;
+package session;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -61,7 +61,7 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
             definition.setFutureIntention(futureIntention);
         }
         definition.setNotion(notion);
-        definition.setComments(comments);
+        //definition.setComments(comments);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)

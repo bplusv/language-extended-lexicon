@@ -22,18 +22,15 @@
  * THE SOFTWARE.
  */
 
-package business;
+package session;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import java.util.Collection;
+import model.Symbol;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import model.User;
+import model.Document;
+import model.Project;
 
 /**
  *
@@ -41,7 +38,7 @@ import model.User;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class UserFacade extends AbstractFacade<User> {
+public class DocumentFacade extends AbstractFacade<Document> {
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -50,43 +47,51 @@ public class UserFacade extends AbstractFacade<User> {
         return em;
     }
     
-    public UserFacade() {
-        super(User.class);
+    public DocumentFacade() {
+        super(Document.class);
+    }
+		
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document createDocument(String projectId, String name) {
+        try {
+            if (name.isEmpty()) return null;
+            name = name.trim();
+            Document document = new Document();
+            document.setName(name);
+            document.setProject(projectFacade.find(projectId));
+            em.persist(document);
+            em.flush();
+            return document;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }  
     }
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
-    public User findByName(String name) {
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document updateContent(String documentId, String content) {
         try {
-            return (User) em.createNamedQuery("User.findByName").
-                setParameter("name", name).
-                getSingleResult();
+            Document document = find(documentId);
+            document.setContent(content);
+            em.merge(document);
+            em.flush();
+            return document;
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
     }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
-    private String makeHash(String input) {
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Symbol> getSymbolCollection(String documentId) {
         try {
-            MessageDigest m = MessageDigest.getInstance("MD5");
-            m.update(input.getBytes(), 0, input.length());
-            return new BigInteger(1, m.digest()).toString(16);
+			return em.createQuery("SELECT sy FROM Symbol sy WHERE "
+				+ "sy.document = :document AND sy.active = TRUE;").
+				setParameter("document", documentFacade.find(documentId)).
+				getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
-    }
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
-    public User signIn(String username, String password) {
-        try {       
-            User user = findByName(username);
-            if (user.getPassword().equals(makeHash(password))) return user;
-            else return null;
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            return null;
-        }   
     }
 }

@@ -23,7 +23,12 @@
  */
 package controller;
 
-import business.*;
+import session.CategoryFacade;
+import session.ProjectFacade;
+import session.SymbolFacade;
+import session.UserFacade;
+import session.DocumentFacade;
+import session.ClassificationFacade;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;

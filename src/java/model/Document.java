@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 Luis Salazar <bp.lusv@gmail.com>.
+ * Copyright 2012 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,114 +33,114 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Luis Salazar <bp.lusv@gmail.com>
+ * @author lu
  */
 @Entity
 @Table(name = "document")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d"),
-    @NamedQuery(name = "Document.findById", query = "SELECT d FROM Document d WHERE d.id = :id"),
-    @NamedQuery(name = "Document.findByName", query = "SELECT d FROM Document d WHERE d.name = :name")})
+	@NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d"),
+	@NamedQuery(name = "Document.findById", query = "SELECT d FROM Document d WHERE d.id = :id"),
+	@NamedQuery(name = "Document.findByName", query = "SELECT d FROM Document d WHERE d.name = :name")})
 public class Document implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
+	private Integer id;
+	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name")
-    private String name;
-    @Lob
+	private String name;
+	@Lob
     @Size(max = 16777215)
     @Column(name = "content")
-    private String content;
-    @JoinColumn(name = "project", referencedColumnName = "id")
+	private String content;
+	@JoinColumn(name = "project", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Project project;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
-    private Collection<Symbol> symbolCollection;
+	private Project project;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
+	private Collection<Symbol> symbolCollection;
 
-    public Document() {
-    }
+	public Document() {
+	}
 
-    public Document(Integer id) {
-        this.id = id;
-    }
+	public Document(Integer id) {
+		this.id = id;
+	}
 
-    public Document(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+	public Document(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public Project getProject() {
-        return project;
-    }
+	public Project getProject() {
+		return project;
+	}
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
-    @XmlTransient
-    public Collection<Symbol> getSymbolCollection() {
-        return symbolCollection;
-    }
+	@XmlTransient
+	public Collection<Symbol> getSymbolCollection() {
+		return symbolCollection;
+	}
 
-    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
-        this.symbolCollection = symbolCollection;
-    }
+	public void setSymbolCollection(Collection<Symbol> symbolCollection) {
+		this.symbolCollection = symbolCollection;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Document)) {
-            return false;
-        }
-        Document other = (Document) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are not set
+		if (!(object instanceof Document)) {
+			return false;
+		}
+		Document other = (Document) object;
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "business.Document[ id=" + id + " ]";
-    }
-    
+	@Override
+	public String toString() {
+		return "model.Document[ id=" + id + " ]";
+	}
+	
 }
