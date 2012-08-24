@@ -144,6 +144,14 @@ function controller(request, params, asynchronous) {
                     $('#clDefinitionTopRight').css('visibility', 'visible');
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
+                    $('#cm-clNewComment').data('instance').setValue('');
+                    $clComments = $('#clComments');
+                    $clComments.empty();
+                    $(response).find('comments').children().each(function(i,e) {
+                        $clComments.append($('<li>').html($(e).find('content').text() + ' / ' + 
+                            $(e).find('user > name').text() + ' / ' + $(e).find('date').text()));
+                    });
+                    
                 }
             };
             break;
@@ -191,8 +199,24 @@ function controller(request, params, asynchronous) {
             break;
         case '/post/updateSymbol':
             action = function() {
-                $('#clLogUserName').html($(response).find('log > user > name').text());
-                $('#clLogDate').html($(response).find('log > date').text());
+                if ($(response).find('success').text() === 'true') {
+                    $('#clLogUserName').html($(response).find('log > user > name').text());
+                    $('#clLogDate').html($(response).find('log > date').text());
+                    $('#cm-clNewComment').data('instance').setValue('');
+                    $('#clComments > li:not(.last)').remove();
+                    $clComments = $('#clComments');
+                    $(response).find('comments').children().each(function(i,e) {
+                        $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+                            .append($('<div>').addClass('left')
+                                .append($('<span>').addClass('overflowEllipsis')
+                                    .html($(e).find('user > name').text()+':'))
+                                .append($('<span>').html($(e).find('date').text()))
+                            ).append($('<div>').addClass('right').
+                                append($('<span>').html($(e).find('content').text()))
+                            ).append($('<div>').css('clear', 'both'))
+                        .appendTo($clComments);
+                    });
+                }
             };
             break;
         default:

@@ -35,7 +35,6 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Project_;
 
 /**
  *
@@ -52,6 +51,7 @@ public abstract class AbstractFacade<T> {
     
     @EJB protected CategoryFacade categoryFacade;
     @EJB protected ClassificationFacade classificationFacade;
+	@EJB protected CommentFacade commentFacade;
     @EJB protected DefinitionFacade definitionFacade;
     @EJB protected DocumentFacade documentFacade;
     @EJB protected EventFacade eventFacade;

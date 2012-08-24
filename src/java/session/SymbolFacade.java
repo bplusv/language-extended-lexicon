@@ -64,7 +64,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			symbol.setDocument(documentFacade.find(documentId));
 			symbol.setName(name);
 			symbol.setActive(true);
-			symbol.setDefinition(definitionFacade.createDefinition(categoryId,
+			symbol.setDefinition(definitionFacade.createDefinition(userId, categoryId,
 				classificationId, notion, actualIntention, futureIntention, comments));
 			em.persist(symbol);
 			em.flush();
@@ -134,13 +134,13 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Symbol updateSymbol(String userId, String symbolId,
 		String categoryId, String classificationId, String notion,
-		String actualIntention, String futureIntention, String comments) {
+		String actualIntention, String futureIntention, String comment) {
 		try {
 			Symbol symbol = symbolFacade.find(symbolId);
-			definitionFacade.updateDefinition(
+			definitionFacade.updateDefinition(userId,
 				symbol.getDefinition().getId().toString(),
 				categoryId, classificationId, notion,
-				actualIntention, futureIntention, comments);
+				actualIntention, futureIntention, comment);
 			em.merge(symbol);
 			em.flush();
 			logFacade.createLog(userId, symbolId, "2");

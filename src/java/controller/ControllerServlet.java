@@ -23,23 +23,15 @@
  */
 package controller;
 
-import session.CategoryFacade;
-import session.ProjectFacade;
-import session.SymbolFacade;
-import session.UserFacade;
-import session.DocumentFacade;
-import session.ClassificationFacade;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import model.*;
+import session.*;
 
 /**
  *
@@ -224,7 +216,7 @@ public class ControllerServlet extends HttpServlet {
 					request.getParameter("notion"),
 					request.getParameter("actualIntention"),
 					request.getParameter("futureIntention"),
-					request.getParameter("comments"));
+					request.getParameter("newComment"));
 			}
 			if (symbol != null) {
 				request.setAttribute("success", true);
@@ -306,7 +298,7 @@ public class ControllerServlet extends HttpServlet {
 					request.getParameter("notion"),
 					request.getParameter("actualIntention"),
 					request.getParameter("futureIntention"),
-					request.getParameter("comments"));
+					request.getParameter("newComment"));
 			}
 			if (symbol != null) {
 				request.setAttribute("success", true);
