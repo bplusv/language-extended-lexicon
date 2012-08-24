@@ -76,12 +76,29 @@
         </div>
         <div class="clDefinitionField">
             <label id="clCommentsLabel" for="clComments" class="tab"><fmt:message key="comments" /></label>
-            <ul>
-                <c:forEach var="comment" items="${symbol.definition.commentCollection}">
-                    <li>${comment.content} / ${comment.user.name} / <fmt:formatDate value="${comment.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></li>
+            <ul id="clComments">
+                <c:forEach var="comment" items="${symbol.definition.commentCollection}" varStatus="iter">
+                    <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
+                        <div class="left">
+                            <span class="overflowEllipsis">${comment.user.name}:</span>
+                            <span><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /><span>
+                        </div>
+                        <div class="right">
+                            <span>${comment.content}</span>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </li>
                 </c:forEach>
+                <li class="last">
+                    <div class="left">
+                        <span class="overflowEllipsis">${user.name}:</span>
+                    </div>
+                    <div class="right">
+                        <textarea id="clNewComment" class="symbolicEditor" name="newComment" maxlength="32767"></textarea>
+                    </div>
+                    <div style="clear:both;"></div>
+                </li>
             </ul>
-            <textarea id="clComments" class="symbolicEditor" name="comments" maxlength="32767">NEW_COMMENT</textarea>
         </div>
     </div>
     <input id="clDoSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />

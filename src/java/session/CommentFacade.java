@@ -24,6 +24,7 @@
 
 package session;
 
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -50,4 +51,13 @@ public class CommentFacade extends AbstractFacade<Comment> {
         super(Comment.class);
     }
 
+	public Comment createComment(String userId, String content) {
+		Comment comment = new Comment();
+		comment.setUser(userFacade.find(userId));
+		comment.setContent(content);
+		comment.setDate(new Date());
+        em.persist(comment);
+        em.flush();
+        return comment;
+    }
 }

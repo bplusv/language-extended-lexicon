@@ -24,10 +24,13 @@
 
 package session;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Definition;
+import model.Comment;
 
 /**
  *
@@ -49,7 +52,7 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
     }
     
     private void fillDefinition(Definition definition, String categoryId, String classificationId,
-            String notion, String actualIntention, String futureIntention,String comments) {   
+            String notion, String actualIntention, String futureIntention) {   
         definition.setCategory(categoryFacade.find(categoryId));
         if ("1".equals(categoryId)) {
             definition.setClassification(null);
@@ -61,16 +64,19 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
             definition.setFutureIntention(futureIntention);
         }
         definition.setNotion(notion);
-        //definition.setComments(comments);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Definition createDefinition(String categoryId, String classificationId,
-            String notion, String actualIntention, String futureIntention, String comments) {
+    public Definition createDefinition(String userId, String categoryId, String classificationId,
+            String notion, String actualIntention, String futureIntention, String comment) {
         try {
             Definition definition = new Definition();
             fillDefinition(definition, categoryId, classificationId,
-                notion, actualIntention, futureIntention, comments);
+                notion, actualIntention, futureIntention);
+			Collection<Comment> comments = new ArrayList<Comment>();
+			if (!comment.isEmpty()) 
+				comments.add(commentFacade.createComment(userId, comment));
+			definition.setCommentCollection(comments);
             em.persist(definition);
             em.flush();
             return definition;
@@ -81,13 +87,15 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Definition updateDefinition(String definitionId, String categoryId, 
+    public Definition updateDefinition(String userId, String definitionId, String categoryId, 
             String classificationId, String notion, String actualIntention, 
-            String futureIntention, String comments) {
+            String futureIntention, String comment) {
         try {
             Definition definition = find(definitionId);
             fillDefinition(definition, categoryId, classificationId,
-                notion, actualIntention, futureIntention, comments);
+                notion, actualIntention, futureIntention);
+			if (!comment.isEmpty())
+				definition.getCommentCollection().add(commentFacade.createComment(userId, comment));
             em.merge(definition);
             em.flush();
             return definition;
