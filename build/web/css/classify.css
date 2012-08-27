@@ -68,47 +68,50 @@
 }
 
 #clComments {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    border-top-left-radius: 0;
-    color: #555;
-    font: 13px 'Century Gothic', sans-serif;
+    height: 170px;
     list-style-type: none;
-    padding: 10px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
     width: 726px;
 }
 
-#clComments > li {
-    margin-bottom: 15px;
-    width: 726px;
+#clComments > li, #clNewCommentField {
+    margin-bottom: 10px;
+    width: 706px;
 }
 
-#clComments > li > div.left {
+#clComments > li > div.left, #clNewCommentField > div.left {
     display: inline-block;
     float: left;
     width: 110px;
 }
 
-#clComments > li > div.left > span {
+#clComments > li > div.left > span, #clNewCommentField > div.left > span {
     display: block;
     margin: 0 auto;
     text-align: center;
     width: 100px;
 }
 
-#clComments > li > div.right {
+#clComments > li > div.right, #clNewCommentField > div.right {
     display: inline-block;
     float: right;
-    width: 606px;
+    width: 586px;
 }
 
-#clComments > li.last {
-    margin: 0;
+#clCommentsField {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    color: #555;
+    font: 13px 'Century Gothic', sans-serif;
+    padding: 10px;
 }
 
 #clNewComment {
     min-height: 50px;
-    width: 604px;
+    width: 584px;
 }
 
 #clDefinitionBottom {
@@ -190,7 +193,7 @@
 #clForm {
     height: auto;
     min-height: 450px;
-    padding-bottom: 25px;
+    padding-bottom: 5px;
     position: relative;
     width: 748px;
 }
@@ -208,6 +211,10 @@
 }
 
 #clName {
+    
+}
+
+#clNewCommentField {
     
 }
 
