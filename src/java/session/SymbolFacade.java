@@ -27,6 +27,7 @@ import java.util.Collection;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.xml.stream.events.Comment;
 import model.Log;
 import model.Symbol;
 
@@ -173,6 +174,20 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 			return null;
 		}
 	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Comment> getCommentCollection(String symbolId) {
+        try {
+			return em.createQuery("SELECT co FROM Comment co, Symbol sy "
+					+ "WHERE sy = :symbol AND co MEMBER OF sy.definition.commentCollection "
+					+ "ORDER BY co.date DESC;").
+					setParameter("symbol", symbolFacade.find(symbolId)).
+				getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Log getLastLog(String symbolId) {

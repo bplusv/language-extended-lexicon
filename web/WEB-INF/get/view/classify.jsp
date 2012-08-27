@@ -75,21 +75,10 @@
             <div style="clear:both;"></div>
         </div>
         <div class="clDefinitionField">
+            <input id="clDoSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />
             <label id="clCommentsLabel" for="clComments" class="tab"><fmt:message key="comments" /></label>
-            <ul id="clComments">
-                <c:forEach var="comment" items="${symbol.definition.commentCollection}" varStatus="iter">
-                    <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
-                        <div class="left">
-                            <span class="overflowEllipsis">${comment.user.name}:</span>
-                            <span><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /><span>
-                        </div>
-                        <div class="right">
-                            <span>${comment.content}</span>
-                        </div>
-                        <div style="clear:both;"></div>
-                    </li>
-                </c:forEach>
-                <li class="last">
+            <div id="clCommentsField">
+                <div id="clNewCommentField">
                     <div class="left">
                         <span class="overflowEllipsis">${user.name}:</span>
                     </div>
@@ -97,9 +86,22 @@
                         <textarea id="clNewComment" class="symbolicEditor" name="newComment" maxlength="32767"></textarea>
                     </div>
                     <div style="clear:both;"></div>
-                </li>
-            </ul>
+                </div>
+                <ul id="clComments">
+                    <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}" varStatus="iter">
+                        <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
+                            <div class="left">
+                                <span class="overflowEllipsis">${comment.user.name}:</span>
+                                <span><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /><span>
+                            </div>
+                            <div class="right">
+                                <span>${comment.content}</span>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
         </div>
     </div>
-    <input id="clDoSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />
 </form>

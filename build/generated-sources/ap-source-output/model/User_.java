@@ -4,14 +4,16 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import model.Comment;
 import model.Log;
 import model.Project;
 
-@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2012-08-23T09:24:19")
+@Generated(value="EclipseLink-2.3.0.v20110604-r9504", date="2012-08-27T12:07:46")
 @StaticMetamodel(User.class)
 public class User_ { 
 
     public static volatile SingularAttribute<User, Integer> id;
+    public static volatile CollectionAttribute<User, Comment> commentCollection;
     public static volatile SingularAttribute<User, Boolean> admin;
     public static volatile SingularAttribute<User, String> name;
     public static volatile CollectionAttribute<User, Log> logCollection;

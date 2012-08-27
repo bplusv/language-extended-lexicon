@@ -25,12 +25,11 @@
 package session;
 
 import java.util.Collection;
-import model.Symbol;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Document;
-import model.Project;
+import model.Symbol;
 
 /**
  *

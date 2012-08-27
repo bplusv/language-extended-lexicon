@@ -46,7 +46,7 @@ function controller(request, params, asynchronous) {
                 $('#cm-clNotion').data('instance').setValue($(response).find('notion').text());
                 $('#cm-clActualIntention').data('instance').setValue($(response).find('actualIntention').text());
                 $('#cm-clFutureIntention').data('instance').setValue($(response).find('futureIntention').text());
-                $('#cm-clComments').data('instance').setValue($(response).find('comments').text());
+                //$('#cm-clComments').data('instance').setValue($(response).find('comments').text());
             };
             break;
         case '/get/data/classifyShowSynonyms':
@@ -203,7 +203,7 @@ function controller(request, params, asynchronous) {
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
                     $('#cm-clNewComment').data('instance').setValue('');
-                    $('#clComments > li:not(.last)').remove();
+                    $('#clComments > li:not(.first)').remove();
                     $clComments = $('#clComments');
                     $(response).find('comments').children().each(function(i,e) {
                         $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
