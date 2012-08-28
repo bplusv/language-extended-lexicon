@@ -99,18 +99,18 @@ function updateSymbolicEditors() {
             w = $(e).outerWidth();
             h = $(e).outerHeight();
             var editor = CodeMirror.fromTextArea(e,
-            {'onChange': tagSymbols, 'mode': 'text/plain'});
+            {'onChange': tagEditorSymbols, 'mode': 'text/plain'});
             $(editor.getWrapperElement()).attr('id', 
                 'cm-' + $(e).attr('id')).data('instance', editor);
             editor.setSize(w, h);
             editor.refresh();
         }
     });
-    tagSymbols();
+    tagEditorSymbols();
 }
 
-function tagSymbols() {
-    $('.symbol').remove();
+function tagEditorSymbols() {
+    $('.editorSymbol').remove();
     $('.CodeMirror').each(function(i,e) {
         var editor = $(e).data('instance');
         for (i in projectSymbols) {
@@ -118,8 +118,9 @@ function tagSymbols() {
             for (line = 0; line < editor.lineCount(); line++) {
                 ch = editor.getLine(line).indexOf(projectSymbols[i].name);
                 while (ch > -1) {
-                    widget = $('<a class="symbol" href="#!/classify?sy=' + projectSymbols[i].id + '">' +
-                        projectSymbols[i].name.replace(' ', '&nbsp;') + '</a>')[0];
+                    widget = $('<a>').addClass('editorSymbol').
+                        attr('href', '#!/classify?sy=' + projectSymbols[i].id)
+                        .html(projectSymbols[i].name.replace(' ', '&nbsp;'))[0];
                     pos = {'ch': ch, 'line': line};
                     editor.addWidgetTop(pos, widget);
                     ch = editor.getLine(line).indexOf(projectSymbols[i].name, ch + 1);
@@ -127,6 +128,16 @@ function tagSymbols() {
             }
         }
     });
+}
+
+function tagSymbols(text) {
+    for (i in projectSymbols) {
+        text = text.replace(new RegExp(projectSymbols[i].name, 'g'), 
+            $('<a>').addClass('symbol').attr('href', '#!classify?sy=' + 
+                projectSymbols[i].id).html(projectSymbols[i].name)[0].outerHTML
+        );
+    }
+    return text;
 }
 
 function update(response, redirect) {

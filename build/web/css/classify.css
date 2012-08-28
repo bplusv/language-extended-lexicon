@@ -68,11 +68,11 @@
 }
 
 #clComments {
-    height: 170px;
     list-style-type: none;
+    max-height: 170px;
     overflow: scroll;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 726px;
 }
 

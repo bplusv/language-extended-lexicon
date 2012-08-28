@@ -139,6 +139,7 @@ function controller(request, params, asynchronous) {
         case '/post/createSymbol':
             action = function() {
                 if ($(response).find('success').text() === 'true') {
+                    updateSymbolicEditors();
                     $('#clSymbol').val($(response).find('symbol').attr('id'));
                     $('#clForm').attr('action', appContext + 'do/updateSymbol');
                     $('#clDefinitionTopRight').css('visibility', 'visible');
@@ -151,7 +152,6 @@ function controller(request, params, asynchronous) {
                         $clComments.append($('<li>').html($(e).find('content').text() + ' / ' + 
                             $(e).find('user > name').text() + ' / ' + $(e).find('date').text()));
                     });
-                    
                 }
             };
             break;
@@ -211,8 +211,7 @@ function controller(request, params, asynchronous) {
                                 .append($('<span>').addClass('overflowEllipsis')
                                     .html($(e).find('user > name').text()+':'))
                                 .append($('<span>').html($(e).find('date').text()))
-                            ).append($('<div>').addClass('right').
-                                append($('<span>').html($(e).find('content').text()))
+                            ).append($('<div>').addClass('right').html(tagSymbols($(e).find('content').text()))
                             ).append($('<div>').css('clear', 'both'))
                         .appendTo($clComments);
                     });
