@@ -114,12 +114,11 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String tagSymbols(String projectId, String content) {
+    public String tagSymbols(String content, Collection<Symbol> projectSymbols) {
         try {
-            for (Symbol symbol : projectFacade.getSymbolCollection(projectId)) {
+            for (Symbol symbol : projectSymbols) {
 				content = content.replaceAll(symbol.getName(), 
-						"<a href=\"#!/classify?sy=" + symbol.getId() + 
-						"\" contenteditable=\"false\">" + symbol.getName() + "</a>");
+						"<a class=\"symbol\">" + symbol.getName() + "</a>");
             }
             return content;
         } catch (Exception e) {

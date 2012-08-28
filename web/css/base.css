@@ -131,7 +131,7 @@ textarea {
     text-decoration: none;
 }
 
-.symbol {
+.editorSymbol {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
@@ -154,6 +154,12 @@ textarea {
     display: block;
     height: 1px;
     margin: 50px 0;
+}
+
+.symbol {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
 }
 
 .tabs > a, .tab {

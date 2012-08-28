@@ -88,15 +88,15 @@
                     <div style="clear:both;"></div>
                 </div>
                 <ul id="clComments">
-                    <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}" varStatus="iter">
+                    <c:set var="symbolComments" value="${symbolFacade.getCommentCollection(symbol.id)}" />
+                    <c:set var="projectSymbols" value="${projectFacade.getSymbolCollection(project.id)}" />
+                    <c:forEach var="comment" items="${symbolComments}" varStatus="iter">
                         <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
                             <div class="left">
                                 <span class="overflowEllipsis">${comment.user.name}:</span>
                                 <span><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /><span>
                             </div>
-                            <div class="right">
-                                <span>${comment.content}</span>
-                            </div>
+                            <div class="right">${projectFacade.tagSymbols(comment.content, projectSymbols)}</div>
                             <div style="clear:both;"></div>
                         </li>
                     </c:forEach>
