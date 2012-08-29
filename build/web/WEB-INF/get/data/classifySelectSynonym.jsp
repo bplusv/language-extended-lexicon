@@ -16,7 +16,17 @@
             <notion>${symbol.definition.notion}</notion>
             <actualIntention>${symbol.definition.actualIntention}</actualIntention>
             <futureIntention>${symbol.definition.futureIntention}</futureIntention>
-            <comments>LIST_OF_COMMENTS</comments>
+            <comments>
+                <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}">
+                    <comment id="${comment.id}">
+                        <content>${comment.content}</content>
+                        <date><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /></date>
+                        <user id="${comment.user.id}">
+                            <name>${comment.user.name}</name>
+                        </user>
+                    </comment>
+                </c:forEach>
+            </comments>
         </definition>
         <c:set var="log" value="${symbolFacade.getLastLog(symbol.id)}" />
         <log>

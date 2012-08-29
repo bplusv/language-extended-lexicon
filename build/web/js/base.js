@@ -87,7 +87,7 @@ function notify(cssClass, message) {
         .stop(true, true)
         .show()
         .html(message)
-        .animate({opacity: 1},3000)
+        .animate({opacity: 1}, 3000)
         .fadeOut(500);
 }
 
