@@ -88,9 +88,8 @@
                     <div style="clear:both;"></div>
                 </div>
                 <ul id="clComments">
-                    <c:set var="symbolComments" value="${symbolFacade.getCommentCollection(symbol.id)}" />
                     <c:set var="projectSymbols" value="${projectFacade.getSymbolCollection(project.id)}" />
-                    <c:forEach var="comment" items="${symbolComments}" varStatus="iter">
+                    <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}" varStatus="iter">
                         <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
                             <div class="left">
                                 <span class="overflowEllipsis">${comment.user.name}:</span>

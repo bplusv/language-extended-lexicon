@@ -32,6 +32,21 @@ function updateClassifyFields() {
         $('#clIntentionFields').show();
     }
 }
+
+function updateComments(response) {
+    $('#clComments > li:not(.first)').remove();
+    $clComments = $('#clComments');
+    $(response).find('comments').children().each(function(i,e) {
+        $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+            .append($('<div>').addClass('left')
+                .append($('<span>').addClass('overflowEllipsis')
+                    .html($(e).find('user > name').text()+':'))
+                .append($('<span>').html($(e).find('date').text()))
+            ).append($('<div>').addClass('right').html(tagSymbols($(e).find('content').text()))
+            ).append($('<div>').css('clear', 'both'))
+        .appendTo($clComments);
+    });
+}
     
 $(document).ready(function() {
     $(document).on('change', '#clCategory', function() {

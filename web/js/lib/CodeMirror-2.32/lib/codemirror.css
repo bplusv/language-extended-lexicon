@@ -3,9 +3,8 @@
   border-radius: 5px;
   border-top-left-radius: 0;
   
-  
-  line-height: 1em;
-  font-family: monospace;
+  color: #333;
+  font: 13.5px/20px 'Trebuchet MS', Helvetica, sans-serif;
 
   /* Necessary so the scrollbar can be absolutely positioned within the wrapper on Lion. */
   position: relative;
@@ -131,7 +130,7 @@
   visibility: visible;
 }
 
-div.CodeMirror-selected { background: #d9d9d9; }
+div.CodeMirror-selected { background: #ffe0c6; }
 .CodeMirror-focused div.CodeMirror-selected { background: #ffe0c6; }
 
 .CodeMirror-searching {
