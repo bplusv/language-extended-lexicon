@@ -55,19 +55,23 @@ $(document).ready(function() {
     $(document).on('change', '#clSynonymsSelect', function() {
         controller('/get/data/classifySelectSynonym', 'sy=' + $(this).val()); 
     });
-    $(document).on('click', '#clEditSynonyms', function() {
+    $(document).on('click', '#clChangeGroup', function() {
         $(window).scrollTop($('#clTitle').offset().top);
         
         $('#clSynonymsSelect').css('display', 'block');
-        $('#clEditSynonyms').css('display', 'none');
-        $('#clCancelEditSynonyms').css('display', 'inline');
+        $('#clLeaveGroup').css('display', 'none');
+        $('#clChangeGroup').css('display', 'none');
+        $('#clCancelGroup').css('display', 'inline');
+        $('#clSaveGroup').css('display', 'inline');
         controller('/get/data/classifyShowSynonyms');
     });
-    $(document).on('click', '#clCancelEditSynonyms', function() {
-        
+    $(document).on('click', '#clCancelGroup', function() {
+        $(window).scrollTop(0);
         $('#clSynonymsSelect').css('display', 'none');
-        $('#clEditSynonyms').css('display', 'inline');
-        $('#clCancelEditSynonyms').css('display', 'none');
+        $('#clLeaveGroup').css('display', 'inline');
+        $('#clChangeGroup').css('display', 'inline');
+        $('#clCancelGroup').css('display', 'none');
+        $('#clSaveGroup').css('display', 'none');
         
         if ($('#clSymbol').val()) {
             controller('/get/data/classifySelectSynonym', 'sy=' + $('#clSymbol').val());
@@ -82,5 +86,13 @@ $(document).ready(function() {
             $('#clDocumentTitle').html($('#clDocumentName').val());
             $('#clSynonymsSelect').val(-1);
         }
+    });
+    $(document).on('click', '#clSaveGroup', function() {
+       $(window).scrollTop(0);
+       $('#clSynonymsSelect').css('display', 'none');
+        $('#clLeaveGroup').css('display', 'inline');
+        $('#clChangeGroup').css('display', 'inline');
+        $('#clCancelGroup').css('display', 'none');
+        $('#clSaveGroup').css('display', 'none');
     });
 });

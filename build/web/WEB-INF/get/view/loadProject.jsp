@@ -11,7 +11,7 @@
                             <option value="${project.id}" ${!empty sessionScope.project.id and sessionScope.project.id == project.id ? 'selected="selected"' : empty sessionScope.project.id and iter.first ? 'selected="selected"' : ''}>${project.name}</option>
                         </c:forEach>
                     </select>
-                <input id="lpDoLoadProject" type="submit" class="button" value="<fmt:message key="load" />" />
+                <input id="lpLoadProject" type="submit" class="button" value="<fmt:message key="load" />" />
             </form>
             <div class="spacer"></div>
             <form id="lpNewForm" action="/post/createProject" method="POST">
@@ -20,6 +20,6 @@
                     <label id="lpNameLabel" for="lpName"><fmt:message key="name" />:&nbsp;</label>
                     <input id="lpName" type="text" name="name" maxlength="255" />
                 </div>
-                <input id="lpDoCreateProject" type="submit" class="button" value="<fmt:message key="create" />" />
+                <input id="lpCreateProject" type="submit" class="button" value="<fmt:message key="create" />" />
             </form>
             <div style="clear:both"></div>

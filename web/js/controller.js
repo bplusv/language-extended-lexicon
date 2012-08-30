@@ -139,13 +139,13 @@ function controller(request, params, asynchronous) {
         case '/post/createSymbol':
             action = function() {
                 if ($(response).find('success').text() === 'true') {
-                    updateSymbolicEditors();
                     $('#clSymbol').val($(response).find('symbol').attr('id'));
                     $('#clForm').attr('action', appContext + 'do/updateSymbol');
                     $('#clDefinitionTopRight').css('visibility', 'visible');
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
                     $('#cm-clNewComment').data('instance').setValue('');
+                    updateSymbolicEditors();
                     $clComments = $('#clComments');
                     $clComments.empty();
                     $(response).find('comments').children().each(function(i,e) {

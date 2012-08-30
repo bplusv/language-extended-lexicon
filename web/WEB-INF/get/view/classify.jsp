@@ -11,13 +11,17 @@
     <input id="clDocumentName" type="hidden" name="documentName" value="${symbol.document.name}" />
     <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;">${symbol.name}</span></h2>
     <div id="clSynonymsField">
-        <a id="clEditSynonyms" class="button">&#9660;&nbsp;<fmt:message key="synonyms" />:</a>
-        <a id="clCancelEditSynonyms" class="button">&#9650;&nbsp;<fmt:message key="cancel" /></a>
+        <a id="clLeaveGroup"><fmt:message key="leave group" />&nbsp;(-)</a>
+        <a id="clChangeGroup"><fmt:message key="change group" />&nbsp;(+)</a>
+        <a id="clCancelGroup" class="button"><fmt:message key="cancel" /></a>
+        <input id="clSaveGroup" class="button" type="submit" value="<fmt:message key="save" />" />
+        <label><fmt:message key="synonyms group" />&nbsp;(</label>
         <span id="clSynonyms" class="overflowEllipsis">
             <c:forEach var="synonym" items="${symbolFacade.getSynonyms(symbol.id)}" varStatus="iter">
                 <a href="#!/classify?sy=${synonym.id}">${synonym.name}</a><c:if test="${!iter.last}">,&nbsp;</c:if>
             </c:forEach>
         </span>
+        <label>)</label>
         <br />
         <select id="clSynonymsSelect" name="synonym" size="7"></select>
     </div>
@@ -75,7 +79,6 @@
             <div style="clear:both;"></div>
         </div>
         <div class="clDefinitionField">
-            <input id="clDoSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />
             <label id="clCommentsLabel" for="clComments" class="tab"><fmt:message key="comments" /></label>
             <div id="clCommentsField">
                 <div id="clNewCommentField">
@@ -103,4 +106,5 @@
             </div>
         </div>
     </div>
+    <input id="clSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />
 </form>

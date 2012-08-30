@@ -17,29 +17,13 @@
     text-align: center;
 }
 
-#lpProject {
-    border: none;
-    display: block;
-    height: auto;
-    margin: 0 auto;
-    overflow-x: visible;
-    overflow-y: auto;
-    width: 600px;
+#lpCreateProject {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
 }
 
-#lpProject option {
-    display: block;
-    overflow: visible;
-    padding: 0 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-#lpProject option:nth-of-type(odd) {
-    background: #f9f9f9;
-}
-
-#lpDoLoadProject {
+#lpLoadProject {
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -64,8 +48,24 @@
     position: relative;
 }
 
-#lpDoCreateProject {
-    bottom: 0px;
-    position: absolute;
-    right: 0px;
+#lpProject {
+    border: none;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    overflow-x: visible;
+    overflow-y: auto;
+    width: 600px;
+}
+
+#lpProject option {
+    display: block;
+    overflow: visible;
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#lpProject option:nth-of-type(odd) {
+    background: #f9f9f9;
 }
