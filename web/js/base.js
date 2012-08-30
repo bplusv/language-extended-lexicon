@@ -120,7 +120,7 @@ function tagEditorSymbols() {
                 while (ch > -1) {
                     widget = $('<a>').addClass('editorSymbol').
                         attr('href', '#!/classify?sy=' + projectSymbols[i].id)
-                        .html(projectSymbols[i].name.replace(' ', '&nbsp;'))[0];
+                        .html(projectSymbols[i].name.replace(/ /g, '&nbsp;'))[0];
                     pos = {'ch': ch, 'line': line};
                     editor.addWidgetTop(pos, widget);
                     ch = editor.getLine(line).indexOf(projectSymbols[i].name, ch + 1);

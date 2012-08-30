@@ -51,6 +51,16 @@
     
 }
 
+#clCancelGroup {
+    display: none;
+    float: left;
+}
+
+#clChangeGroup {
+    display: inline;
+    float: right;
+}
+
 #clCategory {
     
 }
@@ -107,11 +117,6 @@
     color: #555;
     font: 13.5px/20px  'Trebuchet MS', Helvetica, sans-serif;
     padding: 10px;
-}
-
-#clNewComment {
-    min-height: 50px;
-    width: 584px;
 }
 
 #clDefinitionBottom {
@@ -176,18 +181,9 @@
     
 }
 
-#clDoSaveSymbol {
-    bottom: 0;
-    position: absolute;
-    right: 0;
-}
-
-#clEditSynonyms {
+#clLeaveGroup {
     display: inline;
-}
-
-#clCancelEditSynonyms {
-    display: none;
+    float: left;
 }
 
 #clForm {
@@ -214,6 +210,12 @@
     
 }
 
+
+#clNewComment {
+    min-height: 50px;
+    width: 584px;
+}
+
 #clNewCommentField {
     
 }
@@ -224,6 +226,17 @@
 
 #clNotionLabel {
     
+}
+
+#clSaveGroup {
+    display: none;
+    float: right;
+}
+
+#clSaveSymbol {
+    bottom: 0;
+    position: absolute;
+    right: 0;
 }
 
 #clSynonymsSelect {

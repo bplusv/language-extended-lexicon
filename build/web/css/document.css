@@ -15,13 +15,6 @@
     height: 350px;
     padding: 0px;
     width: 748px;
-
-}
-
-#dcDoUpdateDocument {
-    bottom: 0px;
-    position: absolute;
-    right: 0px;
 }
 
 #dcLoadDocument {
@@ -33,6 +26,12 @@
 #dcTitle {
     margin-bottom: 25px;
     text-align: center;
+}
+
+#dcUpdateDocument {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
 }
 
 #dcUpdateForm {
