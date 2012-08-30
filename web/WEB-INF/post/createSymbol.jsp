@@ -21,6 +21,17 @@
                 </user>
                 <date><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></date>
             </log>
+            <comments>
+                <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}">
+                    <comment id="${comment.id}">
+                        <content>${comment.content}</content>
+                        <date><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /></date>
+                        <user id="${comment.user.id}">
+                            <name>${comment.user.name}</name>
+                        </user>
+                    </comment>
+                </c:forEach>
+            </comments>
         </symbol>
     </c:if>
 </root>

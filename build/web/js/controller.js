@@ -140,18 +140,13 @@ function controller(request, params, asynchronous) {
             action = function() {
                 if ($(response).find('success').text() === 'true') {
                     $('#clSymbol').val($(response).find('symbol').attr('id'));
-                    $('#clForm').attr('action', appContext + 'do/updateSymbol');
+                    $('#clForm').attr('action', '/post/updateSymbol');
                     $('#clDefinitionTopRight').css('visibility', 'visible');
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
                     $('#cm-clNewComment').data('instance').setValue('');
                     updateSymbolicEditors();
-                    $clComments = $('#clComments');
-                    $clComments.empty();
-                    $(response).find('comments').children().each(function(i,e) {
-                        $clComments.append($('<li>').html($(e).find('content').text() + ' / ' + 
-                            $(e).find('user > name').text() + ' / ' + $(e).find('date').text()));
-                    });
+                    updateComments(response);
                 }
             };
             break;
@@ -209,6 +204,7 @@ function controller(request, params, asynchronous) {
             break;
         default:
             if (document.location.href.indexOf('/signIn') < 0)
+                alert(request);
                 document.location.hash = '#!/explore';
             return;
     }
