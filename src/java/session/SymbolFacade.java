@@ -28,6 +28,7 @@ import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.stream.events.Comment;
+import model.Definition;
 import model.Log;
 import model.Symbol;
 
@@ -176,13 +177,33 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public Symbol leaveSynonymsGroup(String userId, String symbolId, String category, String classification) {
+		try {
+			Symbol symbol = symbolFacade.find(symbolId);
+			symbol.setDefinition(definitionFacade.createDefinition(userId,
+					category, classification, "", "", "", ""));
+			em.merge(symbol);
+			em.flush();
+			logFacade.createLog(userId, symbolId, "2");
+			Collection<Symbol> synonyms = symbolFacade.getSynonyms(symbol.getId().toString());
+			for (Symbol synonym : synonyms) {
+				logFacade.createLog(userId, synonym.getId().toString(), "2");
+			}
+			return symbol;
+		} catch (Exception e) {
+			context.setRollbackOnly();
+			return null;
+		}
+	}
+		
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Comment> getCommentCollection(String symbolId) {
         try {
 			return em.createQuery("SELECT co FROM Comment co, Symbol sy "
-					+ "WHERE sy = :symbol AND co MEMBER OF sy.definition.commentCollection "
-					+ "ORDER BY co.date DESC;").
-					setParameter("symbol", symbolFacade.find(symbolId)).
-				getResultList();
+				+ "WHERE sy = :symbol AND co MEMBER OF sy.definition.commentCollection "
+				+ "ORDER BY co.date DESC;").
+				setParameter("symbol", symbolFacade.find(symbolId)).
+			getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

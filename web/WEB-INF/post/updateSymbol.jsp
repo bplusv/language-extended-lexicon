@@ -32,6 +32,13 @@
                     </comment>
                 </c:forEach>
             </comments>
+            <synonymsGroup>
+                <c:forEach var="synonym" items="${symbolFacade.getSynonyms(symbol.id)}">
+                    <synonym id="${synonym.id}">
+                        <name>${synonym.name}</name>
+                    </synonym>
+                </c:forEach>
+            </synonymsGroup>
         </symbol>
     </c:if>
 </root>

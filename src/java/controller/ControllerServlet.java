@@ -54,6 +54,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
 	"/post/createDocument",
 	"/post/createProject",
 	"/post/createSymbol",
+	"/post/leaveSynonymsGroup",
 	"/post/loadDocument",
 	"/post/loadProject",
 	"/post/removeSymbol",
@@ -100,7 +101,7 @@ public class ControllerServlet extends HttpServlet {
 
 		if (userPath.equals("/get/data/classifySelectSynonym")) {
 			request.setAttribute("symbol",
-					symbolFacade.find(request.getParameter("sy")));
+					symbolFacade.find(request.getParameter("symbol")));
 		} else if (userPath.equals("/get/data/classifyShowSynonyms")) {
 			request.setAttribute("synonyms",
 					projectFacade.getSymbolCollection(
@@ -218,6 +219,18 @@ public class ControllerServlet extends HttpServlet {
 					request.getParameter("futureIntention"),
 					request.getParameter("newComment"));
 			}
+			if (symbol != null) {
+				request.setAttribute("success", true);
+				request.setAttribute("symbol", symbol);
+			} else {
+				request.setAttribute("success", false);
+			}
+		} else if (userPath.equals("/post/leaveSynonymsGroup")) {
+			Symbol symbol = symbolFacade.leaveSynonymsGroup(
+					((User) session.getAttribute("user")).getId().toString(),
+					request.getParameter("symbol"),
+					request.getParameter("category"),
+					request.getParameter("classification"));
 			if (symbol != null) {
 				request.setAttribute("success", true);
 				request.setAttribute("symbol", symbol);
