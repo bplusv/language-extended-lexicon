@@ -36,7 +36,7 @@ function controller(request, params, asynchronous) {
                         synonyms.push($('<a>').attr('href','#!/classify?sy='+ 
                         $(e).attr('id')).html($(e).children('name').text())[0].outerHTML);
                 });
-                $('#clSynonyms').html(synonyms.join(', '));
+                $('#clSynonymsGroup').html(synonyms.join(', '));
                 $('#clDocumentTitle').html($(response).find('document > name').text());
                 $('#clCategory').val($(response).find('category').text());
                 $('#clCategory').trigger('change');
@@ -150,6 +150,21 @@ function controller(request, params, asynchronous) {
                 }
             };
             break;
+        case '/post/leaveSynonymsGroup':
+            action = function() {
+                if ($(response).find('success').text() === 'true') {
+                    $('#clLeaveGroup').css('display', 'none');
+                    $('#clSynonymsGroup').html('');
+                    $('#clLogUserName').html($(response).find('log > user > name').text());
+                    $('#clLogDate').html($(response).find('log > date').text());
+                    $('#cm-clNotion').data('instance').setValue('');
+                    $('#cm-clActualIntention').data('instance').setValue('');
+                    $('#cm-clFutureIntention').data('instance').setValue('');
+                    $('#cm-clNewComment').data('instance').setValue('');
+                    updateComments();
+                }
+            };
+            break;
         case '/post/loadDocument':
             action = function() {
                 if ($(response).find('success').text() === 'true') {
@@ -195,6 +210,9 @@ function controller(request, params, asynchronous) {
         case '/post/updateSymbol':
             action = function() {
                 if ($(response).find('success').text() === 'true') {
+                    synonyms = $(response).find('synonymsGroup').children();
+                    console.log(synonyms);
+                    $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
                     $('#cm-clNewComment').data('instance').setValue('');
@@ -203,9 +221,9 @@ function controller(request, params, asynchronous) {
             };
             break;
         default:
-            if (document.location.href.indexOf('/signIn') < 0)
-                alert(request);
+            if (document.location.href.indexOf('/signIn') < 0) {
                 document.location.hash = '#!/explore';
+            }
             return;
     }
  

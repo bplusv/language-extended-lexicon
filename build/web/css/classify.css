@@ -53,12 +53,14 @@
 
 #clCancelGroup {
     display: none;
-    float: left;
+    left: 0;
+    position: absolute;
 }
 
 #clChangeGroup {
     display: inline;
-    float: right;
+    position: absolute;
+    right: 0;
 }
 
 #clCategory {
@@ -183,7 +185,8 @@
 
 #clLeaveGroup {
     display: inline;
-    float: left;
+    left: 0;
+    position: absolute;
 }
 
 #clForm {
@@ -230,7 +233,8 @@
 
 #clSaveGroup {
     display: none;
-    float: right;
+    position: absolute;
+    right: 0;
 }
 
 #clSaveSymbol {
@@ -243,30 +247,42 @@
     border: 1px solid #ccc;
     display: none;
     height: auto;
-    margin: 25px auto 0 auto;
+    margin: 10px auto 0 auto;
     overflow-x: visible;
     overflow-y: auto;
     width: 400px;
 }
 
-#clSymbol{
+#clSymbol {
     
-}
-
-#clSynonyms {
-    
-}
-
-#clSynonyms label {
-    display: inline-block;
 }
 
 #clSynonymsField {
     margin-bottom: 25px;
+    position: relative;
     text-align: center;
 }
 
-#clTitle {
+#clSynonymsGroup {
+    
+}
+
+#clSynonymsGroup label {
+    display: inline-block;
+}
+
+#clSynonymsGroupField {
     margin-bottom: 25px;
+    text-align: center;
+}
+
+#clSynonymsGroupLabel {
+    display: block;
+    margin: 0 auto;
+    width: 450px;
+}
+
+#clTitle {
+    margin-bottom: 15px;
     text-align: center;
 }
