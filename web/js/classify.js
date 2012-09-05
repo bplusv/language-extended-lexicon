@@ -61,7 +61,6 @@ $(document).ready(function() {
     
     $(document).on('click', '#clChangeGroup', function() {
         $(window).scrollTop($('#clTitle').offset().top);
-        
         $('#clSynonymsSelect').css('display', 'block');
         $('#clLeaveGroup').css('display', 'none');
         $('#clChangeGroup').css('display', 'none');
@@ -72,8 +71,8 @@ $(document).ready(function() {
     
     $(document).on('click', '#clCancelGroup', function() {
         $(window).scrollTop(0);
+        $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
-        $('#clLeaveGroup').css('display', 'inline');
         $('#clChangeGroup').css('display', 'inline');
         $('#clCancelGroup').css('display', 'none');
         $('#clSaveGroup').css('display', 'none');
@@ -89,11 +88,11 @@ $(document).ready(function() {
             $('#clFutureIntention').html('');
             $('#clComments').html('');
             $('#clDocumentTitle').html($('#clDocumentName').val());
-            $('#clSynonymsSelect').val(-1);
         }
     });
     
     $(document).on('click', '#clSaveGroup', function() {
+        $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
         $('#clChangeGroup').css('display', 'inline');
         $('#clCancelGroup').css('display', 'none');
@@ -101,6 +100,7 @@ $(document).ready(function() {
     });
     
     $(document).on('click', '#clSaveSymbol', function() {
+        $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
         $('#clLeaveGroup').css('display', 'inline');
         $('#clChangeGroup').css('display', 'inline');
