@@ -1,6 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 DROP SCHEMA IF EXISTS `lel` ;
 CREATE SCHEMA IF NOT EXISTS `lel` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
@@ -17,7 +17,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`user` (
   `password` VARCHAR(255) NOT NULL ,
   `admin` BIT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+  UNIQUE INDEX `uniq_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -31,7 +31,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`project` (
   `name` VARCHAR(255) NOT NULL ,
   `description` VARCHAR(255) NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+  UNIQUE INDEX `uniq_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -46,9 +46,9 @@ CREATE  TABLE IF NOT EXISTS `lel`.`document` (
   `content` MEDIUMTEXT NULL ,
   `project` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
-  INDEX `fk_document_project` (`project` ASC) ,
-  CONSTRAINT `fk_document_project1`
+  UNIQUE INDEX `uniq_name` (`name` ASC) ,
+  INDEX `idx_document_project` (`project` ASC) ,
+  CONSTRAINT `fk_document_project`
     FOREIGN KEY (`project` )
     REFERENCES `lel`.`project` (`id` )
     ON DELETE NO ACTION
@@ -65,7 +65,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`category` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+  UNIQUE INDEX `uniq_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`classification` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+  UNIQUE INDEX `uniq_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -95,8 +95,8 @@ CREATE  TABLE IF NOT EXISTS `lel`.`definition` (
   `category` INT UNSIGNED NOT NULL ,
   `classification` INT UNSIGNED NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_definition_category` (`category` ASC) ,
-  INDEX `fk_definition_classification` (`classification` ASC) ,
+  INDEX `idx_definition_category` (`category` ASC) ,
+  INDEX `idx_definition_classification` (`classification` ASC) ,
   CONSTRAINT `fk_definition_category`
     FOREIGN KEY (`category` )
     REFERENCES `lel`.`category` (`id` )
@@ -123,11 +123,11 @@ CREATE  TABLE IF NOT EXISTS `lel`.`symbol` (
   `definition` INT UNSIGNED NOT NULL ,
   `project` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_concept_document` (`document` ASC) ,
-  INDEX `fk_concept_definition` (`definition` ASC) ,
-  UNIQUE INDEX `concept_in_document` (`document` ASC, `name` ASC) ,
-  INDEX `fk_concept_project` (`project` ASC) ,
-  UNIQUE INDEX `concept_in_project` (`project` ASC, `name` ASC) ,
+  INDEX `idx_concept_document` (`document` ASC) ,
+  INDEX `idx_concept_definition` (`definition` ASC) ,
+  UNIQUE INDEX `uniq_concept_in_document` (`document` ASC, `name` ASC) ,
+  INDEX `idx_concept_project` (`project` ASC) ,
+  UNIQUE INDEX `uniq_concept_in_project` (`project` ASC, `name` ASC) ,
   CONSTRAINT `fk_concept_document`
     FOREIGN KEY (`document` )
     REFERENCES `lel`.`document` (`id` )
@@ -138,7 +138,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`symbol` (
     REFERENCES `lel`.`definition` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_concept_project1`
+  CONSTRAINT `fk_concept_project`
     FOREIGN KEY (`project` )
     REFERENCES `lel`.`project` (`id` )
     ON DELETE NO ACTION
@@ -155,7 +155,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`event` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+  UNIQUE INDEX `uniq_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -171,9 +171,9 @@ CREATE  TABLE IF NOT EXISTS `lel`.`log` (
   `event` INT UNSIGNED NOT NULL ,
   `symbol` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_log_user` (`user` ASC) ,
-  INDEX `fk_log_event` (`event` ASC) ,
-  INDEX `fk_log_symbol` (`symbol` ASC) ,
+  INDEX `idx_log_user` (`user` ASC) ,
+  INDEX `idx_log_event` (`event` ASC) ,
+  INDEX `idx_log_symbol` (`symbol` ASC) ,
   CONSTRAINT `fk_log_user`
     FOREIGN KEY (`user` )
     REFERENCES `lel`.`user` (`id` )
@@ -201,14 +201,14 @@ CREATE  TABLE IF NOT EXISTS `lel`.`project_users` (
   `project` INT UNSIGNED NOT NULL ,
   `user` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`project`, `user`) ,
-  INDEX `fk_project_users_user` (`user` ASC) ,
-  INDEX `fk_project_users_project` (`project` ASC) ,
-  CONSTRAINT `fk_project_has_user_project1`
+  INDEX `idx_project_users_user` (`user` ASC) ,
+  INDEX `idx_project_users_project` (`project` ASC) ,
+  CONSTRAINT `fk_project_has_user_project`
     FOREIGN KEY (`project` )
     REFERENCES `lel`.`project` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_project_has_user_user1`
+  CONSTRAINT `fk_project_has_user_user`
     FOREIGN KEY (`user` )
     REFERENCES `lel`.`user` (`id` )
     ON DELETE NO ACTION
@@ -227,7 +227,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`comment` (
   `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `user` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_comments_user` (`user` ASC) ,
+  INDEX `idx_comments_user` (`user` ASC) ,
   CONSTRAINT `fk_comments_user`
     FOREIGN KEY (`user` )
     REFERENCES `lel`.`user` (`id` )
@@ -245,14 +245,14 @@ CREATE  TABLE IF NOT EXISTS `lel`.`definition_comments` (
   `definition_id` INT UNSIGNED NOT NULL ,
   `comments_id` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`definition_id`, `comments_id`) ,
-  INDEX `fk_definition_has_comments_comments1` (`comments_id` ASC) ,
-  INDEX `fk_definition_has_comments_definition1` (`definition_id` ASC) ,
-  CONSTRAINT `fk_definition_has_comments_definition1`
+  INDEX `idx_definition_has_comments_comments` (`comments_id` ASC) ,
+  INDEX `idx_definition_has_comments_definition` (`definition_id` ASC) ,
+  CONSTRAINT `fk_definition_has_comments_definition`
     FOREIGN KEY (`definition_id` )
     REFERENCES `lel`.`definition` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_definition_has_comments_comments1`
+  CONSTRAINT `fk_definition_has_comments_comments`
     FOREIGN KEY (`comments_id` )
     REFERENCES `lel`.`comment` (`id` )
     ON DELETE NO ACTION
