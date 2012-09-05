@@ -142,6 +142,7 @@ function controller(request, params, asynchronous) {
         case '/post/createSymbol':
             action = function() {
                 if ($(response).find('success').text() === 'true') {
+                    $('#clSynonymsSelect').val(-1);
                     $('#clSymbol').val($(response).find('symbol').attr('id'));
                     $('#clForm').attr('action', '/post/updateSymbol');
                     $('#clDefinitionTopRight').css('visibility', 'visible');
@@ -213,6 +214,7 @@ function controller(request, params, asynchronous) {
         case '/post/updateSymbol':
             action = function() {
                 if ($(response).find('success').text() === 'true') {
+                    $('#clSynonymsSelect').val(-1);
                     synonyms = $(response).find('synonymsGroup').children();
                     $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
                     $('#clLogUserName').html($(response).find('log > user > name').text());

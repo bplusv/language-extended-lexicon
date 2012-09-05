@@ -92,7 +92,6 @@ $(document).ready(function() {
     });
     
     $(document).on('click', '#clSaveGroup', function() {
-        $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
         $('#clChangeGroup').css('display', 'inline');
         $('#clCancelGroup').css('display', 'none');
@@ -100,7 +99,6 @@ $(document).ready(function() {
     });
     
     $(document).on('click', '#clSaveSymbol', function() {
-        $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
         $('#clLeaveGroup').css('display', 'inline');
         $('#clChangeGroup').css('display', 'inline');
