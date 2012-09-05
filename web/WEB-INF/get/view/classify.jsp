@@ -20,7 +20,7 @@
             <fmt:message key="synonyms group" />
             &nbsp;(
             <span id="clSynonymsGroup">
-                <c:forEach var="synonym" items="${symbolSynonyms}" varStatus="iter">
+                <c:forEach var="synonym" items="${symbolFacade.getSynonyms(symbol.id)}" varStatus="iter">
                     <a href="#!/classify?sy=${synonym.id}">${synonym.name}</a><c:if test="${!iter.last}">,&nbsp;</c:if>
                 </c:forEach>
             </span>
