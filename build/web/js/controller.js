@@ -88,9 +88,9 @@ function controller(request, params, asynchronous) {
         case '/get/data/projectSymbols':
             action = function() {
                 $xmlSymbols = $(response).find('symbols').children();
-                projectSymbols = [];
+                projectSymbols = {};
                 $xmlSymbols.each(function(i, e) {
-                    projectSymbols.push({'id':$(e).attr('id'), 'name':$(e).children('name').text()});
+                    projectSymbols[$(e).children('name').text()] = $(e).attr('id');
                 });
             }
             break;
