@@ -94,12 +94,14 @@ function notify(cssClass, message) {
 function updateSymbolicEditors() {
     isRequesting = false;
     controller('/get/data/projectSymbols', '', false);
+    updateLelModeSymbols(projectSymbols);
     $('textarea.symbolicEditor').each(function(i,e) {
         if ($(e).css('display') != 'none') {
             w = $(e).outerWidth();
             h = $(e).outerHeight();
             var editor = CodeMirror.fromTextArea(e,
-            {'onChange': tagEditorSymbols, 'mode': 'text/plain'});
+            {'onUpdate': tagEditorSymbols, 'mode': 'text/x-lel',
+            'lineWrapping': true});
             $(editor.getWrapperElement()).attr('id', 
                 'cm-' + $(e).attr('id')).data('instance', editor);
             editor.setSize(w, h);
@@ -110,23 +112,10 @@ function updateSymbolicEditors() {
 }
 
 function tagEditorSymbols() {
-    $('.editorSymbol').remove();
-    $('.CodeMirror').each(function(i,e) {
-        var editor = $(e).data('instance');
-        for (i in projectSymbols) {
-            var line = 0, ch = 0;
-            for (line = 0; line < editor.lineCount(); line++) {
-                ch = editor.getLine(line).indexOf(projectSymbols[i].name);
-                while (ch > -1) {
-                    widget = $('<a>').addClass('editorSymbol').
-                        attr('href', '#!/classify?sy=' + projectSymbols[i].id)
-                        .html(projectSymbols[i].name.replace(/ /g, '&nbsp;'))[0];
-                    pos = {'ch': ch, 'line': line};
-                    editor.addWidgetTop(pos, widget);
-                    ch = editor.getLine(line).indexOf(projectSymbols[i].name, ch + 1);
-                }
-            }
-        }
+    $('[class^=cm-symbol]').each(function(i, e) {
+        $(e).wrapInner('<a class="symbol" href="#!/classify?sy='+
+            /cm-symbol(.*)/.exec($(e).attr('class'))[1]+
+            '" style="pointer-events:auto;"></a>');
     });
 }
 

@@ -104,10 +104,12 @@ select:focus {
 }
 
 textarea {
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 5px;
     color: #333;
-    font: 13.5px/20px  'Trebuchet MS', Helvetica, sans-serif;
+    font: 13.5px/20px 'Trebuchet MS', Helvetica, sans-serif;
     margin: 0;
-    padding: 0px;
+    padding: 0;
     resize: none;
 }
 
