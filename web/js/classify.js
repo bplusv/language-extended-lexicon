@@ -34,8 +34,9 @@ function updateClassifyFields() {
 }
 
 function updateComments(response) {
-    $('#clComments > li:not(.first)').remove();
-    $clComments = $('#clComments');
+    var $clComments = $('#clComments');
+    $clComments.children().remove();
+    console.log($(response).find('comments').children().length);
     $(response).find('comments').children().each(function(i,e) {
         $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
             .append($('<div>').addClass('left')
@@ -98,12 +99,12 @@ $(document).ready(function() {
         $('#clSaveGroup').css('display', 'none');
     });
     
-    $(document).on('click', '#clSaveSymbol', function() {
+    $(document).on('submit', '#clForm', function() {
         $('#clSynonymsSelect').css('display', 'none');
         $('#clLeaveGroup').css('display', 'inline');
         $('#clChangeGroup').css('display', 'inline');
         $('#clCancelGroup').css('display', 'none');
-        $('#clSaveGroup').css('display', 'none');
+        $('#clSaveGroup').css('display', 'none'); 
     });
     
     $(document).on('click', '#clLeaveGroup', function() {

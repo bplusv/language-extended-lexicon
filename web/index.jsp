@@ -31,7 +31,6 @@
         <meta name="keywords" content="UACJ,LEL" />
         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
         <script src="js/lib/CodeMirror-2.33/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/lib/CodeMirror-2.33/mode/lel.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
         

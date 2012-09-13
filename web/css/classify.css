@@ -80,32 +80,32 @@
 
 #clComments {
     list-style-type: none;
-    max-height: 160px;
+    max-height: 200px;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: auto;
     width: 726px;
 }
 
-#clComments > li, #clNewCommentField {
+#clComments > li {
     margin-bottom: 10px;
     width: 706px;
 }
 
-#clComments > li > div.left, #clNewCommentField > div.left {
+#clComments > li > div.left {
     display: inline-block;
     float: left;
     width: 110px;
 }
 
-#clComments > li > div.left > span, #clNewCommentField > div.left > span {
+#clComments > li > div.left > span {
     display: block;
     margin: 0 auto;
     text-align: center;
     width: 100px;
 }
 
-#clComments > li > div.right, #clNewCommentField > div.right {
+#clComments > li > div.right {
     display: inline-block;
     float: right;
     width: 586px;
@@ -215,11 +215,31 @@
 
 #clNewComment {
     min-height: 50px;
-    width: 584px;
+    width: 602px;
 }
 
 #clNewCommentField {
-    
+    margin-bottom: 10px;
+    width: 726px;
+}
+
+#clNewCommentField > div.left {
+    display: inline-block;
+    float: left;
+    width: 110px;
+}
+
+#clNewCommentField > div.left > span {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 100px;
+}
+
+#clNewCommentField > div.right {
+    display: inline-block;
+    float: right;
+    width: 606px;
 }
 
 #clNotion {
