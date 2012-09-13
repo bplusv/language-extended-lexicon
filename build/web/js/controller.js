@@ -46,9 +46,9 @@ function controller(request, params, asynchronous) {
                 $('#clClassification').val($(response).find('classification').text());
                 $('#clLogUserName').html($(response).find('log > user > name').text());
                 $('#clLogDate').html($(response).find('log > date').text());
-                $('#cm-clNotion').data('instance').setValue($(response).find('notion').text());
-                $('#cm-clActualIntention').data('instance').setValue($(response).find('actualIntention').text());
-                $('#cm-clFutureIntention').data('instance').setValue($(response).find('futureIntention').text());
+                $('#clNotion').data('codeMirror').setValue($(response).find('notion').text());
+                $('#clActualIntention').data('codeMirror').setValue($(response).find('actualIntention').text());
+                $('#clFutureIntention').data('codeMirror').setValue($(response).find('futureIntention').text());
                 updateComments(response);
             };
             break;
@@ -95,14 +95,16 @@ function controller(request, params, asynchronous) {
             }
             break;
         case '/get/view/classify':
-        action = function() {
+            controller('/get/data/projectSymbols', '', false);
+            action = function() {
                 $('#central').html(response);
                 updateSymbolicEditors();
                 updateClassifyFields();
             };
             break;
         case '/get/view/document':
-        action = function() {
+            controller('/get/data/projectSymbols', '', false);
+            action = function() {
                 $('#central').html(response); 
                 updateSymbolicEditors();
             };
@@ -142,13 +144,14 @@ function controller(request, params, asynchronous) {
         case '/post/createSymbol':
             action = function() {
                 if ($(response).find('success').text() === 'true') {
+                    controller('/get/data/projectSymbols', '', false);
                     $('#clSynonymsSelect').val(-1);
                     $('#clSymbol').val($(response).find('symbol').attr('id'));
                     $('#clForm').attr('action', '/post/updateSymbol');
                     $('#clDefinitionTopRight').css('visibility', 'visible');
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
-                    $('#cm-clNewComment').data('instance').setValue('');
+                    $('#clNewComment').data('codeMirror').setValue('');
                     updateSymbolicEditors();
                     updateComments(response);
                 }
@@ -161,10 +164,10 @@ function controller(request, params, asynchronous) {
                     $('#clSynonymsGroup').html('');
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
-                    $('#cm-clNotion').data('instance').setValue('');
-                    $('#cm-clActualIntention').data('instance').setValue('');
-                    $('#cm-clFutureIntention').data('instance').setValue('');
-                    $('#cm-clNewComment').data('instance').setValue('');
+                    $('#clNotion').data('codeMirror').setValue('');
+                    $('#clActualIntention').data('codeMirror').setValue('');
+                    $('#clFutureIntention').data('codeMirror').setValue('');
+                    $('#clNewComment').data('codeMirror').setValue('');
                     updateComments();
                 }
             };
@@ -182,7 +185,6 @@ function controller(request, params, asynchronous) {
                     projectName = $(response).find('project').find('name').text();
                     $('#ixProjectTitle').show();
                     $('#ixProjectName').html(projectName);
-                    controller('/get/data/projectSymbols');
                     redirect = '#!/explore';
                 }
             };
@@ -219,7 +221,7 @@ function controller(request, params, asynchronous) {
                     $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
                     $('#clLogUserName').html($(response).find('log > user > name').text());
                     $('#clLogDate').html($(response).find('log > date').text());
-                    $('#cm-clNewComment').data('instance').setValue('');
+                    $('#clNewComment').data('codeMirror').setValue('');
                     updateComments(response);
                 }
             };
@@ -241,13 +243,14 @@ function controller(request, params, asynchronous) {
             data: params,
             timeout: 5000,
             success: function(data) {
+                isRequesting = false;
                 if ($(data).find('sessionTimeOut').text() === 'true')
                     document.location.href = appContext + '/signIn';
                 response = $(data);
                 action();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus);
+                isRequesting = false;
                 response = $('<response>').html(
                     $('<message>').html(
                     $('#messages .ixNetworkFail').html())

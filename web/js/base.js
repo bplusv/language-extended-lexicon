@@ -27,27 +27,6 @@ var bubble;
 var projectSymbols = [];
 var myCode;
 
-function tagSymbols(content) {
-    $(projectSymbols).each(function(i,e) {
-        var patt = new RegExp(e.name, 'g');
-        content = content.replace(patt, 
-            '<a href="#!/classify?sy=' + e.id + '" ' + 
-            'contenteditable="false">' + e.name + '</a>');
-    });
-    return content;
-}
-
-function getSelectedText() {
-    if(window.getSelection) {return window.getSelection();}
-    else if(document.getSelection) {return document.getSelection();}
-    else {
-        var selection = document.selection && document.selection.createRange();
-        if(selection.text) {return selection.text;}
-        return '';
-    }
-    return '';
-}
-
 function popBubble(text, left, top) {
     if (text != '') {
         if(!bubble) {
@@ -91,39 +70,84 @@ function notify(cssClass, message) {
         .fadeOut(500);
 }
 
+function updateLelMode() {
+    CodeMirror.defineMode("lel", function() {
+        function wordRegexp(words) {
+            return new RegExp("^((" + words.join(")|(") + "))", "");
+        }
+        var words = [];
+        for (i in projectSymbols)
+            words.push(i);
+        var keywords = wordRegexp(words);
+        function tokenLexer(stream) {
+            if (stream.eatSpace()) {
+                return null;
+            }
+            var matched = stream.match(keywords);
+            if (matched) {
+                return 'symbol-' + projectSymbols[matched[0]];
+            } else {
+                stream.next();
+                return null;
+            }
+        }
+        return {
+            token: function(stream) {
+                return tokenLexer(stream);
+            }
+        };
+    });
+    CodeMirror.defineMIME("text/x-lel", "lel");
+}
+
 function updateSymbolicEditors() {
-    isRequesting = false;
-    controller('/get/data/projectSymbols', '', false);
-    updateLelModeSymbols(projectSymbols);
+    updateLelMode();
     $('textarea.symbolicEditor').each(function(i,e) {
-        if ($(e).css('display') != 'none') {
+        var cm = $(e).data('codeMirror');
+        if (cm != undefined) {
+            cm.setOption('mode', 'text/x-lel');
+        } else {
             w = $(e).outerWidth();
             h = $(e).outerHeight();
             var editor = CodeMirror.fromTextArea(e,
-            {'onUpdate': tagEditorSymbols, 'mode': 'text/x-lel',
-            'lineWrapping': true});
-            $(editor.getWrapperElement()).attr('id', 
-                'cm-' + $(e).attr('id')).data('instance', editor);
+            {'onUpdate': tagSymbolicEditorSymbols,
+                'onScroll': tagSymbolicEditorSymbols,
+                'mode': 'text/x-lel', 'lineWrapping': true});
+            $(e).data('codeMirror', editor);
             editor.setSize(w, h);
             editor.refresh();
         }
     });
-    tagEditorSymbols();
+    tagSymbolicEditorSymbols();
 }
 
-function tagEditorSymbols() {
-    $('[class^=cm-symbol]').each(function(i, e) {
-        $(e).wrapInner('<a class="symbol" href="#!/classify?sy='+
-            /cm-symbol(.*)/.exec($(e).attr('class'))[1]+
-            '" style="pointer-events:auto;"></a>');
+function tagSymbolicEditorSymbols() {
+    $cms = $('div.CodeMirror');
+    $cms.each(function(i, cm) {
+        $cm = $(cm);
+        cmTop = $cm.offset().top;
+        cmBottom = $cm.offset().top + $cm.outerHeight();
+        cmLeft = $cm.offset().left;
+        cmRight = $cm.offset().left + $cm.outerWidth();
+        $symbols = $cm.find('div.CodeMirror-lines span[class^=cm-symbol-]').filter(function() {
+            curOffset = $(this).offset();
+            curTop = curOffset.top;
+            curLeft = curOffset.left;
+            return curTop > cmTop && curTop < cmBottom &&
+                curLeft > cmLeft && curLeft < cmRight;
+        });
+        $symbols.each(function(i, e) {
+            $(e).wrapInner('<a class="symbol" href="#!/classify?sy='+
+                /cm-symbol-(.*)/.exec($(e).attr('class'))[1] + '"></a>');
+        });
     });
 }
 
 function tagSymbols(text) {
-    for (i in projectSymbols) {
-        text = text.replace(new RegExp(projectSymbols[i].name, 'g'), 
+    for (symbol in projectSymbols) {
+        text = text.replace(new RegExp(symbol, 'g'), 
             $('<a>').addClass('symbol').attr('href', '#!classify?sy=' + 
-                projectSymbols[i].id).html(projectSymbols[i].name)[0].outerHTML
+                projectSymbols[symbol]).html(symbol)[0].outerHTML
         );
     }
     return text;

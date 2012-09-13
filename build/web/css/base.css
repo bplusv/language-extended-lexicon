@@ -166,6 +166,7 @@ textarea {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+    pointer-events: auto;
 }
 
 .tabs > a, .tab {
