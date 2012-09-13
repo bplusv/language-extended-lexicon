@@ -30,13 +30,9 @@ var myCode;
 function popBubble(text, left, top) {
     if (text != '') {
         if(!bubble) {
-            bubble = $('<a>').attr({
-                contenteditable: 'false',
-                href: 'javascript:;',
-                id: 'infoBubble'
-            });
-            bubbleText = $('<span>').attr({id: 'infoBubbleText'});
-            bubbleArrow = $('<div>').attr({id: 'infoBubbleArrow'});
+            bubble = $('<a>').attr('id','infoBubble');
+            bubbleText = $('<span>').attr('id', 'infoBubbleText');
+            bubbleArrow = $('<div>').attr('id', 'infoBubbleArrow');
             bubble.append(bubbleText);
             bubble.append(bubbleArrow);
             bubble.hide();
@@ -46,7 +42,8 @@ function popBubble(text, left, top) {
             $('body').append(bubble);
         }
 
-        bubble.attr('href', '#!/classify?dc=' + $('#dcDocument').val() + '&na=' + text);
+        bubble.attr('href', '#!/classify?dc=' + 
+            $('#dcDocument').val() + '&na=' + text);
         bubbleText.html(text);
         bubble.css('top', top - bubble.outerHeight() - 35);
         bubble.css('left', left - bubble.outerWidth() / 2);
@@ -129,12 +126,13 @@ function tagSymbolicEditorSymbols() {
         cmBottom = $cm.offset().top + $cm.outerHeight();
         cmLeft = $cm.offset().left;
         cmRight = $cm.offset().left + $cm.outerWidth();
-        $symbols = $cm.find('div.CodeMirror-lines span[class^=cm-symbol-]').filter(function() {
-            curOffset = $(this).offset();
-            curTop = curOffset.top;
-            curLeft = curOffset.left;
-            return curTop > cmTop && curTop < cmBottom &&
-                curLeft > cmLeft && curLeft < cmRight;
+        $symbols = $cm.find('div.CodeMirror-lines span[class^=cm-symbol-]').
+            filter(function() {
+                curOffset = $(this).offset();
+                curTop = curOffset.top;
+                curLeft = curOffset.left;
+                return curTop > cmTop && curTop < cmBottom &&
+                    curLeft > cmLeft && curLeft < cmRight;
         });
         $symbols.each(function(i, e) {
             $(e).wrapInner('<a class="symbol" href="#!/classify?sy='+
