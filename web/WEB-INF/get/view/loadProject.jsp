@@ -8,7 +8,7 @@
                 <h3 class="lpTitle"><fmt:message key="load project" /></h3>
                     <select id="lpProject" name="project" size="11" autofocus>
                         <c:forEach var="project" items="${projectFacade.findAll()}" varStatus="iter">
-                            <option value="${project.id}" ${!empty sessionScope.project.id and sessionScope.project.id == project.id ? 'selected="selected"' : empty sessionScope.project.id and iter.first ? 'selected="selected"' : ''}>${project.name}</option>
+                            <option value="${project.id}" ${!empty sessionScope.project.id and sessionScope.project.id == project.id ? 'selected="selected"' : empty sessionScope.project.id and iter.first ? 'selected="selected"' : ''}><c:out value="${project.name}" /></option>
                         </c:forEach>
                     </select>
                 <input id="lpLoadProject" type="submit" class="button" value="<fmt:message key="load" />" />

@@ -9,7 +9,7 @@
     <message><fmt:message key="update document ${success ? 'success' : 'fail'}" /></message>
     <c:if test="${success}">
         <document id="${document.id}">
-            <name>${document.name}</name>
+            <name><![CDATA[${document.name}]]></name>
             <project>${document.project.id}</project>
         </document>
     </c:if>

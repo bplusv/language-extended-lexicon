@@ -36,9 +36,9 @@ $(document).ready(function() {
         e.preventDefault();
         var id = /exSy(.*)/.exec($(this).attr('id'))[1];
         var $symbolName = $(this).siblings('.exSyName').clone();
-        var title = $('#messages .ixDeleteConfirmationTitle').html();
-        var message = $('#messages .ixDeleteConfirmation').html();
-        var deleteMsg = $('#messages .ixDelete').html();
+        var title = $('#messages .ixRemoveSymbolConfirmationTitle').html();
+        var message = $('#messages .ixRemoveSymbolConfirmation').html();
+        var deleteMsg = $('#messages .ixRemove').html();
         var cancelMsg = $('#messages .ixCancel').html();
         $.confirm({
             'title'		: title,

@@ -24,7 +24,7 @@
 
 var appContext = '/lel';
 var bubble;
-var projectSymbols = [];
+var projectSymbols = {};
 var myCode;
 
 function popBubble(text, left, top) {
@@ -77,12 +77,10 @@ function updateLelMode() {
             words.push(i);
         var keywords = wordRegexp(words);
         function tokenLexer(stream) {
-            if (stream.eatSpace()) {
-                return null;
-            }
-            var matched = stream.match(keywords);
-            if (matched) {
-                return 'symbol-' + projectSymbols[matched[0]];
+            if (stream.eatSpace()) return null;
+            var match = stream.match(keywords);
+            if (match && match[0]) {
+                return 'symbol-' + projectSymbols[match[0]];
             } else {
                 stream.next();
                 return null;
@@ -142,12 +140,12 @@ function tagSymbolicEditorSymbols() {
 }
 
 function tagSymbols(text) {
-    for (symbol in projectSymbols) {
-        text = text.replace(new RegExp(symbol, 'g'), 
-            $('<a>').addClass('symbol').attr('href', '#!classify?sy=' + 
-                projectSymbols[symbol]).html(symbol)[0].outerHTML
-        );
-    }
+//    for (symbol in projectSymbols) {
+//        text = text.replace(new RegExp(symbol, 'g'), 
+//            $('<a>').addClass('symbol').attr('href', '#!classify?sy=' + 
+//                projectSymbols[symbol]).text(symbol)[0].outerHTML
+//        );
+//    }
     return text;
 }
 

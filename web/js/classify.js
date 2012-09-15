@@ -36,18 +36,18 @@ function updateClassifyFields() {
 function updateComments(response) {
     var $clComments = $('#clComments');
     $clComments.children().remove();
-    console.log($(response).find('comments').children().length);
     $(response).find('comments').children().each(function(i,e) {
         $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
             .append($('<div>').addClass('left')
                 .append($('<span>').addClass('overflowEllipsis')
-                    .html($(e).find('user > name').text()+':'))
-                .append($('<span>').html($(e).find('date').text()))
-            ).append($('<div>').addClass('right').html(
+                    .text($(e).find('user > name').text()+':'))
+                .append($('<span>').text($(e).find('date').text()))
+            ).append($('<div>').addClass('right').text(
                 tagSymbols($(e).find('content').text()))
             ).append($('<div>').css('clear', 'both'))
         .appendTo($clComments);
     });
+    $clComments.scrollTop(0);
 }
     
 $(document).ready(function() {

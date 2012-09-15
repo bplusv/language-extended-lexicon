@@ -34,18 +34,18 @@ function controller(request, params, asynchronous) {
                 $xmlSynonyms.each(function(i, e) {
                     if ($(e).attr('id') != $('#clSymbol').val())
                         synonyms.push($('<a>').attr('href','#!/classify?sy='+ 
-                        $(e).attr('id')).html($(e).children('name').text())[0].outerHTML);
+                        $(e).attr('id')).text($(e).children('name').text())[0].outerHTML);
                 });
                 $('#clSynonymsGroup').html(synonyms.join(', '));
                 if ($(response).find('symbol').attr('id') === $('#clSymbol').val()) {
                     $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
                 }
-                $('#clDocumentTitle').html($(response).find('document > name').text());
+                $('#clDocumentTitle').text($(response).find('document > name').text());
                 $('#clCategory').val($(response).find('category').text());
                 $('#clCategory').trigger('change');
                 $('#clClassification').val($(response).find('classification').text());
-                $('#clLogUserName').html($(response).find('log > user > name').text());
-                $('#clLogDate').html($(response).find('log > date').text());
+                $('#clLogUserName').text($(response).find('log > user > name').text());
+                $('#clLogDate').text($(response).find('log > date').text());
                 $('#clNotion').data('codeMirror').setValue($(response).find('notion').text());
                 $('#clActualIntention').data('codeMirror').setValue($(response).find('actualIntention').text());
                 $('#clFutureIntention').data('codeMirror').setValue($(response).find('futureIntention').text());
@@ -61,7 +61,7 @@ function controller(request, params, asynchronous) {
                 $xmlSynonyms.each(function(i, e) {
                     if ($(e).attr('id') != syId) {
                         $sel.append($('<option>').attr('value', 
-                        $(e).attr('id')).html($(e).children('name').text()));
+                        $(e).attr('id')).text($(e).children('name').text()));
                     }
                 });
             };
@@ -75,10 +75,10 @@ function controller(request, params, asynchronous) {
                     $('<tr>').wrapInner($('<td>').attr('colspan', '5')
                     .css('background', i % 2 == 0 ? '#fff' : '#f9f9f9').wrapInner(
                         $('<a>').addClass('exSymbolsRow').attr('href', '#!/classify?sy='+$(e).attr('id'))
-                        .append($('<span>').addClass('overflowEllipsis exSyName').html($(e).children('name').text()))
-                        .append($('<span>').addClass('overflowEllipsis').html($(e).find('category > name').text()))
-                        .append($('<span>').addClass('overflowEllipsis').html($(e).find('classification > name').text()))
-                        .append($('<span>').addClass('overflowEllipsis').html($(e).find('document > name').text()))
+                        .append($('<span>').addClass('overflowEllipsis exSyName').text($(e).children('name').text()))
+                        .append($('<span>').addClass('overflowEllipsis').text($(e).find('category > name').text()))
+                        .append($('<span>').addClass('overflowEllipsis').text($(e).find('classification > name').text()))
+                        .append($('<span>').addClass('overflowEllipsis').text($(e).find('document > name').text()))
                         .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))
                     )).appendTo($tbody);
                 });
@@ -136,7 +136,7 @@ function controller(request, params, asynchronous) {
                 if ($(response).find('success').text() == 'true') {
                     projectName = $(response).find('project').find('name').text();
                     $('#ixProjectTitle').show();
-                    $('#ixProjectName').html(projectName);
+                    $('#ixProjectName').text(projectName);
                     redirect = '#!/explore';
                 }
             };
@@ -149,8 +149,8 @@ function controller(request, params, asynchronous) {
                     $('#clSymbol').val($(response).find('symbol').attr('id'));
                     $('#clForm').attr('action', '/post/updateSymbol');
                     $('#clDefinitionTopRight').css('visibility', 'visible');
-                    $('#clLogUserName').html($(response).find('log > user > name').text());
-                    $('#clLogDate').html($(response).find('log > date').text());
+                    $('#clLogUserName').text($(response).find('log > user > name').text());
+                    $('#clLogDate').text($(response).find('log > date').text());
                     $('#clNewComment').data('codeMirror').setValue('');
                     updateSymbolicEditors();
                     updateComments(response);
@@ -162,8 +162,8 @@ function controller(request, params, asynchronous) {
                 if ($(response).find('success').text() === 'true') {
                     $('#clLeaveGroup').css('display', 'none');
                     $('#clSynonymsGroup').html('');
-                    $('#clLogUserName').html($(response).find('log > user > name').text());
-                    $('#clLogDate').html($(response).find('log > date').text());
+                    $('#clLogUserName').text($(response).find('log > user > name').text());
+                    $('#clLogDate').text($(response).find('log > date').text());
                     $('#clNotion').data('codeMirror').setValue('');
                     $('#clActualIntention').data('codeMirror').setValue('');
                     $('#clFutureIntention').data('codeMirror').setValue('');
@@ -184,7 +184,7 @@ function controller(request, params, asynchronous) {
                 if ($(response).find('success').text() === 'true') {
                     projectName = $(response).find('project').find('name').text();
                     $('#ixProjectTitle').show();
-                    $('#ixProjectName').html(projectName);
+                    $('#ixProjectName').text(projectName);
                     redirect = '#!/explore';
                 }
             };
@@ -219,8 +219,8 @@ function controller(request, params, asynchronous) {
                     $('#clSynonymsSelect').val(-1);
                     synonyms = $(response).find('synonymsGroup').children();
                     $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
-                    $('#clLogUserName').html($(response).find('log > user > name').text());
-                    $('#clLogDate').html($(response).find('log > date').text());
+                    $('#clLogUserName').text($(response).find('log > user > name').text());
+                    $('#clLogDate').text($(response).find('log > date').text());
                     $('#clNewComment').data('codeMirror').setValue('');
                     updateComments(response);
                 }
@@ -251,9 +251,9 @@ function controller(request, params, asynchronous) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 isRequesting = false;
-                response = $('<response>').html(
-                    $('<message>').html(
-                    $('#messages .ixNetworkFail').html())
+                response = $('<response>').append(
+                    $('<message>').text(
+                    $('#messages .ixNetworkFail').text())
                 );
             },
             complete: function() {

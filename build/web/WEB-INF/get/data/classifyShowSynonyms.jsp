@@ -8,7 +8,7 @@
     <synonyms>
         <c:forEach items="${synonyms}" var="synonym">
             <synonym id="${synonym.id}">
-                <name>${synonym.name}</name>
+                <name><![CDATA[${synonym.name}]]></name>
             </synonym>
         </c:forEach>
     </synonyms>

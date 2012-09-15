@@ -8,7 +8,7 @@
     <symbols>
         <c:forEach var="symbol" items="${projectFacade.getSymbolCollection(project.id)}">
             <symbol id="${symbol.id}">
-                <name>${symbol.name}</name>
+                <name><![CDATA[${symbol.name}]]></name>
             </symbol>
         </c:forEach>
     </symbols>

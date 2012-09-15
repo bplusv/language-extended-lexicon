@@ -8,7 +8,7 @@
     <symbols>
         <c:forEach var="symbol" items="${symbolFacade.findByFilters(project.id, param.ca, param.cl, param.sy)}" varStatus="iter">
             <symbol id="${symbol.id}">
-                <name>${symbol.name}</name>
+                <name><![CDATA[${symbol.name}]]></name>
                 <category>
                     <name><fmt:message key="${symbol.definition.category.name}" /></name>
                 </category>
@@ -16,7 +16,7 @@
                     <name><fmt:message key="${empty symbol.definition.classification.name ? 'n/a' : symbol.definition.classification.name}" /></name>
                 </classification>
                 <document>
-                    <name>${symbol.document.name}</name>
+                    <name><![CDATA[${symbol.document.name}]]></name>
                 </document>
             </symbol>
         </c:forEach>
