@@ -11,8 +11,8 @@
     </c:if>
     <c:if test="${success}">
         <project id="{project.id}">
-            <name>${project.name}</name>
-            <description>${project.description}</description>
+            <name><![CDATA[${project.name}]]></name>
+            <description><![CDATA[${project.description}]]></description>
         </project>
     </c:if>
 </root>

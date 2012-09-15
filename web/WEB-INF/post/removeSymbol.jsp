@@ -6,5 +6,7 @@
 
 <root>
     <success>${success}</success>
-    <message><fmt:message key="remove symbol ${success ? 'success' : 'fail'}" /></message>
+    <c:if test="${not success}">
+        <message><fmt:message key="remove symbol fail" /></message>
+    </c:if>
 </root>

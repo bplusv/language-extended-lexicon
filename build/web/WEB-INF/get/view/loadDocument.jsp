@@ -8,7 +8,7 @@
                 <h3 class="ldTitle"><fmt:message key="load document" /></h3>
                     <select id="ldDocument" name="document" size="18" autofocus>
                         <c:forEach var="document" items="${projectFacade.getDocumentCollection(project.id)}" varStatus="iter">
-                            <option value="${document.id}" ${!empty sessionScope.document.id and sessionScope.document.id == document.id ? 'selected="selected"' : empty sessionScope.document.id and iter.first ? 'selected="selected"' : ''}>${document.name}</option>
+                            <option value="${document.id}" ${!empty sessionScope.document.id and sessionScope.document.id == document.id ? 'selected="selected"' : empty sessionScope.document.id and iter.first ? 'selected="selected"' : ''}><c:out value="${document.name}" /></option>
                         </c:forEach>
                     </select>
                 <input id="ldLoadDocument" type="submit" class="button" value="<fmt:message key="load" />" />

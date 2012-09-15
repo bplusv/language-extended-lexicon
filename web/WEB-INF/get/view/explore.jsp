@@ -44,10 +44,10 @@
                             <tr>
                                 <td colspan="5" style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
                                     <a class="exSymbolsRow" href="#!/classify?sy=${symbol.id}">
-                                        <span class="overflowEllipsis exSyName">${symbol.name}</span>
+                                        <span class="overflowEllipsis exSyName"><c:out value="${symbol.name}" /></span>
                                         <span class="overflowEllipsis"><fmt:message key="${symbol.definition.category.name}" /></span>
                                         <span class="overflowEllipsis"><fmt:message key="${empty symbol.definition.classification.name ? 'n/a' : symbol.definition.classification.name}" /></span>
-                                        <span class="overflowEllipsis">${symbol.document.name}</span>
+                                        <span class="overflowEllipsis"><c:out value="${symbol.document.name}" /></span>
                                         <span id="exSy${symbol.id}" class="removeSymbol">&#215;</span>
                                     </a>
                                 </td>

@@ -7,6 +7,9 @@
     </context-param>
     <session-config>
         <session-timeout>0</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+        </cookie-config>
     </session-config>
     <jsp-config>
         <jsp-property-group>

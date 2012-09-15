@@ -9,7 +9,7 @@
     <input id="clName" type="hidden" name="name" value="${symbol.name}" />
     <input id="clDocument" type="hidden" name="document" value="${symbol.document.id}" />
     <input id="clDocumentName" type="hidden" name="documentName" value="${symbol.document.name}" />
-    <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;">${symbol.name}</span></h2>
+    <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;"><c:out value="${symbol.name}" /></span></h2>
     <div id="clSynonymsField">
         <c:set var="symbolSynonyms" value="${symbolFacade.getSynonyms(symbol.id)}" />
         <a id="clLeaveGroup" style="display: ${empty symbolSynonyms ? 'none' : 'inline'}"><fmt:message key="leave group" />&nbsp;(-)</a>
@@ -21,7 +21,7 @@
             &nbsp;(
             <span id="clSynonymsGroup">
                 <c:forEach var="synonym" items="${symbolFacade.getSynonyms(symbol.id)}" varStatus="iter">
-                    <a href="#!/classify?sy=${synonym.id}">${synonym.name}</a><c:if test="${!iter.last}">,&nbsp;</c:if>
+                    <a href="#!/classify?sy=${synonym.id}"><c:out value="${synonym.name}" /></a><c:if test="${!iter.last}">,&nbsp;</c:if>
                 </c:forEach>
             </span>
             )
@@ -33,7 +33,7 @@
             <div id="clDefinitionTopLeft">
                 <div>
                     <div><label><fmt:message key="document" />:</label></div>
-                    <div><h3 id="clDocumentTitle" class="clInfo overflowEllipsis">${symbol.document.name}</h3></div>
+                    <div><h3 id="clDocumentTitle" class="clInfo overflowEllipsis"><c:out value="${symbol.document.name}" /></h3></div>
                 </div>
                 <div>
                     <div><label id="clCategoryLabel" for="clCategory"><fmt:message key="category" />:</label></div>
@@ -60,7 +60,7 @@
         <div>
             <div id="clDefinitionTopRight" style="visibility:${!empty log ? 'visible' : 'hidden'};">
                 <label><fmt:message key="last edited" />:</label>
-                <h3 id="clLogUserName" class="clInfo overflowEllipsis">${log.user.name}</h3>
+                <h3 id="clLogUserName" class="clInfo overflowEllipsis"><c:out value="${log.user.name}" /></h3>
                 <h3 id="clLogDate" class="clInfo"><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></h3>
             </div>
         </div>
@@ -68,16 +68,16 @@
     <div id="clDefinitionBottom">
         <div class="clDefinitionField">
             <label id="clNotionLabel" for="clNotion" class="tab"><fmt:message key="notion" /></label>
-            <textarea id="clNotion" class="symbolicEditor" name="notion" maxlength="32767">${symbol.definition.notion}</textarea>
+            <textarea id="clNotion" class="symbolicEditor" name="notion" maxlength="32767"><c:out value="${symbol.definition.notion}" /></textarea>
         </div>
         <div id="clIntentionFields">
             <div class="clDefinitionField Left">
                 <label id="clActualIntentionLabel" for="clActualIntention" class="tab"><fmt:message key="actual intention" /></label>
-                <textarea id="clActualIntention" class="symbolicEditor" name="actualIntention" maxlength="32767">${symbol.definition.actualIntention}</textarea>
+                <textarea id="clActualIntention" class="symbolicEditor" name="actualIntention" maxlength="32767"><c:out value="${symbol.definition.actualIntention}" /></textarea>
             </div>
             <div class="clDefinitionField Right">
                 <label id="clFutureIntentionLabel" for="clFutureIntention" class="tab"><fmt:message key="future intention" /></label>
-                <textarea id="clFutureIntention" class="symbolicEditor" name="futureIntention" maxlength="32767">${symbol.definition.futureIntention}</textarea>
+                <textarea id="clFutureIntention" class="symbolicEditor" name="futureIntention" maxlength="32767"><c:out value="${symbol.definition.futureIntention}" /></textarea>
             </div>
             <div style="clear:both;"></div>
         </div>
@@ -86,7 +86,7 @@
             <div id="clCommentsField">
                 <div id="clNewCommentField">
                     <div class="left">
-                        <span class="overflowEllipsis">${user.name}:</span>
+                        <span class="overflowEllipsis"><c:out value="${user.name}" />:</span>
                     </div>
                     <div class="right">
                         <textarea id="clNewComment" class="symbolicEditor" name="newComment" maxlength="32767"></textarea>
@@ -98,10 +98,10 @@
                     <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}" varStatus="iter">
                         <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
                             <div class="left">
-                                <span class="overflowEllipsis">${comment.user.name}:</span>
+                                <span class="overflowEllipsis"><c:out value="${comment.user.name}" />:</span>
                                 <span><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /><span>
                             </div>
-                            <div class="right">${projectFacade.tagSymbols(comment.content, projectSymbols)}</div>
+                            <div class="right"><c:out value="${projectFacade.tagSymbols(comment.content, projectSymbols)}" /></div>
                             <div style="clear:both;"></div>
                         </li>
                     </c:forEach>

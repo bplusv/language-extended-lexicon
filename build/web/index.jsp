@@ -33,7 +33,6 @@
         <script src="js/lib/CodeMirror-2.33/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
-        
         <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/index.js" type="text/javascript" charset="UTF-8"></script>
@@ -48,7 +47,7 @@
             <img id="ixHeaderLogo" src="img/headerLogo.png" />
             <div id="ixUserMenu">
                 <div class="downArrow"></div>
-                <span class="user overflowEllipsis">${user.name}</span>
+                <span class="user overflowEllipsis"><c:out value="${user.name}" /></span>
                 <div style="clear:both"></div>
                 <ul class="popUp">
                     <li><a href="#!/loadProject"><fmt:message key="load project" /></a></li>
@@ -59,7 +58,6 @@
                             <%-- When user hasn't explicitly set language,
                                     render toggle according to browser's preferred locale --%>
                             <c:set var="lang" value="${empty sessionScope['javax.servlet.jsp.jstl.fmt.locale.session'] ? pageContext.request.locale.language : sessionScope['javax.servlet.jsp.jstl.fmt.locale.session']}" />
-                            
                             <%-- language selection widget --%>
                             <c:choose>
                                 <c:when test="${lang eq 'en'}">
@@ -87,7 +85,7 @@
                 </ul>
             </div>
             <div id="ixProjectTitle" style="display: ${empty project ? 'none' : 'block'}}">
-                <h3 class="overflowEllipsis"><fmt:message key="project" /> - <span id="ixProjectName">${project.name}</span></h3>
+                <h3 class="overflowEllipsis"><fmt:message key="project" /> - <span id="ixProjectName"><c:out value="${project.name}" /></span></h3>
             </div>
         </header>
         <nav class="tabs">
@@ -100,9 +98,9 @@
         </footer>
         <div id="messages">
             <span class="ixCancel"><fmt:message key="cancel" /></span>
-            <span class="ixDelete"><fmt:message key="delete" /></span>
-            <span class="ixDeleteConfirmation"><fmt:message key="delete confirmation" /></span>
-            <span class="ixDeleteConfirmationTitle"><fmt:message key="delete confirmation title" /></span>
+            <span class="ixRemove"><fmt:message key="remove" /></span>
+            <span class="ixRemoveSymbolConfirmation"><fmt:message key="remove symbol confirmation" /></span>
+            <span class="ixRemoveSymbolConfirmationTitle"><fmt:message key="remove symbol confirmation title" /></span>
             <span class="ixNetworkFail"><fmt:message key="network fail" /></span>
         </div>
     </body>
