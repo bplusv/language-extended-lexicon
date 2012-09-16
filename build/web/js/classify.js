@@ -42,35 +42,35 @@ function updateComments(response) {
                 .append($('<span>').addClass('overflowEllipsis')
                     .text($(e).find('user > name').text()+':'))
                 .append($('<span>').text($(e).find('date').text()))
-            ).append($('<div>').addClass('right').text(
-                tagSymbols($(e).find('content').text()))
+            ).append($('<div>').addClass('right').html(
+                lel.tagSymbols($(e).find('content').text()))
             ).append($('<div>').css('clear', 'both'))
         .appendTo($clComments);
     });
     $clComments.scrollTop(0);
 }
     
-$(document).ready(function() {
-    $(document).on('change', '#clCategory', function() {
+$(function() {
+    $(window).on('change', '#clCategory', function() {
        updateClassifyFields(); 
     });
     
-    $(document).on('change', '#clSynonymsSelect', function() {
-        controller('/get/data/classifySelectSynonym',
+    $(window).on('change', '#clSynonymsSelect', function() {
+        lel.controller('/get/data/classifySelectSynonym',
             'symbol=' + $(this).val()); 
     });
     
-    $(document).on('click', '#clChangeGroup', function() {
+    $(window).on('click', '#clChangeGroup', function() {
         $(window).scrollTop($('#clTitle').offset().top);
         $('#clSynonymsSelect').css('display', 'block');
         $('#clLeaveGroup').css('display', 'none');
         $('#clChangeGroup').css('display', 'none');
         $('#clCancelGroup').css('display', 'inline');
         $('#clSaveGroup').css('display', 'inline');
-        controller('/get/data/classifyShowSynonyms');
+        lel.controller('/get/data/classifyShowSynonyms');
     });
     
-    $(document).on('click', '#clCancelGroup', function() {
+    $(window).on('click', '#clCancelGroup', function() {
         $(window).scrollTop(0);
         $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
@@ -78,7 +78,7 @@ $(document).ready(function() {
         $('#clCancelGroup').css('display', 'none');
         $('#clSaveGroup').css('display', 'none');
         if ($('#clSymbol').val()) {
-            controller('/get/data/classifySelectSynonym',
+            lel.controller('/get/data/classifySelectSynonym',
                 'symbol=' + $('#clSymbol').val());
         } else {
             $('#clCategory').val(-1);
@@ -92,14 +92,14 @@ $(document).ready(function() {
         }
     });
     
-    $(document).on('click', '#clSaveGroup', function() {
+    $(window).on('click', '#clSaveGroup', function() {
         $('#clSynonymsSelect').css('display', 'none');
         $('#clChangeGroup').css('display', 'inline');
         $('#clCancelGroup').css('display', 'none');
         $('#clSaveGroup').css('display', 'none');
     });
     
-    $(document).on('submit', '#clForm', function() {
+    $(window).on('submit', '#clForm', function() {
         $('#clSynonymsSelect').css('display', 'none');
         $('#clLeaveGroup').css('display', 'inline');
         $('#clChangeGroup').css('display', 'inline');
@@ -107,8 +107,8 @@ $(document).ready(function() {
         $('#clSaveGroup').css('display', 'none'); 
     });
     
-    $(document).on('click', '#clLeaveGroup', function() {
-        controller('/post/leaveSynonymsGroup',
+    $(window).on('click', '#clLeaveGroup', function() {
+        lel.controller('/post/leaveSynonymsGroup',
             'symbol=' + $('#clSymbol').val() + 
             '&category=' + $('#clCategory').val() +
             '&classification=' + $('#clClassification').val());

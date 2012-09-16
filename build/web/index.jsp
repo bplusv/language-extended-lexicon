@@ -18,7 +18,6 @@
         <meta http-equiv="expires" content="-1" />
         <link rel="stylesheet" href="js/lib/CodeMirror-2.33/lib/codemirror.css">
         <link rel="stylesheet" type="text/css" href="js/lib/jquery.confirm/jquery.confirm.css" media="all" charset="UTF-8" />
-        
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/index.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/classify.css" media="all" charset="UTF-8" />
@@ -33,7 +32,7 @@
         <script src="js/lib/CodeMirror-2.33/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/lel.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/index.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>

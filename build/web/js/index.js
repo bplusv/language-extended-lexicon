@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-$(document).ready(function() {
+$(function() {
    $('#ixChooseLanguageEs').on('click', function(){
       controller('/post/chooseLanguage', 'language=es'); 
    });
