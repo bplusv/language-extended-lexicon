@@ -22,17 +22,17 @@
  * THE SOFTWARE.
  */
 
-$(document).ready(function() {
-    $(document).on('keyup', '#exSearch', function() {
+$(function() {
+    $(window).on('keyup', '#exSearch', function() {
         $('#exForm').submit();
     });
     
-    $(document).on('click', '#exSearchClear', function() {
+    $(window).on('click', '#exSearchClear', function() {
         $('#exSearch').val('');
         $('#exForm').submit();
     });
     
-    $(document).on('click', '.exSymbolsRow span.removeSymbol', function(e) {
+    $(window).on('click', '.exSymbolsRow span.removeSymbol', function(e) {
         e.preventDefault();
         var id = /exSy(.*)/.exec($(this).attr('id'))[1];
         var $symbolName = $(this).siblings('.exSyName').clone();
@@ -48,7 +48,7 @@ $(document).ready(function() {
                     'msg'   : deleteMsg,
                     'class'	: 'red',
                     'action': function(){
-                        controller('/post/removeSymbol', 'symbol=' + id);
+                        lel.controller('/post/removeSymbol', 'symbol=' + id);
                     }
                 },
                 'cancel'    : {

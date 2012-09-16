@@ -6,9 +6,9 @@
 
 <form id="clForm" action="${submitAction}" method="POST">
     <input id="clSymbol" type="hidden" name="symbol" value="${symbol.id}" />
-    <input id="clName" type="hidden" name="name" value="${symbol.name}" />
+    <input id="clName" type="hidden" name="name" value="<c:out value="${symbol.name}" />" />
     <input id="clDocument" type="hidden" name="document" value="${symbol.document.id}" />
-    <input id="clDocumentName" type="hidden" name="documentName" value="${symbol.document.name}" />
+    <input id="clDocumentName" type="hidden" name="documentName" value="<c:out value="${symbol.document.name}" />" />
     <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;"><c:out value="${symbol.name}" /></span></h2>
     <div id="clSynonymsField">
         <c:set var="symbolSynonyms" value="${symbolFacade.getSynonyms(symbol.id)}" />
@@ -101,7 +101,7 @@
                                 <span class="overflowEllipsis"><c:out value="${comment.user.name}" />:</span>
                                 <span><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /><span>
                             </div>
-                            <div class="right"><c:out value="${projectFacade.tagSymbols(comment.content, projectSymbols)}" /></div>
+                            <div class="right">${projectFacade.tagSymbols(comment.content, projectSymbols)}</div>
                             <div style="clear:both;"></div>
                         </li>
                     </c:forEach>

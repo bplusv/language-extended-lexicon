@@ -22,28 +22,26 @@
  * THE SOFTWARE.
  */
 
-var infoBubble;
-
-$(document).ready(function(){  
+$(function(){  
     
-    $(document).on('mouseup', '.CodeMirror', function(e) {
+    $(window).on('mouseup', '.CodeMirror', function(e) {
         var cm = $('#dcDocumentContent').data('codeMirror')
         if (cm != undefined) {
-            selectedText = new String(cm.getSelection()).replace(/^\s+|\s+$/g,'').substr(0,255);
-            popBubble(selectedText, e.pageX, e.pageY);
+            var selectedText = new String(cm.getSelection()).replace(/^\s+|\s+$/g,'').substr(0,255);
+            lel.popBubble(selectedText, e.pageX, e.pageY);
         }
     });
     
-    $(document).on('mouseup', '#infoBubble', function(e) {
+    $(window).on('mouseup', '#infoBubble', function(e) {
         e.stopPropagation();
     });
     
-    $(document).on('mousedown', '#infoBubble', function(e) {
+    $(window).on('mousedown', '#infoBubble', function(e) {
         e.stopPropagation();
     });
     
-    $(document).on('mousedown', function (e) {
-        pushBubble();
+    $(window).on('mousedown', function (e) {
+        lel.pushBubble();
     });
     
 });

@@ -33,6 +33,8 @@ import model.Document;
 import model.Project;
 import model.Symbol;
 import model.User;
+import org.apache.commons.lang3.StringEscapeUtils;
+
 
 /**
  *
@@ -89,10 +91,10 @@ public class ProjectFacade extends AbstractFacade<Project> {
     public Collection<Document> getDocumentCollection(String projectId) {
         try {
             return em.createQuery("SELECT do FROM Document do "
-				+ "WHERE do.project = :project "
-				+ "ORDER BY LOWER(do.name) ASC;").
-				setParameter("project", projectFacade.find(projectId)).
-				getResultList();
+                                + "WHERE do.project = :project "
+                                + "ORDER BY LOWER(do.name) ASC;").
+                                setParameter("project", projectFacade.find(projectId)).
+                                getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
@@ -113,12 +115,16 @@ public class ProjectFacade extends AbstractFacade<Project> {
         }
     }
 	
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String tagSymbols(String content, Collection<Symbol> projectSymbols) {
         try {
+            content = StringEscapeUtils.escapeHtml4(content);
+            String symbolName;
             for (Symbol symbol : projectSymbols) {
-				content = content.replaceAll(symbol.getName(), 
-						"<a class=\"symbol\">" + symbol.getName() + "</a>");
+                symbolName = StringEscapeUtils.escapeHtml4(symbol.getName());
+                content = content.replace(symbolName, 
+                    "<a class=\"symbol\" href=\"#!classify?sy="
+                    + symbol.getId() + "\">" + symbolName + "</a>");
             }
             return content;
         } catch (Exception e) {

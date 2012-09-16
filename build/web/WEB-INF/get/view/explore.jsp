@@ -25,7 +25,7 @@
                         </select>
                     </div>
                     <div class="exField">
-                        <input id="exSearch" type="text" name="sy" maxlength="255" value="${param.sy}" />
+                        <input id="exSearch" type="text" name="sy" maxlength="255" value="<c:out value="${param.sy}" />" />
                         <span id="exSearchClear">&#215;</span>
                     </div>
                 </div>
