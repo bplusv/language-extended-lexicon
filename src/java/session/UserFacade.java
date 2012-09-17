@@ -69,9 +69,14 @@ public class UserFacade extends AbstractFacade<User> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED) 
     private String makeHash(String input) {
         try {
-            MessageDigest m = MessageDigest.getInstance("MD5");
-            m.update(input.getBytes(), 0, input.length());
-            return new BigInteger(1, m.digest()).toString(16);
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(input.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString(
+                (array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
@@ -82,8 +87,12 @@ public class UserFacade extends AbstractFacade<User> {
     public User signIn(String username, String password) {
         try {       
             User user = findByName(username);
-            if (user.getPassword().equals(makeHash(password))) return user;
-            else return null;
+            if (user.getPassword().equals(makeHash(password))) {
+                return user;
+            }
+            else {
+                return null;
+            }
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

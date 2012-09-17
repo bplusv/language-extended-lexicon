@@ -23,13 +23,13 @@
  */
 
 $(function() {
-   $('#ixChooseLanguageEs').on('click', function(){
-      controller('/post/chooseLanguage', 'language=es'); 
-   });
-   $('#ixChooseLanguageEn').on('click', function() {
-      controller('/post/chooseLanguage', 'language=en'); 
-   });
-   $('#ixSignOut').on('click', function() {
-       controller('/post/signOut');
-   });
+    $('#ixChooseLanguageEs').on('click', function(){
+        lel.controller('/post/chooseLanguage', 'language=es'); 
+    });
+    $('#ixChooseLanguageEn').on('click', function() {
+        lel.controller('/post/chooseLanguage', 'language=en'); 
+    });
+    $('#ixSignOut').on('click', function() {
+        lel.controller('/post/signOut');
+    });
 });
