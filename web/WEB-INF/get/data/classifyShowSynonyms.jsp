@@ -6,7 +6,7 @@
 
 <root>
     <synonyms>
-        <c:forEach items="${synonyms}" var="synonym">
+        <c:forEach items="${projectFacade.getSymbolCollection(project.id)}" var="synonym">
             <synonym id="${synonym.id}">
                 <name><![CDATA[${synonym.name}]]></name>
             </synonym>

@@ -10,30 +10,18 @@
 </style>
 
 <script type="text/javascript">
-    var myCode;
-    $(document).ready(function() {
-        myCode = CodeMirror.fromTextArea($('#doc')[0], { 'onChange': function() {
-            $('.inheritable').remove();
-            line = 0;
-            ch = 0;
-            for (line = 0; line < myCode.lineCount(); line++) {
+    (function() {
+        'use strict';
+        /*var myCode;
+        $(function() {
+            myCode = CodeMirror.fromTextArea($('#doc')[0], {});
 
-                ch = myCode.getLine(line).indexOf('Hello');
-
-                while (ch > -1) {
-                    
-                    widget = $('<a class="inheritable" href="http://www.google.com">Hello</a>')[0];
-                    pos = {'ch': ch, 'line': line};
-                    myCode.addWidget(pos, widget);
-
-                    ch = myCode.getLine(line).indexOf('Hello', ch + 1);
-                }
-            }
-        } });
-        
-    });
+        });*/
+        var div = $('#testDiv').get(0);
+        var myCodeMirror = CodeMirror(div);
+    })();
 </script>
-
+<div id="testDiv"></div>
 <textarea id="doc">
 The First People is a document(6955 kHz) by Seamus Wiles that was published in 1897. The book describes a race of humans that evolved before the dinosaurs. Only one edition of the book is believed to have been printed.
 Edward Markham gives Peter Bishop a rare copy of the book so the science team can start solving the puzzling broadcast of numbers over high frequency radio channels.

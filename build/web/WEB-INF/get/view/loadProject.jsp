@@ -14,7 +14,7 @@
                 <input id="lpLoadProject" type="submit" class="button" value="<fmt:message key="load" />" />
             </form>
             <div class="spacer"></div>
-            <form id="lpNewForm" action="/post/createProject" method="POST">
+            <form id="lpCreateForm" action="/post/createProject" method="POST">
                 <h3 class="lpTitle"><fmt:message key="new project" /></h3>
                 <div class="lpField">
                     <label id="lpNameLabel" for="lpName"><fmt:message key="name" />:&nbsp;</label>

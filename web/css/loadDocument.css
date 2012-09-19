@@ -44,7 +44,7 @@
     background: #f9f9f9;
 }
 
-#ldForm {
+#ldLoadForm {
     border-right: 1px solid #ccc;
     float: left;
     height: 450px;
@@ -67,7 +67,7 @@
 
 }
 
-#ldNewForm {
+#ldCreateForm {
     float: right;
     height: 450px;
     position: relative;

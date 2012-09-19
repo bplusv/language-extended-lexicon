@@ -17,7 +17,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`user` (
   `password` VARCHAR(255) NOT NULL ,
   `admin` BIT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `uniq_name` (`name` ASC) )
+  UNIQUE INDEX `uniq_user_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -31,7 +31,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`project` (
   `name` VARCHAR(255) NOT NULL ,
   `description` VARCHAR(255) NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `uniq_name` (`name` ASC) )
+  UNIQUE INDEX `uniq_project_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -46,8 +46,8 @@ CREATE  TABLE IF NOT EXISTS `lel`.`document` (
   `content` MEDIUMTEXT NULL ,
   `project` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `uniq_name` (`name` ASC) ,
   INDEX `idx_document_project` (`project` ASC) ,
+  UNIQUE INDEX `uniq_document_in_project` (`project` ASC, `name` ASC) ,
   CONSTRAINT `fk_document_project`
     FOREIGN KEY (`project` )
     REFERENCES `lel`.`project` (`id` )
@@ -65,7 +65,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`category` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `uniq_name` (`name` ASC) )
+  UNIQUE INDEX `uniq_category_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`classification` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `uniq_name` (`name` ASC) )
+  UNIQUE INDEX `uniq_classification_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -123,11 +123,11 @@ CREATE  TABLE IF NOT EXISTS `lel`.`symbol` (
   `definition` INT UNSIGNED NOT NULL ,
   `project` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `idx_concept_document` (`document` ASC) ,
-  INDEX `idx_concept_definition` (`definition` ASC) ,
-  UNIQUE INDEX `uniq_concept_in_document` (`document` ASC, `name` ASC) ,
-  INDEX `idx_concept_project` (`project` ASC) ,
-  UNIQUE INDEX `uniq_concept_in_project` (`project` ASC, `name` ASC) ,
+  INDEX `idx_symbol_document` (`document` ASC) ,
+  INDEX `idx_symbol_definition` (`definition` ASC) ,
+  UNIQUE INDEX `uniq_symbol_in_document` (`document` ASC, `name` ASC) ,
+  INDEX `idx_symbol_project` (`project` ASC) ,
+  UNIQUE INDEX `uniq_symbol_in_project` (`project` ASC, `name` ASC) ,
   CONSTRAINT `fk_concept_document`
     FOREIGN KEY (`document` )
     REFERENCES `lel`.`document` (`id` )
@@ -155,7 +155,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`event` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `uniq_name` (`name` ASC) )
+  UNIQUE INDEX `uniq_event_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 

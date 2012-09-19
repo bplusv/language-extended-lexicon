@@ -103,9 +103,6 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("symbol",
                     symbolFacade.find(request.getParameter("symbol")));
         } else if (userPath.equals("/get/data/classifyShowSynonyms")) {
-            request.setAttribute("synonyms",
-                    projectFacade.getSymbolCollection(
-                    ((Project) session.getAttribute("project")).getId().toString()));
         } else if (userPath.equals("/get/data/exploreSymbols")) {
         } else if (userPath.equals("/get/data/projectSymbols")) {
         } else if (userPath.equals("/get/view/classify")) {
@@ -116,7 +113,9 @@ public class ControllerServlet extends HttpServlet {
                     request.getParameter("na"));
             if (symbol != null) {
                 request.setAttribute("log",
-                        symbolFacade.getLastLog(symbol.getId().toString()));
+                    symbolFacade.getLastLog(symbol.getId().toString()));
+                    projectFacade.initTagSymbols(
+                    ((Project) session.getAttribute("project")).getId().toString());
                 request.setAttribute("submitAction", "/post/updateSymbol");
             } else {
                 symbol = symbolFacade.createPossibleSymbol(
@@ -248,7 +247,6 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/post/loadProject")) {
             Project project = projectFacade.find(
                     request.getParameter("project"));
-
             if (project != null) {
                 session.setAttribute("project", project);
                 session.setAttribute("document", null);

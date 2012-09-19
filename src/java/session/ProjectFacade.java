@@ -21,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,7 +36,9 @@ import model.Project;
 import model.Symbol;
 import model.User;
 import org.apache.commons.lang3.StringEscapeUtils;
-
+import org.apache.commons.lang3.StringUtils;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -43,6 +47,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ProjectFacade extends AbstractFacade<Project> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -50,28 +55,33 @@ public class ProjectFacade extends AbstractFacade<Project> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public ProjectFacade() {
         super(Project.class);
     }
+
+    private Map<String, Integer> symbolsMap;
+    private Pattern symbolsPattern;
     
-	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Project> findAll() {
         try {
             return em.createQuery("SELECT pr FROM Project pr "
-				+ "ORDER BY LOWER(pr.name) ASC;").
-				getResultList();
+                    + "ORDER BY LOWER(pr.name) ASC;").
+                    getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
     }
-		
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Project createProject(String userId, String name) {
         try {
-            if (name.isEmpty()) return null;
+            if (name.isEmpty()) {
+                return null;
+            }
             name = name.trim();
             Project project = new Project();
             Collection<User> users = new ArrayList<User>();
@@ -86,47 +96,75 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-        
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Document> getDocumentCollection(String projectId) {
         try {
             return em.createQuery("SELECT do FROM Document do "
-                                + "WHERE do.project = :project "
-                                + "ORDER BY LOWER(do.name) ASC;").
-                                setParameter("project", projectFacade.find(projectId)).
-                                getResultList();
+                    + "WHERE do.project = :project "
+                    + "ORDER BY LOWER(do.name) ASC;").
+                    setParameter("project", projectFacade.find(projectId)).
+                    getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
     }
-	
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Symbol> getSymbolCollection(String projectId) {
         try {
             return em.createQuery("SELECT sy FROM Symbol sy "
-				+ "WHERE sy.project = :project AND sy.active = TRUE "
-				+ "ORDER BY LOWER(sy.name) ASC;").
-				setParameter("project", projectFacade.find(projectId)).
-				getResultList();
+                    + "WHERE sy.project = :project AND sy.active = TRUE "
+                    + "ORDER BY LOWER(sy.name) ASC;").
+                    setParameter("project", find(projectId)).
+                    getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
     }
-	
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String tagSymbols(String content, Collection<Symbol> projectSymbols) {
+    public void initTagSymbols(String projectId) {
         try {
-            content = StringEscapeUtils.escapeHtml4(content);
-            String symbolName;
+            Collection<Symbol> projectSymbols = getSymbolCollection(projectId);
+            symbolsMap = new HashMap<String, Integer>();
+            ArrayList<String> symbolNames = new ArrayList<String>();
             for (Symbol symbol : projectSymbols) {
-                symbolName = StringEscapeUtils.escapeHtml4(symbol.getName());
-                content = content.replace(symbolName, 
-                    "<a class=\"symbol\" href=\"#!classify?sy="
-                    + symbol.getId() + "\">" + symbolName + "</a>");
+                symbolsMap.put(symbol.getName(), symbol.getId());
+                symbolNames.add(Pattern.quote(symbol.getName()));
             }
-            return content;
+            Collections.sort(symbolNames);
+            Collections.reverse(symbolNames);
+            String words = StringUtils.join(symbolNames, ")|(");
+            symbolsPattern = Pattern.compile("^((" + words + "))");
+        } catch (Exception e) {
+            context.setRollbackOnly();
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String tagSymbols(String content) {
+        try {            
+            String result = "";
+            Boolean matched;
+            Matcher symbolMatcher;
+            while (!content.isEmpty()) {
+                symbolMatcher = symbolsPattern.matcher(content);
+                matched = symbolMatcher.find();
+                if (matched) {
+                    result += "<a class=\"symbol\" href=\"" + 
+                        "#!/classify?sy=" + symbolsMap.get(symbolMatcher.group(0)) + "\">" + 
+                        StringEscapeUtils.escapeHtml4(symbolMatcher.group(0)) + "</a>";
+                    content = content.substring(symbolMatcher.group(0).length());
+                } else {
+                    result += StringEscapeUtils.escapeHtml4(
+                            Character.toString(content.charAt(0)));
+                    content = content.substring(1);
+                }
+            }
+            return result;
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

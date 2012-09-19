@@ -137,6 +137,20 @@ textarea {
     text-decoration: none;
 }
 
+.CodeMirror {
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 5px;
+}
+
+.CodeMirror-lines {
+    color: #333;
+    font: 13.5px/20px 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.CodeMirror-focused div.CodeMirror-selected { 
+    background: #ffe0c6; 
+}
+
 .editorSymbol {
     font-family: inherit;
     font-size: inherit;

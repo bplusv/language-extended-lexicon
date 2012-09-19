@@ -20,8 +20,8 @@
          <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
          <script src="js/lib/CodeMirror-2.33/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/lel.js" type="text/javascript" charset="UTF-8" ></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8" ></script>
+        <script src="js/signIn.js" type="text/javascript" charset="UTF-8" ></script>
     </head>
     <body>
         <h3 id="notification"></h3>
