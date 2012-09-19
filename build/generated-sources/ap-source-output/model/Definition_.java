@@ -9,7 +9,7 @@ import model.Classification;
 import model.Comment;
 import model.Symbol;
 
-@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2012-09-18T15:48:03")
+@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2012-09-19T13:22:41")
 @StaticMetamodel(Definition.class)
 public class Definition_ { 
 
