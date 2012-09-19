@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-            <form id="ldForm" action="/post/loadDocument" method="POST">
+            <form id="ldLoadForm" action="/post/loadDocument" method="POST">
                 <h3 class="ldTitle"><fmt:message key="load document" /></h3>
                     <select id="ldDocument" name="document" size="18" autofocus>
                         <c:forEach var="document" items="${projectFacade.getDocumentCollection(project.id)}" varStatus="iter">
@@ -13,7 +13,7 @@
                     </select>
                 <input id="ldLoadDocument" type="submit" class="button" value="<fmt:message key="load" />" />
             </form>
-            <form id="ldNewForm" action="/post/createDocument" method="POST">
+            <form id="ldCreateForm" action="/post/createDocument" method="POST">
                 <h3 class="ldTitle"><fmt:message key="new document" /></h3>
                 <div class="ldField">
                     <label id="ldNameLabel" for="ldName"><fmt:message key="name" />:&nbsp;</label>

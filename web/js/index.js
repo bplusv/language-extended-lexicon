@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2012 Luis Salazar <bp.lusv@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,44 @@
  * THE SOFTWARE.
  */
 
-$(function() {
-    $('#ixChooseLanguageEs').on('click', function(){
-        lel.controller('/post/chooseLanguage', 'language=es'); 
+(function() {
+    'use strict';
+    $(function() {
+        $('#ixSignOut').on('click', function() {
+            controller.signOut();
+        });
+        
+        $('#ixChooseLanguageEs').on('click', function(){
+            controller.changeLanguage('es');
+        });
+        
+        $('#ixChooseLanguageEn').on('click', function() {
+            controller.changeLanguage('en');
+        });
+        
+        $(window).on('mouseenter', '.overflowEllipsis', function(e) {
+            var $this = $(this);
+            $this.css('text-overflow', 'clip');
+            var $that = $this.find('span.overflowText');
+            var offset = $this.width() - $that.width();
+            if (offset < 0) {
+                $that.animate({
+                    'margin-left': offset
+                }, {
+                    duration: offset * -10, 
+                    easing: 'linear'
+                });
+            } 
+        });
+        $(window).on('mouseleave', '.overflowEllipsis', function(e) {
+            var $this = $(this);
+            $this.css('text-overflow', 'ellipsis');
+            var $that = $this.find('span.overflowText');
+            var offset = $this.width() - $that.width();
+            if (offset < 0) {
+                $that.clearQueue().stop();
+                $that.css('margin-left', 0);
+            }
+        });
     });
-    $('#ixChooseLanguageEn').on('click', function() {
-        lel.controller('/post/chooseLanguage', 'language=en'); 
-    });
-    $('#ixSignOut').on('click', function() {
-        lel.controller('/post/signOut');
-    });
-});
+})();

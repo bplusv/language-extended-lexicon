@@ -22,44 +22,13 @@
  * THE SOFTWARE.
  */
 
-(function(){
+(function() {
     'use strict';
     $(function() {
-        $(window).on('submit', '#clForm', function(e) {
+        $('#siForm').on('submit', function(e){
             e.preventDefault();
-            switch ($('#clForm').attr('action')) {
-                case '/post/createSymbol':
-                    controller.classify.createSymbol();
-                break;
-                case '/post/updateSymbol':
-                    controller.classify.updateSymbol();
-                break;
-            }
-        });
-        
-        $(window).on('change', '#clCategory', function() {
-            controller.classify.updateFields();
+            controller.signIn();
         });
 
-        $(window).on('change', '#clSynonymsSelect', function() {
-            controller.classify.selectSynonym($(this).val());
-        });
-
-        $(window).on('click', '#clChangeGroup', function() {
-            controller.classify.showSynonyms();
-        });
-
-
-        $(window).on('click', '#clCancelGroup', function() {
-            controller.classify.cancelSelectSynonym();
-            
-        });
-
-        $(window).on('click', '#clLeaveGroup', function() {
-            controller.classify.leaveSynonymsGroup(
-                'symbol=' + $('#clSymbol').val() + 
-                '&category=' + $('#clCategory').val() +
-                '&classification=' + $('#clClassification').val());
-        });
     });
 })();

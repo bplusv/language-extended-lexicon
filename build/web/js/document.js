@@ -22,26 +22,34 @@
  * THE SOFTWARE.
  */
 
-$(function(){  
-    
-    $(window).on('mouseup', '.CodeMirror', function(e) {
-        var cm = $('#dcDocumentContent').data('codeMirror')
-        if (cm != undefined) {
-            var selectedText = new String(cm.getSelection()).replace(/^\s+|\s+$/g,'').substr(0,255);
-            lel.popBubble(selectedText, e.pageX, e.pageY);
-        }
+(function() {
+    'use strict';
+    $(function(){  
+        $(window).on('submit', '#dcUpdateForm', function(e){
+            e.preventDefault();
+            controller.document.updateDoc();
+        });
+        
+        $(window).on('mouseup', '.CodeMirror', function(e) {
+            var cm = $('#dcDocumentContent').data('codeMirror')
+            if (cm != undefined) {
+                var selectedText = new String(cm.getSelection())
+                    .replace(/^\s+|\s+$/g,'').substr(0,255);
+                controller.popBubble(selectedText, e.pageX, e.pageY);
+            }
+        });
+
+        $(window).on('mouseup', '#infoBubble', function(e) {
+            e.stopPropagation();
+        });
+
+        $(window).on('mousedown', '#infoBubble', function(e) {
+            e.stopPropagation();
+        });
+
+        $(window).on('mousedown', function (e) {
+            controller.pushBubble();
+        });
+
     });
-    
-    $(window).on('mouseup', '#infoBubble', function(e) {
-        e.stopPropagation();
-    });
-    
-    $(window).on('mousedown', '#infoBubble', function(e) {
-        e.stopPropagation();
-    });
-    
-    $(window).on('mousedown', function (e) {
-        lel.pushBubble();
-    });
-    
-});
+})();
