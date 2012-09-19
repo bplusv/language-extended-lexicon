@@ -144,8 +144,9 @@ window.controller = (function($, CodeMirror) {
                 curLeft > cmLeft && curLeft < cmRight;
             });
             $symbols.each(function(i, e) {
-                $(e).wrapInner('<a class="symbol" href="#!/classify?sy='+
+                $(e).wrap('<a class="symbol" href="#!/classify?sy='+
                     /cm-symbol-(.*)/.exec($(e).attr('class'))[1] + '"></a>');
+                $(e).attr('class', 'symbol');
             });
         });
     }
