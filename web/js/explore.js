@@ -40,30 +40,7 @@
 
         $(window).on('click', '.exSymbolsRow span.removeSymbol', function(e) {
             e.preventDefault();
-            var id = /exSy(.*)/.exec($(this).attr('id'))[1];
-            var $symbolName = $(this).siblings('.exSyName').clone();
-            var title = $('#messages .ixRemoveSymbolConfirmationTitle').html();
-            var message = $('#messages .ixRemoveSymbolConfirmation').html();
-            var deleteMsg = $('#messages .ixRemove').html();
-            var cancelMsg = $('#messages .ixCancel').html();
-            $.confirm({
-                'title'		: title,
-                'message'	: $symbolName[0].outerHTML + message,
-                'buttons'	: {
-                    'delete'	: {
-                        'msg'   : deleteMsg,
-                        'class'	: 'red',
-                        'action': function(){
-                            controller.explore.removeSymbol(id);
-                        }
-                    },
-                    'cancel'    : {
-                        'msg'   : cancelMsg,
-                        'class'	: 'blue',
-                        'action': function(){}
-                    }
-                }
-            });
+            controller.explore.confirmRemoveSymbol(this);
         });
     });
 })();

@@ -160,7 +160,7 @@ public class ControllerServlet extends HttpServlet {
 
         if (userPath.equals("/post/chooseLanguage")) {
             try {
-                String language = request.getParameter("language");
+                String language = request.getParameter("language").toLowerCase();
                 Cookie languageCookie = new Cookie("language", language);
                 languageCookie.setMaxAge(60 * 60 * 24 * 365);
                 languageCookie.setPath(request.getContextPath());

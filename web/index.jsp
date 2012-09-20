@@ -16,7 +16,7 @@
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
         <meta http-equiv="pragma" content="no-cache" /> 
         <meta http-equiv="expires" content="-1" />
-        <link rel="stylesheet" href="js/lib/CodeMirror-2.33/lib/codemirror.css">
+        <link rel="stylesheet" href="js/lib/codemirror-2.34/lib/codemirror.css">
         <link rel="stylesheet" type="text/css" href="js/lib/jquery.confirm/jquery.confirm.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/index.css" media="all" charset="UTF-8" />
@@ -29,11 +29,11 @@
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
-        <script src="js/lib/CodeMirror-2.33/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/lib/codemirror-2.34/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/index.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
@@ -97,11 +97,11 @@
             <img id="ixFooterBackground" src="img/footerBackground.png" />
         </footer>
         <div id="messages">
-            <span class="ixCancel"><fmt:message key="cancel" /></span>
-            <span class="ixRemove"><fmt:message key="remove" /></span>
-            <span class="ixRemoveSymbolConfirmation"><fmt:message key="remove symbol confirmation" /></span>
-            <span class="ixRemoveSymbolConfirmationTitle"><fmt:message key="remove symbol confirmation title" /></span>
-            <span class="ixNetworkFail"><fmt:message key="network fail" /></span>
+            <span class="cancel"><fmt:message key="cancel" /></span>
+            <span class="remove"><fmt:message key="remove" /></span>
+            <span class="removeSymbolConfirmation"><fmt:message key="remove symbol confirmation" /></span>
+            <span class="removeSymbolConfirmationTitle"><fmt:message key="remove symbol confirmation title" /></span>
+            <span class="networkFail"><fmt:message key="network fail" /></span>
         </div>
     </body>
 </html>

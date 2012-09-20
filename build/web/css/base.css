@@ -265,7 +265,7 @@ textarea {
     text-decoration: none;
 }
 
-#infoBubble:hover > #infoBubbleArrow {
+#infoBubble:hover > .arrow {
     border-top-color: #FF7056;
 }
 
@@ -274,11 +274,11 @@ textarea {
     text-decoration: none;
 }
 
-#infoBubble:active > #infoBubbleArrow {
+#infoBubble:active > .arrow {
     border-top-color: #CA322D;
 }
 
-#infoBubbleArrow {
+#infoBubble .arrow {
     bottom: -15px;
     border-right: 20px solid transparent;
     border-top: 20px solid #F15945;
