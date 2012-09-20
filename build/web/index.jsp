@@ -23,8 +23,8 @@
         <link rel="stylesheet" type="text/css" href="css/classify.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/document.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/explore.css" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="css/loadDocument.css" media="all" charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="css/loadProject.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/manageDocuments.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/manageProjects.css" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
@@ -37,8 +37,8 @@
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/loadProject.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/loadDocument.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/manageProjects.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/manageDocuments.js" type="text/javascript" charset="UTF-8"></script>
     </head>
     <body>
         <h3 id="notification"></h3>
@@ -50,7 +50,7 @@
                 <span class="user overflowEllipsis"><c:out value="${user.name}" /></span>
                 <div style="clear:both"></div>
                 <ul class="popUp">
-                    <li><a href="#!/loadProject"><fmt:message key="load project" /></a></li>
+                    <li><a href="#!/manageProjects"><fmt:message key="manage projects" /></a></li>
                     <li>
                         <span class="lang"><fmt:message key="language" /></span>
                         <div class="leftArrow"></div>

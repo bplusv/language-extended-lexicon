@@ -1,5 +1,5 @@
 /* 
-    Document   : loadProject
+    Document   : manageProyects
     Created on : May 29, 2012, 9:20:57 AM
     Author     : Luis Salazar <bp.lusv@gmail.com>
     Description: Stylesheet for loadProject.jsp.
@@ -7,48 +7,48 @@
 
 @charset "UTF-8";
 
-.lpField {
+.mpField {
     margin: 0px auto;
     text-align: center;
 }
 
-.lpTitle {
+.mpTitle {
     margin-bottom: 50px;
     text-align: center;
 }
 
-#lpCreateProject {
+#mpCreateProject {
     bottom: 0px;
     position: absolute;
     right: 0px;
 }
 
-#lpLoadProject {
+#mpLoadProject {
     position: absolute;
     bottom: 0px;
     right: 0px;
 }
 
-#lpLoadForm {
+#mpLoadForm {
     height: 325px;
     position: relative;
 }
 
-#lpName {
+#mpName {
     display: inline-block;
     width: 200px;
 }
 
-#lpNameLabel {
+#mpNameLabel {
 
 }
 
-#lpCreateForm {
+#mpCreateForm {
     height: 150px;
     position: relative;
 }
 
-#lpProject {
+#mpProject {
     border: none;
     display: block;
     height: auto;
@@ -58,7 +58,7 @@
     width: 600px;
 }
 
-#lpProject option {
+#mpProject option {
     display: block;
     overflow: visible;
     padding: 0 10px;
@@ -66,6 +66,6 @@
     white-space: nowrap;
 }
 
-#lpProject option:nth-of-type(odd) {
+#mpProject option:nth-of-type(odd) {
     background: #f9f9f9;
 }
