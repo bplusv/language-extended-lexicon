@@ -1,5 +1,5 @@
 /* 
-    Document   : loadDocument
+    Document   : manageDocuments
     Created on : May 16, 2012, 12:15:54 AM
     Author     : Luis Salazar <bp.lusv@gmail.com>
     Description: Stylesheet for loadDocument.jsp.
@@ -7,23 +7,23 @@
 
 @charset "UTF-8";
 
-.ldField {
+.mdField {
     margin: 0px auto;
     text-align: center;
 }
 
-.ldTitle {
+.mdTitle {
     margin-bottom: 50px;
     text-align: center;
 }
 
-#ldCreateDocument {
+#mdCreateDocument {
     bottom: 0px;
     position: absolute;
     right: 0px;
 }
 
-#ldDocument {
+#mdDocument {
     border: none;
     height: auto;
     margin: 0px 30px;
@@ -32,7 +32,7 @@
     width: 314px;
 }
 
-#ldDocument option {
+#mdDocument option {
     display: block;
     overflow: visible;
     padding: 0 10px;
@@ -40,11 +40,11 @@
     white-space: nowrap;
 }
 
-#ldDocument option:nth-of-type(odd) {
+#mdDocument option:nth-of-type(odd) {
     background: #f9f9f9;
 }
 
-#ldLoadForm {
+#mdLoadForm {
     border-right: 1px solid #ccc;
     float: left;
     height: 450px;
@@ -52,22 +52,22 @@
     width: 373px;
 }
 
-#ldLoadDocument {
+#mdLoadDocument {
     position: absolute;
     bottom: 0px;
     left: 0px;
 }
 
-#ldName {
+#mdName {
     display: inline-block;
     width: 150px;
 }
 
-#ldNameLabel {
+#mdNameLabel {
 
 }
 
-#ldCreateForm {
+#mdCreateForm {
     float: right;
     height: 450px;
     position: relative;

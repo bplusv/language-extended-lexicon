@@ -46,8 +46,8 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/classify",
     "/get/view/document",
     "/get/view/explore",
-    "/get/view/loadDocument",
-    "/get/view/loadProject",
+    "/get/view/manageDocuments",
+    "/get/view/manageProjects",
     "/get/view/test",
     "/signIn",
     "/post/chooseLanguage",
@@ -125,17 +125,17 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("symbol", symbol);
         } else if (userPath.equals("/get/view/document")) {
             if (session.getAttribute("document") == null) {
-                userPath = "/get/view/loadDocument";
+                userPath = "/get/view/manageDocuments";
             }
             if (session.getAttribute("project") == null) {
-                userPath = "/get/view/loadProject";
+                userPath = "/get/view/manageProjects";
             }
         } else if (userPath.equals("/get/view/explore")) {
             if (session.getAttribute("project") == null) {
-                userPath = "/get/view/loadProject";
+                userPath = "/get/view/manageProjects";
             }
-        } else if (userPath.equals("/get/view/loadDocument")) {
-        } else if (userPath.equals("/get/view/loadProject")) {
+        } else if (userPath.equals("/get/view/manageDocuments")) {
+        } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/get/view/test")) {
             String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);

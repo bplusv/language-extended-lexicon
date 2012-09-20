@@ -461,28 +461,28 @@ window.controller = (function($, CodeMirror) {
         }, $('#exForm').serialize());
     };
     
-    api.loadDocument = {};
-    api.loadDocument.createDoc = function() {
+    api.manageDocuments = {};
+    api.manageDocuments.create = function() {
         ajaxRequest('/post/createDocument', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
                 redirect = '#!/document';
             }
             return redirect;
-        }, $('#ldCreateForm').serialize());
+        }, $('#mdCreateForm').serialize());
     };
-    api.loadDocument.load = function() {
+    api.manageDocuments.load = function() {
         ajaxRequest('/post/loadDocument', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
                 redirect = '#!/document';
             }
             return redirect;
-        }, $('#ldLoadForm').serialize());
+        }, $('#mdLoadForm').serialize());
     };
     
-    api.loadProject = {};
-    api.loadProject.createProj = function() {
+    api.manageProjects = {};
+    api.manageProjects.create = function() {
         ajaxRequest('/post/createProject', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -492,9 +492,9 @@ window.controller = (function($, CodeMirror) {
                 redirect = '#!/explore';
             }
             return redirect;
-        }, $('#lpCreateForm').serialize());
+        }, $('#mpCreateForm').serialize());
     };
-    api.loadProject.load = function() {
+    api.manageProjects.load = function() {
         ajaxRequest('/post/loadProject', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -504,7 +504,7 @@ window.controller = (function($, CodeMirror) {
                 redirect = '#!/explore';
             }
             return redirect;
-        }, $('#lpLoadForm').serialize());
+        }, $('#mpLoadForm').serialize());
     };
     
     api.scrollingText = {};

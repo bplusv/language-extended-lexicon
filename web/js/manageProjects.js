@@ -25,14 +25,14 @@
 (function() {
     'use strict';
     $(function() {
-        $(window).on('submit', '#lpLoadForm', function(e) {
+        $(window).on('submit', '#mpLoadForm', function(e) {
             e.preventDefault();
-            controller.loadProject.load();
+            controller.manageProjects.load();
         });
         
-        $(window).on('submit', '#lpCreateForm', function(e) {
+        $(window).on('submit', '#mpCreateForm', function(e) {
             e.preventDefault();
-            controller.loadProject.createProj();
+            controller.manageProjects.create();
         });
     });
 })();
