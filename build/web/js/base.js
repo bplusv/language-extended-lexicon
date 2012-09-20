@@ -25,6 +25,11 @@
 (function() {
     'use strict';
     $(function() {
+        $('#siForm').on('submit', function(e){
+            e.preventDefault();
+            controller.signIn();
+        });
+        
         $('#ixSignOut').on('click', function() {
             controller.signOut();
         });
@@ -37,29 +42,21 @@
             controller.changeLanguage('en');
         });
         
-        $(window).on('mouseenter', '.overflowEllipsis', function(e) {
-            var $this = $(this);
-            $this.css('text-overflow', 'clip');
-            var $that = $this.find('span.overflowText');
-            var offset = $this.width() - $that.width();
-            if (offset < 0) {
-                $that.animate({
-                    'margin-left': offset
-                }, {
-                    duration: offset * -10, 
-                    easing: 'linear'
-                });
-            } 
+        $(window).on('mouseenter', '.overflowEllipsis', function() {
+            controller.scrollingText.scroll(this);
         });
-        $(window).on('mouseleave', '.overflowEllipsis', function(e) {
-            var $this = $(this);
-            $this.css('text-overflow', 'ellipsis');
-            var $that = $this.find('span.overflowText');
-            var offset = $this.width() - $that.width();
-            if (offset < 0) {
-                $that.clearQueue().stop();
-                $that.css('margin-left', 0);
-            }
+        $(window).on('mouseleave', '.overflowEllipsis', function() {
+            controller.scrollingText.reset(this);
         });
+        
+        $(window).on('dblclick', 'select', function(e) {
+            $(this.form).submit();
+        });
+        
+        $(window).on('hashchange', function(){
+            controller.changeView(window.location.hash);
+        });
+        
+        $(window).trigger('hashchange');
     });
 })();

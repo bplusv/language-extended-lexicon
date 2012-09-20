@@ -24,7 +24,7 @@
 
 window.controller = (function($, CodeMirror) {
     'use strict';
-    var bubble, bubbleText, bubbleArrow;
+    var infoBubble;
     var appContext = '/lel';
     var projectSymbols = {};
     var symbolsRegex;
@@ -55,27 +55,16 @@ window.controller = (function($, CodeMirror) {
                     isRequesting = false;
                     response = $('<response>').append(
                         $('<message>').text(
-                        $('#messages .ixNetworkFail').text()));
+                        $('#messages .networkFail').text()));
                 },
                 complete: function() {
                     isRequesting = false;
-                    update(response, redirect);
+                    updateMainInterface(response, redirect);
                 },
                 async: async === false ? false : true
             });
         }
     }
-    
-    var updateProjectSymbols = function() {
-        ajaxRequest('/get/data/projectSymbols', function(response) {
-            projectSymbols = {};
-            var $xmlSymbols = $(response).find('symbols').children();
-            $xmlSymbols.each(function(i, e) {
-                projectSymbols[$(e).children('name').text()] = $(e).attr('id');
-            });
-            updateSymbolsRegex();
-        }, null, false);
-    };
     
     var notify = function(cssClass, message) {
         var $notification = $('#notification');
@@ -106,7 +95,18 @@ window.controller = (function($, CodeMirror) {
         symbolsRegex = RegExp("^((" + words.join(")|(") + "))", "");
     }
     
-    var updateLelMode = function() {
+    var updateProjectSymbols = function() {
+        ajaxRequest('/get/data/projectSymbols', function(response) {
+            projectSymbols = {};
+            var $xmlSymbols = $(response).find('symbols').children();
+            $xmlSymbols.each(function(i, e) {
+                projectSymbols[$(e).children('name').text()] = $(e).attr('id');
+            });
+            updateSymbolsRegex();
+        }, null, false);
+    };
+    
+    var updateCodeMirrorLelMode = function() {
         CodeMirror.defineMode("lel", function() {
             function tokenLexer(stream) {
                 if (stream.eatSpace()) return null;
@@ -126,6 +126,30 @@ window.controller = (function($, CodeMirror) {
         });
         CodeMirror.defineMIME("text/x-lel", "lel");
     }
+    
+    var updateCodeMirrorEditors = function() {
+        updateCodeMirrorLelMode();
+        $('textarea.symbolicEditor').each(function(i,e) {
+            var cm = $(e).data('codeMirror');
+            if (cm != undefined) {
+                cm.setOption('mode', 'text/x-lel');
+            } else {
+                var w = $(e).outerWidth();
+                var h = $(e).outerHeight();
+                var editor = CodeMirror.fromTextArea(e,
+                {
+                    'onUpdate': tagCodeMirrorSymbols,
+                    'onScroll': tagCodeMirrorSymbols,
+                    'mode': 'text/x-lel', 
+                    'lineWrapping': true
+                });
+                $(e).data('codeMirror', editor);
+                editor.setSize(w, h);
+                editor.refresh();
+            }
+        });
+        tagCodeMirrorSymbols();
+    };
 
     var tagCodeMirrorSymbols = function() {
         var $cms = $('div.CodeMirror');
@@ -167,7 +191,7 @@ window.controller = (function($, CodeMirror) {
         return result;
     }
     
-    var update = function(response, redirect) {
+    var updateMainInterface = function(response, redirect) {
         if (redirect) {
             if (window.location.hash.indexOf(redirect) > -1) {
                 $(window).trigger('hashchange');
@@ -194,46 +218,6 @@ window.controller = (function($, CodeMirror) {
         }
     };
     
-    var updateCodeMirrorEditors = function() {
-        updateLelMode();
-        $('textarea.symbolicEditor').each(function(i,e) {
-            var cm = $(e).data('codeMirror');
-            if (cm != undefined) {
-                cm.setOption('mode', 'text/x-lel');
-            } else {
-                var w = $(e).outerWidth();
-                var h = $(e).outerHeight();
-                var editor = CodeMirror.fromTextArea(e,
-                {
-                    'onUpdate': tagCodeMirrorSymbols,
-                    'onScroll': tagCodeMirrorSymbols,
-                    'mode': 'text/x-lel', 
-                    'lineWrapping': true
-                });
-                $(e).data('codeMirror', editor);
-                editor.setSize(w, h);
-                editor.refresh();
-            }
-        });
-        tagCodeMirrorSymbols();
-    };
-    
-    api.signIn = function() {
-        ajaxRequest('/post/signIn', function(response) {
-            if ($(response).find('success').text() === 'true') {
-                window.location.href = appContext + '#!/explore';
-            }
-        }, $('#siForm').serialize());
-    };
-    
-    api.signOut = function() {
-        ajaxRequest('/post/signOut', function(response) {
-            if ($(response).find('success').text() === 'true') {
-                window.location.href = appContext + '/signIn';
-            }
-        });
-    };
-    
     api.changeLanguage = function(lang) {
         ajaxRequest('/post/chooseLanguage', function(response) {
             var redirect;
@@ -244,98 +228,33 @@ window.controller = (function($, CodeMirror) {
         }, 'language=' + lang);
     };
     
-    api.loadDocument = {};
-    api.loadDocument.load = function() {
-        ajaxRequest('/post/loadDocument', function(response) {
-            var redirect;
-            if ($(response).find('success').text() === 'true') {
-                redirect = '#!/document';
+    api.changeView = function(hash) {
+        if (window.location.href.indexOf('/signIn') < 0) {
+            if (hash){
+                hash = hash.replace(/#!/, '');
+                hash = hash.split('?');
+                ajaxRequest('/get/view' + hash[0], 
+                function(res) {
+                    $('#central').html(res);
+                    switch(hash[0]) {
+                        case '/classify':
+                            updateProjectSymbols();
+                            updateCodeMirrorEditors();
+                            api.classify.updateInterface();
+                        break;
+                        case '/document':
+                            updateProjectSymbols();
+                            updateCodeMirrorEditors();
+                        break;
+                    }
+                }, hash[1]);
+            }  else {
+                window.location.hash = '#!/explore';
             }
-            return redirect;
-        }, $('#ldLoadForm').serialize());
-    };
-    api.loadDocument.createDoc = function() {
-        ajaxRequest('/post/createDocument', function(response) {
-            var redirect;
-            if ($(response).find('success').text() === 'true') {
-                redirect = '#!/document';
-            }
-            return redirect;
-        }, $('#ldCreateForm').serialize());
-    };
-    
-    api.loadProject = {};
-    api.loadProject.load = function() {
-        ajaxRequest('/post/loadProject', function(response) {
-            var redirect;
-            if ($(response).find('success').text() === 'true') {
-                var projectName = $(response).find('project').find('name').text();
-                $('#ixProjectTitle').show();
-                $('#ixProjectName').text(projectName);
-                redirect = '#!/explore';
-            }
-            return redirect;
-        }, $('#lpLoadForm').serialize());
-    };
-    api.loadProject.createProj = function() {
-        ajaxRequest('/post/createProject', function(response) {
-            var redirect;
-            if ($(response).find('success').text() === 'true') {
-                var projectName = $(response).find('project').find('name').text();
-                $('#ixProjectTitle').show();
-                $('#ixProjectName').text(projectName);
-                redirect = '#!/explore';
-            }
-            return redirect;
-        }, $('#lpCreateForm').serialize());
-    };
-    
-    api.classify = {};
-    api.classify.updateFields = function() {
-        // is 'general' category selected?
-        if ($('#clCategory').val() === '1') {
-            $('#clClassificationField').hide();
-            $('#clIntentionFields').hide();
-        } else {
-            $('#clClassificationField').show();
-            $('#clIntentionFields').show();
         }
     };
-
-    api.classify.updateSymbol = function() {
-        ajaxRequest('/post/updateSymbol', function(response) {
-            if ($(response).find('success').text() === 'true') {
-                $('#clCancelGroup').css('display', 'none');
-                $('#clSaveGroup').css('display', 'none');
-                $('#clChangeGroup').css('display', 'inline');
-                $('#clSynonymsSelect').val(-1);
-                $('#clSynonymsSelect').css('display', 'none');
-                var synonyms = $(response).find('synonymsGroup').children();
-                $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
-                $('#clLogUserName').text($(response).find('log > user > name').text());
-                $('#clLogDate').text($(response).find('log > date').text());
-                $('#clNewComment').data('codeMirror').setValue('');
-                api.classify.updateComments(response);
-            }
-        }, $('#clForm').serialize());
-    };
-    
-    api.classify.leaveSynonymsGroup = function(params) {
-        ajaxRequest('/post/leaveSynonymsGroup', function(response) {
-            if ($(response).find('success').text() === 'true') {
-                $('#clLeaveGroup').css('display', 'none');
-                $('#clSynonymsGroup').html('');
-                $('#clLogUserName').text($(response).find('log > user > name').text());
-                $('#clLogDate').text($(response).find('log > date').text());
-                $('#clNotion').data('codeMirror').setValue('');
-                $('#clActualIntention').data('codeMirror').setValue('');
-                $('#clFutureIntention').data('codeMirror').setValue('');
-                $('#clNewComment').data('codeMirror').setValue('');
-                api.classify.updateComments(response);
-            }
-        }, params);
-    };
-    
+        
+    api.classify = {};
     api.classify.cancelSelectSynonym = function() {
         $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
@@ -344,7 +263,6 @@ window.controller = (function($, CodeMirror) {
         $('#clChangeGroup').css('display', 'inline');
         api.classify.selectSynonym($('#clSymbol').val());
     }
-    
     api.classify.createSymbol = function() {
         ajaxRequest('/post/createSymbol', function(response) {
             if ($(response).find('success').text() === 'true') {
@@ -365,7 +283,21 @@ window.controller = (function($, CodeMirror) {
             }
         }, $('#clForm').serialize());
     };
-
+    api.classify.leaveSynonymsGroup = function(params) {
+        ajaxRequest('/post/leaveSynonymsGroup', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                $('#clLeaveGroup').css('display', 'none');
+                $('#clSynonymsGroup').html('');
+                $('#clLogUserName').text($(response).find('log > user > name').text());
+                $('#clLogDate').text($(response).find('log > date').text());
+                $('#clNotion').data('codeMirror').setValue('');
+                $('#clActualIntention').data('codeMirror').setValue('');
+                $('#clFutureIntention').data('codeMirror').setValue('');
+                $('#clNewComment').data('codeMirror').setValue('');
+                api.classify.updateComments(response);
+            }
+        }, $('#clForm').serialize());
+    };
     api.classify.selectSynonym = function(id) {
         ajaxRequest('/get/data/classifySelectSynonym', function(response) {
             var $xmlSynonyms = $(response).find('synonymsGroup').children();
@@ -391,7 +323,6 @@ window.controller = (function($, CodeMirror) {
             api.classify.updateComments(response);
         }, 'symbol=' + id);
     };
-
     api.classify.showSynonyms = function() {
         $(window).scrollTop($('#clTitle').offset().top);
         $('#clSynonymsSelect').css('display', 'block');
@@ -428,13 +359,79 @@ window.controller = (function($, CodeMirror) {
         });
         $clComments.scrollTop(0);
     };
+    api.classify.updateInterface = function() {
+        // is 'general' category selected?
+        if ($('#clCategory').val() === '1') {
+            $('#clClassificationField').hide();
+            $('#clIntentionFields').hide();
+        } else {
+            $('#clClassificationField').show();
+            $('#clIntentionFields').show();
+        }
+    };
+    api.classify.updateSymbol = function() {
+        ajaxRequest('/post/updateSymbol', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                $('#clCancelGroup').css('display', 'none');
+                $('#clSaveGroup').css('display', 'none');
+                $('#clChangeGroup').css('display', 'inline');
+                $('#clSynonymsSelect').val(-1);
+                $('#clSynonymsSelect').css('display', 'none');
+                var synonyms = $(response).find('synonymsGroup').children();
+                $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
+                $('#clLogUserName').text($(response).find('log > user > name').text());
+                $('#clLogDate').text($(response).find('log > date').text());
+                $('#clNewComment').data('codeMirror').setValue('');
+                api.classify.updateComments(response);
+            }
+        }, $('#clForm').serialize());
+    };
     
     api.document = {}
+    api.document.classifySymbol = function(e) {
+        var cm = $('#dcDocumentContent').data('codeMirror')
+        if (cm != undefined) {
+            var selectedText = new String(cm.getSelection())
+                .replace(/^\s+|\s+$/g,'').substr(0,255);
+            api.infoBubble.show(selectedText, e.pageX, e.pageY);
+        }
+    }
     api.document.updateDoc = function() {
         ajaxRequest('/post/updateDocument', null, $('#dcUpdateForm').serialize());
     };
     
     api.explore = {};
+    api.explore.clearSearch = function() {
+        $('#exSearch').val('');
+        $('#exForm').submit();
+    };
+    api.explore.confirmRemoveSymbol = function(targetSymbol) {
+        var id = $(targetSymbol).data('symbol.id');
+        var symbolName = $(targetSymbol).data('symbol.name');
+        var title = $('#messages .removeSymbolConfirmationTitle').html();
+        var message = $('#messages .removeSymbolConfirmation').html();
+        var deleteMsg = $('#messages .remove').html();
+        var cancelMsg = $('#messages .cancel').html();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<span>').addClass('symbolName').
+                            text(symbolName)[0].outerHTML + message,
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.explore.removeSymbol(id);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+    }
     api.explore.removeSymbol = function(id) {
         ajaxRequest('/post/removeSymbol', function(response) {
             var redirect;
@@ -443,10 +440,6 @@ window.controller = (function($, CodeMirror) {
             }
             return redirect;
         }, 'symbol=' + id);
-    };
-    api.explore.clearSearch = function() {
-        $('#exSearch').val('');
-        $('#exForm').submit();
     };
     api.explore.search = function(response){
         ajaxRequest('/get/data/exploreSymbols', function(response) {
@@ -468,72 +461,117 @@ window.controller = (function($, CodeMirror) {
         }, $('#exForm').serialize());
     };
     
-    api.changeView = function(hash) {
-        if (window.location.href.indexOf('/signIn') < 0) {
-            if (hash){
-                hash = hash.replace(/#!/, '');
-                hash = hash.split('?');
-                ajaxRequest('/get/view' + hash[0], 
-                function(res) {
-                    $('#central').html(res);
-                    switch(hash[0]) {
-                        case '/classify':
-                            updateProjectSymbols();
-                            updateCodeMirrorEditors();
-                            api.classify.updateFields();
-                        break;
-                        case '/document':
-                            updateProjectSymbols();
-                            updateCodeMirrorEditors();
-                        break;
-                    }
-                }, hash[1]);
-            }  else {
-                window.location.hash = '#!/explore';
+    api.loadDocument = {};
+    api.loadDocument.createDoc = function() {
+        ajaxRequest('/post/createDocument', function(response) {
+            var redirect;
+            if ($(response).find('success').text() === 'true') {
+                redirect = '#!/document';
             }
-        }
+            return redirect;
+        }, $('#ldCreateForm').serialize());
     };
-
-    api.popBubble = function(text, left, top) {
-        if (text != '') {
-            if(!bubble) {
-                bubble = $('<a>').attr('id','infoBubble');
-                bubbleText = $('<span>').attr('id', 'infoBubbleText');
-                bubbleArrow = $('<div>').attr('id', 'infoBubbleArrow');
-                bubble.append(bubbleText);
-                bubble.append(bubbleArrow);
-                bubble.hide();
-                bubble.on('click', function(e){
-                    bubble.hide();
-                });
-                $('body').append(bubble);
+    api.loadDocument.load = function() {
+        ajaxRequest('/post/loadDocument', function(response) {
+            var redirect;
+            if ($(response).find('success').text() === 'true') {
+                redirect = '#!/document';
             }
-
-            bubble.attr('href', '#!/classify?dc=' + 
-                $('#dcDocument').val() + '&na=' + text);
-            bubbleText.text(text);
-            bubble.css('top', top - bubble.outerHeight() - 35);
-            bubble.css('left', left - bubble.outerWidth() / 2);
-            bubble.show();
-        }
-    };
-
-    api.pushBubble = function() {
-        if (bubble) bubble.hide();
+            return redirect;
+        }, $('#ldLoadForm').serialize());
     };
     
+    api.loadProject = {};
+    api.loadProject.createProj = function() {
+        ajaxRequest('/post/createProject', function(response) {
+            var redirect;
+            if ($(response).find('success').text() === 'true') {
+                var projectName = $(response).find('project').find('name').text();
+                $('#ixProjectTitle').show();
+                $('#ixProjectName').text(projectName);
+                redirect = '#!/explore';
+            }
+            return redirect;
+        }, $('#lpCreateForm').serialize());
+    };
+    api.loadProject.load = function() {
+        ajaxRequest('/post/loadProject', function(response) {
+            var redirect;
+            if ($(response).find('success').text() === 'true') {
+                var projectName = $(response).find('project').find('name').text();
+                $('#ixProjectTitle').show();
+                $('#ixProjectName').text(projectName);
+                redirect = '#!/explore';
+            }
+            return redirect;
+        }, $('#lpLoadForm').serialize());
+    };
+    
+    api.scrollingText = {};
+    api.scrollingText.scroll = function(container) {
+        var $container = $(container);
+        $container.css('text-overflow', 'clip');
+        var $content = $container.find('span.overflowText');
+        var offset = $container.width() - $content.width();
+        if (offset < 0) {
+            $content.animate({
+                'margin-left': offset
+            }, {
+                duration: offset * -10, 
+                easing: 'linear'
+            });
+        } 
+    };
+    api.scrollingText.reset = function(container) {
+        var $containter = $(container);
+        $containter.css('text-overflow', 'ellipsis');
+        var $content = $containter.find('span.overflowText');
+        var offset = $containter.width() - $content.width();
+        if (offset < 0) {
+            $content.clearQueue().stop();
+            $content.css('margin-left', 0);
+        }
+    };
+    
+    api.signIn = function() {
+    ajaxRequest('/post/signIn', function(response) {
+        if ($(response).find('success').text() === 'true') {
+            window.location.href = appContext + '#!/explore';
+        }
+    }, $('#siForm').serialize());
+    };
+    api.signOut = function() {
+        ajaxRequest('/post/signOut', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                window.location.href = appContext + '/signIn';
+            }
+        });
+    };
+    
+    api.infoBubble = {};
+    api.infoBubble.show = function(text, left, top) {            
+        if (text != '') {
+            if(!infoBubble) {
+                infoBubble = $('<a>').attr('id','infoBubble').
+                    append($('<span>').addClass('caption')).
+                    append($('<span>').addClass('arrow'));
+                infoBubble.hide();
+                infoBubble.on('click', function(e){
+                    infoBubble.hide();
+                });
+                $('body').append(infoBubble);
+            }
+
+            infoBubble.attr('href', '#!/classify?dc=' + 
+                $('#dcDocument').val() + '&na=' + text);
+            infoBubble.find('.caption').text(text);
+            infoBubble.css('top', top - infoBubble.outerHeight() - 35);
+            infoBubble.css('left', left - infoBubble.outerWidth() / 2);
+            infoBubble.show();
+        }
+    };
+    api.infoBubble.hide = function() {
+        if (infoBubble) infoBubble.hide();
+    };
     return api;
 })(jQuery, CodeMirror);
-
-(function() {
-    $(function() {
-        $(window).on('dblclick', 'select', function(e) {
-            $(this.form).submit();
-        });
-        
-        $(window).on('hashchange', function(){
-            controller.changeView(window.location.hash);
-        });
-        $(window).trigger('hashchange');
-    });
-})();

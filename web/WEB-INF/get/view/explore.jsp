@@ -48,7 +48,7 @@
                                         <span class="overflowEllipsis"><fmt:message key="${symbol.definition.category.name}" /></span>
                                         <span class="overflowEllipsis"><fmt:message key="${empty symbol.definition.classification.name ? 'n/a' : symbol.definition.classification.name}" /></span>
                                         <span class="overflowEllipsis"><c:out value="${symbol.document.name}" /></span>
-                                        <span id="exSy${symbol.id}" class="removeSymbol">&#215;</span>
+                                        <span class="removeSymbol" data-symbol.id="${symbol.id}" data-symbol.name="${symbol.name}">&#215;</span>
                                     </a>
                                 </td>
                             </tr>

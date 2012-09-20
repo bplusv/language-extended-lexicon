@@ -38,7 +38,7 @@
         });
         
         $(window).on('change', '#clCategory', function() {
-            controller.classify.updateFields();
+            controller.classify.updateInterface();
         });
 
         $(window).on('change', '#clSynonymsSelect', function() {
@@ -49,17 +49,13 @@
             controller.classify.showSynonyms();
         });
 
-
         $(window).on('click', '#clCancelGroup', function() {
             controller.classify.cancelSelectSynonym();
             
         });
 
         $(window).on('click', '#clLeaveGroup', function() {
-            controller.classify.leaveSynonymsGroup(
-                'symbol=' + $('#clSymbol').val() + 
-                '&category=' + $('#clCategory').val() +
-                '&classification=' + $('#clClassification').val());
+            controller.classify.leaveSynonymsGroup();
         });
     });
 })();

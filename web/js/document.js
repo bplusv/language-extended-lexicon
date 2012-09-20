@@ -24,19 +24,14 @@
 
 (function() {
     'use strict';
-    $(function(){  
+    $(function() {
         $(window).on('submit', '#dcUpdateForm', function(e){
             e.preventDefault();
             controller.document.updateDoc();
         });
         
         $(window).on('mouseup', '.CodeMirror', function(e) {
-            var cm = $('#dcDocumentContent').data('codeMirror')
-            if (cm != undefined) {
-                var selectedText = new String(cm.getSelection())
-                    .replace(/^\s+|\s+$/g,'').substr(0,255);
-                controller.popBubble(selectedText, e.pageX, e.pageY);
-            }
+            controller.document.classifySymbol(e);
         });
 
         $(window).on('mouseup', '#infoBubble', function(e) {
@@ -48,7 +43,7 @@
         });
 
         $(window).on('mousedown', function (e) {
-            controller.pushBubble();
+            controller.infoBubble.hide();
         });
 
     });
