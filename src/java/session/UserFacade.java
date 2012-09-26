@@ -21,10 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -42,6 +40,7 @@ import model.User;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserFacade extends AbstractFacade<User> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -49,24 +48,24 @@ public class UserFacade extends AbstractFacade<User> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public UserFacade() {
         super(User.class);
     }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User findByName(String name) {
         try {
             return (User) em.createNamedQuery("User.findByName").
-                setParameter("name", name).
-                getSingleResult();
+                    setParameter("name", name).
+                    getSingleResult();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
         }
     }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private String makeHash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -74,7 +73,7 @@ public class UserFacade extends AbstractFacade<User> {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString(
-                (array[i] & 0xFF) | 0x100).substring(1,3));
+                        (array[i] & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString();
         } catch (Exception e) {
@@ -83,19 +82,18 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED) 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User signIn(String username, String password) {
-        try {       
+        try {
             User user = findByName(username);
             if (user.getPassword().equals(makeHash(password))) {
                 return user;
-            }
-            else {
+            } else {
                 return null;
             }
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
-        }   
+        }
     }
 }

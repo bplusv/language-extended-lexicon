@@ -40,111 +40,111 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "comment")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
-	@NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
-	@NamedQuery(name = "Comment.findByDate", query = "SELECT c FROM Comment c WHERE c.date = :date")})
+    @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
+    @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
+    @NamedQuery(name = "Comment.findByDate", query = "SELECT c FROM Comment c WHERE c.date = :date")})
 public class Comment implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-	private Integer id;
-	@Basic(optional = false)
+    private Integer id;
+    @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "content")
-	private String content;
-	@Basic(optional = false)
+    private String content;
+    @Basic(optional = false)
     @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
-	private Date date;
-	@ManyToMany(mappedBy = "commentCollection")
-	private Collection<Definition> definitionCollection;
-	@JoinColumn(name = "user", referencedColumnName = "id")
+    private Date date;
+    @ManyToMany(mappedBy = "commentCollection")
+    private Collection<Definition> definitionCollection;
+    @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private User user;
+    private User user;
 
-	public Comment() {
-	}
+    public Comment() {
+    }
 
-	public Comment(Integer id) {
-		this.id = id;
-	}
+    public Comment(Integer id) {
+        this.id = id;
+    }
 
-	public Comment(Integer id, String content, Date date) {
-		this.id = id;
-		this.content = content;
-		this.date = date;
-	}
+    public Comment(Integer id, String content, Date date) {
+        this.id = id;
+        this.content = content;
+        this.date = date;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	@XmlTransient
-	public Collection<Definition> getDefinitionCollection() {
-		return definitionCollection;
-	}
+    @XmlTransient
+    public Collection<Definition> getDefinitionCollection() {
+        return definitionCollection;
+    }
 
-	public void setDefinitionCollection(Collection<Definition> definitionCollection) {
-		this.definitionCollection = definitionCollection;
-	}
+    public void setDefinitionCollection(Collection<Definition> definitionCollection) {
+        this.definitionCollection = definitionCollection;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Comment)) {
-			return false;
-		}
-		Comment other = (Comment) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Comment)) {
+            return false;
+        }
+        Comment other = (Comment) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "model.Comment[ id=" + id + " ]";
-	}
-	
+    @Override
+    public String toString() {
+        return "model.Comment[ id=" + id + " ]";
+    }
 }

@@ -5,11 +5,11 @@
 --%>
 
 <root>
-    <synonyms>
-        <c:forEach items="${projectFacade.getSymbolCollection(project.id)}" var="synonym">
-            <synonym id="${synonym.id}">
-                <name><![CDATA[${synonym.name}]]></name>
-            </synonym>
-        </c:forEach>
-    </synonyms>
+<synonyms>
+    <c:forEach items="${projectFacade.getSymbolCollection(project.id)}" var="synonym">
+        <synonym id="${synonym.id}">
+            <name><![CDATA[${synonym.name}]]></name>
+        </synonym>
+    </c:forEach>
+</synonyms>
 </root>

@@ -39,132 +39,132 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "symbol")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Symbol.findAll", query = "SELECT s FROM Symbol s"),
-	@NamedQuery(name = "Symbol.findById", query = "SELECT s FROM Symbol s WHERE s.id = :id"),
-	@NamedQuery(name = "Symbol.findByActive", query = "SELECT s FROM Symbol s WHERE s.active = :active"),
-	@NamedQuery(name = "Symbol.findByName", query = "SELECT s FROM Symbol s WHERE s.name = :name")})
+    @NamedQuery(name = "Symbol.findAll", query = "SELECT s FROM Symbol s"),
+    @NamedQuery(name = "Symbol.findById", query = "SELECT s FROM Symbol s WHERE s.id = :id"),
+    @NamedQuery(name = "Symbol.findByActive", query = "SELECT s FROM Symbol s WHERE s.active = :active"),
+    @NamedQuery(name = "Symbol.findByName", query = "SELECT s FROM Symbol s WHERE s.name = :name")})
 public class Symbol implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-	private Integer id;
-	@Basic(optional = false)
+    private Integer id;
+    @Basic(optional = false)
     @NotNull
     @Column(name = "active")
-	private boolean active;
-	@Basic(optional = false)
+    private boolean active;
+    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name")
-	private String name;
-	@JoinColumn(name = "project", referencedColumnName = "id")
+    private String name;
+    @JoinColumn(name = "project", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private Project project;
-	@JoinColumn(name = "definition", referencedColumnName = "id")
+    private Project project;
+    @JoinColumn(name = "definition", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private Definition definition;
-	@JoinColumn(name = "document", referencedColumnName = "id")
+    private Definition definition;
+    @JoinColumn(name = "document", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private Document document;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "symbol")
-	private Collection<Log> logCollection;
+    private Document document;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "symbol")
+    private Collection<Log> logCollection;
 
-	public Symbol() {
-	}
+    public Symbol() {
+    }
 
-	public Symbol(Integer id) {
-		this.id = id;
-	}
+    public Symbol(Integer id) {
+        this.id = id;
+    }
 
-	public Symbol(Integer id, boolean active, String name) {
-		this.id = id;
-		this.active = active;
-		this.name = name;
-	}
+    public Symbol(Integer id, boolean active, String name) {
+        this.id = id;
+        this.active = active;
+        this.name = name;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public boolean getActive() {
-		return active;
-	}
+    public boolean getActive() {
+        return active;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Project getProject() {
-		return project;
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
-	public Definition getDefinition() {
-		return definition;
-	}
+    public Definition getDefinition() {
+        return definition;
+    }
 
-	public void setDefinition(Definition definition) {
-		this.definition = definition;
-	}
+    public void setDefinition(Definition definition) {
+        this.definition = definition;
+    }
 
-	public Document getDocument() {
-		return document;
-	}
+    public Document getDocument() {
+        return document;
+    }
 
-	public void setDocument(Document document) {
-		this.document = document;
-	}
+    public void setDocument(Document document) {
+        this.document = document;
+    }
 
-	@XmlTransient
-	public Collection<Log> getLogCollection() {
-		return logCollection;
-	}
+    @XmlTransient
+    public Collection<Log> getLogCollection() {
+        return logCollection;
+    }
 
-	public void setLogCollection(Collection<Log> logCollection) {
-		this.logCollection = logCollection;
-	}
+    public void setLogCollection(Collection<Log> logCollection) {
+        this.logCollection = logCollection;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Symbol)) {
-			return false;
-		}
-		Symbol other = (Symbol) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Symbol)) {
+            return false;
+        }
+        Symbol other = (Symbol) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "model.Symbol[ id=" + id + " ]";
-	}
-	
+    @Override
+    public String toString() {
+        return "model.Symbol[ id=" + id + " ]";
+    }
 }

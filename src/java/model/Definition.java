@@ -39,138 +39,138 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "definition")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Definition.findAll", query = "SELECT d FROM Definition d"),
-	@NamedQuery(name = "Definition.findById", query = "SELECT d FROM Definition d WHERE d.id = :id")})
+    @NamedQuery(name = "Definition.findAll", query = "SELECT d FROM Definition d"),
+    @NamedQuery(name = "Definition.findById", query = "SELECT d FROM Definition d WHERE d.id = :id")})
 public class Definition implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-	private Integer id;
-	@Lob
+    private Integer id;
+    @Lob
     @Size(max = 65535)
     @Column(name = "notion")
-	private String notion;
-	@Lob
+    private String notion;
+    @Lob
     @Size(max = 65535)
     @Column(name = "actual_intention")
-	private String actualIntention;
-	@Lob
+    private String actualIntention;
+    @Lob
     @Size(max = 65535)
     @Column(name = "future_intention")
-	private String futureIntention;
-	@JoinTable(name = "definition_comments", joinColumns = {
-    	@JoinColumn(name = "definition_id", referencedColumnName = "id")}, inverseJoinColumns = {
-    	@JoinColumn(name = "comments_id", referencedColumnName = "id")})
+    private String futureIntention;
+    @JoinTable(name = "definition_comments", joinColumns = {
+        @JoinColumn(name = "definition_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "comments_id", referencedColumnName = "id")})
     @ManyToMany
-	private Collection<Comment> commentCollection;
-	@JoinColumn(name = "classification", referencedColumnName = "id")
+    private Collection<Comment> commentCollection;
+    @JoinColumn(name = "classification", referencedColumnName = "id")
     @ManyToOne
-	private Classification classification;
-	@JoinColumn(name = "category", referencedColumnName = "id")
+    private Classification classification;
+    @JoinColumn(name = "category", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private Category category;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
-	private Collection<Symbol> symbolCollection;
+    private Category category;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
+    private Collection<Symbol> symbolCollection;
 
-	public Definition() {
-	}
+    public Definition() {
+    }
 
-	public Definition(Integer id) {
-		this.id = id;
-	}
+    public Definition(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getNotion() {
-		return notion;
-	}
+    public String getNotion() {
+        return notion;
+    }
 
-	public void setNotion(String notion) {
-		this.notion = notion;
-	}
+    public void setNotion(String notion) {
+        this.notion = notion;
+    }
 
-	public String getActualIntention() {
-		return actualIntention;
-	}
+    public String getActualIntention() {
+        return actualIntention;
+    }
 
-	public void setActualIntention(String actualIntention) {
-		this.actualIntention = actualIntention;
-	}
+    public void setActualIntention(String actualIntention) {
+        this.actualIntention = actualIntention;
+    }
 
-	public String getFutureIntention() {
-		return futureIntention;
-	}
+    public String getFutureIntention() {
+        return futureIntention;
+    }
 
-	public void setFutureIntention(String futureIntention) {
-		this.futureIntention = futureIntention;
-	}
+    public void setFutureIntention(String futureIntention) {
+        this.futureIntention = futureIntention;
+    }
 
-	@XmlTransient
-	public Collection<Comment> getCommentCollection() {
-		return commentCollection;
-	}
+    @XmlTransient
+    public Collection<Comment> getCommentCollection() {
+        return commentCollection;
+    }
 
-	public void setCommentCollection(Collection<Comment> commentCollection) {
-		this.commentCollection = commentCollection;
-	}
+    public void setCommentCollection(Collection<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
+    }
 
-	public Classification getClassification() {
-		return classification;
-	}
+    public Classification getClassification() {
+        return classification;
+    }
 
-	public void setClassification(Classification classification) {
-		this.classification = classification;
-	}
+    public void setClassification(Classification classification) {
+        this.classification = classification;
+    }
 
-	public Category getCategory() {
-		return category;
-	}
+    public Category getCategory() {
+        return category;
+    }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-	@XmlTransient
-	public Collection<Symbol> getSymbolCollection() {
-		return symbolCollection;
-	}
+    @XmlTransient
+    public Collection<Symbol> getSymbolCollection() {
+        return symbolCollection;
+    }
 
-	public void setSymbolCollection(Collection<Symbol> symbolCollection) {
-		this.symbolCollection = symbolCollection;
-	}
+    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
+        this.symbolCollection = symbolCollection;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Definition)) {
-			return false;
-		}
-		Definition other = (Definition) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Definition)) {
+            return false;
+        }
+        Definition other = (Definition) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "model.Definition[ id=" + id + " ]";
-	}
-	
+    @Override
+    public String toString() {
+        return "model.Definition[ id=" + id + " ]";
+    }
 }

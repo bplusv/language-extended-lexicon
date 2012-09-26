@@ -27,7 +27,7 @@
     $(function() {
         $(window).on('submit', '#dcUpdateForm', function(e){
             e.preventDefault();
-            controller.document.updateDoc();
+            controller.document.update();
         });
         
         $(window).on('mouseup', '.CodeMirror', function(e) {

@@ -5,12 +5,12 @@
 --%>
 
 <root>
-    <success>${success}</success>
-    <message><fmt:message key="create project ${success ? 'success' : 'fail'}" /></message>
-    <c:if test="${success}">
-        <project id="{project.id}">
-            <name><![CDATA[${project.name}]]></name>
-            <description><![CDATA[${project.description}]]></description>
-        </project>
-    </c:if>
+<success>${success}</success>
+<message><fmt:message key="create project ${success ? 'success' : 'fail'}" /></message>
+<c:if test="${success}">
+    <project id="{project.id}">
+        <name><![CDATA[${project.name}]]></name>
+        <description><![CDATA[${project.description}]]></description>
+    </project>
+</c:if>
 </root>

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import javax.ejb.Stateless;
@@ -38,6 +37,7 @@ import model.Classification;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ClassificationFacade extends AbstractFacade<Classification> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -45,9 +45,8 @@ public class ClassificationFacade extends AbstractFacade<Classification> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public ClassificationFacade() {
         super(Classification.class);
     }
-
 }

@@ -39,85 +39,85 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "event")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Event.findAll", query = "SELECT e FROM Event e"),
-	@NamedQuery(name = "Event.findById", query = "SELECT e FROM Event e WHERE e.id = :id"),
-	@NamedQuery(name = "Event.findByName", query = "SELECT e FROM Event e WHERE e.name = :name")})
+    @NamedQuery(name = "Event.findAll", query = "SELECT e FROM Event e"),
+    @NamedQuery(name = "Event.findById", query = "SELECT e FROM Event e WHERE e.id = :id"),
+    @NamedQuery(name = "Event.findByName", query = "SELECT e FROM Event e WHERE e.name = :name")})
 public class Event implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-	private Integer id;
-	@Basic(optional = false)
+    private Integer id;
+    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name")
-	private String name;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
-	private Collection<Log> logCollection;
+    private String name;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+    private Collection<Log> logCollection;
 
-	public Event() {
-	}
+    public Event() {
+    }
 
-	public Event(Integer id) {
-		this.id = id;
-	}
+    public Event(Integer id) {
+        this.id = id;
+    }
 
-	public Event(Integer id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+    public Event(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@XmlTransient
-	public Collection<Log> getLogCollection() {
-		return logCollection;
-	}
+    @XmlTransient
+    public Collection<Log> getLogCollection() {
+        return logCollection;
+    }
 
-	public void setLogCollection(Collection<Log> logCollection) {
-		this.logCollection = logCollection;
-	}
+    public void setLogCollection(Collection<Log> logCollection) {
+        this.logCollection = logCollection;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Event)) {
-			return false;
-		}
-		Event other = (Event) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Event)) {
+            return false;
+        }
+        Event other = (Event) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "model.Event[ id=" + id + " ]";
-	}
-	
+    @Override
+    public String toString() {
+        return "model.Event[ id=" + id + " ]";
+    }
 }

@@ -4,7 +4,10 @@
    Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<% if (session.getAttribute("user") != null) response.sendRedirect("/lel"); %>
+<%
+    if (session.getAttribute("user") != null) {
+        response.sendRedirect("/lel");
+    }%>
 
 <!DOCTYPE html>
 <html>
@@ -17,8 +20,8 @@
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
-         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
-         <script src="js/lib/codemirror-2.34/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
+        <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
+        <script src="js/lib/codemirror-2.34/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8" ></script>
         <script src="js/base.js" type="text/javascript" charset="UTF-8" ></script>

@@ -4,7 +4,10 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<% if (session.getAttribute("user") == null) response.sendRedirect("/lel/signIn"); 
+<%
+    if (session.getAttribute("user") == null) {
+        response.sendRedirect("/lel/signIn");
+    }
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", -1);
@@ -50,7 +53,7 @@
                 <span class="user overflowEllipsis"><c:out value="${user.name}" /></span>
                 <div style="clear:both"></div>
                 <ul class="popUp">
-                    <li><a href="#!/manageProjects"><fmt:message key="manage projects" /></a></li>
+                    <li><a href="#!/manageProjects"><fmt:message key="projects" /></a></li>
                     <li>
                         <span class="lang"><fmt:message key="language" /></span>
                         <div class="leftArrow"></div>

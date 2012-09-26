@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package filter;
 
 import java.io.IOException;
@@ -38,38 +37,43 @@ import model.User;
  */
 @WebFilter(servletNames = "ControllerServlet")
 public class SessionTimeOutFilter implements Filter {
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-                throws IOException, ServletException {
+            throws IOException, ServletException {
 
-            HttpServletRequest req = (HttpServletRequest) request;
-            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            
-            HttpSession session = req.getSession(false);
-            User user = null;
-            if (session != null) user = (User) session.getAttribute("user");
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-            // if not signed in, return session timeout response
-            if (user == null && !"/signIn".equals(req.getServletPath()) && !"/post/signIn".equals(req.getServletPath())) {
-                try {
-                    request.getRequestDispatcher("/WEB-INF/post/sessionTimeOut.jsp").forward(request, response);
-                } catch (Exception ex) {}
-                return;
-            }
-            
-            // set no cache and encoding header directives
-            httpServletResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-            httpServletResponse.setHeader("Pragma", "no-cache");
-            httpServletResponse.setDateHeader("Expires", -1);
-            httpServletResponse.setCharacterEncoding("UTF-8");
-            
-            chain.doFilter(request, response);
+        HttpSession session = req.getSession(false);
+        User user = null;
+        if (session != null) {
+            user = (User) session.getAttribute("user");
         }
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {}
+        // if not signed in, return session timeout response
+        if (user == null && !"/signIn".equals(req.getServletPath()) && !"/post/signIn".equals(req.getServletPath())) {
+            try {
+                request.getRequestDispatcher("/WEB-INF/post/sessionTimeOut.jsp").forward(request, response);
+            } catch (Exception ex) {
+            }
+            return;
+        }
+
+        // set no cache and encoding header directives
+        httpServletResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        httpServletResponse.setHeader("Pragma", "no-cache");
+        httpServletResponse.setDateHeader("Expires", -1);
+        httpServletResponse.setCharacterEncoding("UTF-8");
+
+        chain.doFilter(request, response);
+    }
 
     @Override
-    public void destroy() {}
-    
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    @Override
+    public void destroy() {
+    }
 }

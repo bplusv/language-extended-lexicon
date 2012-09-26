@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import java.util.Date;
@@ -39,6 +38,7 @@ import model.Comment;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class CommentFacade extends AbstractFacade<Comment> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -46,16 +46,16 @@ public class CommentFacade extends AbstractFacade<Comment> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public CommentFacade() {
         super(Comment.class);
     }
 
-	public Comment createComment(String userId, String content) {
-		Comment comment = new Comment();
-		comment.setUser(userFacade.find(userId));
-		comment.setContent(content);
-		comment.setDate(new Date());
+    public Comment createComment(String userId, String content) {
+        Comment comment = new Comment();
+        comment.setUser(userFacade.find(userId));
+        comment.setContent(content);
+        comment.setDate(new Date());
         em.persist(comment);
         em.flush();
         return comment;
