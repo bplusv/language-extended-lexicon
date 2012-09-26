@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import java.util.Collection;
@@ -38,6 +37,7 @@ import model.Symbol;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class DocumentFacade extends AbstractFacade<Document> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -45,15 +45,17 @@ public class DocumentFacade extends AbstractFacade<Document> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public DocumentFacade() {
         super(Document.class);
     }
-		
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Document createDocument(String projectId, String name) {
         try {
-            if (name.isEmpty()) return null;
+            if (name.isEmpty()) {
+                return null;
+            }
             name = name.trim();
             Document document = new Document();
             document.setName(name);
@@ -64,9 +66,9 @@ public class DocumentFacade extends AbstractFacade<Document> {
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
-        }  
+        }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Document updateContent(String documentId, String content) {
         try {
@@ -80,14 +82,14 @@ public class DocumentFacade extends AbstractFacade<Document> {
             return null;
         }
     }
-	
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Symbol> getSymbolCollection(String documentId) {
         try {
-			return em.createQuery("SELECT sy FROM Symbol sy WHERE "
-				+ "sy.document = :document AND sy.active = TRUE;").
-				setParameter("document", documentFacade.find(documentId)).
-				getResultList();
+            return em.createQuery("SELECT sy FROM Symbol sy WHERE "
+                    + "sy.document = :document AND sy.active = TRUE;").
+                    setParameter("document", documentFacade.find(documentId)).
+                    getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

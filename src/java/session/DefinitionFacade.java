@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import java.util.ArrayList;
@@ -29,8 +28,9 @@ import java.util.Collection;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import model.Definition;
 import model.Comment;
+import model.Definition;
+import model.Symbol;
 
 /**
  *
@@ -39,6 +39,7 @@ import model.Comment;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class DefinitionFacade extends AbstractFacade<Definition> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -46,13 +47,13 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public DefinitionFacade() {
         super(Definition.class);
     }
-    
+
     private void fillDefinition(Definition definition, String categoryId, String classificationId,
-            String notion, String actualIntention, String futureIntention) {   
+            String notion, String actualIntention, String futureIntention) {
         definition.setCategory(categoryFacade.find(categoryId));
         if ("1".equals(categoryId)) {
             definition.setClassification(null);
@@ -72,12 +73,33 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
         try {
             Definition definition = new Definition();
             fillDefinition(definition, categoryId, classificationId,
-                notion, actualIntention, futureIntention);
-			Collection<Comment> comments = new ArrayList<Comment>();
-			if (!comment.isEmpty()) 
-				comments.add(commentFacade.createComment(userId, comment));
-			definition.setCommentCollection(comments);
+                    notion, actualIntention, futureIntention);
+            Collection<Comment> comments = new ArrayList<Comment>();
+            if (!comment.isEmpty()) {
+                comments.add(commentFacade.createComment(userId, comment));
+            }
+            definition.setCommentCollection(comments);
             em.persist(definition);
+            em.flush();
+            return definition;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Definition updateDefinition(String userId, String definitionId, String categoryId,
+            String classificationId, String notion, String actualIntention,
+            String futureIntention, String comment) {
+        try {
+            Definition definition = find(definitionId);
+            fillDefinition(definition, categoryId, classificationId,
+                    notion, actualIntention, futureIntention);
+            if (!comment.isEmpty()) {
+                definition.getCommentCollection().add(commentFacade.createComment(userId, comment));
+            }
+            em.merge(definition);
             em.flush();
             return definition;
         } catch (Exception e) {
@@ -87,21 +109,18 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Definition updateDefinition(String userId, String definitionId, String categoryId, 
-            String classificationId, String notion, String actualIntention, 
-            String futureIntention, String comment) {
+    public Collection<Symbol> getSynonymsGroup(String definitionId) {
         try {
-            Definition definition = find(definitionId);
-            fillDefinition(definition, categoryId, classificationId,
-                notion, actualIntention, futureIntention);
-			if (!comment.isEmpty())
-				definition.getCommentCollection().add(commentFacade.createComment(userId, comment));
-            em.merge(definition);
-            em.flush();
-            return definition;
-            } catch (Exception e) {
-                context.setRollbackOnly();
-                return null;
-            }
+            Definition definition = definitionFacade.find(definitionId);
+            return em.createQuery("SELECT sy FROM Symbol sy WHERE "
+                    + "sy.definition = :definition AND "
+                    + "sy.active = TRUE "
+                    + "ORDER BY LOWER(sy.name) ASC;").
+                    setParameter("definition", definition).
+                    getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
         }
+    }
 }

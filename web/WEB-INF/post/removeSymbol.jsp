@@ -5,8 +5,8 @@
 --%>
 
 <root>
-    <success>${success}</success>
-    <c:if test="${not success}">
-        <message><fmt:message key="remove symbol fail" /></message>
-    </c:if>
+<success>${success}</success>
+<c:if test="${not success}">
+    <message><fmt:message key="remove symbol fail" /></message>
+</c:if>
 </root>

@@ -12,7 +12,7 @@
 }
 
 #ixFooterBackground {
-    
+
 }
 
 #ixHeader {
@@ -136,7 +136,7 @@
     left: -76px;
     position: absolute;
     top: -4px;
-    width: 80px
+    width: 80px;
 }
 
 #ixUserMenu .langPopUp:hover {
@@ -173,5 +173,5 @@
     margin-right: 10px;
     line-height: 20px;
     text-align: right;
-    width: 100px;
+    width: 90px;
 }

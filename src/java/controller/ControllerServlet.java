@@ -48,6 +48,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/explore",
     "/get/view/manageDocuments",
     "/get/view/manageProjects",
+    "/get/view/projectReport",
     "/get/view/test",
     "/signIn",
     "/post/chooseLanguage",
@@ -113,9 +114,9 @@ public class ControllerServlet extends HttpServlet {
                     request.getParameter("na"));
             if (symbol != null) {
                 request.setAttribute("log",
-                    symbolFacade.getLastLog(symbol.getId().toString()));
-                    projectFacade.initTagSymbols(
-                    ((Project) session.getAttribute("project")).getId().toString());
+                        symbolFacade.getLastLog(symbol.getId().toString()));
+                projectFacade.initTagSymbols(
+                        ((Project) session.getAttribute("project")).getId().toString());
                 request.setAttribute("submitAction", "/post/updateSymbol");
             } else {
                 symbol = symbolFacade.createPossibleSymbol(
@@ -136,6 +137,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
+        } else if(userPath.equals("/get/view/projectReport")) {
         } else if (userPath.equals("/get/view/test")) {
             String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);

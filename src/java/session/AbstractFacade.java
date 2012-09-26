@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import java.util.Collection;
@@ -41,29 +40,39 @@ import javax.persistence.criteria.Root;
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
-    
-    @Resource protected SessionContext context;
-    
-    @EJB protected CategoryFacade categoryFacade;
-    @EJB protected ClassificationFacade classificationFacade;
-	@EJB protected CommentFacade commentFacade;
-    @EJB protected DefinitionFacade definitionFacade;
-    @EJB protected DocumentFacade documentFacade;
-    @EJB protected EventFacade eventFacade;
-    @EJB protected LogFacade logFacade;
-    @EJB protected ProjectFacade projectFacade;
-    @EJB protected SymbolFacade symbolFacade;
-    @EJB protected UserFacade userFacade;
+    @Resource
+    protected SessionContext context;
+    @EJB
+    protected CategoryFacade categoryFacade;
+    @EJB
+    protected ClassificationFacade classificationFacade;
+    @EJB
+    protected CommentFacade commentFacade;
+    @EJB
+    protected DefinitionFacade definitionFacade;
+    @EJB
+    protected DocumentFacade documentFacade;
+    @EJB
+    protected EventFacade eventFacade;
+    @EJB
+    protected LogFacade logFacade;
+    @EJB
+    protected ProjectFacade projectFacade;
+    @EJB
+    protected SymbolFacade symbolFacade;
+    @EJB
+    protected UserFacade userFacade;
 
     protected abstract EntityManager getEntityManager();
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public T find(String id) {  
+    public T find(String id) {
         try {
             return getEntityManager().find(entityClass, Integer.parseInt(id));
         } catch (Exception e) {
@@ -76,11 +85,11 @@ public abstract class AbstractFacade<T> {
     public Collection<T> findAll() {
         try {
             EntityManager em = this.getEntityManager();
-			CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery cq = cb.createQuery();
-			Root<T> root = cq.from(entityClass);
+            Root<T> root = cq.from(entityClass);
             cq.select(root);
-            return  getEntityManager().createQuery(cq).getResultList();
+            return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;
@@ -92,7 +101,7 @@ public abstract class AbstractFacade<T> {
         try {
             CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
             cq.select(cq.from(entityClass));
-            Query q =  getEntityManager().createQuery(cq);
+            Query q = getEntityManager().createQuery(cq);
             q.setMaxResults(range[1] - range[0]);
             q.setFirstResult(range[0]);
             return q.getResultList();
@@ -115,5 +124,4 @@ public abstract class AbstractFacade<T> {
             return null;
         }
     }
-
 }

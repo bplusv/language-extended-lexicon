@@ -37,107 +37,107 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "log")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Log.findAll", query = "SELECT l FROM Log l"),
-	@NamedQuery(name = "Log.findById", query = "SELECT l FROM Log l WHERE l.id = :id"),
-	@NamedQuery(name = "Log.findByDate", query = "SELECT l FROM Log l WHERE l.date = :date")})
+    @NamedQuery(name = "Log.findAll", query = "SELECT l FROM Log l"),
+    @NamedQuery(name = "Log.findById", query = "SELECT l FROM Log l WHERE l.id = :id"),
+    @NamedQuery(name = "Log.findByDate", query = "SELECT l FROM Log l WHERE l.date = :date")})
 public class Log implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-	private Integer id;
-	@Basic(optional = false)
+    private Integer id;
+    @Basic(optional = false)
     @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
-	private Date date;
-	@JoinColumn(name = "symbol", referencedColumnName = "id")
+    private Date date;
+    @JoinColumn(name = "symbol", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private Symbol symbol;
-	@JoinColumn(name = "event", referencedColumnName = "id")
+    private Symbol symbol;
+    @JoinColumn(name = "event", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private Event event;
-	@JoinColumn(name = "user", referencedColumnName = "id")
+    private Event event;
+    @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)
-	private User user;
+    private User user;
 
-	public Log() {
-	}
+    public Log() {
+    }
 
-	public Log(Integer id) {
-		this.id = id;
-	}
+    public Log(Integer id) {
+        this.id = id;
+    }
 
-	public Log(Integer id, Date date) {
-		this.id = id;
-		this.date = date;
-	}
+    public Log(Integer id, Date date) {
+        this.id = id;
+        this.date = date;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public Symbol getSymbol() {
-		return symbol;
-	}
+    public Symbol getSymbol() {
+        return symbol;
+    }
 
-	public void setSymbol(Symbol symbol) {
-		this.symbol = symbol;
-	}
+    public void setSymbol(Symbol symbol) {
+        this.symbol = symbol;
+    }
 
-	public Event getEvent() {
-		return event;
-	}
+    public Event getEvent() {
+        return event;
+    }
 
-	public void setEvent(Event event) {
-		this.event = event;
-	}
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Log)) {
-			return false;
-		}
-		Log other = (Log) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Log)) {
+            return false;
+        }
+        Log other = (Log) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "model.Log[ id=" + id + " ]";
-	}
-	
+    @Override
+    public String toString() {
+        return "model.Log[ id=" + id + " ]";
+    }
 }

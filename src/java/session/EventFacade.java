@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import javax.ejb.Stateless;
@@ -38,6 +37,7 @@ import model.Event;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class EventFacade extends AbstractFacade<Event> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -45,9 +45,8 @@ public class EventFacade extends AbstractFacade<Event> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public EventFacade() {
         super(Event.class);
     }
-
 }

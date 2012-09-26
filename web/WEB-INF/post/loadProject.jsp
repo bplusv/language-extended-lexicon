@@ -5,14 +5,14 @@
 --%>
 
 <root>
-    <success>${success}</success>
-    <c:if test="${!success}">
-        <message><fmt:message key="load project fail" /></message>
-    </c:if>
-    <c:if test="${success}">
-        <project id="{project.id}">
-            <name><![CDATA[${project.name}]]></name>
-            <description><![CDATA[${project.description}]]></description>
-        </project>
-    </c:if>
+<success>${success}</success>
+<c:if test="${!success}">
+    <message><fmt:message key="load project fail" /></message>
+</c:if>
+<c:if test="${success}">
+    <project id="{project.id}">
+        <name><![CDATA[${project.name}]]></name>
+        <description><![CDATA[${project.description}]]></description>
+    </project>
+</c:if>
 </root>

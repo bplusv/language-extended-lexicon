@@ -5,5 +5,5 @@
 --%>
 
 <root>
-    <sessionTimeOut>true</sessionTimeOut>
+<sessionTimeOut>true</sessionTimeOut>
 </root>

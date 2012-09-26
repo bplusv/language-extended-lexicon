@@ -55,7 +55,7 @@ window.controller = (function($, CodeMirror) {
                     isRequesting = false;
                     response = $('<response>').append(
                         $('<message>').text(
-                        $('#messages .networkFail').text()));
+                            $('#messages .networkFail').text()));
                 },
                 complete: function() {
                     isRequesting = false;
@@ -86,12 +86,12 @@ window.controller = (function($, CodeMirror) {
 
     var updateSymbolsRegex = function() {
         var words = [];
-            for (var key in projectSymbols) {
-                if (projectSymbols.hasOwnProperty(key)) {
-                    words.push(key);
-                }
+        for (var key in projectSymbols) {
+            if (projectSymbols.hasOwnProperty(key)) {
+                words.push(key);
             }
-            words = words.sort().reverse().map(regexEscape);
+        }
+        words = words.sort().reverse().map(regexEscape);
         symbolsRegex = RegExp("^((" + words.join(")|(") + "))", "");
     }
     
@@ -141,7 +141,7 @@ window.controller = (function($, CodeMirror) {
                     'onUpdate': tagCodeMirrorSymbols,
                     'onScroll': tagCodeMirrorSymbols,
                     'mode': 'text/x-lel', 
-                    'lineWrapping': true
+                    'lineWrapping': false
                 });
                 $(e).data('codeMirror', editor);
                 editor.setSize(w, h);
@@ -168,7 +168,7 @@ window.controller = (function($, CodeMirror) {
                 curLeft > cmLeft && curLeft < cmRight;
             });
             $symbols.each(function(i, e) {
-                $(e).wrap('<a class="symbol" href="#!/classify?sy='+
+                $(e).wrapInner('<a class="symbol" href="#!/classify?sy='+
                     /cm-symbol-(.*)/.exec($(e).attr('class'))[1] + '"></a>');
                 $(e).attr('class', 'symbol');
             });
@@ -234,21 +234,21 @@ window.controller = (function($, CodeMirror) {
                 hash = hash.replace(/#!/, '');
                 hash = hash.split('?');
                 ajaxRequest('/get/view' + hash[0], 
-                function(res) {
-                    $('#central').html(res);
-                    switch(hash[0]) {
-                        case '/classify':
-                            updateProjectSymbols();
-                            updateCodeMirrorEditors();
-                            api.classify.updateInterface();
-                        break;
-                        case '/document':
-                            updateProjectSymbols();
-                            updateCodeMirrorEditors();
-                        break;
-                    }
-                }, hash[1]);
-            }  else {
+                    function(res) {
+                        $('#central').html(res);
+                        switch(hash[0]) {
+                            case '/classify':
+                                updateProjectSymbols();
+                                updateCodeMirrorEditors();
+                                api.classify.updateInterface();
+                                break;
+                            case '/document':
+                                updateProjectSymbols();
+                                updateCodeMirrorEditors();
+                                break;
+                        }
+                    }, hash[1]);
+            } else {
                 window.location.hash = '#!/explore';
             }
         }
@@ -348,13 +348,13 @@ window.controller = (function($, CodeMirror) {
         $clComments.children().remove();
         $(response).find('comments').children().each(function(i,e) {
             $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
-                .append($('<div>').addClass('left')
-                    .append($('<span>').addClass('overflowEllipsis')
-                        .text($(e).find('user > name').text()+':'))
-                    .append($('<span>').text($(e).find('date').text()))
+            .append($('<div>').addClass('left')
+                .append($('<span>').addClass('overflowEllipsis')
+                    .text($(e).find('user > name').text()+':'))
+                .append($('<span>').text($(e).find('date').text()))
                 ).append($('<div>').addClass('right').html(
-                    tagSymbols($(e).find('content').text()))
-                ).append($('<div>').css('clear', 'both'))
+                tagSymbols($(e).find('content').text()))
+            ).append($('<div>').css('clear', 'both'))
             .appendTo($clComments);
         });
         $clComments.scrollTop(0);
@@ -392,11 +392,11 @@ window.controller = (function($, CodeMirror) {
         var cm = $('#dcDocumentContent').data('codeMirror')
         if (cm != undefined) {
             var selectedText = new String(cm.getSelection())
-                .replace(/^\s+|\s+$/g,'').substr(0,255);
+            .replace(/^\s+|\s+$/g,'').substr(0,255);
             api.infoBubble.show(selectedText, e.pageX, e.pageY);
         }
     }
-    api.document.updateDoc = function() {
+    api.document.update = function() {
         ajaxRequest('/post/updateDocument', null, $('#dcUpdateForm').serialize());
     };
     
@@ -415,7 +415,7 @@ window.controller = (function($, CodeMirror) {
         $.confirm({
             'title'	: title,
             'message'	: $('<span>').addClass('symbolName').
-                            text(symbolName)[0].outerHTML + message,
+            text(symbolName)[0].outerHTML + message,
             'buttons'	: {
                 'delete'	: {
                     'msg'   : deleteMsg,
@@ -534,11 +534,11 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.signIn = function() {
-    ajaxRequest('/post/signIn', function(response) {
-        if ($(response).find('success').text() === 'true') {
-            window.location.href = appContext + '#!/explore';
-        }
-    }, $('#siForm').serialize());
+        ajaxRequest('/post/signIn', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                window.location.href = appContext + '#!/explore';
+            }
+        }, $('#siForm').serialize());
     };
     api.signOut = function() {
         ajaxRequest('/post/signOut', function(response) {
@@ -553,8 +553,8 @@ window.controller = (function($, CodeMirror) {
         if (text != '') {
             if(!infoBubble) {
                 infoBubble = $('<a>').attr('id','infoBubble').
-                    append($('<span>').addClass('caption')).
-                    append($('<span>').addClass('arrow'));
+                append($('<span>').addClass('caption')).
+                append($('<span>').addClass('arrow'));
                 infoBubble.hide();
                 infoBubble.on('click', function(e){
                     infoBubble.hide();

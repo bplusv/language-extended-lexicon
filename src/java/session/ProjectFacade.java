@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,8 +39,6 @@ import model.Symbol;
 import model.User;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -59,10 +59,9 @@ public class ProjectFacade extends AbstractFacade<Project> {
     public ProjectFacade() {
         super(Project.class);
     }
-
     private Map<String, Integer> symbolsMap;
     private Pattern symbolsPattern;
-    
+
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Project> findAll() {
@@ -143,10 +142,10 @@ public class ProjectFacade extends AbstractFacade<Project> {
             context.setRollbackOnly();
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String tagSymbols(String content) {
-        try {            
+        try {
             String result = "";
             Boolean matched;
             Matcher symbolMatcher;
@@ -154,9 +153,9 @@ public class ProjectFacade extends AbstractFacade<Project> {
                 symbolMatcher = symbolsPattern.matcher(content);
                 matched = symbolMatcher.find();
                 if (matched) {
-                    result += "<a class=\"symbol\" href=\"" + 
-                        "#!/classify?sy=" + symbolsMap.get(symbolMatcher.group(0)) + "\">" + 
-                        StringEscapeUtils.escapeHtml4(symbolMatcher.group(0)) + "</a>";
+                    result += "<a class=\"symbol\" href=\""
+                            + "#!/classify?sy=" + symbolsMap.get(symbolMatcher.group(0)) + "\">"
+                            + StringEscapeUtils.escapeHtml4(symbolMatcher.group(0)) + "</a>";
                     content = content.substring(symbolMatcher.group(0).length());
                 } else {
                     result += StringEscapeUtils.escapeHtml4(

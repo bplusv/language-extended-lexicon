@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package session;
 
 import java.util.Date;
@@ -39,6 +38,7 @@ import model.Log;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class LogFacade extends AbstractFacade<Log> {
+
     @PersistenceContext(unitName = "lelPU")
     private EntityManager em;
 
@@ -50,7 +50,7 @@ public class LogFacade extends AbstractFacade<Log> {
     public LogFacade() {
         super(Log.class);
     }
-    
+
     public Log createLog(String userId, String symbolId, String eventId) {
         Log log = new Log();
         log.setUser(userFacade.find(userId));

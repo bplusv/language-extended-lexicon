@@ -30,10 +30,10 @@
             switch ($('#clForm').attr('action')) {
                 case '/post/createSymbol':
                     controller.classify.createSymbol();
-                break;
+                    break;
                 case '/post/updateSymbol':
                     controller.classify.updateSymbol();
-                break;
+                    break;
             }
         });
         
