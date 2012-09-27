@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.Definition;
 import model.Document;
 import model.Project;
 import model.Symbol;
@@ -110,6 +111,22 @@ public class ProjectFacade extends AbstractFacade<Project> {
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Definition> getDefinitionCollection(String projectId) {
+        try {
+            return em.createQuery("SELECT DISTINCT de FROM Symbol sy "
+                    + "LEFT OUTER JOIN sy.definition de "
+                    + "LEFT OUTER JOIN de.classification cl "
+                    + "WHERE sy.project = :project AND sy.active = TRUE "
+                    + "ORDER BY cl.name, de.category.name;").
+                    setParameter("project", find(projectId)).
+                    getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Symbol> getSymbolCollection(String projectId) {
         try {

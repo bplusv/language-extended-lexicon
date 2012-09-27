@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import model.Project;
 import model.Symbol;
 
-@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2012-09-24T11:09:45")
+@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2012-09-26T15:52:13")
 @StaticMetamodel(Document.class)
 public class Document_ { 
 

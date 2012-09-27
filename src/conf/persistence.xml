@@ -6,5 +6,8 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.logging.level" value="FINEST"/>
+    </properties>
   </persistence-unit>
 </persistence>
