@@ -66,17 +66,25 @@ urlPatterns = {"/get/data/classifySelectSynonym",
 public class ControllerServlet extends HttpServlet {
 
     @EJB
-    private CategoryFacade categoryFacade;
+    protected CategoryFacade categoryFacade;
     @EJB
-    private ClassificationFacade classificationFacade;
+    protected ClassificationFacade classificationFacade;
     @EJB
-    private DocumentFacade documentFacade;
+    protected CommentFacade commentFacade;
     @EJB
-    private ProjectFacade projectFacade;
+    protected DefinitionFacade definitionFacade;
     @EJB
-    private SymbolFacade symbolFacade;
+    protected DocumentFacade documentFacade;
     @EJB
-    private UserFacade userFacade;
+    protected EventFacade eventFacade;
+    @EJB
+    protected LogFacade logFacade;
+    @EJB
+    protected ProjectFacade projectFacade;
+    @EJB
+    protected SymbolFacade symbolFacade;
+    @EJB
+    protected UserFacade userFacade;
     private HttpSession session;
 
     @Override
@@ -87,9 +95,14 @@ public class ControllerServlet extends HttpServlet {
         List<Classification> classifications = (List) classificationFacade.findAll();
         Collections.reverse(classifications);
         getServletContext().setAttribute("classifications", classifications);
+        getServletContext().setAttribute("commentFacade", commentFacade);
+        getServletContext().setAttribute("definitionFacade", definitionFacade);
         getServletContext().setAttribute("documentFacade", documentFacade);
+        getServletContext().setAttribute("eventFacade", eventFacade);
+        getServletContext().setAttribute("logFacade", logFacade);
         getServletContext().setAttribute("projectFacade", projectFacade);
         getServletContext().setAttribute("symbolFacade", symbolFacade);
+        getServletContext().setAttribute("userFacade", userFacade);
     }
 
     @Override
