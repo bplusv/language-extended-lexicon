@@ -23,15 +23,28 @@
  */
 package controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.URIResolver;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
 import model.*;
 import session.*;
+import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.Fop;
+import org.apache.fop.apps.MimeConstants;
+import org.apache.fop.servlet.ServletContextURIResolver;
 
 /**
  *
@@ -86,6 +99,10 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     protected UserFacade userFacade;
     private HttpSession session;
+    
+    private FopFactory fopFactory = FopFactory.newInstance();
+    private TransformerFactory tFactory = TransformerFactory.newInstance();
+    protected URIResolver uriResolver; 
 
     @Override
     public void init() throws ServletException {
@@ -103,6 +120,7 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("projectFacade", projectFacade);
         getServletContext().setAttribute("symbolFacade", symbolFacade);
         getServletContext().setAttribute("userFacade", userFacade);
+        uriResolver = new ServletContextURIResolver(getServletContext());
     }
 
     @Override
@@ -151,6 +169,43 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if(userPath.equals("/get/view/projectReport")) {
+            
+            try {
+                //Setup a buffer to obtain the content length
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+                //Setup FOP
+                Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
+
+                Source xsltSrc = this.uriResolver.resolve(
+                    "servlet-context:/hello.xsl", null);
+                
+                //Setup Transformer
+                //Source xsltSrc = new StreamSource(new File("hello.xsl"));
+                javax.xml.transform.Transformer transformer = tFactory.newTransformer(xsltSrc);
+
+                //Make sure the XSL transformation's result is piped through to FOP
+                Result res = new SAXResult(fop.getDefaultHandler());
+
+                //Setup input
+                Source src = new StreamSource(new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><name>lu</name></root>"));
+
+                //Start the transformation and rendering process
+                transformer.transform(src, res);
+
+                //Prepare response
+                response.setContentType("application/pdf");
+                response.setContentLength(out.size());
+
+                //Send content to Browser
+                response.getOutputStream().write(out.toByteArray());
+                response.getOutputStream().flush();
+            } catch(Exception e) {
+                int i = 0;
+            }
+        
+            return;
+            
         } else if (userPath.equals("/get/view/test")) {
             String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);

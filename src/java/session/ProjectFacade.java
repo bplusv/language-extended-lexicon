@@ -118,7 +118,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
                     + "LEFT OUTER JOIN sy.definition de "
                     + "LEFT OUTER JOIN de.classification cl "
                     + "WHERE sy.project = :project AND sy.active = TRUE "
-                    + "ORDER BY cl.name, de.category.name;").
+                    + "ORDER BY cl.name, de.category.name, sy.name;").
                     setParameter("project", find(projectId)).
                     getResultList();
         } catch (Exception e) {
