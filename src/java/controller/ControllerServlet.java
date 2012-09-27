@@ -24,9 +24,8 @@
 package controller;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
@@ -35,10 +34,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamSource;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import model.*;
 import session.*;
 import org.apache.fop.apps.FopFactory;
@@ -62,6 +66,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/manageDocuments",
     "/get/view/manageProjects",
     "/get/view/projectReport",
+    "/get/view/projectPdf",
     "/get/view/test",
     "/signIn",
     "/post/chooseLanguage",
@@ -169,43 +174,128 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if(userPath.equals("/get/view/projectReport")) {
-            
+        } else if(userPath.equals("/get/view/projectPdf")) {
             try {
-                //Setup a buffer to obtain the content length
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
 
                 //Setup FOP
                 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
-
-                Source xsltSrc = this.uriResolver.resolve(
-                    "servlet-context:/hello.xsl", null);
                 
                 //Setup Transformer
-                //Source xsltSrc = new StreamSource(new File("hello.xsl"));
-                javax.xml.transform.Transformer transformer = tFactory.newTransformer(xsltSrc);
+                Source xsltSrc = uriResolver.resolve("servlet-context:/WEB-INF/pdf/hello.xsl", null);
+                Transformer transformer = tFactory.newTransformer(xsltSrc);
 
                 //Make sure the XSL transformation's result is piped through to FOP
                 Result res = new SAXResult(fop.getDefaultHandler());
+ 
+                // XML source creation -------------------------------------------------------
+                
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                
+                // root elements
+                org.w3c.dom.Document doc = docBuilder.newDocument();
+                org.w3c.dom.Element rootElement = doc.createElement("root");
+                doc.appendChild(rootElement);
+                
+                // symbol elements
+                org.w3c.dom.Element definitionsElement = doc.createElement("definitions");
+                rootElement.appendChild(definitionsElement);
+                
+                Collection<Definition> definitions = projectFacade.getDefinitionCollection(
+                        ((Project) session.getAttribute("project")).getId().toString());
+                        
+                org.w3c.dom.Element definitionElement;
+                org.w3c.dom.Element classificationElement;
+                org.w3c.dom.Element categoryElement;
+                org.w3c.dom.Element symbolsElement;
+                org.w3c.dom.Element symbolElement;
+                org.w3c.dom.Element symbolNameElement;
+                org.w3c.dom.Element notionElement;
+                org.w3c.dom.Element actualIntentionElement;
+                org.w3c.dom.Element futureIntentionElement;
+                for (Definition definition : definitions) {
+                    definitionElement = doc.createElement("definition");
+                    
+                    classificationElement = doc.createElement("classification");
+                    Classification classification = definition.getClassification();
+                    String classificationText = classification != null ? classification.getName() : "N/A";
+                    classificationElement.appendChild(doc.createCDATASection(classificationText));
+                    definitionElement.appendChild(classificationElement);
+                    
+                    categoryElement = doc.createElement("category");
+                    Category category = definition.getCategory();
+                    String categoryText = category != null ? category.getName() : "N/A";
+                    categoryElement.appendChild(doc.createCDATASection(categoryText));
+                    definitionElement.appendChild(categoryElement);
+                    
+                    symbolsElement = doc.createElement("symbols");
+                    Collection<Symbol> synonyms = definitionFacade.getSynonymsGroup(definition.getId().toString());
+                    for (Symbol synonym : synonyms) {
+                        symbolElement = doc.createElement("symbol");
+                        symbolNameElement = doc.createElement("name");
+                        symbolNameElement.appendChild(doc.createCDATASection(synonym.getName()));
+                        symbolElement.appendChild(symbolNameElement);
+                        symbolsElement.appendChild(symbolElement);
+                    }
+                    definitionElement.appendChild(symbolsElement);
+                    
+                    
+                    notionElement = doc.createElement("notion");
+                    String notionText = definition.getNotion();
+                    notionText = notionText != null ? notionText : "N/A";
+                    notionElement.appendChild(doc.createCDATASection(notionText));
+                    definitionElement.appendChild(notionElement);
+                    
+                    actualIntentionElement = doc.createElement("actualIntention");
+                    String actualIntentionText = definition.getActualIntention();
+                    actualIntentionText = actualIntentionText != null ? actualIntentionText : "N/A";
+                    actualIntentionElement.appendChild(doc.createCDATASection(actualIntentionText));
+                    definitionElement.appendChild(actualIntentionElement);
+                    
+                    futureIntentionElement = doc.createElement("futureIntention");
+                    String futureIntentionText = definition.getFutureIntention();
+                    futureIntentionText = futureIntentionText != null ? futureIntentionText : "N/A";
+                    futureIntentionElement.appendChild(doc.createCDATASection(futureIntentionText));
+                    definitionElement.appendChild(futureIntentionElement);
+                    
+                    definitionsElement.appendChild(definitionElement);
+                }
+                
+                DOMSource src = new DOMSource(doc);
+                
+                
+                // tests ***************************************************************************
+                
+                
+                //transformer = tFactory.newTransformer();
+//                DOMSource source = new DOMSource(doc);
+//                
+//                response.setContentType("text/xml;charset=UTF-8");
+//                StreamResult resXML = new StreamResult(response.getOutputStream());
+//                transformer.transform(source, resXML);
 
-                //Setup input
-                Source src = new StreamSource(new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><name>lu</name></root>"));
-
+                // tests ***************************************************************************
+                
+                
+                
+                // -----------------------------------------------------------------------
+                
                 //Start the transformation and rendering process
                 transformer.transform(src, res);
 
-                //Prepare response
+                // Prepare response
                 response.setContentType("application/pdf");
                 response.setContentLength(out.size());
 
-                //Send content to Browser
+                // Send content to Browser
                 response.getOutputStream().write(out.toByteArray());
                 response.getOutputStream().flush();
+                
+                
             } catch(Exception e) {
-                int i = 0;
             }
-        
             return;
-            
         } else if (userPath.equals("/get/view/test")) {
             String foo = "Esto es una prueba del sistema LeL.";
             request.setAttribute("foo", foo);
