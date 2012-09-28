@@ -8,10 +8,22 @@
             <fo:layout-master-set>
                 <fo:simple-page-master master-name="A4-portrait"
                                        page-height="29.7cm" page-width="21.0cm" margin="2cm">
-                    <fo:region-body />
+                    <fo:region-body margin="1cm"/>
+                    <fo:region-before extent="1cm"/>
+                    <fo:region-after extent="1cm"/>
                 </fo:simple-page-master>
             </fo:layout-master-set>
             <fo:page-sequence master-reference="A4-portrait">
+                <fo:static-content flow-name="xsl-region-before">
+                    <fo:block text-align="center">
+                        Project - another
+                    </fo:block>
+                </fo:static-content>
+                <fo:static-content flow-name="xsl-region-after">
+                    <fo:block text-align="center">
+                        Page [<fo:page-number/>] of [<fo:page-number-citation ref-id="last-page" />] 
+                    </fo:block>
+                </fo:static-content>
                 <fo:flow flow-name="xsl-region-body">
                     <xsl:for-each select="root/definitions/definition">
                         <fo:block space-after="0.5cm">
@@ -23,8 +35,9 @@
                             <xsl:value-of select="category"/>
                         </fo:block>
                         <fo:block space-after="0.5cm">
+                            <fo:inline font-weight="bold">Symbols: </fo:inline>
                             <xsl:for-each select="symbols/symbol">
-                                <fo:inline font-weight="bold"><xsl:value-of select="name"/>, </fo:inline>
+                                <fo:inline><xsl:value-of select="name"/>, </fo:inline>
                             </xsl:for-each>
                         </fo:block>
                         <fo:block space-after="0.5cm">
@@ -40,6 +53,8 @@
                             <xsl:value-of select="futureIntention"/>
                         </fo:block>
                     </xsl:for-each>
+                    <fo:block id="last-page">
+                    </fo:block>
                 </fo:flow>
             </fo:page-sequence>
         </fo:root>

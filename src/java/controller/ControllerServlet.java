@@ -65,8 +65,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/explore",
     "/get/view/manageDocuments",
     "/get/view/manageProjects",
-    "/get/view/projectReport",
-    "/get/view/projectPdf",
+    "/projectReportPdf",
     "/get/view/test",
     "/signIn",
     "/post/chooseLanguage",
@@ -105,9 +104,8 @@ public class ControllerServlet extends HttpServlet {
     protected UserFacade userFacade;
     private HttpSession session;
     
-    private FopFactory fopFactory = FopFactory.newInstance();
-    private TransformerFactory tFactory = TransformerFactory.newInstance();
-    protected URIResolver uriResolver; 
+    private ReportManager reportManager = new ReportManager();
+    protected URIResolver uriResolver;
 
     @Override
     public void init() throws ServletException {
@@ -173,116 +171,12 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
-        } else if(userPath.equals("/get/view/projectReport")) {
-        } else if(userPath.equals("/get/view/projectPdf")) {
+        } else if(userPath.equals("/projectReportPdf")) {
             try {
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-                //Setup FOP
-                Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
-                
-                //Setup Transformer
-                Source xsltSrc = uriResolver.resolve("servlet-context:/WEB-INF/pdf/hello.xsl", null);
-                Transformer transformer = tFactory.newTransformer(xsltSrc);
-
-                //Make sure the XSL transformation's result is piped through to FOP
-                Result res = new SAXResult(fop.getDefaultHandler());
- 
-                // XML source creation -------------------------------------------------------
-                
-                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-                
-                // root elements
-                org.w3c.dom.Document doc = docBuilder.newDocument();
-                org.w3c.dom.Element rootElement = doc.createElement("root");
-                doc.appendChild(rootElement);
-                
-                // symbol elements
-                org.w3c.dom.Element definitionsElement = doc.createElement("definitions");
-                rootElement.appendChild(definitionsElement);
-                
-                Collection<Definition> definitions = projectFacade.getDefinitionCollection(
-                        ((Project) session.getAttribute("project")).getId().toString());
-                        
-                org.w3c.dom.Element definitionElement;
-                org.w3c.dom.Element classificationElement;
-                org.w3c.dom.Element categoryElement;
-                org.w3c.dom.Element symbolsElement;
-                org.w3c.dom.Element symbolElement;
-                org.w3c.dom.Element symbolNameElement;
-                org.w3c.dom.Element notionElement;
-                org.w3c.dom.Element actualIntentionElement;
-                org.w3c.dom.Element futureIntentionElement;
-                for (Definition definition : definitions) {
-                    definitionElement = doc.createElement("definition");
-                    
-                    classificationElement = doc.createElement("classification");
-                    Classification classification = definition.getClassification();
-                    String classificationText = classification != null ? classification.getName() : "N/A";
-                    classificationElement.appendChild(doc.createCDATASection(classificationText));
-                    definitionElement.appendChild(classificationElement);
-                    
-                    categoryElement = doc.createElement("category");
-                    Category category = definition.getCategory();
-                    String categoryText = category != null ? category.getName() : "N/A";
-                    categoryElement.appendChild(doc.createCDATASection(categoryText));
-                    definitionElement.appendChild(categoryElement);
-                    
-                    symbolsElement = doc.createElement("symbols");
-                    Collection<Symbol> synonyms = definitionFacade.getSynonymsGroup(definition.getId().toString());
-                    for (Symbol synonym : synonyms) {
-                        symbolElement = doc.createElement("symbol");
-                        symbolNameElement = doc.createElement("name");
-                        symbolNameElement.appendChild(doc.createCDATASection(synonym.getName()));
-                        symbolElement.appendChild(symbolNameElement);
-                        symbolsElement.appendChild(symbolElement);
-                    }
-                    definitionElement.appendChild(symbolsElement);
-                    
-                    
-                    notionElement = doc.createElement("notion");
-                    String notionText = definition.getNotion();
-                    notionText = notionText != null ? notionText : "N/A";
-                    notionElement.appendChild(doc.createCDATASection(notionText));
-                    definitionElement.appendChild(notionElement);
-                    
-                    actualIntentionElement = doc.createElement("actualIntention");
-                    String actualIntentionText = definition.getActualIntention();
-                    actualIntentionText = actualIntentionText != null ? actualIntentionText : "N/A";
-                    actualIntentionElement.appendChild(doc.createCDATASection(actualIntentionText));
-                    definitionElement.appendChild(actualIntentionElement);
-                    
-                    futureIntentionElement = doc.createElement("futureIntention");
-                    String futureIntentionText = definition.getFutureIntention();
-                    futureIntentionText = futureIntentionText != null ? futureIntentionText : "N/A";
-                    futureIntentionElement.appendChild(doc.createCDATASection(futureIntentionText));
-                    definitionElement.appendChild(futureIntentionElement);
-                    
-                    definitionsElement.appendChild(definitionElement);
-                }
-                
-                DOMSource src = new DOMSource(doc);
-                
-                
-                // tests ***************************************************************************
-                
-                
-                //transformer = tFactory.newTransformer();
-//                DOMSource source = new DOMSource(doc);
-//                
-//                response.setContentType("text/xml;charset=UTF-8");
-//                StreamResult resXML = new StreamResult(response.getOutputStream());
-//                transformer.transform(source, resXML);
-
-                // tests ***************************************************************************
-                
-                
-                
-                // -----------------------------------------------------------------------
-                
-                //Start the transformation and rendering process
-                transformer.transform(src, res);
+                ByteArrayOutputStream out;
+                Source xsltSrc = uriResolver.resolve("servlet-context:/WEB-INF/report/projectReport.xsl", null);
+                out = reportManager.makeProjectReportPdf(((Project) session.getAttribute("project")).getId().toString(), xsltSrc,
+                        projectFacade, definitionFacade);
 
                 // Prepare response
                 response.setContentType("application/pdf");
@@ -291,10 +185,7 @@ public class ControllerServlet extends HttpServlet {
                 // Send content to Browser
                 response.getOutputStream().write(out.toByteArray());
                 response.getOutputStream().flush();
-                
-                
-            } catch(Exception e) {
-            }
+            } catch(Exception e) {}
             return;
         } else if (userPath.equals("/get/view/test")) {
             String foo = "Esto es una prueba del sistema LeL.";
