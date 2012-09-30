@@ -25,30 +25,16 @@ package controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.URIResolver;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import model.*;
+import report.ReportManager;
 import session.*;
-import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.Fop;
-import org.apache.fop.apps.MimeConstants;
-import org.apache.fop.servlet.ServletContextURIResolver;
 
 /**
  *
@@ -102,10 +88,9 @@ public class ControllerServlet extends HttpServlet {
     protected SymbolFacade symbolFacade;
     @EJB
     protected UserFacade userFacade;
+    @EJB
+    protected ReportManager reportManager;
     private HttpSession session;
-    
-    private ReportManager reportManager = new ReportManager();
-    protected URIResolver uriResolver;
 
     @Override
     public void init() throws ServletException {
@@ -123,7 +108,6 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("projectFacade", projectFacade);
         getServletContext().setAttribute("symbolFacade", symbolFacade);
         getServletContext().setAttribute("userFacade", userFacade);
-        uriResolver = new ServletContextURIResolver(getServletContext());
     }
 
     @Override
@@ -171,21 +155,18 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
-        } else if(userPath.equals("/projectReportPdf")) {
+        } else if (userPath.equals("/projectReportPdf")) {
             try {
-                ByteArrayOutputStream out;
-                Source xsltSrc = uriResolver.resolve("servlet-context:/WEB-INF/report/projectReport.xsl", null);
-                out = reportManager.makeProjectReportPdf(((Project) session.getAttribute("project")).getId().toString(), xsltSrc,
-                        projectFacade, definitionFacade);
-
-                // Prepare response
+                Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
+                String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
+                ByteArrayOutputStream pdf = reportManager.makeProjectReportPdf(
+                        ((Project) session.getAttribute("project")).getId().toString(), language);
                 response.setContentType("application/pdf");
-                response.setContentLength(out.size());
-
-                // Send content to Browser
-                response.getOutputStream().write(out.toByteArray());
+                response.setContentLength(pdf.size());
+                response.getOutputStream().write(pdf.toByteArray());
                 response.getOutputStream().flush();
-            } catch(Exception e) {}
+            } catch (Exception e) {
+            }
             return;
         } else if (userPath.equals("/get/view/test")) {
             String foo = "Esto es una prueba del sistema LeL.";
