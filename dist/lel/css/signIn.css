@@ -1,0 +1,95 @@
+/* 
+    Document   : signIn
+    Created on : May 16, 2012, 10:11:05 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Stylesheet for index.jsp.
+*/
+
+@charset "UTF-8";
+
+.siField {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    width: 250px;
+}
+
+.siField label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.siField > input[type="text"], .siField > input[type="password"] {
+    width: 238px;
+}
+
+#siCentral {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    height: 400px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    padding: 25px;
+    width: 748px;
+}
+
+#siAd {
+    margin-bottom: 30px;
+}
+
+#siDoSignIn {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+#siForm {
+    height: 250px;
+    left: 50%;
+    margin-left: -125px;
+    margin-top: -125px;
+    position: absolute;
+    top: 50%;
+    width: 250px;
+}
+
+#siLelLogo {
+    height: 250px;
+    left: 50%;
+    margin-left: -125px;
+    margin-top: -125px;
+    top: 50%;
+    width: 250px;
+    position: absolute;
+}
+
+#siLeftSide {
+    border-right: 1px solid #ccc;
+    float: left;
+    height: 400px;
+    position: relative;
+    width: 373px;
+}
+
+#siPassword {
+
+}
+
+#siPasswordLabel {
+
+}
+
+#siRightSide {
+    float: right;
+    height: 400px;
+    position: relative;
+    width: 374px;
+}
+
+#siUserName {
+
+}
+
+#siUsernameLabel {
+
+}
