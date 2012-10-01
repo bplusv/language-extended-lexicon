@@ -25,6 +25,14 @@
 (function() {
     'use strict';
     $(function() {
+        $('#ixChooseLanguageEn').on('click', function() {
+            controller.changeLanguage('en');
+        });
+        
+        $('#ixChooseLanguageEs').on('click', function(){
+            controller.changeLanguage('es');
+        });
+
         $('#siForm').on('submit', function(e){
             e.preventDefault();
             controller.signIn();
@@ -32,21 +40,6 @@
         
         $('#ixSignOut').on('click', function() {
             controller.signOut();
-        });
-        
-        $('#ixChooseLanguageEs').on('click', function(){
-            controller.changeLanguage('es');
-        });
-        
-        $('#ixChooseLanguageEn').on('click', function() {
-            controller.changeLanguage('en');
-        });
-        
-        $(window).on('mouseenter', '.overflowEllipsis', function() {
-            controller.scrollingText.scroll(this);
-        });
-        $(window).on('mouseleave', '.overflowEllipsis', function() {
-            controller.scrollingText.reset(this);
         });
         
         $(window).on('dblclick', 'select', function(e) {
@@ -57,6 +50,13 @@
             controller.changeView(window.location.hash);
         });
         
+        $(window).on('mouseenter', '.overflowEllipsis', function() {
+            controller.scrollingText.scroll(this);
+        });
+        $(window).on('mouseleave', '.overflowEllipsis', function() {
+            controller.scrollingText.reset(this);
+        });
+
         $(window).trigger('hashchange');
     });
 })();

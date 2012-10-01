@@ -25,14 +25,14 @@
 (function() {
     'use strict';
     $(function() {
-        $(window).on('submit', '#mdLoadForm', function(e) {
-            e.preventDefault();
-            controller.manageDocuments.load();
-        });
-        
         $(window).on('submit', '#mdCreateForm', function(e) {
             e.preventDefault();
             controller.manageDocuments.create();
+        });
+        
+        $(window).on('submit', '#mdLoadForm', function(e) {
+            e.preventDefault();
+            controller.manageDocuments.load();
         });
     });
 })();

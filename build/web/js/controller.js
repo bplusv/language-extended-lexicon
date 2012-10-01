@@ -323,6 +323,10 @@ window.controller = (function($, CodeMirror) {
             api.classify.updateComments(response);
         }, 'symbol=' + id);
     };
+    api.classify.showComments = function() {
+        $('#clComments').css('display', 'block');
+        $('#clShowComments').css('display', 'none');
+    };
     api.classify.showSynonyms = function() {
         $(window).scrollTop($('#clTitle').offset().top);
         $('#clSynonymsSelect').css('display', 'block');

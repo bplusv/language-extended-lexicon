@@ -51,7 +51,6 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/explore",
     "/get/view/manageDocuments",
     "/get/view/manageProjects",
-    "/projectReportPdf",
     "/get/view/test",
     "/signIn",
     "/post/chooseLanguage",
@@ -65,7 +64,8 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/signIn",
     "/post/signOut",
     "/post/updateDocument",
-    "/post/updateSymbol"})
+    "/post/updateSymbol",
+    "/projectReport"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -155,13 +155,17 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
-        } else if (userPath.equals("/projectReportPdf")) {
+        } else if (userPath.equals("/projectReport")) {
             try {
+                
+                Project project = (Project) session.getAttribute("project");
                 Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
                 String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
                 ByteArrayOutputStream pdf = reportManager.makeProjectReportPdf(
-                        ((Project) session.getAttribute("project")).getId().toString(), language);
-                response.setContentType("application/pdf");
+                        project.getId().toString(), language);
+                response.setHeader("content-disposition", 
+                    "attachment; filename=" + project.getName() + ".pdf");
+                response.setContentType("application/pdf; charset=UTF-8");
                 response.setContentLength(pdf.size());
                 response.getOutputStream().write(pdf.toByteArray());
                 response.getOutputStream().flush();

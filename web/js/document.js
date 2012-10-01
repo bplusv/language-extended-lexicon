@@ -24,10 +24,13 @@
 
 (function() {
     'use strict';
-    $(function() {
-        $(window).on('submit', '#dcUpdateForm', function(e){
-            e.preventDefault();
-            controller.document.update();
+    $(function() {        
+        $(window).on('mousedown', '#infoBubble', function(e) {
+            e.stopPropagation();
+        });
+        
+        $(window).on('mousedown', function (e) {
+            controller.infoBubble.hide();
         });
         
         $(window).on('mouseup', '.CodeMirror', function(e) {
@@ -37,14 +40,10 @@
         $(window).on('mouseup', '#infoBubble', function(e) {
             e.stopPropagation();
         });
-
-        $(window).on('mousedown', '#infoBubble', function(e) {
-            e.stopPropagation();
+        
+        $(window).on('submit', '#dcUpdateForm', function(e){
+            e.preventDefault();
+            controller.document.update();
         });
-
-        $(window).on('mousedown', function (e) {
-            controller.infoBubble.hide();
-        });
-
     });
 })();

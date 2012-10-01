@@ -25,6 +25,30 @@
 (function(){
     'use strict';
     $(function() {
+        $(window).on('change', '#clCategory', function() {
+            controller.classify.updateInterface();
+        });
+
+        $(window).on('change', '#clSynonymsSelect', function() {
+            controller.classify.selectSynonym($(this).val());
+        });
+
+        $(window).on('click', '#clCancelGroup', function() {
+            controller.classify.cancelSelectSynonym();
+        });
+        
+        $(window).on('click', '#clChangeGroup', function() {
+            controller.classify.showSynonyms();
+        });
+
+        $(window).on('click', '#clLeaveGroup', function() {
+            controller.classify.leaveSynonymsGroup();
+        });
+        
+        $(window).on('click', '#clShowComments', function() {
+            controller.classify.showComments();
+        });
+        
         $(window).on('submit', '#clForm', function(e) {
             e.preventDefault();
             switch ($('#clForm').attr('action')) {
@@ -35,27 +59,6 @@
                     controller.classify.updateSymbol();
                     break;
             }
-        });
-        
-        $(window).on('change', '#clCategory', function() {
-            controller.classify.updateInterface();
-        });
-
-        $(window).on('change', '#clSynonymsSelect', function() {
-            controller.classify.selectSynonym($(this).val());
-        });
-
-        $(window).on('click', '#clChangeGroup', function() {
-            controller.classify.showSynonyms();
-        });
-
-        $(window).on('click', '#clCancelGroup', function() {
-            controller.classify.cancelSelectSynonym();
-            
-        });
-
-        $(window).on('click', '#clLeaveGroup', function() {
-            controller.classify.leaveSynonymsGroup();
         });
     });
 })();
