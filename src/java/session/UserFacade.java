@@ -96,4 +96,25 @@ public class UserFacade extends AbstractFacade<User> {
             return null;
         }
     }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Boolean changePassword(String userId, String currentPassword, 
+        String newPassword, String confirmNewPassword) {
+        try {
+            Boolean success = false;
+            User user = find(userId);
+            if (user.getPassword().equals(makeHash(currentPassword)) &&
+                    !user.getPassword().equals(makeHash(newPassword)) &&
+                    newPassword.equals(confirmNewPassword)) {
+                user.setPassword(makeHash(newPassword));
+                em.merge(user);
+                em.flush();
+                success = true;
+            }
+            return success;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return false;
+        }
+    }
 }

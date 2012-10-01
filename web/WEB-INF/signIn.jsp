@@ -38,11 +38,11 @@
                     <h2 id="siAd"><fmt:message key="sign in" /></h2>
                     <div class="siField">
                         <label id="siUsernameLabel" for="siUsername"><strong><fmt:message key="username" /></strong></label>
-                        <input id="siUsername" type="text" name="username" maxlength="50" autofocus />
+                        <input id="siUsername" name="username" type="text" maxlength="50" autofocus />
                     </div>
                     <div class="siField">
-                        <label for="siPassword" id="siPasswordLabel"><strong><fmt:message key="password" /></strong></label>
-                        <input type="password" maxlength="255" id="siPassword" name="password" />
+                        <label id="siPasswordLabel" for="siPassword"><strong><fmt:message key="password" /></strong></label>
+                        <input id="siPassword" name="password" type="password" maxlength="255" />
                     </div>
                     <input id="siDoSignIn" type="submit" class="button" value="<fmt:message key="sign in" />" />
                 </form>

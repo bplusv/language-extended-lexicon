@@ -48,6 +48,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/data/classifyShowSynonyms",
     "/get/data/exploreSymbols",
     "/get/data/projectSymbols",
+    "/get/view/account",
     "/get/view/classify",
     "/get/view/document",
     "/get/view/explore",
@@ -55,6 +56,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/manageProjects",
     "/get/view/test",
     "/signIn",
+    "/post/changePassword",
     "/post/chooseLanguage",
     "/post/createDocument",
     "/post/createProject",
@@ -127,6 +129,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/data/classifyShowSynonyms")) {
         } else if (userPath.equals("/get/data/exploreSymbols")) {
         } else if (userPath.equals("/get/data/projectSymbols")) {
+        } else if(userPath.equals("/get/view/account")) {
         } else if (userPath.equals("/get/view/classify")) {
             Symbol symbol = request.getParameter("sy") != null
                     ? symbolFacade.find(request.getParameter("sy"))
@@ -158,6 +161,9 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
+        } else if (userPath.equals("/get/view/test")) {
+            String foo = "Esto es una prueba del sistema LeL.";
+            request.setAttribute("foo", foo);
         } else if (userPath.equals("/projectReport")) {
             try {
                 Project project = (Project) session.getAttribute("project");
@@ -175,9 +181,6 @@ public class ControllerServlet extends HttpServlet {
                 log.log(Level.SEVERE, e.getMessage());
             }
             return;
-        } else if (userPath.equals("/get/view/test")) {
-            String foo = "Esto es una prueba del sistema LeL.";
-            request.setAttribute("foo", foo);
         } else if (userPath.equals("/signIn")) {
         }
 
@@ -197,7 +200,14 @@ public class ControllerServlet extends HttpServlet {
         session = request.getSession(false);
         String userPath = request.getServletPath();
 
-        if (userPath.equals("/post/chooseLanguage")) {
+        if (userPath.equals("/post/changePassword")) {
+            Boolean success = userFacade.changePassword(
+                    ((User) session.getAttribute("user")).getId().toString(), 
+                    request.getParameter("currentPassword"), 
+                    request.getParameter("newPassword"),
+                    request.getParameter("confirmNewPassword"));
+            request.setAttribute("success", success);
+        } else if (userPath.equals("/post/chooseLanguage")) {
             try {
                 String language = request.getParameter("language").toLowerCase();
                 Cookie languageCookie = new Cookie("language", language);
