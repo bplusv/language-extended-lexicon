@@ -551,6 +551,11 @@ window.controller = (function($, CodeMirror) {
         }, $('#mpLoadForm').serialize());
     };
     
+    api.account = {};
+    api.account.changePassword = function() {
+        ajaxRequest('/post/changePassword', null, $('#acChangePassForm').serialize());
+    };
+    
     api.scrollingText = {};
     api.scrollingText.scroll = function(container) {
         var $container = $(container);

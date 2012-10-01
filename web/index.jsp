@@ -23,6 +23,7 @@
         <link rel="stylesheet" type="text/css" href="js/lib/jquery.confirm/jquery.confirm.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/index.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/account.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/classify.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/document.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/explore.css" media="all" charset="UTF-8" />
@@ -37,6 +38,7 @@
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/account.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
