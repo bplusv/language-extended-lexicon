@@ -47,7 +47,9 @@
         <h3 id="notification"></h3>
         <img id="ajaxLoader" src="img/ajaxLoader.gif" />
         <header id="ixHeader">
-            <img id="ixHeaderLogo" src="img/headerLogo.png" />
+            <a id="ixHeaderLogo" href="#!/manageProjects">
+                <img src="img/headerLogo.png" />
+            </a>
             <div id="ixUserMenu">
                 <div class="downArrow"></div>
                 <span class="user overflowEllipsis"><c:out value="${user.name}" /></span>

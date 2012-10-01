@@ -27,6 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -66,11 +68,12 @@ public class ReportManager {
     protected DefinitionFacade definitionFacade;
     protected FopFactory fopFactory = FopFactory.newInstance();
     protected TransformerFactory tFactory = TransformerFactory.newInstance();
+    private Logger log = Logger.getLogger(ReportManager.class.getName());
 
     public ByteArrayOutputStream makeProjectReportPdf(String projectId, String language) {
         try {
             ResourceBundle rb = ResourceBundle.getBundle(
-                    "language.messages", Locale.forLanguageTag(language));
+                    "language.messages", new Locale(language));
             DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
             Document doc = docBuilder.newDocument();
@@ -191,6 +194,7 @@ public class ReportManager {
                 ReportManager.class.getResourceAsStream("/report/projectReport.xsl"));
             return makePdf(xmlSource, xsltSrc);
         } catch (Exception e) {
+            log.log(Level.SEVERE, e.getMessage());
             return null;
         }
     }
@@ -204,6 +208,7 @@ public class ReportManager {
             transformer.transform(xmlSource, result);
             return pdf;
         } catch (Exception e) {
+            log.log(Level.SEVERE, e.getMessage());
             return null;
         }
     }
