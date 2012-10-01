@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -91,6 +93,7 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     protected ReportManager reportManager;
     private HttpSession session;
+    private Logger log = Logger.getLogger(ReportManager.class.getName());
 
     @Override
     public void init() throws ServletException {
@@ -157,7 +160,6 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/projectReport")) {
             try {
-                
                 Project project = (Project) session.getAttribute("project");
                 Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
                 String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
@@ -170,6 +172,7 @@ public class ControllerServlet extends HttpServlet {
                 response.getOutputStream().write(pdf.toByteArray());
                 response.getOutputStream().flush();
             } catch (Exception e) {
+                log.log(Level.SEVERE, e.getMessage());
             }
             return;
         } else if (userPath.equals("/get/view/test")) {

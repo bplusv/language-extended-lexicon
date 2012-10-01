@@ -235,16 +235,20 @@ window.controller = (function($, CodeMirror) {
                 hash = hash.split('?');
                 ajaxRequest('/get/view' + hash[0], 
                     function(res) {
-                        $('#central').html(res);
                         switch(hash[0]) {
                             case '/classify':
                                 updateProjectSymbols();
+                                $('#central').html(res);
                                 updateCodeMirrorEditors();
                                 api.classify.updateInterface();
                                 break;
                             case '/document':
                                 updateProjectSymbols();
+                                $('#central').html(res);
                                 updateCodeMirrorEditors();
+                                break;
+                            default:
+                                $('#central').html(res);
                                 break;
                         }
                     }, hash[1]);
@@ -276,7 +280,6 @@ window.controller = (function($, CodeMirror) {
                 $('#clDefinitionTopRight').css('visibility', 'visible');
                 $('#clLogUserName').text($(response).find('log > user > name').text());
                 $('#clLogDate').text($(response).find('log > date').text());
-                $('#clNewComment').data('codeMirror').setValue('');
                 updateProjectSymbols();
                 updateCodeMirrorEditors();
                 api.classify.updateComments(response);
@@ -313,7 +316,6 @@ window.controller = (function($, CodeMirror) {
             }
             $('#clDocumentTitle').text($(response).find('document > name').text() || $('#clDocumentName').val());
             $('#clCategory').val($(response).find('category').text());
-            $('#clCategory').trigger('change');
             $('#clClassification').val($(response).find('classification').text());
             $('#clLogUserName').text($(response).find('log > user > name').text());
             $('#clLogDate').text($(response).find('log > date').text());
@@ -321,7 +323,12 @@ window.controller = (function($, CodeMirror) {
             $('#clActualIntention').data('codeMirror').setValue($(response).find('actualIntention').text());
             $('#clFutureIntention').data('codeMirror').setValue($(response).find('futureIntention').text());
             api.classify.updateComments(response);
+            api.classify.updateInterface();
         }, 'symbol=' + id);
+    };
+    api.classify.hideComments = function() {
+        $('#clComments').css('display', 'none');
+        $('#clShowComments').css('display', 'block');
     };
     api.classify.showComments = function() {
         $('#clComments').css('display', 'block');
@@ -361,6 +368,10 @@ window.controller = (function($, CodeMirror) {
             ).append($('<div>').css('clear', 'both'))
             .appendTo($clComments);
         });
+        if ($('#clNewComment').val()) {
+            api.classify.showComments();
+        }
+        $('#clNewComment').data('codeMirror').setValue('');
         $clComments.scrollTop(0);
     };
     api.classify.updateInterface = function() {
@@ -372,6 +383,10 @@ window.controller = (function($, CodeMirror) {
             $('#clClassificationField').show();
             $('#clIntentionFields').show();
         }
+        $('#clShowComments').css('display', 
+            $('#clComments').children().length > 0 && 
+            $('#clComments').css('display') === 'none' ? 
+            'block' : 'none');
     };
     api.classify.updateSymbol = function() {
         ajaxRequest('/post/updateSymbol', function(response) {
@@ -385,7 +400,6 @@ window.controller = (function($, CodeMirror) {
                 $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
                 $('#clLogUserName').text($(response).find('log > user > name').text());
                 $('#clLogDate').text($(response).find('log > date').text());
-                $('#clNewComment').data('codeMirror').setValue('');
                 api.classify.updateComments(response);
             }
         }, $('#clForm').serialize());
@@ -465,6 +479,32 @@ window.controller = (function($, CodeMirror) {
         }, $('#exForm').serialize());
     };
     
+    api.infoBubble = {};
+    api.infoBubble.show = function(text, left, top) {            
+        if (text != '') {
+            if(!infoBubble) {
+                infoBubble = $('<a>').attr('id','infoBubble').
+                append($('<span>').addClass('caption')).
+                append($('<span>').addClass('arrow'));
+                infoBubble.hide();
+                infoBubble.on('click', function(e){
+                    infoBubble.hide();
+                });
+                $('body').append(infoBubble);
+            }
+
+            infoBubble.attr('href', '#!/classify?dc=' + 
+                $('#dcDocument').val() + '&na=' + text);
+            infoBubble.find('.caption').text(text);
+            infoBubble.css('top', top - infoBubble.outerHeight() - 35);
+            infoBubble.css('left', left - infoBubble.outerWidth() / 2);
+            infoBubble.show();
+        }
+    };
+    api.infoBubble.hide = function() {
+        if (infoBubble) infoBubble.hide();
+    };
+    
     api.manageDocuments = {};
     api.manageDocuments.create = function() {
         ajaxRequest('/post/createDocument', function(response) {
@@ -540,7 +580,7 @@ window.controller = (function($, CodeMirror) {
     api.signIn = function() {
         ajaxRequest('/post/signIn', function(response) {
             if ($(response).find('success').text() === 'true') {
-                window.location.href = appContext + '#!/explore';
+                window.location.href = appContext + '/#!/explore';
             }
         }, $('#siForm').serialize());
     };
@@ -550,32 +590,6 @@ window.controller = (function($, CodeMirror) {
                 window.location.href = appContext + '/signIn';
             }
         });
-    };
-    
-    api.infoBubble = {};
-    api.infoBubble.show = function(text, left, top) {            
-        if (text != '') {
-            if(!infoBubble) {
-                infoBubble = $('<a>').attr('id','infoBubble').
-                append($('<span>').addClass('caption')).
-                append($('<span>').addClass('arrow'));
-                infoBubble.hide();
-                infoBubble.on('click', function(e){
-                    infoBubble.hide();
-                });
-                $('body').append(infoBubble);
-            }
-
-            infoBubble.attr('href', '#!/classify?dc=' + 
-                $('#dcDocument').val() + '&na=' + text);
-            infoBubble.find('.caption').text(text);
-            infoBubble.css('top', top - infoBubble.outerHeight() - 35);
-            infoBubble.css('left', left - infoBubble.outerWidth() / 2);
-            infoBubble.show();
-        }
-    };
-    api.infoBubble.hide = function() {
-        if (infoBubble) infoBubble.hide();
     };
     return api;
 })(jQuery, CodeMirror);

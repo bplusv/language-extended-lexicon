@@ -93,7 +93,7 @@
                     </div>
                     <div style="clear:both;"></div>
                 </div>
-                <a id="clShowComments"><fmt:message key="show comments" /></a>
+                <a id="clShowComments">-&nbsp;<fmt:message key="show comments" />&nbsp;-</a>
                 <ul id="clComments">
                     <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}" varStatus="iter">
                         <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
