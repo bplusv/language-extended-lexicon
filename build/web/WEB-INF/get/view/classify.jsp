@@ -93,20 +93,21 @@
                     </div>
                     <div style="clear:both;"></div>
                 </div>
+                <a id="clShowComments"><fmt:message key="show comments" /></a>
                 <ul id="clComments">
                     <c:forEach var="comment" items="${symbolFacade.getCommentCollection(symbol.id)}" varStatus="iter">
                         <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
                             <div class="left">
                                 <span class="overflowEllipsis"><c:out value="${comment.user.name}" />:</span>
                                 <span><fmt:formatDate value="${comment.date}" type="date" dateStyle="medium" timeZone="GMT-6" /><span>
-                                        </div>
-                                        <div class="right">${projectFacade.tagSymbols(comment.content)}</div>
-                                        <div style="clear:both;"></div>
-                                        </li>
-                                    </c:forEach>
-                                    </ul>
-                                    </div>
-                                    </div>
-                                    </div>
-                                    <input id="clSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />
-                                    </form>
+                            </div>
+                            <div class="right">${projectFacade.tagSymbols(comment.content)}</div>
+                            <div style="clear:both;"></div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <input id="clSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />
+</form>

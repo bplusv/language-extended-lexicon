@@ -79,6 +79,7 @@
 }
 
 #clComments {
+    display: none;
     list-style-type: none;
     max-height: 200px;
     overflow: scroll;
@@ -260,6 +261,12 @@
     bottom: 0;
     position: absolute;
     right: 0;
+}
+
+#clShowComments {
+    display: block;
+    margin: 20px 0 0 0;
+    text-align: center;
 }
 
 #clSynonymsSelect {

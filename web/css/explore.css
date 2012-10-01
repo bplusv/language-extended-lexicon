@@ -97,7 +97,14 @@
 }
 
 #exForm {
+    padding-bottom: 70px;
+    position: relative;
+}
 
+#exProjectReport {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
 }
 
 #exSearch {

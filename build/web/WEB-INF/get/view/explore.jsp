@@ -55,3 +55,5 @@
             </c:forEach>
         </tbody>
     </table>
+                <a id="exProjectReport" class="button" href="projectReport"><fmt:message key="report" /></a>
+</form>

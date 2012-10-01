@@ -25,22 +25,22 @@
 (function() {
     'use strict';
     $(function() {
-        $(window).on('submit', '#exForm', function(e) {
+        $(window).on('click', '.exSymbolsRow span.removeSymbol', function(e) {
             e.preventDefault();
-            controller.explore.search();
+            controller.explore.confirmRemoveSymbol(this);
         });
         
-        $(window).on('keyup', '#exSearch', function() {
-            controller.explore.search();
-        });
-
         $(window).on('click', '#exSearchClear', function() {
             controller.explore.clearSearch();
         });
 
-        $(window).on('click', '.exSymbolsRow span.removeSymbol', function(e) {
+        $(window).on('keyup', '#exSearch', function() {
+            controller.explore.search();
+        });
+        
+        $(window).on('submit', '#exForm', function(e) {
             e.preventDefault();
-            controller.explore.confirmRemoveSymbol(this);
+            controller.explore.search();
         });
     });
 })();
