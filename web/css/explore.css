@@ -101,6 +101,12 @@
     position: relative;
 }
 
+#exManageProjects {
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+}
+
 #exProjectReport {
     bottom: 0px;
     position: absolute;
