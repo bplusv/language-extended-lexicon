@@ -220,11 +220,9 @@ window.controller = (function($, CodeMirror) {
     
     api.changeLanguage = function(lang) {
         ajaxRequest('/post/chooseLanguage', function(response) {
-            var redirect;
             if ($(response).find('success').text() === 'true') {
-                redirect =  window.location.reload();
+                window.location.reload();
             }
-            return redirect;
         }, 'language=' + lang);
     };
     
@@ -260,7 +258,13 @@ window.controller = (function($, CodeMirror) {
         
     api.account = {};
     api.account.changePassword = function() {
-        ajaxRequest('/post/changePassword', null, $('#acChangePassForm').serialize());
+        ajaxRequest('/post/changePassword', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                $('.acChangePassField input').val('');
+                $('#acNewPasswordStrength').text('');
+                $('#acNewPasswordStrengthBar').width(0);
+            }
+        }, $('#acChangePassForm').serialize());
     };
     api.account.checkPasswordStrength = function() {
         var $passStrength = $('#acNewPasswordStrength');
