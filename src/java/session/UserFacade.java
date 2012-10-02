@@ -103,9 +103,9 @@ public class UserFacade extends AbstractFacade<User> {
         try {
             Boolean success = false;
             User user = find(userId);
-            if (user.getPassword().equals(makeHash(currentPassword)) &&
-                    !user.getPassword().equals(makeHash(newPassword)) &&
-                    newPassword.equals(confirmNewPassword)) {
+            if (!newPassword.isEmpty() && newPassword.equals(confirmNewPassword) && 
+                    user.getPassword().equals(makeHash(currentPassword)) &&
+                    !user.getPassword().equals(makeHash(newPassword))) {
                 user.setPassword(makeHash(newPassword));
                 em.merge(user);
                 em.flush();

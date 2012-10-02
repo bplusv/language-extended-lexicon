@@ -4,8 +4,8 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
+<h3 id="acChangePassAd"><fmt:message key="change password" /></h3>
 <form id="acChangePassForm" action="/post/changePassword" method="POST">
-    <h3 id="acChangePassAd"><fmt:message key="change password" /></h3>
     <div class="acChangePassField">
         <label id="acCurrentPasswordLabel" for="acCurrentPassword"><fmt:message key="current password" /></label>
         <input id="acCurrentPassword" name="currentPassword" type="password" maxlength="255" autofocus />
