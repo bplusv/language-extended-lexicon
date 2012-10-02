@@ -29,5 +29,8 @@
             e.preventDefault();
             controller.account.changePassword();
         });
+        $(window).on('keyup', '#acNewPassword', function(e) {
+            controller.account.checkPasswordStrength();
+        })
     });
 })();

@@ -8,8 +8,7 @@
 @charset "UTF-8";
 
 .siField {
-    margin-bottom: 15px;
-    margin-top: 15px;
+    margin: 15px 0;
     width: 250px;
 }
 

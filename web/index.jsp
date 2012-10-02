@@ -36,6 +36,7 @@
         <script src="js/lib/codemirror-2.34/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/lib/jquery.pwdStrength.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/account.js" type="text/javascript" charset="UTF-8"></script>
@@ -88,6 +89,7 @@
                             </c:choose>
                         </ul>
                     </li>
+                    <li><a href="#!/account"><fmt:message key="account" /></a></li>
                     <li><a id="ixSignOut" href="javascript:;" ><fmt:message key="sign out" /></a></li>
                 </ul>
             </div>

@@ -34,16 +34,16 @@
 
 .clDefinitionField.Left {
     float: left;
-    width: 48%;
+    width: 360px;
 }
 
 .clDefinitionField.Right {
     float: right;
-    width: 48%;
+    width: 360px;
 }
 
 #clActualIntention {
-
+    width: 356px;
 }
 
 #clActualIntentionLabel {
@@ -81,6 +81,7 @@
 #clComments {
     display: none;
     list-style-type: none;
+    margin-top: 10px;
     max-height: 200px;
     overflow: scroll;
     overflow-x: hidden;
@@ -202,7 +203,7 @@
 }
 
 #clFutureIntention {
-
+    width: 356px;
 }
 
 #clFutureIntentionLabel {
@@ -224,7 +225,6 @@
 }
 
 #clNewCommentField {
-    margin-bottom: 10px;
     width: 726px;
 }
 
@@ -248,7 +248,7 @@
 }
 
 #clNotion {
-
+    width: 744px;
 }
 
 #clNotionLabel {
@@ -269,6 +269,7 @@
 
 #clShowComments {
     display: block;
+    margin-top: 10px;
     text-align: center;
 }
 
