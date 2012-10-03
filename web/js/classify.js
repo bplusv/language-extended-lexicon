@@ -49,6 +49,10 @@
             controller.classify.showComments();
         });
         
+        $(window).on('click', '#clHideComments', function() {
+            controller.classify.hideComments();
+        });
+        
         $(window).on('submit', '#clForm', function(e) {
             e.preventDefault();
             switch ($('#clForm').attr('action')) {

@@ -371,11 +371,13 @@ window.controller = (function($, CodeMirror) {
     };
     api.classify.hideComments = function() {
         $('#clComments').css('display', 'none');
-        $('#clShowComments').css('display', 'block');
+        $('#clShowComments').css('display', 'inline-block');
+        $('#clHideComments').css('display', 'none');
     };
     api.classify.showComments = function() {
         $('#clComments').css('display', 'block');
         $('#clShowComments').css('display', 'none');
+        $('#clHideComments').css('display', 'inline-block');
     };
     api.classify.showSynonyms = function() {
         $(window).scrollTop($('#clTitle').offset().top);
@@ -428,10 +430,11 @@ window.controller = (function($, CodeMirror) {
             $('#clClassification').show();
             $('#clIntentionFields').show();
         }
-        $('#clShowComments').css('display', 
-            $('#clComments').children().length > 0 && 
-            $('#clComments').css('display') === 'none' ? 
-            'block' : 'none');
+        if ($('#clComments').children().length > 0) {
+            $('#clCommentsToggle').css('display', 'block');
+        } else {
+            $('#clCommentsToggle').css('display', 'none');
+        }
     };
     api.classify.updateSymbol = function() {
         ajaxRequest('/post/updateSymbol', function(response) {
