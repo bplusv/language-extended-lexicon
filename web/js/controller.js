@@ -420,8 +420,8 @@ window.controller = (function($, CodeMirror) {
         $clComments.scrollTop(0);
     };
     api.classify.updateInterface = function() {
-        // is 'general' category selected?
-        if ($('#clCategory').val() === '1') {
+        // is 'general term' or 'no functional requirement' category selected?
+        if ($('#clCategory').val() === '1' || $('#clCategory').val() === '2') {
             $('#clClassificationLabel').hide();
             $('#clClassification').hide();
             $('#clIntentionFields').hide();
