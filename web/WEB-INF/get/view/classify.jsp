@@ -29,40 +29,30 @@
         <select id="clSynonymsSelect" name="synonym" size="7"></select>
     </div>
     <div id="clDefinitionTop">
-        <div>
-            <div id="clDefinitionTopLeft">
-                <div>
-                    <div><label><fmt:message key="document" />:</label></div>
-                    <div><h3 id="clDocumentTitle" class="clInfo overflowEllipsis"><c:out value="${symbol.document.name}" /></h3></div>
-                </div>
-                <div>
-                    <div><label id="clCategoryLabel" for="clCategory"><fmt:message key="category" />:</label></div>
-                    <div>
-                        <select id="clCategory" name="category">
-                            <c:forEach var="category" items="${categories}" varStatus="iter">
-                                <option value="${category.id}" ${symbol.definition.category.id == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
-                <div id="clClassificationField">
-                    <div><label id="clClassificationLabel" for="clClassification"><fmt:message key="classification" />:</label></div>
-                    <div>
-                        <select id="clClassification" name="classification">
-                            <c:forEach var="classification" items="${classifications}">
-                                <option value="${classification.id}" ${symbol.definition.classification.id == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
+        <div class="left">
+            <div class="left">
+                <label><fmt:message key="document" />:</label>
+                <label id="clCategoryLabel" for="clCategory"><fmt:message key="category" />:</label>
+                <label id="clClassificationLabel" for="clClassification"><fmt:message key="classification" />:</label>
+            </div>
+            <div class="right">
+                <h3 id="clDocumentTitle" class="clInfo overflowEllipsis"><c:out value="${symbol.document.name}" /></h3>
+                <select id="clCategory" name="category">
+                    <c:forEach var="category" items="${categories}" varStatus="iter">
+                        <option value="${category.id}" ${symbol.definition.category.id == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
+                    </c:forEach>
+                </select>
+                <select id="clClassification" name="classification">
+                    <c:forEach var="classification" items="${classifications}">
+                        <option value="${classification.id}" ${symbol.definition.classification.id == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
+                    </c:forEach>
+                </select>                
             </div>
         </div>
-        <div>
-            <div id="clDefinitionTopRight" style="visibility:${!empty log ? 'visible' : 'hidden'};">
-                <label><fmt:message key="last edited" />:</label>
-                <h3 id="clLogUserName" class="clInfo overflowEllipsis"><c:out value="${log.user.name}" /></h3>
-                <h3 id="clLogDate" class="clInfo"><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></h3>
-            </div>
+        <div class="right">
+            <label><fmt:message key="last edited" />:</label>
+            <h3 id="clLogUserName" class="clInfo overflowEllipsis"><c:out value="${log.user.name}" /></h3>
+            <h3 id="clLogDate" class="clInfo"><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></h3>
         </div>
     </div>
     <div id="clDefinitionBottom">

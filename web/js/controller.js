@@ -420,10 +420,12 @@ window.controller = (function($, CodeMirror) {
     api.classify.updateInterface = function() {
         // is 'general' category selected?
         if ($('#clCategory').val() === '1') {
-            $('#clClassificationField').hide();
+            $('#clClassificationLabel').hide();
+            $('#clClassification').hide();
             $('#clIntentionFields').hide();
         } else {
-            $('#clClassificationField').show();
+            $('#clClassificationLabel').show();
+            $('#clClassification').show();
             $('#clIntentionFields').show();
         }
         $('#clShowComments').css('display', 

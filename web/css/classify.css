@@ -21,7 +21,7 @@
     border-top-left-radius: 0;
     display: block;
     height: auto;
-    min-height: 80px;
+    min-height: 100px;
     max-height: 200px;
     width: 100%;
 }
@@ -63,7 +63,7 @@
 }
 
 #clCategory {
-
+    width: 168px;
 }
 
 #clCategoryLabel {
@@ -71,7 +71,7 @@
 }
 
 #clClassification {
-
+    width: 168px;
 }
 
 #clClassificationLabel {
@@ -132,56 +132,53 @@
 }
 
 #clDefinitionTop {
-    height: 100px;
-    margin-bottom: 25px;
+    height: 102px;
+    margin: 0 auto 25px auto;
     overflow: hidden;
-    width: 748px;
+    width: 718px;
 }
 
-#clDefinitionTop > div {
-    display: inline-block;
+#clDefinitionTop > div.left {
     float: left;
     height: 100%;
-    width: 50%;
+    margin-left: 56px;
+    width: 294px;
 }
 
-#clDefinitionTop label {
-    display: block;
-}
-
-#clDefinitionTop select {
-    width: 100%;
-}
-
-#clDefinitionTopLeft {
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-    width: 250px;
-}
-
-#clDefinitionTopLeft > div {
-    display: block;
-    overflow: hidden;
-}
-
-#clDefinitionTopLeft > div > div {
-    display: inline-block;
+#clDefinitionTop > div.left > div.left {
     float: left;
+    height: 100%;
+    width: 124px;
+}
+
+#clDefinitionTop > div.left > div > * {
+    display: block;
     height: 24px;
     margin-bottom: 10px;
-    width: 50%;
 }
 
+#clDefinitionTop > div.left > div > select {
+    height: 22px;
+}
 
-#clDefinitionTopRight {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    overflow: hidden;
-    padding-bottom: 14px;
-    padding-top: 14px;
+#clDefinitionTop > div.left > div.right {
+    float: left;
+    height: 100%;
+    width: 170px;
+}
+
+#clDefinitionTop > div.right {
+    float: right;
+    height: 72px;
+    margin-right: 56px;
+    margin-top: 15px;
     width: 200px;
+}
+
+#clDefinitionTop > div.right > * {
+    display: block;
+    height: 24px;
+    text-align: center;
 }
 
 #clDocument {
