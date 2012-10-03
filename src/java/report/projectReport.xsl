@@ -8,9 +8,9 @@
             <fo:layout-master-set>
                 <fo:simple-page-master master-name="A4-portrait"
                                        page-height="29.7cm" page-width="21.0cm" margin="2cm">
-                    <fo:region-body margin="1cm" />
-                    <fo:region-before extent="1cm" />
-                    <fo:region-after extent="1cm" />
+                    <fo:region-body margin="1cm 0cm" />
+                    <fo:region-before extent="0.5cm" />
+                    <fo:region-after extent="0.5cm" />
                 </fo:simple-page-master>
             </fo:layout-master-set>
             <fo:page-sequence master-reference="A4-portrait">

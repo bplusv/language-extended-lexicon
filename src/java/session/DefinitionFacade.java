@@ -55,7 +55,8 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
     private void fillDefinition(Definition definition, String categoryId, String classificationId,
             String notion, String actualIntention, String futureIntention) {
         definition.setCategory(categoryFacade.find(categoryId));
-        if ("1".equals(categoryId)) {
+        // is 'general term' or 'no functional requirement' category selected?
+        if ("1".equals(categoryId) || "2".equals(categoryId)) {
             definition.setClassification(null);
             definition.setActualIntention(null);
             definition.setFutureIntention(null);

@@ -88,7 +88,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
         try {
             return em.createQuery("SELECT sy FROM Symbol sy WHERE "
                     + "sy.document = :document AND sy.active = TRUE;").
-                    setParameter("document", documentFacade.find(documentId)).
+                    setParameter("document", find(documentId)).
                     getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
