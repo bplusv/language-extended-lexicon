@@ -9,7 +9,7 @@
 
 .exField {
     display: inline;
-    margin: 0 12px;
+    margin: 0 5px;
     position: relative;
     vertical-align: middle;
 }
@@ -19,7 +19,7 @@
 }
 
 .exField > select {
-    width: 120px;
+
 }
 
 .exSymbolsRow {
@@ -51,8 +51,8 @@
     float: left;
     height: 30px;
     line-height: 30px;
-    padding: 0 8px;
-    width: 164px;
+    padding: 0 5px;
+    width: 170px;
     z-index: 1;
 }
 
@@ -73,7 +73,7 @@
 }
 
 #exCategory {
-
+    width: 168px;
 }
 
 #exCategoryLabel {
@@ -81,7 +81,7 @@
 }
 
 #exClassification {
-
+    width: 98px;
 }
 
 #exClassificationLabel {
