@@ -21,8 +21,8 @@
     border-top-left-radius: 0;
     display: block;
     height: auto;
-    min-height: 100px;
-    max-height: 200px;
+    min-height: 98px;
+    max-height: 198px;
     width: 100%;
 }
 
@@ -63,7 +63,7 @@
 }
 
 #clCategory {
-    width: 168px;
+    width: 198px;
 }
 
 #clCategoryLabel {
@@ -71,7 +71,7 @@
 }
 
 #clClassification {
-    width: 168px;
+    width: 198px;
 }
 
 #clClassificationLabel {
@@ -81,7 +81,6 @@
 #clComments {
     display: none;
     list-style-type: none;
-    margin-top: 10px;
     max-height: 200px;
     overflow: scroll;
     overflow-x: hidden;
@@ -126,6 +125,11 @@
     padding: 10px;
 }
 
+#clCommentsToggle {
+    margin-top: 10px;
+    text-align: center;
+}
+
 #clDefinitionBottom {
     display: block;
     margin-bottom: 54px;
@@ -135,14 +139,14 @@
     height: 102px;
     margin: 0 auto 25px auto;
     overflow: hidden;
-    width: 718px;
+    width: 748px;
 }
 
 #clDefinitionTop > div.left {
     float: left;
     height: 100%;
     margin-left: 56px;
-    width: 294px;
+    width: 324px;
 }
 
 #clDefinitionTop > div.left > div.left {
@@ -164,7 +168,7 @@
 #clDefinitionTop > div.left > div.right {
     float: left;
     height: 100%;
-    width: 170px;
+    width: 200px;
 }
 
 #clDefinitionTop > div.right {
@@ -205,6 +209,11 @@
 
 #clFutureIntentionLabel {
 
+}
+
+#clHideComments {
+    margin-bottom: 10px;
+    display: none;
 }
 
 #clIntentionFields {
@@ -252,6 +261,10 @@
 
 }
 
+#clShowComments {
+    display: inline-block;
+}
+
 #clSaveGroup {
     display: none;
     position: absolute;
@@ -262,12 +275,6 @@
     bottom: 0;
     position: absolute;
     right: 0;
-}
-
-#clShowComments {
-    display: block;
-    margin-top: 10px;
-    text-align: center;
 }
 
 #clSynonymsSelect {
