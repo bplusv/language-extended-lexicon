@@ -24,6 +24,7 @@
 package report;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -44,6 +45,7 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 import model.Category;
 import model.Classification;
+import model.Comment;
 import model.Definition;
 import model.Symbol;
 import org.apache.fop.apps.Fop;
@@ -70,10 +72,13 @@ public class ReportManager {
     protected TransformerFactory tFactory = TransformerFactory.newInstance();
     private Logger log = Logger.getLogger(ReportManager.class.getName());
 
-    public ByteArrayOutputStream makeProjectReportPdf(String projectId, String language) {
+    public ByteArrayOutputStream makeProjectReportPdf(String projectId, String showComments, String language) {
+        showComments = showComments != null ? showComments : "false";
         try {
+            Locale locale = new Locale(language);
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             ResourceBundle rb = ResourceBundle.getBundle(
-                    "language.messages", new Locale(language));
+                    "language.messages", locale);
             DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
             Document doc = docBuilder.newDocument();
@@ -112,6 +117,10 @@ public class ReportManager {
                 Element captionsFutureIntentionElement = doc.createElement("futureIntention");
                 captionsFutureIntentionElement.appendChild(doc.createCDATASection(rb.getString("future intention")));
                 captionsElement.appendChild(captionsFutureIntentionElement);
+                
+                Element captionsCommentsElement = doc.createElement("comments");
+                captionsCommentsElement.appendChild(doc.createCDATASection(rb.getString("comments")));
+                captionsElement.appendChild(captionsCommentsElement);
             
                 Element captionsPageElement = doc.createElement("page");
                 captionsPageElement.appendChild(doc.createCDATASection(rb.getString("page")));
@@ -139,6 +148,11 @@ public class ReportManager {
                 Element notionElement;
                 Element actualIntentionElement;
                 Element futureIntentionElement;
+                Element commentsElement;
+                Element commentElement;
+                Element commentContentElement;
+                Element commentDateElement;
+                Element commentUserElement;
                 for (Definition definition : definitions) {
                     definitionElement = doc.createElement("definition");
                         classificationElement = doc.createElement("classification");
@@ -185,6 +199,26 @@ public class ReportManager {
                                 futureIntentionText : rb.getString("n/a");
                         futureIntentionElement.appendChild(doc.createCDATASection(futureIntentionText));
                         definitionElement.appendChild(futureIntentionElement);
+                        
+                        if ("true".equals(showComments.toLowerCase())) {
+                            commentsElement = doc.createElement("comments");
+                                Collection<Comment> comments = definitionFacade.getCommentCollection(definition.getId().toString());
+                                for (Comment comment : comments) {
+                                    commentElement = doc.createElement("comment");
+                                        commentContentElement = doc.createElement("content");
+                                            commentContentElement.appendChild(doc.createCDATASection(comment.getContent()));
+                                        commentElement.appendChild(commentContentElement);
+                                        commentDateElement = doc.createElement("date");
+                                            commentDateElement.appendChild(doc.createCDATASection(dateFormat.format(comment.getDate())));
+                                        commentElement.appendChild(commentDateElement);
+                                        commentUserElement = doc.createElement("user");
+                                            commentUserElement.appendChild(doc.createCDATASection(comment.getUser().getName()));
+                                        commentElement.appendChild(commentUserElement);
+                                    commentsElement.appendChild(commentElement);
+                                }
+                            definitionElement.appendChild(commentsElement);
+                        }
+                        
                     definitionsElement.appendChild(definitionElement);
                 }
             rootElement.appendChild(definitionsElement);

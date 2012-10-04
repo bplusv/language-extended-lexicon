@@ -25,6 +25,7 @@ package controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +49,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/data/classifyShowSynonyms",
     "/get/data/exploreSymbols",
     "/get/data/projectSymbols",
+    "/get/projectReport",
     "/get/view/account",
     "/get/view/classify",
     "/get/view/document",
@@ -68,8 +70,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/signIn",
     "/post/signOut",
     "/post/updateDocument",
-    "/post/updateSymbol",
-    "/projectReport"})
+    "/post/updateSymbol"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -129,6 +130,23 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/data/classifyShowSynonyms")) {
         } else if (userPath.equals("/get/data/exploreSymbols")) {
         } else if (userPath.equals("/get/data/projectSymbols")) {
+        } else if (userPath.equals("/get/projectReport")) {
+            try {
+                Project project = (Project) session.getAttribute("project");
+                Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
+                String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
+                ByteArrayOutputStream pdf = reportManager.makeProjectReportPdf(
+                        project.getId().toString(), request.getParameter("showComments"), language);
+                response.setHeader("content-disposition", 
+                    "attachment; filename=" + project.getName() + ".pdf");
+                response.setContentType("application/pdf; charset=UTF-8");
+                response.setContentLength(pdf.size());
+                response.getOutputStream().write(pdf.toByteArray());
+                response.getOutputStream().flush();
+            } catch (Exception e) {
+                log.log(Level.SEVERE, e.getMessage());
+            }
+            return;
         } else if(userPath.equals("/get/view/account")) {
         } else if (userPath.equals("/get/view/classify")) {
             Symbol symbol = request.getParameter("sy") != null
@@ -162,25 +180,8 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/get/view/test")) {
-            String foo = "Esto es una prueba del sistema LeL.";
-            request.setAttribute("foo", foo);
-        } else if (userPath.equals("/projectReport")) {
-            try {
-                Project project = (Project) session.getAttribute("project");
-                Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
-                String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
-                ByteArrayOutputStream pdf = reportManager.makeProjectReportPdf(
-                        project.getId().toString(), language);
-                response.setHeader("content-disposition", 
-                    "attachment; filename=" + project.getName() + ".pdf");
-                response.setContentType("application/pdf; charset=UTF-8");
-                response.setContentLength(pdf.size());
-                response.getOutputStream().write(pdf.toByteArray());
-                response.getOutputStream().flush();
-            } catch (Exception e) {
-                log.log(Level.SEVERE, e.getMessage());
-            }
-            return;
+            Collection<Comment> comments = definitionFacade.getCommentCollection("6");
+            request.setAttribute("comments", comments);
         } else if (userPath.equals("/signIn")) {
         }
 

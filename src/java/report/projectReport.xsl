@@ -81,12 +81,30 @@
                             </fo:inline>
                             <xsl:value-of select="actualIntention" />
                         </fo:block>
-                        <fo:block space-after="2cm">
+                        <fo:block space-after="0.5cm">
                             <fo:inline font-weight="bold">
                                 <xsl:value-of select="/root/captions/futureIntention" />
                                 <xsl:text>: </xsl:text>
                             </fo:inline>
                             <xsl:value-of select="futureIntention" />
+                        </fo:block>
+                        <fo:block space-after="2cm">
+                            <xsl:if test="comments">
+                                <fo:inline font-weight="bold">
+                                    <xsl:value-of select="/root/captions/comments" />
+                                    <xsl:text>: </xsl:text>
+                                </fo:inline>
+                                <xsl:for-each select="comments/comment">
+                                    <fo:inline font-style="italic">
+                                        <xsl:value-of select="date" />
+                                        <xsl:text> - </xsl:text>
+                                        <xsl:value-of select="user" />
+                                        <xsl:text>: </xsl:text>
+                                    </fo:inline>
+                                    <xsl:value-of select="content" />
+                                    <fo:block space-after="0.5cm"></fo:block>
+                                </xsl:for-each>
+                            </xsl:if>
                         </fo:block>
                     </xsl:for-each>
                     <fo:block id="last-page">
