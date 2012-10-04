@@ -55,6 +55,9 @@
             </c:forEach>
         </tbody>
     </table>
+    <span id="exProjectReportField">
+        <a id="exProjectReport" class="button" href="javascript:;"><fmt:message key="report" /></a>
+        <label id="exProjectReportComments"><input id="exProjectReportCommentsCheck" type="checkbox" name="projectReportComments" />&nbsp;<fmt:message key="comments" /></label>
+    </span>
     <a id="exManageProjects" class="button" href="#!/manageProjects"><fmt:message key="projects" /></a>
-    <a id="exProjectReport" class="button" href="projectReport"><fmt:message key="report" /></a>
 </form>

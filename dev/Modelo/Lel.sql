@@ -203,12 +203,12 @@ CREATE  TABLE IF NOT EXISTS `lel`.`project_users` (
   PRIMARY KEY (`project`, `user`) ,
   INDEX `idx_project_users_user` (`user` ASC) ,
   INDEX `idx_project_users_project` (`project` ASC) ,
-  CONSTRAINT `fk_project_has_user_project`
+  CONSTRAINT `fk_project_users_project`
     FOREIGN KEY (`project` )
     REFERENCES `lel`.`project` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_project_has_user_user`
+  CONSTRAINT `fk_project_users_user`
     FOREIGN KEY (`user` )
     REFERENCES `lel`.`user` (`id` )
     ON DELETE NO ACTION
@@ -242,18 +242,18 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lel`.`definition_comments` ;
 
 CREATE  TABLE IF NOT EXISTS `lel`.`definition_comments` (
-  `definition_id` INT UNSIGNED NOT NULL ,
-  `comments_id` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`definition_id`, `comments_id`) ,
-  INDEX `idx_definition_has_comments_comments` (`comments_id` ASC) ,
-  INDEX `idx_definition_has_comments_definition` (`definition_id` ASC) ,
-  CONSTRAINT `fk_definition_has_comments_definition`
-    FOREIGN KEY (`definition_id` )
+  `definition` INT UNSIGNED NOT NULL ,
+  `comment` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`definition`, `comment`) ,
+  INDEX `idx_definition_comments_comment` (`comment` ASC) ,
+  INDEX `idx_definition_comments_definition` (`definition` ASC) ,
+  CONSTRAINT `fk_definition_comments_definition`
+    FOREIGN KEY (`definition` )
     REFERENCES `lel`.`definition` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_definition_has_comments_comments`
-    FOREIGN KEY (`comments_id` )
+  CONSTRAINT `fk_definition_comments_comment`
+    FOREIGN KEY (`comment` )
     REFERENCES `lel`.`comment` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

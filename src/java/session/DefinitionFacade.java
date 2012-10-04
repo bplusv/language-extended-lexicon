@@ -124,4 +124,18 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
             return null;
         }
     }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Comment> getCommentCollection(String definitionId) {
+        try {
+            Definition definition = definitionFacade.find(definitionId);
+            return em.createQuery("SELECT de.commentCollection co FROM Definition de "
+                    + "WHERE de = :definition ORDER BY co.date DESC;").
+                    setParameter("definition", definition).
+                    getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
 }

@@ -44,11 +44,11 @@ window.controller = (function($, CodeMirror) {
                 timeout: 5000,
                 success: function(data) {
                     isRequesting = false;
-                    if ($(data).find('sessionTimeOut').text() === 'true') {
+                    response = data;
+                    if ($(response).find('sessionTimeOut').text() === 'true') {
                         window.location.href = appContext + '/signIn';
                         return;
                     }
-                    response = $(data);
                     redirect = callback && callback(response);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -192,6 +192,7 @@ window.controller = (function($, CodeMirror) {
     }
     
     var updateMainInterface = function(response, redirect) {
+        console.log(response);
         if (redirect) {
             if (window.location.hash.indexOf(redirect) > -1) {
                 $(window).trigger('hashchange');
@@ -498,6 +499,11 @@ window.controller = (function($, CodeMirror) {
             }
         });
     }
+    api.explore.downloadProjectReport = function() {
+        var showComments = $('#exProjectReportCommentsCheck').is(':checked');
+        window.location.href = appContext + 
+            '/get/projectReport?showComments=' + showComments;
+    };
     api.explore.removeSymbol = function(id) {
         ajaxRequest('/post/removeSymbol', function(response) {
             var redirect;

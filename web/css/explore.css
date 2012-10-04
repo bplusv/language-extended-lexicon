@@ -103,14 +103,23 @@
 
 #exManageProjects {
     bottom: 0px;
+    right: 0px;
+    position: absolute;
+}
+
+#exProjectReportField {
+    bottom: 0px;
     left: 0px;
     position: absolute;
 }
 
-#exProjectReport {
-    bottom: 0px;
-    position: absolute;
-    right: 0px;
+#exProjectReportCommentsCheck {
+    height: 17px;
+    vertical-align: text-bottom;
+}
+
+#exProjectReportComments {
+    margin-left: 15px;
 }
 
 #exSearch {
