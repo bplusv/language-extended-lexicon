@@ -240,6 +240,7 @@ textarea {
     margin-bottom: 50px;
     min-height: 450px;
     padding: 25px;
+    position: relative;
     width: 748px;
 }
 
