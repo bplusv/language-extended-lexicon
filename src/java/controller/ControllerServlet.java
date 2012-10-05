@@ -136,7 +136,7 @@ public class ControllerServlet extends HttpServlet {
                 Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
                 String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
                 ByteArrayOutputStream pdf = reportManager.makeProjectReportPdf(
-                        project.getId().toString(), request.getParameter("showComments"), language);
+                        project.getId().toString(), request.getParameter("comments"), language);
                 response.setHeader("content-disposition", 
                     "attachment; filename=" + project.getName() + ".pdf");
                 response.setContentType("application/pdf; charset=UTF-8");

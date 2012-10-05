@@ -73,7 +73,7 @@ public class ReportManager {
     private Logger log = Logger.getLogger(ReportManager.class.getName());
 
     public ByteArrayOutputStream makeProjectReportPdf(String projectId, String showComments, String language) {
-        showComments = showComments != null ? showComments : "false";
+        showComments = showComments != null ? showComments : "off";
         try {
             Locale locale = new Locale(language);
             DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
@@ -200,7 +200,7 @@ public class ReportManager {
                         futureIntentionElement.appendChild(doc.createCDATASection(futureIntentionText));
                         definitionElement.appendChild(futureIntentionElement);
                         
-                        if ("true".equals(showComments.toLowerCase())) {
+                        if ("on".equals(showComments.toLowerCase())) {
                             commentsElement = doc.createElement("comments");
                                 Collection<Comment> comments = definitionFacade.getCommentCollection(definition.getId().toString());
                                 for (Comment comment : comments) {

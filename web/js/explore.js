@@ -29,11 +29,7 @@
             e.preventDefault();
             controller.explore.confirmRemoveSymbol(this);
         });
-        
-        $(window).on('click', '#exProjectReport', function() {
-            controller.explore.downloadProjectReport();
-        });
-        
+
         $(window).on('click', '#exSearchClear', function() {
             controller.explore.clearSearch();
         });

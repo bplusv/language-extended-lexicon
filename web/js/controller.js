@@ -192,7 +192,6 @@ window.controller = (function($, CodeMirror) {
     }
     
     var updateMainInterface = function(response, redirect) {
-        console.log(response);
         if (redirect) {
             if (window.location.hash.indexOf(redirect) > -1) {
                 $(window).trigger('hashchange');
@@ -499,11 +498,6 @@ window.controller = (function($, CodeMirror) {
             }
         });
     }
-    api.explore.downloadProjectReport = function() {
-        var showComments = $('#exProjectReportCommentsCheck').is(':checked');
-        window.location.href = appContext + 
-            '/get/projectReport?showComments=' + showComments;
-    };
     api.explore.removeSymbol = function(id) {
         ajaxRequest('/post/removeSymbol', function(response) {
             var redirect;
