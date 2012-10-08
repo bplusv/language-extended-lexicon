@@ -61,7 +61,7 @@ window.controller = (function($, CodeMirror) {
                     isRequesting = false;
                     updateMainInterface(response, redirect);
                 },
-                async: async === false ? false : true
+                async: async === undefined ? true : async
             });
         }
     }
@@ -227,8 +227,13 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.changeView = function(hash) {
-        if (window.location.href.indexOf('/signIn') < 0) {
+        if (window.location.href.indexOf('/signIn') < 0) {       
             if (hash){
+                if ($('#dcUpdateForm').length > 0) {
+                    $('#dcDocumentContent').data('codeMirror').save();
+                    ajaxRequest('/post/updateDocument', null, 
+                        $('#dcUpdateForm').serialize(), false);
+                }   
                 hash = hash.replace(/#!/, '');
                 hash = hash.split('?');
                 ajaxRequest('/get/view' + hash[0], 

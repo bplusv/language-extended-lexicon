@@ -56,6 +56,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/explore",
     "/get/view/manageDocuments",
     "/get/view/manageProjects",
+    "/get/view/manageProjectUsers",
     "/get/view/test",
     "/signIn",
     "/post/changePassword",
@@ -179,6 +180,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
+        } else if (userPath.equals("/get/view/manageProjectUsers")) {
         } else if (userPath.equals("/get/view/test")) {
             Collection<Comment> comments = definitionFacade.getCommentCollection("6");
             request.setAttribute("comments", comments);
