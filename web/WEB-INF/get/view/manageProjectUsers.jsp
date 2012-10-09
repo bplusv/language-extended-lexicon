@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<form id="mpuAddUserForm" action="/post/addProjectUser" method="POST">
+<form id="mpuAddUserForm" action="/lel/post/addProjectUser" method="POST">
     <h3 class="mpuTitle">Add user to <c:out value="${project.name}" /></h3>
     <div class="mpuField">
         <label>Username:&nbsp;</label>
@@ -18,7 +18,7 @@
     <c:forEach var="user" items="${users}" varStatus="iter">
         <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
             <span class="overflowEllipsis"><c:out value="${user.name}" /></span>
-            <a class="removeUser" href="javascript:;">&#215;</a>
+            <a class="removeUser" href="javascript:;" data-user.id="${user.id}">&#215;</a>
         </li>
     </c:forEach>
 </ul>
