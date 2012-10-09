@@ -356,7 +356,7 @@ window.controller = (function($, CodeMirror) {
             $xmlSynonyms.each(function(i, e) {
                 if ($(e).attr('id') != $('#clSymbol').val())
                     synonyms.push($('<a>').attr('href','#!/classify?sy='+ 
-                        $(e).attr('id')).text($(e).children('name').text())[0].outerHTML);
+                        $(e).attr('id')).text($(e).children('name').text()).get(0).outerHTML);
             });
             $('#clSynonymsGroup').html(synonyms.join(', '));
             if ($(response).find('symbol').attr('id') === $('#clSymbol').val()) {
@@ -405,24 +405,26 @@ window.controller = (function($, CodeMirror) {
         });
     };
     api.classify.updateComments = function(response) {
-        var $clComments = $('#clComments');
-        $clComments.children().remove();
-        $(response).find('comments').children().each(function(i,e) {
-            $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+        var $xmlComments = $(response).find('comments').children();
+        var $comments = [];
+        $xmlComments.each(function(i,e) {
+        $comments.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
             .append($('<div>').addClass('left')
                 .append($('<span>').addClass('overflowEllipsis')
                     .text($(e).find('user > name').text()+':'))
-                .append($('<span>').text($(e).find('date').text()))
-                ).append($('<div>').addClass('right').html(
-                tagSymbols($(e).find('content').text()))
-            ).append($('<div>').css('clear', 'both'))
-            .appendTo($clComments);
+                .append($('<span>').text($(e).find('date').text())))
+            .append($('<div>').addClass('right').html(
+                tagSymbols($(e).find('content').text())))
+            .append($('<div>').css('clear', 'both')).get(0));
         });
-        if ($('#clNewComment').val()) {
+        var $clComments = $('#clComments');
+        var $clNewComment = $('#clNewComment');
+        $clComments.children().replaceWith($comments);
+        $clComments.scrollTop(0);
+        if ($clNewComment.val()) {
             api.classify.showComments();
         }
-        $('#clNewComment').data('codeMirror').setValue('');
-        $clComments.scrollTop(0);
+        $clNewComment.data('codeMirror').setValue('');
     };
     api.classify.updateInterface = function() {
         // is 'general term' or 'no functional requirement' category selected?
@@ -515,19 +517,17 @@ window.controller = (function($, CodeMirror) {
     api.explore.search = function(response){
         ajaxRequest('/get/data/exploreSymbols', function(response) {
             var $xmlSymbols = $(response).find('symbols').children();
-            var $tbody = $('#exSymbolsTable tbody');
-            $tbody.empty();
+            var $symbols = [];
             $xmlSymbols.each(function(i, e) {
-                $('<tr>').wrapInner($('<td>').attr('colspan', '5')
-                    .css('background', i % 2 == 0 ? '#fff' : '#f9f9f9').wrapInner(
-                        $('<a>').addClass('exSymbolsRow').attr('href', '#!/classify?sy='+$(e).attr('id'))
+                $symbols.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+                    .append($('<a>').addClass('exSymbol').attr('href', '#!/classify?sy='+$(e).attr('id'))
                         .append($('<span>').addClass('overflowEllipsis exSyName').text($(e).children('name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('category > name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('classification > name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('document > name').text()))
-                        .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))
-                        )).appendTo($tbody);
+                        .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))).get(0));
             });
+            $('#exSymbolsList').children().replaceWith($symbols);
             $('#exSearchClear').css('visibility', $('#exSearch').val() ? 'visible' : 'hidden');
         }, $('#exForm').serialize());
     };
