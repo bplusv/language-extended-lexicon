@@ -25,7 +25,7 @@
 (function() {
     'use strict';
     $(function() {
-        $(window).on('click', '.exSymbolsRow span.removeSymbol', function(e) {
+        $(window).on('click', '.exSymbol span.removeSymbol', function(e) {
             e.preventDefault();
             controller.explore.confirmRemoveSymbol(this);
         });
