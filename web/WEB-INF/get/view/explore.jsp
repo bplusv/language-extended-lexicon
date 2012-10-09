@@ -30,33 +30,28 @@
                 <span id="exSearchClear">&#215;</span>
             </div>
         </div>
-        <table id="exSymbolsTable" cellspacing="0">
-            <thead>
-                <tr>
-                    <th width="182"><fmt:message key="symbol" /></th>
-                    <th width="182"><fmt:message key="category" /></th>
-                    <th width="182"><fmt:message key="classification" /></th>
-                    <th width="182"><fmt:message key="document" /></th>
-                    <th width="20" class="syRem" style="width: 20px;"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="symbol" items="${symbolFacade.findByFilters(project.id, param.ca, param.cl, param.sy)}" varStatus="iter">
-                    <tr>
-                        <td colspan="5" style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
-                            <a class="exSymbolsRow" href="#!/classify?sy=${symbol.id}">
-                                <span class="overflowEllipsis exSyName"><c:out value="${symbol.name}" /></span>
-                                <span class="overflowEllipsis"><fmt:message key="${symbol.definition.category.name}" /></span>
-                                <span class="overflowEllipsis"><fmt:message key="${empty symbol.definition.classification.name ? 'n/a' : symbol.definition.classification.name}" /></span>
-                                <span class="overflowEllipsis"><c:out value="${symbol.document.name}" /></span>
-                                <span class="removeSymbol" data-symbol.id="${symbol.id}" data-symbol.name="${symbol.name}">&#215;</span>
-                            </a>
-                        </td>
-                    </tr>
+            <h3 id="exSymbolsListHeader">
+                <span><fmt:message key="symbol" /></span>
+                <span><fmt:message key="category" /></span>
+                <span><fmt:message key="classification" /></span>
+                <span><fmt:message key="document" /></span>
+            </h3>
+            <ul id="exSymbolsList">
+                <c:set var="symbols" value="${symbolFacade.findByFilters(project.id, param.ca, param.cl, param.sy)}" />
+                <c:forEach var="symbol" items="${symbols}" varStatus="iter">
+                    <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
+                        <a class="exSymbol" href="#!/classify?sy=${symbol.id}">
+                            <span class="overflowEllipsis exSyName"><c:out value="${symbol.name}" /></span>
+                            <span class="overflowEllipsis"><fmt:message key="${symbol.definition.category.name}" /></span>
+                            <span class="overflowEllipsis"><fmt:message key="${empty symbol.definition.classification.name ? 'n/a' : symbol.definition.classification.name}" /></span>
+                            <span class="overflowEllipsis"><c:out value="${symbol.document.name}" /></span>
+                            <span class="removeSymbol" data-symbol.id="${symbol.id}" data-symbol.name="${symbol.name}">&#215;</span>
+                        </a>
+                    </li>
                 </c:forEach>
-            </tbody>
-        </table>
+            </ul>
     </form>
+    <c:if test="${empty symbols}" ><h1 id="exEmptySymbolsListMessage"><fmt:message key="it's lonely here" /></h1></c:if>
     <form id="exProjectReportField" action="get/projectReport" method="GET">
         <input id="exProjectReport" class="button" type="submit" value="<fmt:message key="report" />" />
         <label id="exProjectReportComments"><input id="exProjectReportCommentsCheck" type="checkbox" name="comments" />&nbsp;<fmt:message key="comments" /></label>
