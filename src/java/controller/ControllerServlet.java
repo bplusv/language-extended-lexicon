@@ -59,6 +59,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/manageProjectUsers",
     "/get/view/test",
     "/signIn",
+    "/post/addProjectUser",
     "/post/changePassword",
     "/post/chooseLanguage",
     "/post/createDocument",
@@ -181,6 +182,8 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/get/view/manageProjectUsers")) {
+            Collection<User> users = userFacade.findAll();
+            request.setAttribute("users", users);
         } else if (userPath.equals("/get/view/test")) {
             Collection<Comment> comments = definitionFacade.getCommentCollection("6");
             request.setAttribute("comments", comments);
@@ -203,7 +206,9 @@ public class ControllerServlet extends HttpServlet {
         session = request.getSession(false);
         String userPath = request.getServletPath();
 
-        if (userPath.equals("/post/changePassword")) {
+        if (userPath.equals("/post/addProjectUser")) {
+            
+        } else if (userPath.equals("/post/changePassword")) {
             Boolean success = userFacade.changePassword(
                     ((User) session.getAttribute("user")).getId().toString(), 
                     request.getParameter("currentPassword"), 

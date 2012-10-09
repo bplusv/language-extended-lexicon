@@ -25,7 +25,21 @@ package model;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,12 +58,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Project.findByName", query = "SELECT p FROM Project p WHERE p.name = :name"),
     @NamedQuery(name = "Project.findByDescription", query = "SELECT p FROM Project p WHERE p.description = :description")})
 public class Project implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -65,6 +77,9 @@ public class Project implements Serializable {
         @JoinColumn(name = "user", referencedColumnName = "id")})
     @ManyToMany
     private Collection<User> userCollection;
+    @JoinColumn(name = "owner", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User owner;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Collection<Document> documentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
@@ -115,6 +130,14 @@ public class Project implements Serializable {
         this.userCollection = userCollection;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     @XmlTransient
     public Collection<Document> getDocumentCollection() {
         return documentCollection;
@@ -157,4 +180,5 @@ public class Project implements Serializable {
     public String toString() {
         return "model.Project[ id=" + id + " ]";
     }
+    
 }
