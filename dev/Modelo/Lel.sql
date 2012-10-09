@@ -15,7 +15,6 @@ CREATE  TABLE IF NOT EXISTS `lel`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(50) NOT NULL ,
   `password` VARCHAR(255) NOT NULL ,
-  `admin` BIT NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `uniq_user_name` (`name` ASC) )
 ENGINE = InnoDB;
@@ -30,8 +29,15 @@ CREATE  TABLE IF NOT EXISTS `lel`.`project` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
   `description` VARCHAR(255) NULL ,
+  `owner` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `uniq_project_name` (`name` ASC) )
+  UNIQUE INDEX `uniq_project_name` (`name` ASC) ,
+  INDEX `fk_project_owner_idx` (`owner` ASC) ,
+  CONSTRAINT `fk_project_owner`
+    FOREIGN KEY (`owner` )
+    REFERENCES `lel`.`user` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

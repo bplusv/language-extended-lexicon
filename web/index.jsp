@@ -29,6 +29,7 @@
         <link rel="stylesheet" type="text/css" href="css/explore.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/manageDocuments.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/manageProjects.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/manageProjectUsers.css" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
