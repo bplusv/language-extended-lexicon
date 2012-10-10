@@ -406,9 +406,9 @@ window.controller = (function($, CodeMirror) {
     };
     api.classify.updateComments = function(response) {
         var $xmlComments = $(response).find('comments').children();
-        var $comments = [];
-        $xmlComments.each(function(i,e) {
-        $comments.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+        var comments = [];
+        $xmlComments.each(function(i, e) {
+        comments.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
             .append($('<div>').addClass('left')
                 .append($('<span>').addClass('overflowEllipsis')
                     .text($(e).find('user > name').text()+':'))
@@ -419,7 +419,7 @@ window.controller = (function($, CodeMirror) {
         });
         var $clComments = $('#clComments');
         var $clNewComment = $('#clNewComment');
-        $clComments.children().replaceWith($comments);
+        $clComments.children().replaceWith(comments);
         $clComments.scrollTop(0);
         if ($clNewComment.val()) {
             api.classify.showComments();
@@ -487,7 +487,7 @@ window.controller = (function($, CodeMirror) {
         var cancelMsg = $('#messages .cancel').html();
         $.confirm({
             'title'	: title,
-            'message'	: $('<span>').addClass('symbolName').
+            'message'	: $('<span>').addClass('itemName').
             text(symbolName)[0].outerHTML + message,
             'buttons'	: {
                 'delete'	: {
@@ -576,6 +576,61 @@ window.controller = (function($, CodeMirror) {
             }
             return redirect;
         }, $('#mdLoadForm').serialize());
+    };
+    
+    api.manageProjectUsers = {};
+    api.manageProjectUsers.addProjectUser = function() {
+        ajaxRequest('/post/addProjectUser', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                $('#mpuAddUserName').val('');
+                api.manageProjectUsers.updateUserList(response);
+            }
+        }, $('#mpuAddUserForm').serialize());
+    };
+    api.manageProjectUsers.confirmRemoveUser = function(targetUser) {
+        var id = $(targetUser).data('user.id');
+        var userName = $(targetUser).data('user.name');
+        var title = $('#messages .removeProjectUserConfirmationTitle').html();
+        var message = $('#messages .removeProjectUserConfirmation').html();
+        var deleteMsg = $('#messages .remove').html();
+        var cancelMsg = $('#messages .cancel').html();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<span>').addClass('itemName').
+            text(userName)[0].outerHTML + message,
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.manageProjectUsers.removeProjectUser(id);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+    }
+    api.manageProjectUsers.removeProjectUser = function(userId) {
+        ajaxRequest('/post/removeProjectUser', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjectUsers.updateUserList(response);
+            }
+        }, 'userId='+userId);
+    };
+    api.manageProjectUsers.updateUserList = function(response) {
+        var $xmlUsers = $(response).find('users').children();
+        var users = [];
+        $xmlUsers.each(function(i, e) {
+        users.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+            .append($('<span>').addClass('overflowEllipsis').text($(e).find('name').text()))
+            .append($('<a>').addClass('removeUser').data('user.id', $(e).attr('id'))
+                .data('user.name', $(e).find('name').text()).html('&#215;')).get(0));
+        });
+        $('#mpuUsersList').children().replaceWith(users);
     };
     
     api.manageProjects = {};
