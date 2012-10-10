@@ -7,4 +7,13 @@
 <root>
 <success>${success}</success>
 <message><fmt:message key="add project user ${success ? 'success' : 'fail'}" /></message>
+<project id="${project.id}">
+    <users>
+        <c:forEach var="user" items="${projectFacade.getUserCollection(project.id)}">
+            <user id="${user.id}">
+                <name><![CDATA[${user.name}]]></name>
+            </user>
+        </c:forEach>
+    </users>
+</project>
 </root>

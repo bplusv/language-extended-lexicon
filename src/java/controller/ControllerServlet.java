@@ -183,9 +183,14 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/get/view/manageProjectUsers")) {
-            Collection<User> users = projectFacade.getUserCollection(
-                ((Project) session.getAttribute("project")).getId().toString());
-            request.setAttribute("users", users);
+            Project project = (Project) session.getAttribute("project");
+            if (project != null) {
+                Collection<User> users = projectFacade.getUserCollection(
+                    project.getId().toString());
+                request.setAttribute("users", users);
+            } else {
+                userPath = "/get/view/manageProjects";
+            }
         } else if (userPath.equals("/get/view/test")) {
             Collection<Comment> comments = definitionFacade.getCommentCollection("6");
             request.setAttribute("comments", comments);
@@ -193,7 +198,6 @@ public class ControllerServlet extends HttpServlet {
         }
 
         String responseView = "/WEB-INF" + userPath + ".jsp";
-        request.setAttribute("userPath", userPath);
         try {
             request.getRequestDispatcher(responseView).forward(request, response);
         } catch (Exception e) {
@@ -393,7 +397,6 @@ public class ControllerServlet extends HttpServlet {
         }
 
         String responseView = "/WEB-INF" + userPath + ".jsp";
-        request.setAttribute("userPath", userPath);
         try {
             request.getRequestDispatcher(responseView).forward(request, response);
         } catch (Exception e) {

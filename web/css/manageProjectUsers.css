@@ -7,7 +7,9 @@
 */
 
 .mpuField {
+    margin: 0 auto;
     text-align: center;
+    width: 350px;
 }
 
 .mpuTitle {
@@ -29,7 +31,7 @@
 #mpuUsersList {
     list-style-type: none;
     margin: 0 auto;
-    width: 250px;
+    width: 350px;
 }
 
 #mpuUsersList > li {
@@ -37,7 +39,7 @@
     font: 13px/30px 'Century Gothic', sans-serif;
     height: 30px;
     overflow: hidden;
-    width: 250px;
+    width: 350px;
 }
 
 #mpuUsersList > li:hover {
@@ -57,7 +59,7 @@
     display: block;
     float: left;
     padding: 0 5px;
-    width: 219px;
+    width: 319px;
 }
 
 #mpuUsersList > li > a.removeUser {

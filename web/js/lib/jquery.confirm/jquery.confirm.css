@@ -43,7 +43,7 @@
     text-align: center;
 }
 
-#jqConfirmOverlay .confirmBox .symbolName {
+#jqConfirmOverlay .confirmBox .itemName {
     display: block;
     font-size: 20px;
     margin-bottom: 10px;
