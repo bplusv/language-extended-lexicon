@@ -393,15 +393,15 @@ window.controller = (function($, CodeMirror) {
         $('#clSaveGroup').css('display', 'inline');
         ajaxRequest('/get/data/classifyShowSynonyms', function(response) {
             var $xmlSynonyms = $(response).find('synonyms').children();
-            var $sel = $('#clSynonymsSelect');
             var syId = $('#clSymbol').val();
-            $sel.empty();
+            var selectItems = [];
             $xmlSynonyms.each(function(i, e) {
                 if ($(e).attr('id') != syId) {
-                    $sel.append($('<option>').attr('value', 
-                        $(e).attr('id')).text($(e).children('name').text()));
+                    selectItems.push($('<option>').attr('value', 
+                        $(e).attr('id')).text($(e).children('name').text()).get(0));
                 }
             });
+            $('#clSynonymsSelect').html(selectItems);
         });
     };
     api.classify.updateComments = function(response) {
@@ -419,7 +419,7 @@ window.controller = (function($, CodeMirror) {
         });
         var $clComments = $('#clComments');
         var $clNewComment = $('#clNewComment');
-        $clComments.children().replaceWith(comments);
+        $clComments.html(comments);
         $clComments.scrollTop(0);
         if ($clNewComment.val()) {
             api.classify.showComments();
@@ -527,7 +527,7 @@ window.controller = (function($, CodeMirror) {
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('document > name').text()))
                         .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))).get(0));
             });
-            $('#exSymbolsList').children().replaceWith($symbols);
+            $('#exSymbolsList').html($symbols);
             $('#exSearchClear').css('visibility', $('#exSearch').val() ? 'visible' : 'hidden');
         }, $('#exForm').serialize());
     };
@@ -630,7 +630,7 @@ window.controller = (function($, CodeMirror) {
             .append($('<a>').addClass('removeUser').data('user.id', $(e).attr('id'))
                 .data('user.name', $(e).find('name').text()).html('&#215;')).get(0));
         });
-        $('#mpuUsersList').children().replaceWith(users);
+        $('#mpuUsersList').html(users);
     };
     
     api.manageProjects = {};
