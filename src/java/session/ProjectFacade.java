@@ -84,10 +84,8 @@ public class ProjectFacade extends AbstractFacade<Project> {
             }
             name = name.trim();
             Project project = new Project();
-            Collection<User> users = new ArrayList<User>();
-            users.add(userFacade.find(userId));
             project.setName(name);
-            project.setUserCollection(users);
+            project.setOwner(userFacade.find(userId));
             em.persist(project);
             em.flush();
             return project;

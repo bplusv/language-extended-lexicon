@@ -126,7 +126,6 @@ public class UserFacade extends AbstractFacade<User> {
                 user = new User();
                 user.setName(username);
                 user.setPassword(makeHash(password));
-                user.setAdmin(true);
                 em.persist(user);
                 em.flush();
             }
