@@ -52,7 +52,8 @@ public class SessionTimeOutFilter implements Filter {
         }
 
         // if not signed in, return session timeout response
-        if (user == null && !"/signIn".equals(req.getServletPath()) && !"/post/signIn".equals(req.getServletPath())) {
+        if (user == null && !"/signIn".equals(req.getServletPath()) && !"/post/signIn".equals(req.getServletPath())&&
+                !"/register".equals(req.getServletPath()) && !"/post/registerUser".equals(req.getServletPath())) {
             try {
                 request.getRequestDispatcher("/WEB-INF/post/sessionTimeOut.jsp").forward(request, response);
             } catch (Exception ex) {

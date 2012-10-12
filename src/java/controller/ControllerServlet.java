@@ -57,7 +57,6 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/manageDocuments",
     "/get/view/manageProjects",
     "/get/view/test",
-    "/signIn",
     "/post/changePassword",
     "/post/chooseLanguage",
     "/post/createDocument",
@@ -66,11 +65,14 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/leaveSynonymsGroup",
     "/post/loadDocument",
     "/post/loadProject",
+    "/post/registerUser",
     "/post/removeSymbol",
     "/post/signIn",
     "/post/signOut",
     "/post/updateDocument",
-    "/post/updateSymbol"})
+    "/post/updateSymbol",
+    "/register",
+    "/signIn"})
 public class ControllerServlet extends HttpServlet {
 
     @EJB
@@ -137,8 +139,8 @@ public class ControllerServlet extends HttpServlet {
                 String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
                 ByteArrayOutputStream pdf = reportManager.makeProjectReportPdf(
                         project.getId().toString(), request.getParameter("comments"), language);
-                response.setHeader("content-disposition", 
-                    "attachment; filename=" + project.getName() + ".pdf");
+                response.setHeader("content-disposition",
+                        "attachment; filename=" + project.getName() + ".pdf");
                 response.setContentType("application/pdf; charset=UTF-8");
                 response.setContentLength(pdf.size());
                 response.getOutputStream().write(pdf.toByteArray());
@@ -147,7 +149,7 @@ public class ControllerServlet extends HttpServlet {
                 log.log(Level.SEVERE, e.getMessage());
             }
             return;
-        } else if(userPath.equals("/get/view/account")) {
+        } else if (userPath.equals("/get/view/account")) {
         } else if (userPath.equals("/get/view/classify")) {
             Symbol symbol = request.getParameter("sy") != null
                     ? symbolFacade.find(request.getParameter("sy"))
@@ -182,6 +184,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/test")) {
             Collection<Comment> comments = definitionFacade.getCommentCollection("6");
             request.setAttribute("comments", comments);
+        } else if (userPath.equals("/register")) {
         } else if (userPath.equals("/signIn")) {
         }
 
@@ -203,8 +206,8 @@ public class ControllerServlet extends HttpServlet {
 
         if (userPath.equals("/post/changePassword")) {
             Boolean success = userFacade.changePassword(
-                    ((User) session.getAttribute("user")).getId().toString(), 
-                    request.getParameter("currentPassword"), 
+                    ((User) session.getAttribute("user")).getId().toString(),
+                    request.getParameter("currentPassword"),
                     request.getParameter("newPassword"),
                     request.getParameter("confirmNewPassword"));
             request.setAttribute("success", success);
@@ -302,6 +305,17 @@ public class ControllerServlet extends HttpServlet {
                 session.setAttribute("document", null);
                 request.setAttribute("success", true);
                 request.setAttribute("project", project);
+            } else {
+                request.setAttribute("success", false);
+            }
+        } else if (userPath.equals("/post/registerUser")) {
+            User user = userFacade.registerUser(
+                    request.getParameter("username"),
+                    request.getParameter("password"),
+                    request.getParameter("passwordConfirmation"));
+            if (user != null) {
+                session.setAttribute("user", user);
+                request.setAttribute("success", true);
             } else {
                 request.setAttribute("success", false);
             }

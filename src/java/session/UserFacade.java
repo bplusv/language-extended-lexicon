@@ -96,16 +96,16 @@ public class UserFacade extends AbstractFacade<User> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Boolean changePassword(String userId, String currentPassword, 
-        String newPassword, String confirmNewPassword) {
+    public Boolean changePassword(String userId, String currentPassword,
+            String newPassword, String confirmNewPassword) {
         try {
             Boolean success = false;
             User user = find(userId);
-            if (!newPassword.isEmpty() && newPassword.equals(confirmNewPassword) && 
-                    user.getPassword().equals(makeHash(currentPassword)) &&
-                    !user.getPassword().equals(makeHash(newPassword))) {
+            if (!newPassword.isEmpty() && newPassword.equals(confirmNewPassword)
+                    && user.getPassword().equals(makeHash(currentPassword))
+                    && !user.getPassword().equals(makeHash(newPassword))) {
                 user.setPassword(makeHash(newPassword));
                 em.merge(user);
                 em.flush();
@@ -116,5 +116,26 @@ public class UserFacade extends AbstractFacade<User> {
             context.setRollbackOnly();
             return false;
         }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public User registerUser(String username, String password, String passwordConfirmation) {
+        try {
+            User user = null;
+            if (findByName(username) == null) {
+                user = new User();
+                user.setName(username);
+                user.setPassword(makeHash(password));
+                user.setAdmin(true);
+                em.persist(user);
+                em.flush();
+            }
+            return user;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+
+
     }
 }
