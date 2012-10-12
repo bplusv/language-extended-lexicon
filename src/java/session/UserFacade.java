@@ -53,14 +53,12 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User findByName(String name) {
         try {
             return (User) em.createNamedQuery("User.findByName").
                     setParameter("name", name).
                     getSingleResult();
         } catch (Exception e) {
-            context.setRollbackOnly();
             return null;
         }
     }
@@ -121,14 +119,11 @@ public class UserFacade extends AbstractFacade<User> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User registerUser(String username, String password, String passwordConfirmation) {
         try {
-            User user = null;
-            if (findByName(username) == null) {
-                user = new User();
-                user.setName(username);
-                user.setPassword(makeHash(password));
-                em.persist(user);
-                em.flush();
-            }
+            User user = new User();
+            user.setName(username);
+            user.setPassword(makeHash(password));
+            em.persist(user);
+            em.flush();
             return user;
         } catch (Exception e) {
             context.setRollbackOnly();
