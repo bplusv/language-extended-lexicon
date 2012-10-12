@@ -29,6 +29,7 @@
         <link rel="stylesheet" type="text/css" href="css/explore.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/manageDocuments.css" media="all" charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="css/manageProjects.css" media="all" charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/manageProjectUsers.css" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
@@ -43,6 +44,7 @@
         <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/manageProjectUsers.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/manageProjects.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/manageDocuments.js" type="text/javascript" charset="UTF-8"></script>
     </head>
@@ -107,9 +109,12 @@
         </footer>
         <div id="messages">
             <span class="cancel"><fmt:message key="cancel" /></span>
+            <span class="delete"><fmt:message key="remove" /></span>
             <span class="remove"><fmt:message key="remove" /></span>
             <span class="removeSymbolConfirmation"><fmt:message key="remove symbol confirmation" /></span>
             <span class="removeSymbolConfirmationTitle"><fmt:message key="remove symbol confirmation title" /></span>
+            <span class="removeProjectUserConfirmation"><fmt:message key="remove project user confirmation" /></span>
+            <span class="removeProjectUserConfirmationTitle"><fmt:message key="remove project user confirmation title" /></span>
             <span class="networkFail"><fmt:message key="network fail" /></span>
         </div>
     </body>

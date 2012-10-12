@@ -61,7 +61,7 @@ window.controller = (function($, CodeMirror) {
                     isRequesting = false;
                     updateMainInterface(response, redirect);
                 },
-                async: async === false ? false : true
+                async: async === undefined ? true : async
             });
         }
     }
@@ -227,8 +227,13 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.changeView = function(hash) {
-        if (window.location.href.indexOf('/signIn') < 0) {
+        if (window.location.href.indexOf('/signIn') < 0) {       
             if (hash){
+                if ($('#dcUpdateForm').length > 0) {
+                    $('#dcDocumentContent').data('codeMirror').save();
+                    ajaxRequest('/post/updateDocument', null, 
+                        $('#dcUpdateForm').serialize(), false);
+                }   
                 hash = hash.replace(/#!/, '');
                 hash = hash.split('?');
                 ajaxRequest('/get/view' + hash[0], 
@@ -351,7 +356,7 @@ window.controller = (function($, CodeMirror) {
             $xmlSynonyms.each(function(i, e) {
                 if ($(e).attr('id') != $('#clSymbol').val())
                     synonyms.push($('<a>').attr('href','#!/classify?sy='+ 
-                        $(e).attr('id')).text($(e).children('name').text())[0].outerHTML);
+                        $(e).attr('id')).text($(e).children('name').text()).get(0).outerHTML);
             });
             $('#clSynonymsGroup').html(synonyms.join(', '));
             if ($(response).find('symbol').attr('id') === $('#clSymbol').val()) {
@@ -388,36 +393,38 @@ window.controller = (function($, CodeMirror) {
         $('#clSaveGroup').css('display', 'inline');
         ajaxRequest('/get/data/classifyShowSynonyms', function(response) {
             var $xmlSynonyms = $(response).find('synonyms').children();
-            var $sel = $('#clSynonymsSelect');
             var syId = $('#clSymbol').val();
-            $sel.empty();
+            var selectItems = [];
             $xmlSynonyms.each(function(i, e) {
                 if ($(e).attr('id') != syId) {
-                    $sel.append($('<option>').attr('value', 
-                        $(e).attr('id')).text($(e).children('name').text()));
+                    selectItems.push($('<option>').attr('value', 
+                        $(e).attr('id')).text($(e).children('name').text()).get(0));
                 }
             });
+            $('#clSynonymsSelect').html(selectItems);
         });
     };
     api.classify.updateComments = function(response) {
-        var $clComments = $('#clComments');
-        $clComments.children().remove();
-        $(response).find('comments').children().each(function(i,e) {
-            $('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+        var $xmlComments = $(response).find('comments').children();
+        var comments = [];
+        $xmlComments.each(function(i, e) {
+        comments.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
             .append($('<div>').addClass('left')
                 .append($('<span>').addClass('overflowEllipsis')
                     .text($(e).find('user > name').text()+':'))
-                .append($('<span>').text($(e).find('date').text()))
-                ).append($('<div>').addClass('right').html(
-                tagSymbols($(e).find('content').text()))
-            ).append($('<div>').css('clear', 'both'))
-            .appendTo($clComments);
+                .append($('<span>').text($(e).find('date').text())))
+            .append($('<div>').addClass('right').html(
+                tagSymbols($(e).find('content').text())))
+            .append($('<div>').css('clear', 'both')).get(0));
         });
-        if ($('#clNewComment').val()) {
+        var $clComments = $('#clComments');
+        var $clNewComment = $('#clNewComment');
+        $clComments.html(comments);
+        $clComments.scrollTop(0);
+        if ($clNewComment.val()) {
             api.classify.showComments();
         }
-        $('#clNewComment').data('codeMirror').setValue('');
-        $clComments.scrollTop(0);
+        $clNewComment.data('codeMirror').setValue('');
     };
     api.classify.updateInterface = function() {
         // is 'general term' or 'no functional requirement' category selected?
@@ -480,7 +487,7 @@ window.controller = (function($, CodeMirror) {
         var cancelMsg = $('#messages .cancel').html();
         $.confirm({
             'title'	: title,
-            'message'	: $('<span>').addClass('symbolName').
+            'message'	: $('<span>').addClass('itemName').
             text(symbolName)[0].outerHTML + message,
             'buttons'	: {
                 'delete'	: {
@@ -510,19 +517,17 @@ window.controller = (function($, CodeMirror) {
     api.explore.search = function(response){
         ajaxRequest('/get/data/exploreSymbols', function(response) {
             var $xmlSymbols = $(response).find('symbols').children();
-            var $tbody = $('#exSymbolsTable tbody');
-            $tbody.empty();
+            var $symbols = [];
             $xmlSymbols.each(function(i, e) {
-                $('<tr>').wrapInner($('<td>').attr('colspan', '5')
-                    .css('background', i % 2 == 0 ? '#fff' : '#f9f9f9').wrapInner(
-                        $('<a>').addClass('exSymbolsRow').attr('href', '#!/classify?sy='+$(e).attr('id'))
+                $symbols.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+                    .append($('<a>').addClass('exSymbol').attr('href', '#!/classify?sy='+$(e).attr('id'))
                         .append($('<span>').addClass('overflowEllipsis exSyName').text($(e).children('name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('category > name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('classification > name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('document > name').text()))
-                        .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))
-                        )).appendTo($tbody);
+                        .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))).get(0));
             });
+            $('#exSymbolsList').html($symbols);
             $('#exSearchClear').css('visibility', $('#exSearch').val() ? 'visible' : 'hidden');
         }, $('#exForm').serialize());
     };
@@ -571,6 +576,61 @@ window.controller = (function($, CodeMirror) {
             }
             return redirect;
         }, $('#mdLoadForm').serialize());
+    };
+    
+    api.manageProjectUsers = {};
+    api.manageProjectUsers.addProjectUser = function() {
+        ajaxRequest('/post/addProjectUser', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                $('#mpuAddUserName').val('');
+                api.manageProjectUsers.updateUserList(response);
+            }
+        }, $('#mpuAddUserForm').serialize());
+    };
+    api.manageProjectUsers.confirmRemoveUser = function(targetUser) {
+        var id = $(targetUser).data('user.id');
+        var userName = $(targetUser).data('user.name');
+        var title = $('#messages .removeProjectUserConfirmationTitle').html();
+        var message = $('#messages .removeProjectUserConfirmation').html();
+        var deleteMsg = $('#messages .remove').html();
+        var cancelMsg = $('#messages .cancel').html();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<span>').addClass('itemName').
+            text(userName)[0].outerHTML + message,
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.manageProjectUsers.removeProjectUser(id);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+    }
+    api.manageProjectUsers.removeProjectUser = function(userId) {
+        ajaxRequest('/post/removeProjectUser', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjectUsers.updateUserList(response);
+            }
+        }, 'userId='+userId);
+    };
+    api.manageProjectUsers.updateUserList = function(response) {
+        var $xmlUsers = $(response).find('users').children();
+        var users = [];
+        $xmlUsers.each(function(i, e) {
+        users.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+            .append($('<span>').addClass('overflowEllipsis').text($(e).find('name').text()))
+            .append($('<a>').addClass('removeUser').data('user.id', $(e).attr('id'))
+                .data('user.name', $(e).find('name').text()).html('&#215;')).get(0));
+        });
+        $('#mpuUsersList').html(users);
     };
     
     api.manageProjects = {};

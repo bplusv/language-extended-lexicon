@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<form  id="mpLoadForm" action="/post/loadProject" method="POST">
+<form id="mpLoadForm" action="/post/loadProject" method="POST">
     <h3 class="mpTitle"><fmt:message key="load project" /></h3>
     <select id="mpProject" name="project" size="11" autofocus>
         <c:forEach var="project" items="${projectFacade.findAll()}" varStatus="iter">
