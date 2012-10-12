@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2012 Luis Salazar <bp.lusv@gmail.com>.
+ * Copyright 2012 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,23 +25,14 @@
 (function() {
     'use strict';
     $(function() {
-        $(window).on('click', '.exSymbol span.removeSymbol', function(e) {
+        $(window).on('submit', '#mpuAddUserForm', function(e) {
             e.preventDefault();
-            controller.explore.confirmRemoveSymbol(this);
-        });
-
-        $(window).on('click', '#exSearchClear', function() {
-            controller.explore.clearSearch();
-        });
-
-        $(window).on('keyup', '#exSearch', function() {
-            controller.explore.search();
+            controller.manageProjectUsers.addProjectUser();
         });
         
-        $(window).on('submit', '#exForm', function(e) {
+        $(window).on('click', '#mpuUsersList a.removeUser', function(e) {
             e.preventDefault();
-            controller.explore.search();
+            controller.manageProjectUsers.confirmRemoveUser(this);
         });
-
     });
 })();

@@ -56,7 +56,9 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/get/view/explore",
     "/get/view/manageDocuments",
     "/get/view/manageProjects",
+    "/get/view/manageProjectUsers",
     "/get/view/test",
+    "/post/addProjectUser",
     "/post/changePassword",
     "/post/chooseLanguage",
     "/post/createDocument",
@@ -66,6 +68,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/loadDocument",
     "/post/loadProject",
     "/post/registerUser",
+    "/post/removeProjectUser",
     "/post/removeSymbol",
     "/post/signIn",
     "/post/signOut",
@@ -181,6 +184,15 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
+        } else if (userPath.equals("/get/view/manageProjectUsers")) {
+            Project project = (Project) session.getAttribute("project");
+            if (project != null) {
+                Collection<User> users = projectFacade.getUserCollection(
+                    project.getId().toString());
+                request.setAttribute("users", users);
+            } else {
+                userPath = "/get/view/manageProjects";
+            }
         } else if (userPath.equals("/get/view/test")) {
             Collection<Comment> comments = definitionFacade.getCommentCollection("6");
             request.setAttribute("comments", comments);
@@ -189,7 +201,6 @@ public class ControllerServlet extends HttpServlet {
         }
 
         String responseView = "/WEB-INF" + userPath + ".jsp";
-        request.setAttribute("userPath", userPath);
         try {
             request.getRequestDispatcher(responseView).forward(request, response);
         } catch (Exception e) {
@@ -204,7 +215,16 @@ public class ControllerServlet extends HttpServlet {
         session = request.getSession(false);
         String userPath = request.getServletPath();
 
-        if (userPath.equals("/post/changePassword")) {
+        if (userPath.equals("/post/addProjectUser")) {
+            User user = projectFacade.addProjectUser(
+                ((Project) session.getAttribute("project")).getId().toString(), 
+                request.getParameter("username"));
+            if (user != null) {
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
+        } else if (userPath.equals("/post/changePassword")) {
             Boolean success = userFacade.changePassword(
                     ((User) session.getAttribute("user")).getId().toString(),
                     request.getParameter("currentPassword"),
@@ -319,6 +339,15 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 request.setAttribute("success", false);
             }
+        } else if(userPath.equals("/post/removeProjectUser")) {
+            User user = projectFacade.removeProjectUser(
+                ((Project) session.getAttribute("project")).getId().toString(),
+                request.getParameter("userId"));
+            if (user != null) {
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
         } else if (userPath.equals("/post/removeSymbol")) {
             Symbol symbol = symbolFacade.removeSymbol(
                     request.getParameter("symbol"));
@@ -382,7 +411,6 @@ public class ControllerServlet extends HttpServlet {
         }
 
         String responseView = "/WEB-INF" + userPath + ".jsp";
-        request.setAttribute("userPath", userPath);
         try {
             request.getRequestDispatcher(responseView).forward(request, response);
         } catch (Exception e) {

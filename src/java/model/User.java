@@ -25,7 +25,18 @@ package model;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,15 +53,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByAdmin", query = "SELECT u FROM User u WHERE u.admin = :admin")})
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
 public class User implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -63,12 +71,10 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "admin")
-    private boolean admin;
     @ManyToMany(mappedBy = "userCollection")
     private Collection<Project> projectCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private Collection<Project> projectCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Comment> commentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -81,11 +87,10 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String name, String password, boolean admin) {
+    public User(Integer id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.admin = admin;
     }
 
     public Integer getId() {
@@ -112,14 +117,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
     @XmlTransient
     public Collection<Project> getProjectCollection() {
         return projectCollection;
@@ -127,6 +124,15 @@ public class User implements Serializable {
 
     public void setProjectCollection(Collection<Project> projectCollection) {
         this.projectCollection = projectCollection;
+    }
+
+    @XmlTransient
+    public Collection<Project> getProjectCollection1() {
+        return projectCollection1;
+    }
+
+    public void setProjectCollection1(Collection<Project> projectCollection1) {
+        this.projectCollection1 = projectCollection1;
     }
 
     @XmlTransient
@@ -171,4 +177,5 @@ public class User implements Serializable {
     public String toString() {
         return "model.User[ id=" + id + " ]";
     }
+    
 }
