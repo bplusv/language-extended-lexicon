@@ -94,11 +94,14 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public User addProjectUser(String projectId, String username) {
+    public User addProjectUser(String projectOwnerId, String projectId, String username) {
         try {
             Project project = find(projectId);
+            if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
+                return null;
+            }
             User user = userFacade.findByName(username);
             project.getUserCollection().add(user);
             em.merge(project);
@@ -109,11 +112,14 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public User removeProjectUser(String projectId, String userId) {
+    public User removeProjectUser(String projectOwnerId, String projectId, String userId) {
         try {
             Project project = find(projectId);
+            if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
+                return null;
+            }
             User user = userFacade.find(userId);
             project.getUserCollection().remove(user);
             em.merge(project);
@@ -154,7 +160,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Symbol> getSymbolCollection(String projectId) {
         try {
@@ -168,16 +174,16 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<User> getUserCollection(String projectId) {
         try {
             Project project = find(projectId);
             return em.createQuery("SELECT us FROM Project pr "
-                + "JOIN pr.userCollection us WHERE pr = :project "
-                + "ORDER BY LOWER(us.name) ASC;").
-                setParameter("project", project).
-                getResultList();
+                    + "JOIN pr.userCollection us WHERE pr = :project "
+                    + "ORDER BY LOWER(us.name) ASC;").
+                    setParameter("project", project).
+                    getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

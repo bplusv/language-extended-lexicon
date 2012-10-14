@@ -120,7 +120,12 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("symbolFacade", symbolFacade);
         getServletContext().setAttribute("userFacade", userFacade);
     }
-
+    private Integer getA() {
+        return 1;
+    }
+    private Integer getB() {
+        return 1;
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -185,17 +190,14 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/get/view/manageProjectUsers")) {
-            Project project = (Project) session.getAttribute("project");
-            if (project != null) {
-                Collection<User> users = projectFacade.getUserCollection(
-                    project.getId().toString());
-                request.setAttribute("users", users);
+            User user = (User) session.getAttribute("user");
+            Project project = projectFacade.find(request.getParameter("pj"));   
+            if (project != null && project.getOwner().equals(user)) {
+                request.setAttribute("project", project);
             } else {
                 userPath = "/get/view/manageProjects";
             }
         } else if (userPath.equals("/get/view/test")) {
-            Collection<Comment> comments = definitionFacade.getCommentCollection("6");
-            request.setAttribute("comments", comments);
         } else if (userPath.equals("/register")) {
         } else if (userPath.equals("/signIn")) {
         }
@@ -217,10 +219,12 @@ public class ControllerServlet extends HttpServlet {
 
         if (userPath.equals("/post/addProjectUser")) {
             User user = projectFacade.addProjectUser(
-                ((Project) session.getAttribute("project")).getId().toString(), 
+                ((User) session.getAttribute("user")).getId().toString(),
+                request.getParameter("project"), 
                 request.getParameter("username"));
             if (user != null) {
                 request.setAttribute("success", true);
+                request.setAttribute("projectId", request.getParameter("project"));
             } else {
                 request.setAttribute("success", false);
             }
@@ -341,10 +345,12 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if(userPath.equals("/post/removeProjectUser")) {
             User user = projectFacade.removeProjectUser(
-                ((Project) session.getAttribute("project")).getId().toString(),
+                ((User) session.getAttribute("user")).getId().toString(),
+                request.getParameter("project"),
                 request.getParameter("userId"));
             if (user != null) {
                 request.setAttribute("success", true);
+                request.setAttribute("projectId", request.getParameter("project"));
             } else {
                 request.setAttribute("success", false);
             }

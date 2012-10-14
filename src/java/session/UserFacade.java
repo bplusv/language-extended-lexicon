@@ -63,7 +63,6 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private String makeHash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -75,7 +74,6 @@ public class UserFacade extends AbstractFacade<User> {
             }
             return sb.toString();
         } catch (Exception e) {
-            context.setRollbackOnly();
             return null;
         }
     }
@@ -129,7 +127,5 @@ public class UserFacade extends AbstractFacade<User> {
             context.setRollbackOnly();
             return null;
         }
-
-
     }
 }
