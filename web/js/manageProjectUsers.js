@@ -30,8 +30,12 @@
             controller.manageProjectUsers.addProjectUser();
         });
         
-        $(window).on('click', '#mpuUsersList a.removeUser', function(e) {
+        $(window).on('submit', '#mpuRemoveUserForm', function(e) {
             e.preventDefault();
+            controller.manageProjectUsers.removeProjectUser();
+        });
+        
+        $(window).on('click', '#mpuUsersList a.removeUser', function(e) {
             controller.manageProjectUsers.confirmRemoveUser(this);
         });
     });

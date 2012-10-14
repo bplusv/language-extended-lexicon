@@ -588,7 +588,8 @@ window.controller = (function($, CodeMirror) {
         }, $('#mpuAddUserForm').serialize());
     };
     api.manageProjectUsers.confirmRemoveUser = function(targetUser) {
-        var id = $(targetUser).data('user.id');
+        var userId = $(targetUser).data('user.id');
+        $('#mpuRemoveUserId').val(userId);
         var userName = $(targetUser).data('user.name');
         var title = $('#messages .removeProjectUserConfirmationTitle').html();
         var message = $('#messages .removeProjectUserConfirmation').html();
@@ -603,7 +604,7 @@ window.controller = (function($, CodeMirror) {
                     'msg'   : deleteMsg,
                     'class'	: 'red',
                     'action': function(){
-                        api.manageProjectUsers.removeProjectUser(id);
+                        api.manageProjectUsers.removeProjectUser();
                     }
                 },
                 'cancel'    : {
@@ -614,12 +615,12 @@ window.controller = (function($, CodeMirror) {
             }
         });
     }
-    api.manageProjectUsers.removeProjectUser = function(userId) {
+    api.manageProjectUsers.removeProjectUser = function() {
         ajaxRequest('/post/removeProjectUser', function(response) {
             if ($(response).find('success').text() === 'true') {
                 api.manageProjectUsers.updateUserList(response);
             }
-        }, 'userId='+userId);
+        }, $('#mpuRemoveUserForm').serialize());
     };
     api.manageProjectUsers.updateUserList = function(response) {
         var $xmlUsers = $(response).find('users').children();
