@@ -191,6 +191,26 @@ window.controller = (function($, CodeMirror) {
         return result;
     }
     
+    var getPwdScoreCssClass = function(pwdScore) {
+        var pwdClass = '';
+        if (pwdScore >= 90) {
+            pwdClass = 'very_secure';
+        } else if (pwdScore >= 80) {
+            pwdClass = 'secure';
+        } else if (pwdScore >= 70) {
+            pwdClass = 'very_strong';
+        } else if (pwdScore >= 60) {
+            pwdClass = 'strong';
+        } else if (pwdScore >= 50) {
+            pwdClass = 'average';
+        } else if (pwdScore >= 25) {
+            pwdClass = 'weak';
+        } else if (pwdScore >= 0) {
+            pwdClass = 'very_weak';
+        }
+        return pwdClass;
+    };
+    
     var updateMainInterface = function(response, redirect) {
         if (redirect) {
             if (window.location.hash.indexOf(redirect) > -1) {
@@ -277,26 +297,10 @@ window.controller = (function($, CodeMirror) {
         var newPass = $('#acNewPassword').val();
         if (newPass) {
             var pwdScore = $.pwdStrength(newPass);
-            var pwdClass = '';
-            if (pwdScore >= 90) {
-                pwdClass = 'very_secure';
-            } else if (pwdScore >= 80) {
-                pwdClass = 'secure';
-            } else if (pwdScore >= 70) {
-                pwdClass = 'very_strong';
-            } else if (pwdScore >= 60) {
-                pwdClass = 'strong';
-            } else if (pwdScore >= 50) {
-                pwdClass = 'average';
-            } else if (pwdScore >= 25) {
-                pwdClass = 'weak';
-            } else if (pwdScore >= 0) {
-                pwdClass = 'very_weak';
-            }
+            var pwdClass = getPwdScoreCssClass(pwdScore);
             $passStrength.removeClass();
             $passStrength.addClass(pwdClass);
             $passStrength.text($('#acMessages').find('.'+pwdClass).text());
-
             $passStrengthBar.removeClass();
             $passStrengthBar.addClass(pwdClass);
             $passStrengthBar.width($passStrength.width() * pwdScore / 100); 
@@ -422,6 +426,7 @@ window.controller = (function($, CodeMirror) {
         $clComments.html(comments);
         $clComments.scrollTop(0);
         if ($clNewComment.val()) {
+            $('#clCommentsToggle').css('display', 'block');
             api.classify.showComments();
         }
         $clNewComment.data('codeMirror').setValue('');

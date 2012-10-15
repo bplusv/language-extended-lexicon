@@ -80,17 +80,14 @@
 
 #clComments {
     display: none;
+    height: auto;
     list-style-type: none;
-    max-height: 200px;
-    overflow: scroll;
-    overflow-x: hidden;
-    overflow-y: auto;
     width: 726px;
 }
 
 #clComments > li {
-    padding: 5px 0;
-    width: 706px;
+    padding: 5px;
+    width: 716px;
 }
 
 #clComments > li:hover {
@@ -113,7 +110,9 @@
 #clComments > li > div.right {
     display: inline-block;
     float: right;
-    width: 586px;
+    overflow: hidden;
+    word-wrap: break-word;
+    width: 601px;
 }
 
 #clCommentsField {
@@ -122,6 +121,7 @@
     border-top-left-radius: 0;
     color: #555;
     font: 13.5px/20px  'Trebuchet MS', Helvetica, sans-serif;
+    height: auto;
     padding: 10px;
 }
 
@@ -226,7 +226,7 @@
 
 
 #clNewComment {
-    min-height: 50px;
+    min-height: 44px;
     width: 602px;
 }
 
