@@ -24,6 +24,24 @@
     right: 0px;
 }
 
+#mpProjectsList {
+    min-height: 150px;
+    position: relative;
+}
+
+#mpEmptyProjectsListMessage {
+    color: #dedede;
+    height: 30px;
+    left: 50%;
+    line-height: 30px;
+    margin-left: -110px;
+    margin-top: -15px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 220px;
+}
+
 #mpLoadProject {
     position: absolute;
     bottom: 0px;
@@ -55,11 +73,15 @@
 }
 
 .mpProject:hover {
-    background-color: #ffe0c6 !important;
+    background-color: #ffe0c6;
 }
 
 .mpProject:hover .options {
     visibility: visible;
+}
+
+.mpProject .description {
+    margin: 10px 0;
 }
 
 .mpProject .options {
@@ -77,24 +99,7 @@
     text-align: center;
 }
 
-/*#mpProject {
-    border: none;
-    display: block;
-    height: auto;
-    margin: 0 auto;
-    overflow-x: visible;
-    overflow-y: auto;
-    width: 600px;
+#mpProjectsList {
+    list-style-type: none;
+    margin: 0;
 }
-
-#mpProject option {
-    display: block;
-    overflow: visible;
-    padding: 0 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-#mpProject option:nth-of-type(odd) {
-    background: #f9f9f9;
-}*/

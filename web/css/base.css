@@ -172,6 +172,18 @@ textarea {
     background-color: #fff;
 }
 
+.rowOdd {
+    background-color: #f9f9f9;
+}
+
+.rowEven {
+    background-color: #fff;
+}
+
+.rowSelected {
+    background-color: #e5f2fa;
+}
+
 .overflowEllipsis {
     overflow: hidden;
     text-overflow: ellipsis;
