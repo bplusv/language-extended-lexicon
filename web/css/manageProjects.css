@@ -31,7 +31,8 @@
 }
 
 #mpLoadForm {
-    height: 325px;
+    height: auto;
+    min-height: 325px;
     position: relative;
 }
 
@@ -48,7 +49,35 @@
     position: relative;
 }
 
-#mpProject {
+.mpProject {
+    padding: 10px;
+    width: 728px;
+}
+
+.mpProject:hover {
+    background-color: #ffe0c6 !important;
+}
+
+.mpProject:hover .options {
+    visibility: visible;
+}
+
+.mpProject .options {
+    font-size: 0;
+    height: 35px;
+    text-align: center;
+    visibility: hidden;
+}
+
+.mpProject .options > a {
+    margin: 0 7px;
+}
+
+.mpProject .title {
+    text-align: center;
+}
+
+/*#mpProject {
     border: none;
     display: block;
     height: auto;
@@ -68,4 +97,4 @@
 
 #mpProject option:nth-of-type(odd) {
     background: #f9f9f9;
-}
+}*/

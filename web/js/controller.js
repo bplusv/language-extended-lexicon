@@ -229,6 +229,8 @@ window.controller = (function($, CodeMirror) {
             $('#exploreTab').addClass('selected');
         } else if (window.location.hash.indexOf('/document') > 0) {
             $('#documentTab').addClass('selected');
+        } else if (window.location.hash.indexOf('/manageProjects') > 0) {
+            $('#projectsTab').addClass('selected');
         }
         $('#ajaxLoader').hide();
         if (response) {
@@ -300,7 +302,7 @@ window.controller = (function($, CodeMirror) {
             var pwdClass = getPwdScoreCssClass(pwdScore);
             $passStrength.removeClass();
             $passStrength.addClass(pwdClass);
-            $passStrength.text($('#acMessages').find('.'+pwdClass).text());
+            $passStrength.text($('#acMessages').find('.' + pwdClass).text());
             $passStrengthBar.removeClass();
             $passStrengthBar.addClass(pwdClass);
             $passStrengthBar.width($passStrength.width() * pwdScore / 100); 
@@ -329,7 +331,7 @@ window.controller = (function($, CodeMirror) {
                 $('#clSynonymsSelect').css('display', 'none');
                 $('#clSymbol').val($(response).find('symbol').attr('id'));
                 $('#clForm').attr('action', '/post/updateSymbol');
-                $('#clDefinitionTopRight').css('visibility', 'visible');
+                $('#clDefinitionTop > div.right').css('visibility', 'visible');
                 $('#clLogUserName').text($(response).find('log > user > name').text());
                 $('#clLogDate').text($(response).find('log > date').text());
                 updateProjectSymbols();
@@ -652,7 +654,7 @@ window.controller = (function($, CodeMirror) {
             return redirect;
         }, $('#mpCreateForm').serialize());
     };
-    api.manageProjects.load = function() {
+    api.manageProjects.load = function(targetProject) {
         ajaxRequest('/post/loadProject', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -662,7 +664,7 @@ window.controller = (function($, CodeMirror) {
                 redirect = '#!/explore';
             }
             return redirect;
-        }, $('#mpLoadForm').serialize());
+        }, 'project=' + $(targetProject).data('project.id'));
     };
     
     api.scrollingText = {};

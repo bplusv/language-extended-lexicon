@@ -120,12 +120,7 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("symbolFacade", symbolFacade);
         getServletContext().setAttribute("userFacade", userFacade);
     }
-    private Integer getA() {
-        return 1;
-    }
-    private Integer getB() {
-        return 1;
-    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
