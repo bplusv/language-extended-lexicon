@@ -5,35 +5,35 @@
 --%>
 
 <div>
-    <h3 class="mpTitle"><fmt:message key="current projects" /></h3> 
-    <c:forEach var="project" items="${userFacade.getProjectCollection(user.id)}" varStatus="iter">
-        <div class="mpProject" style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
-            <h2 class="title overflowEllipsis"><c:out value="${project.name}" /></h2>
-            <p><label>Description:</label>&nbsp;<c:out value="${project.description}" /></p>
-            <p><label>Owner:</label>&nbsp;<c:out value="${project.owner.name}" /></p>
-            <div class="options">
-                <c:choose>
-                    <c:when test="${user.id == project.owner.id}">
+    <h3 class="mpTitle"><fmt:message key="current projects" /></h3>
+    <ul id="mpProjectsList">
+        <c:set var="projects" value="${userFacade.getProjectCollection(user.id)}" />
+        <c:forEach var="project" items="${projects}" varStatus="iter">
+            <li class="mpProject ${sessionScope.project.id == project.id ? 'rowSelected' : iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">
+                <h2 class="title overflowEllipsis"><c:out value="${project.name}" /></h2>
+                <h3 class="title "><fmt:message key="owner" />:&nbsp;<c:out value="${project.owner.name}" /></h3>
+                <h3 class="description"><label><fmt:message key="description" />:</label>&nbsp;<c:out value="${project.description}" /></h3>
+                <div class="options">
+                    <c:if test="${sessionScope.project.id != project.id}" >
                         <a class="button load" data-project.id="${project.id}"><fmt:message key="load" /></a>
-                        <a class="button">Edit</a>
-                        <a class="button" href="#!/manageProjectUsers?pj=${project.id}">Users</a>
-                        <a class="button red">Delete</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a class="button load" data-project.id="${project.id}"><fmt:message key="load" /></a>
-                        <a class="button">Leave</a>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
-    </c:forEach>
-    <%-- 
-    <select id="mpProject" name="project" size="11" autofocus>
-        <c:forEach var="project" items="${projectFacade.findAll()}" varStatus="iter">
-            <option value="${project.id}" ${!empty sessionScope.project.id and sessionScope.project.id == project.id ? 'selected="selected"' : empty sessionScope.project.id and iter.first ? 'selected="selected"' : ''}><c:out value="${project.name}" /></option>
+                    </c:if>
+                    <c:choose>
+                        <c:when test="${user.id == project.owner.id}">
+                            <a class="button"><fmt:message key="edit" /></a>
+                            <a class="button" href="#!/manageProjectUsers?pj=${project.id}"><fmt:message key="users" /></a>
+                            <a class="button red"><fmt:message key="remove" /></a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="button leave red" data-project.id="${project.id}"><fmt:message key="leave" /></a>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </li>
         </c:forEach>
-    </select>
-    --%>
+    <c:if test="${empty projects}" >
+        <h1 id="mpEmptyProjectsListMessage"><fmt:message key="it's lonely here" />...</h1>
+    </c:if>
+    </ul>
 </div>
 <div class="spacer"></div>
 <form id="mpCreateForm" action="/post/createProject" method="POST">

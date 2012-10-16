@@ -696,7 +696,7 @@ window.controller = (function($, CodeMirror) {
     api.signIn = function() {
         ajaxRequest('/post/signIn', function(response) {
             if ($(response).find('success').text() === 'true') {
-                window.location.href = appContext + '/#!/explore';
+                window.location.href = appContext + '/#!/manageProjects';
             }
         }, $('#siForm').serialize());
     };
