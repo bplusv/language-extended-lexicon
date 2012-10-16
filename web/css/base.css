@@ -137,6 +137,20 @@ textarea {
     text-decoration: none;
 }
 
+.button.red {
+    background-color: #ca322d;
+}
+
+.button.red:hover {
+    background-color: #da423d;
+    text-decoration: none;
+}
+
+.button.red:active {
+    background-color: #ba221d;
+    text-decoration: none;
+}
+
 .CodeMirror {
     border: 1px solid #ccc;
     border-radius: 0 5px 5px 5px;

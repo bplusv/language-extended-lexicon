@@ -99,7 +99,8 @@ public class ProjectFacade extends AbstractFacade<Project> {
     public User addProjectUser(String projectOwnerId, String projectId, String username) {
         try {
             Project project = find(projectId);
-            if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
+            if (!project.getOwner().equals(userFacade.find(projectOwnerId)) ||
+                    project.getOwner().getName().equals(username)) {
                 return null;
             }
             User user = userFacade.findByName(username);

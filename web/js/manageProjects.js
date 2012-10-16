@@ -30,9 +30,8 @@
             controller.manageProjects.create();
         });
         
-        $(window).on('submit', '#mpLoadForm', function(e) {
-            e.preventDefault();
-            controller.manageProjects.load();
+        $(window).on('click', '.mpProject a.load', function(e) {
+            controller.manageProjects.load(this);
         });
     });
 })();

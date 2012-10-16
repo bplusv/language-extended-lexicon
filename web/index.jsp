@@ -102,6 +102,7 @@
         <nav class="tabs">
             <a href="#!/explore" id="exploreTab"><fmt:message key="explore" /></a>
             <a href="#!/document" id="documentTab"><fmt:message key="document" /></a>
+            <a href="#!/manageProjects" id="projectsTab"><fmt:message key="projects" /></a>
         </nav>
         <div id="central"></div>
         <footer id="ixFooter">
