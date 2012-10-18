@@ -29,9 +29,7 @@
                     <span><c:out value="${project.description}" /></span>
                 </p>
                 <div class="options">
-                    <c:if test="${sessionScope.project.id != project.id}" >
-                        <a class="button load" data-project.id="${project.id}"><fmt:message key="load" /></a>
-                    </c:if>
+                    <a class="button load" data-project.id="${project.id}"><fmt:message key="load" /></a>
                     <c:choose>
                         <c:when test="${user.id == project.owner.id}">
                             <a class="button edit"><fmt:message key="edit" /></a>
