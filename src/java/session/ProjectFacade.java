@@ -94,13 +94,45 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public User leaveProject(String loggedUserId, String projectId) {
+        try {
+            Project project = find(projectId);
+            User user = userFacade.find(loggedUserId);
+            project.getUserCollection().remove(user);
+            em.merge(project);
+            em.flush();
+            return user;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Project removeProject(String projectOwnerId, String projectId) {
+        try {
+            Project project = find(projectId);
+            if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
+                return null;
+            }
+//            project.setActive(false);
+            em.merge(project);
+            em.flush();
+            return project;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User addProjectUser(String projectOwnerId, String projectId, String username) {
         try {
             Project project = find(projectId);
-            if (!project.getOwner().equals(userFacade.find(projectOwnerId)) ||
-                    project.getOwner().getName().equals(username)) {
+            if (!project.getOwner().equals(userFacade.find(projectOwnerId))
+                    || project.getOwner().getName().equals(username)) {
                 return null;
             }
             User user = userFacade.findByName(username);
@@ -115,10 +147,10 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public User removeProjectUser(String projectOwnerId, String projectId, String userId) {
+    public User removeProjectUser(String LoggedUserId, String projectId, String userId) {
         try {
             Project project = find(projectId);
-            if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
+            if (!project.getOwner().equals(userFacade.find(LoggedUserId))) {
                 return null;
             }
             User user = userFacade.find(userId);

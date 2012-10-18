@@ -52,6 +52,7 @@ window.controller = (function($, CodeMirror) {
                     redirect = callback && callback(response);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
                     isRequesting = false;
                     response = $('<response>').append(
                         $('<message>').text(
@@ -414,7 +415,7 @@ window.controller = (function($, CodeMirror) {
         var $xmlComments = $(response).find('comments').children();
         var comments = [];
         $xmlComments.each(function(i, e) {
-        comments.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+        comments.push($('<li>').addClass(i % 2 == 0 ? 'rowEven' : 'rowOdd')
             .append($('<div>').addClass('left')
                 .append($('<span>').addClass('overflowEllipsis')
                     .text($(e).find('user > name').text()+':'))
@@ -526,7 +527,7 @@ window.controller = (function($, CodeMirror) {
             var $xmlSymbols = $(response).find('symbols').children();
             var $symbols = [];
             $xmlSymbols.each(function(i, e) {
-                $symbols.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+                $symbols.push($('<li>').addClass(i % 2 == 0 ? 'rowEven' : 'rowOdd')
                     .append($('<a>').addClass('exSymbol').attr('href', '#!/classify?sy='+$(e).attr('id'))
                         .append($('<span>').addClass('overflowEllipsis exSyName').text($(e).children('name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('category > name').text()))
@@ -633,7 +634,7 @@ window.controller = (function($, CodeMirror) {
         var $xmlUsers = $(response).find('users').children();
         var users = [];
         $xmlUsers.each(function(i, e) {
-        users.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+        users.push($('<li>').addClass(i % 2 == 0 ? 'rowEven' : 'rowOdd')
             .append($('<span>').addClass('overflowEllipsis').text($(e).find('name').text()))
             .append($('<a>').addClass('removeUser').data('user.id', $(e).attr('id'))
                 .data('user.name', $(e).find('name').text()).html('&#215;')).get(0));
@@ -642,7 +643,7 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.manageProjects = {};
-    api.manageProjects.create = function() {
+    api.manageProjects.createProject = function() {
         ajaxRequest('/post/createProject', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -654,7 +655,41 @@ window.controller = (function($, CodeMirror) {
             return redirect;
         }, $('#mpCreateForm').serialize());
     };
-    api.manageProjects.load = function(targetProject) {
+    api.manageProjects.leaveProject = function(projectId) {
+        ajaxRequest('/post/leaveProject', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjects.updateProjectsList(response);
+            }
+        }, 'project=' + projectId);
+    };
+    api.manageProjects.confirmLeaveProject = function(targetProject) {
+        var projectId = $(targetProject).data('project.id');
+        var projectName = $(targetProject).data('project.name');
+        var title = $('#messages .leaveProjectConfirmationTitle').html();
+        var message = $('#messages .leaveProjectConfirmation').html();
+        var deleteMsg = $('#messages .leave').html();
+        var cancelMsg = $('#messages .cancel').html();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<span>').addClass('itemName').
+            text(projectName)[0].outerHTML + message,
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.manageProjects.leaveProject(projectId);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+    };
+    api.manageProjects.loadProject = function(targetProject) {
         ajaxRequest('/post/loadProject', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -665,6 +700,62 @@ window.controller = (function($, CodeMirror) {
             }
             return redirect;
         }, 'project=' + $(targetProject).data('project.id'));
+    };
+    api.manageProjects.removeProject = function(projectId) {
+      ajaxRequest('/post/removeProject', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjects.updateProjectsList();
+            }
+        }, 'project=' + projectId);
+    };
+    api.manageProjects.confirmRemoveProject = function(targetProject) {
+        var projectId = $(targetProject).data('project.id');
+        var projectName = $(targetProject).data('project.name');
+        var title = $('#messages .removeProjectConfirmationTitle').html();
+        var message = $('#messages .removeProjectConfirmation').html();
+        var deleteMsg = $('#messages .remove').html();
+        var cancelMsg = $('#messages .cancel').html();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<span>').addClass('itemName').
+            text(projectName)[0].outerHTML + message,
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.manageProjects.removeProject(projectId);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+    };
+    api.manageProjects.updateProjectsList = function(response) {
+        var $xmlProjects = $(response).find('projects').children();
+        var projects = [];
+        $xmlProjects.each(function(i, e) {
+            projects.push($('<li>').addClass(i % 2 == 0 ? 'rowEven' : 'rowOdd')
+                .append($('<h2>').addClass('title overflowEllipsis').text($(e).children('name').text()))
+                .append($('<h3>').addClass('title overflowEllipsis')
+                    .append($('<label>').html($(response).find('captions > owner').text()+ ':&nbsp;'))
+                    .append($('<span>').text($(e).find('owner > name').text())))                    
+                .append($('<p>').addClass('description')
+                    .append($('<label>').html($(response).find('captions > description').text()+ ':&nbsp;'))
+                    .append($('<span>').text($(e).find('description').text())))
+                .append($('<div>').addClass('options')
+                    .append($('<a>').addClass('button load').text($(response).find('captions > load').text()))
+                    .append($('<a>').addClass('button edit').text($(response).find('captions > edit').text()))
+                    .append($('<a>').addClass('button').text($(response).find('captions > users').text()))
+                    .append($('<a>').addClass('button remove red').text($(response).find('captions > remove').text()))
+                    .append($('<a>').addClass('button leave red').text($(response).find('captions > leave').text()))
+            ).get(0));
+        });
+        $('#mpProjectsList').html(projects);
     };
     
     api.scrollingText = {};

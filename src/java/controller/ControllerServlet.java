@@ -64,9 +64,11 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/createProject",
     "/post/createSymbol",
     "/post/leaveSynonymsGroup",
+    "/post/leaveProject",
     "/post/loadDocument",
     "/post/loadProject",
     "/post/registerUser",
+    "/post/removeProject",
     "/post/removeProjectUser",
     "/post/removeSymbol",
     "/post/signIn",
@@ -305,6 +307,15 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 request.setAttribute("success", false);
             }
+        } else if (userPath.equals("/post/leaveProject")) {
+            User user = projectFacade.leaveProject(
+                ((User) session.getAttribute("user")).getId().toString(), 
+                request.getParameter("project"));
+            if (user != null) {
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
         } else if (userPath.equals("/post/loadDocument")) {
             Document document = documentFacade.find(
                     request.getParameter("document"));
@@ -333,6 +344,15 @@ public class ControllerServlet extends HttpServlet {
                     request.getParameter("passwordConfirmation"));
             if (user != null) {
                 session.setAttribute("user", user);
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
+        } else if(userPath.equals("/post/removeProject")) {
+            Project project = projectFacade.removeProject(
+                    ((User) session.getAttribute("user")).getId().toString(),
+                    request.getParameter("project"));
+            if (project != null) {
                 request.setAttribute("success", true);
             } else {
                 request.setAttribute("success", false);
