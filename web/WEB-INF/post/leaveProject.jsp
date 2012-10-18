@@ -20,7 +20,7 @@
 </captions>
 <projects>
     <c:forEach var="project" items="${userFacade.getProjectCollection(user.id)}">
-        <project id="${project.id}">
+        <project id="${project.id}" isOwner="${project.owner.id == user.id}" isSelected="${sessionScope.project.id == project.id}">
             <name><![CDATA[${project.name}]]></name>
             <owner>
                 <name><![CDATA[${project.owner.name}]]></name>
