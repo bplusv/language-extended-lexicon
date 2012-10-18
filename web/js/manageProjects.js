@@ -27,11 +27,19 @@
     $(function() {
         $(window).on('submit', '#mpCreateForm', function(e) {
             e.preventDefault();
-            controller.manageProjects.create();
+            controller.manageProjects.createProject();
         });
         
-        $(window).on('click', '.mpProject a.load', function(e) {
-            controller.manageProjects.load(this);
+        $(window).on('click', '#mpProjectsList a.load', function(e) {
+            controller.manageProjects.loadProject(this);
+        });
+        
+        $(window).on('click', '#mpProjectsList a.leave', function(e) {
+            controller.manageProjects.confirmLeaveProject(this);
+        });
+        
+        $(window).on('click', '#mpProjectsList a.remove', function(e) {
+            controller.manageProjects.confirmRemoveProject(this);
         });
     });
 })();
