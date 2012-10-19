@@ -15,8 +15,6 @@
     <load><fmt:message key="load" /></load>
     <edit><fmt:message key="edit" /></edit>
     <users><fmt:message key="users" /></users>
-    <remove><fmt:message key="remove" /></remove>
-    <leave><fmt:message key="leave" /></leave>
 </captions>
 <projects>
     <c:forEach var="project" items="${userFacade.getProjectCollection(user.id)}">

@@ -18,7 +18,9 @@
     <ul id="mpProjectsList">
         <c:set var="projects" value="${userFacade.getProjectCollection(user.id)}" />
         <c:forEach var="project" items="${projects}" varStatus="iter">
+            <c:set var="isOwner" value="${user.id == project.owner.id}" />
             <li class="${sessionScope.project.id == project.id ? 'rowSelected' : iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">
+                <a class="clear ${user.id == project.owner.id ? 'remove' : 'leave'}" data-project.id="${project.id}" data-project.name="<c:out value="${project.name}" />">&#215;</a>
                 <h2 class="title overflowEllipsis"><c:out value="${project.name}" /></h2>
                 <h3 class="title overflowEllipsis">
                     <label><fmt:message key="owner" />:&nbsp;</label>
@@ -31,14 +33,10 @@
                 <div class="options">
                     <a class="button load" data-project.id="${project.id}"><fmt:message key="load" /></a>
                     <c:choose>
-                        <c:when test="${user.id == project.owner.id}">
+                        <c:when test="${isOwner}">
                             <a class="button edit"><fmt:message key="edit" /></a>
                             <a class="button" href="#!/manageProjectUsers?pj=${project.id}"><fmt:message key="users" /></a>
-                            <a class="button remove red" data-project.id="${project.id}" data-project.name="<c:out value="${project.name}" />"><fmt:message key="remove" /></a>
                         </c:when>
-                        <c:otherwise>
-                            <a class="button leave red" data-project.id="${project.id}" data-project.name="<c:out value="${project.name}" />"><fmt:message key="leave" /></a>
-                        </c:otherwise>
                     </c:choose>
                 </div>
             </li>

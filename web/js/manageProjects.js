@@ -30,15 +30,15 @@
             controller.manageProjects.createProject();
         });
         
-        $(window).on('click', '#mpProjectsList a.load', function(e) {
+        $(window).on('click', '#mpProjectsList .load', function(e) {
             controller.manageProjects.loadProject(this);
         });
         
-        $(window).on('click', '#mpProjectsList a.leave', function(e) {
+        $(window).on('click', '#mpProjectsList .clear.leave', function(e) {
             controller.manageProjects.confirmLeaveProject(this);
         });
         
-        $(window).on('click', '#mpProjectsList a.remove', function(e) {
+        $(window).on('click', '#mpProjectsList .clear.remove', function(e) {
             controller.manageProjects.confirmRemoveProject(this);
         });
     });
