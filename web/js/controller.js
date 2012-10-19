@@ -303,7 +303,7 @@ window.controller = (function($, CodeMirror) {
             var pwdClass = getPwdScoreCssClass(pwdScore);
             $passStrength.removeClass();
             $passStrength.addClass(pwdClass);
-            $passStrength.text($('#acMessages').find('.' + pwdClass).text());
+            $passStrength.text($('#messages').find('.' + pwdClass).text());
             $passStrengthBar.removeClass();
             $passStrengthBar.addClass(pwdClass);
             $passStrengthBar.width($passStrength.width() * pwdScore / 100); 
@@ -755,11 +755,11 @@ window.controller = (function($, CodeMirror) {
         var projectId;
         var projectName;
         var isSelected;
-        var captionOwner = $(response).find('captions > owner').text();
-        var captionLoad = $(response).find('captions > load').text();
-        var captionEdit = $(response).find('captions > edit').text();
-        var captionUsers = $(response).find('captions > users').text();
-        var captionDescription = $(response).find('captions > description').text();
+        var captionOwner = $('#messages .owner').text();
+        var captionLoad = $('#messages .load').text();
+        var captionEdit = $('#messages .edit').text();
+        var captionUsers = $('#messages .users').text();
+        var captionDescription = $('#messages .description').text();
         $xmlProjects.each(function(i, e) {
             projectId = $(e).attr('id');
             projectName = $(e).children('name').text();

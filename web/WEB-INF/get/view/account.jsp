@@ -22,12 +22,3 @@
     </div>
     <input id="acChangePassSave" type="submit" class="button" value="<fmt:message key="save" />" />
 </form>
-<div id="acMessages">
-    <span class="very_secure"><fmt:message key="very secure" /></span>
-    <span class="secure"><fmt:message key="secure" /></span>
-    <span class="very_strong"><fmt:message key="very strong" /></span>
-    <span class="strong"><fmt:message key="strong" /></span>
-    <span class="average"><fmt:message key="average" /></span>
-    <span class="weak"><fmt:message key="weak" /></span>
-    <span class="very_weak"><fmt:message key="very weak" /></span>
-</div>

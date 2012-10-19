@@ -109,6 +109,7 @@
             <img id="ixFooterBackground" src="img/footerBackground.png" />
         </footer>
         <div id="messages">
+            <span class="networkFail"><fmt:message key="network fail" /></span>
             <span class="cancel"><fmt:message key="cancel" /></span>
             <span class="delete"><fmt:message key="remove" /></span>
             <span class="remove"><fmt:message key="remove" /></span>
@@ -121,7 +122,18 @@
             <span class="leaveProjectConfirmation"><fmt:message key="leave project confirmation" /></span>
             <span class="removeProjectConfirmationTitle"><fmt:message key="remove project confirmation title" /></span>
             <span class="removeProjectConfirmation"><fmt:message key="remove project confirmation" /></span>
-            <span class="networkFail"><fmt:message key="network fail" /></span>
+            <span class="very_secure"><fmt:message key="very secure" /></span>
+            <span class="secure"><fmt:message key="secure" /></span>
+            <span class="very_strong"><fmt:message key="very strong" /></span>
+            <span class="strong"><fmt:message key="strong" /></span>
+            <span class="average"><fmt:message key="average" /></span>
+            <span class="weak"><fmt:message key="weak" /></span>
+            <span class="very_weak"><fmt:message key="very weak" /></span>
+            <span class="owner"><fmt:message key="owner" /></span>
+            <span class="description"><fmt:message key="description" /></span>
+            <span class="load"><fmt:message key="load" /></span>
+            <span class="edit"><fmt:message key="edit" /></span>
+            <span class="users"><fmt:message key="users" /></span>
         </div>
     </body>
 </html>
