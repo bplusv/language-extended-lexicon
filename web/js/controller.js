@@ -554,7 +554,6 @@ window.controller = (function($, CodeMirror) {
                 });
                 $('body').append(infoBubble);
             }
-
             infoBubble.attr('href', '#!/classify?dc=' + 
                 $('#dcDocument').val() + '&na=' + text);
             infoBubble.find('.caption').text(text);
@@ -747,8 +746,6 @@ window.controller = (function($, CodeMirror) {
         var captionLoad = $(response).find('captions > load').text();
         var captionEdit = $(response).find('captions > edit').text();
         var captionUsers = $(response).find('captions > users').text();
-        var captionRemove = $(response).find('captions > remove').text();
-        var captionLeave = $(response).find('captions > leave').text();
         var captionDescription = $(response).find('captions > description').text();
         $xmlProjects.each(function(i, e) {
             projectId = $(e).attr('id');
@@ -756,6 +753,8 @@ window.controller = (function($, CodeMirror) {
             isOwner = $(e).attr('isOwner') === 'true';
             isSelected = $(e).attr('isSelected') === 'true';
             projects.push($('<li>').addClass(isSelected ? 'rowSelected' : i % 2 == 0 ? 'rowEven' : 'rowOdd')
+                .append($('<a>').addClass('clear').addClass(isOwner ? 'remove' : 'leave')
+                    .data('project.id', projectId).data('project.name', projectName).html('&#215;'))
                 .append($('<h2>').addClass('title overflowEllipsis').text(projectName))
                 .append($('<h3>').addClass('title overflowEllipsis')
                     .append($('<label>').html(captionOwner + ':&nbsp;'))
@@ -768,10 +767,6 @@ window.controller = (function($, CodeMirror) {
                     .append(isOwner ? $('<a>').addClass('button edit').text(captionEdit) : null)
                     .append(isOwner ? $('<a>').addClass('button')
                         .attr('href', '#!/manageProjectUsers?pj=' + projectId).text(captionUsers) : null)
-                    .append(isOwner ? $('<a>').addClass('button remove red').data('project.id', projectId)
-                        .data('project.name', projectName).text(captionRemove) : null)
-                    .append(!isOwner ? $('<a>').addClass('button leave red').data('project.id', projectId)
-                        .data('project.name', projectName).text(captionLeave) : null)
             ).get(0));
         });
         $('#mpProjectsList').html(projects);
