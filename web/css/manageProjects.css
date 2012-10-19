@@ -129,6 +129,6 @@
 }
 
 #mpProjectsList > li .title {
-    margin-right: 31px;
+    margin: 0 21px;
     text-align: center;
 }
