@@ -94,7 +94,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES (1,'Test project',NULL,1),(4,'Observatorio Ingeniería de requisitos',NULL,4),(5,'Software para Diagnóstico y Rehabilitación Cognitiva en Esclerosis Múltiple',NULL,4),(6,'Proyecto_telemedicina',NULL,6),(7,'Aula virtual',NULL,5),(8,'Sistema de Análisis Postural',NULL,7);
+INSERT INTO `project` VALUES (1,'Test project',NULL,1,1),(4,'Observatorio Ingeniería de requisitos',NULL,4,1),(5,'Software para Diagnóstico y Rehabilitación Cognitiva en Esclerosis Múltiple',NULL,4,1),(6,'Proyecto_telemedicina',NULL,6,1),(7,'Aula virtual',NULL,5,1),(8,'Sistema de Análisis Postural',NULL,7,1);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 

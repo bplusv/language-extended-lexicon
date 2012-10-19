@@ -30,6 +30,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`project` (
   `name` VARCHAR(255) NOT NULL ,
   `description` VARCHAR(255) NULL ,
   `owner` INT UNSIGNED NOT NULL ,
+  `active` BIT NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `uniq_project_name` (`name` ASC) ,
   INDEX `fk_project_owner_idx` (`owner` ASC) ,
