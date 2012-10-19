@@ -101,7 +101,8 @@ public class UserFacade extends AbstractFacade<User> {
             User user = find(userId);
             return em.createQuery("SELECT DISTINCT pr FROM Project pr "
                     + "LEFT OUTER JOIN pr.userCollection us "
-                    + "WHERE us = :user OR pr.owner = :user "
+                    + "WHERE pr.active = TRUE AND "
+                    + "(us = :user OR pr.owner = :user) "
                     + "ORDER BY LOWER(pr.name) ASC;").
                     setParameter("user", user).
                     getResultList();

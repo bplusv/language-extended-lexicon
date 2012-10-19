@@ -9,10 +9,21 @@
 <c:if test="${!success}">
     <message><fmt:message key="remove project fail" /></message>
 </c:if>
-<projects id="${projectId}">
-    <c:forEach var="user" items="${projectFacade.getUserCollection(projectId)}">
-        <project id="${project.id}">
+<captions>
+    <owner><fmt:message key="owner" /></owner>
+    <description><fmt:message key="description" /></description>
+    <load><fmt:message key="load" /></load>
+    <edit><fmt:message key="edit" /></edit>
+    <users><fmt:message key="users" /></users>
+</captions>
+<projects>
+    <c:forEach var="project" items="${userFacade.getProjectCollection(user.id)}">
+        <project id="${project.id}" isOwner="${project.owner.id == user.id}" isSelected="${sessionScope.project.id == project.id}">
             <name><![CDATA[${project.name}]]></name>
+            <owner>
+                <name><![CDATA[${project.owner.name}]]></name>
+            </owner>
+            <description><![CDATA[${project.description}]]></description>
         </project>
     </c:forEach>
 </projects>
