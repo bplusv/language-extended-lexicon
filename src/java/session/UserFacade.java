@@ -31,6 +31,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import model.User;
 
 /**
@@ -60,6 +61,34 @@ public class UserFacade extends AbstractFacade<User> {
                     getSingleResult();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public boolean validName(String name) {
+
+        try {
+            String caracters[] = {" ", "#", "$", "&", "/",
+                "(", ")", "=", "?", "¿", "{", "}", "[", "]",
+                ";", ",", "¡", "!", "°", "|", "¬", "<", ">",
+                ".", ":", "-", "_", "%"};
+            boolean success = true;
+            for (int i = 0; i < caracters.length && success == true; i++) {
+                if (name.indexOf(caracters[i]) != -1) {
+                    success = false;
+                }
+            }
+            return success;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean passwordConfirmation(String password, String passwordConfirmation) {
+        if (password.equals(passwordConfirmation)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -117,17 +146,26 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public User registerUser(String username, String password, String passwordConfirmation) {
+    public FacadeResponse registerUser(String username, String password, String passwordConfirmation) {
+        String message = "";
         try {
+            if (!validName(username)) {
+                return new FacadeResponse(null, "register fail invalid username");
+            } else if (!password.equals(passwordConfirmation)) {
+                return new FacadeResponse(null, "register fail password mismatch");
+            }
             User user = new User();
             user.setName(username);
             user.setPassword(makeHash(password));
             em.persist(user);
             em.flush();
-            return user;
+
+            return new FacadeResponse(user, null);
+        } catch(PersistenceException e) {
+            return new FacadeResponse(null, "register fail username exists");
         } catch (Exception e) {
             context.setRollbackOnly();
-            return null;
+            return new FacadeResponse(null, "register fail");
         }
 
 

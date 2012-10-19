@@ -4,9 +4,10 @@
     Author     : YANET
 --%>
 
+<c:set var="success" value="${!empty facadeResponse.response}" />
 <root>
 <success>${success}</success>
 <c:if test="${!success}">
-    <message><fmt:message key="register fail" /></message>
+    <message><fmt:message key="${facadeResponse.message}" /></message>
 </c:if>
 </root>
