@@ -24,6 +24,7 @@
 package session;
 
 import java.security.MessageDigest;
+import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -32,6 +33,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import model.Project;
 import model.User;
 
 /**
@@ -92,7 +94,6 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private String makeHash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -104,7 +105,6 @@ public class UserFacade extends AbstractFacade<User> {
             }
             return sb.toString();
         } catch (Exception e) {
-            context.setRollbackOnly();
             return null;
         }
     }
@@ -123,7 +123,24 @@ public class UserFacade extends AbstractFacade<User> {
             return null;
         }
     }
-
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Collection<Project> getProjectCollection(String userId) {
+        try {
+            User user = find(userId);
+            return em.createQuery("SELECT DISTINCT pr FROM Project pr "
+                    + "LEFT OUTER JOIN pr.userCollection us "
+                    + "WHERE pr.active = TRUE AND "
+                    + "(us = :user OR pr.owner = :user) "
+                    + "ORDER BY LOWER(pr.name) ASC;").
+                    setParameter("user", user).
+                    getResultList();
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Boolean changePassword(String userId, String currentPassword,
             String newPassword, String confirmNewPassword) {
@@ -167,7 +184,5 @@ public class UserFacade extends AbstractFacade<User> {
             context.setRollbackOnly();
             return new FacadeResponse(null, "register fail");
         }
-
-
     }
 }

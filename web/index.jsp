@@ -102,6 +102,7 @@
         <nav class="tabs">
             <a href="#!/explore" id="exploreTab"><fmt:message key="explore" /></a>
             <a href="#!/document" id="documentTab"><fmt:message key="document" /></a>
+            <a href="#!/manageProjects" id="projectsTab"><fmt:message key="projects" /></a>
         </nav>
         <div id="central"></div>
         <footer id="ixFooter">
@@ -111,10 +112,15 @@
             <span class="cancel"><fmt:message key="cancel" /></span>
             <span class="delete"><fmt:message key="remove" /></span>
             <span class="remove"><fmt:message key="remove" /></span>
+            <span class="leave"><fmt:message key="leave" /></span>
             <span class="removeSymbolConfirmation"><fmt:message key="remove symbol confirmation" /></span>
             <span class="removeSymbolConfirmationTitle"><fmt:message key="remove symbol confirmation title" /></span>
             <span class="removeProjectUserConfirmation"><fmt:message key="remove project user confirmation" /></span>
             <span class="removeProjectUserConfirmationTitle"><fmt:message key="remove project user confirmation title" /></span>
+            <span class="leaveProjectConfirmationTitle"><fmt:message key="leave project confirmation title" /></span>
+            <span class="leaveProjectConfirmation"><fmt:message key="leave project confirmation" /></span>
+            <span class="removeProjectConfirmationTitle"><fmt:message key="remove project confirmation title" /></span>
+            <span class="removeProjectConfirmation"><fmt:message key="remove project confirmation" /></span>
             <span class="networkFail"><fmt:message key="network fail" /></span>
         </div>
     </body>

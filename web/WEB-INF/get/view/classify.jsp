@@ -49,7 +49,7 @@
                 </select>                
             </div>
         </div>
-        <div class="right">
+        <div class="right" style="visibility: ${empty log ? 'hidden' : 'visible'}">
             <label><fmt:message key="last edited" />:</label>
             <h3 id="clLogUserName" class="clInfo overflowEllipsis"><c:out value="${log.user.name}" /></h3>
             <h3 id="clLogDate" class="clInfo"><fmt:formatDate value="${log.date}" type="both" dateStyle="MEDIUM" timeZone="GMT-6" /></h3>

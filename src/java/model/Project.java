@@ -58,6 +58,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Project.findByName", query = "SELECT p FROM Project p WHERE p.name = :name"),
     @NamedQuery(name = "Project.findByDescription", query = "SELECT p FROM Project p WHERE p.description = :description")})
 public class Project implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -179,6 +183,14 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "model.Project[ id=" + id + " ]";
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
 }
