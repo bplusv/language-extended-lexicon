@@ -137,6 +137,20 @@ textarea {
     text-decoration: none;
 }
 
+.button.red {
+    background-color: #ca322d;
+}
+
+.button.red:hover {
+    background-color: #da423d;
+    text-decoration: none;
+}
+
+.button.red:active {
+    background-color: #ba221d;
+    text-decoration: none;
+}
+
 .CodeMirror {
     border: 1px solid #ccc;
     border-radius: 0 5px 5px 5px;
@@ -156,6 +170,18 @@ textarea {
     font-size: inherit;
     line-height: inherit;
     background-color: #fff;
+}
+
+.rowOdd {
+    background-color: #f9f9f9;
+}
+
+.rowEven {
+    background-color: #fff;
+}
+
+.rowSelected {
+    background-color: #e5f2fa;
 }
 
 .overflowEllipsis {
@@ -224,8 +250,8 @@ textarea {
     display: none;
     height: 24px;
     left: 50%;
-    margin-left: -225px;
-    padding: 6px 213px 5px 213px;
+    margin-left: -250px;
+    padding: 6px 238px 5px 238px;
     position: fixed; 
     top: 0;
     width: 24px;
@@ -303,11 +329,11 @@ textarea {
     height: 35px;
     left: 50%;
     line-height: 35px;
-    margin-left: -225px;
+    margin-left: -250px;
     position: fixed; 
     text-align: center;
     top: 0;
-    width: 450px;
+    width: 500px;
     z-index: 99;
 }
 

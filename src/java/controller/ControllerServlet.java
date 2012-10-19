@@ -25,7 +25,6 @@ package controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -65,9 +64,11 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/createProject",
     "/post/createSymbol",
     "/post/leaveSynonymsGroup",
+    "/post/leaveProject",
     "/post/loadDocument",
     "/post/loadProject",
     "/post/registerUser",
+    "/post/removeProject",
     "/post/removeProjectUser",
     "/post/removeSymbol",
     "/post/signIn",
@@ -185,17 +186,14 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/get/view/manageProjectUsers")) {
-            Project project = (Project) session.getAttribute("project");
-            if (project != null) {
-                Collection<User> users = projectFacade.getUserCollection(
-                    project.getId().toString());
-                request.setAttribute("users", users);
+            User user = (User) session.getAttribute("user");
+            Project project = projectFacade.find(request.getParameter("pj"));   
+            if (project != null && project.getOwner().equals(user)) {
+                request.setAttribute("project", project);
             } else {
                 userPath = "/get/view/manageProjects";
             }
         } else if (userPath.equals("/get/view/test")) {
-            Collection<Comment> comments = definitionFacade.getCommentCollection("6");
-            request.setAttribute("comments", comments);
         } else if (userPath.equals("/register")) {
         } else if (userPath.equals("/signIn")) {
         }
@@ -217,10 +215,12 @@ public class ControllerServlet extends HttpServlet {
 
         if (userPath.equals("/post/addProjectUser")) {
             User user = projectFacade.addProjectUser(
-                ((Project) session.getAttribute("project")).getId().toString(), 
+                ((User) session.getAttribute("user")).getId().toString(),
+                request.getParameter("project"), 
                 request.getParameter("username"));
             if (user != null) {
                 request.setAttribute("success", true);
+                request.setAttribute("projectId", request.getParameter("project"));
             } else {
                 request.setAttribute("success", false);
             }
@@ -307,6 +307,15 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 request.setAttribute("success", false);
             }
+        } else if (userPath.equals("/post/leaveProject")) {
+            User user = projectFacade.leaveProject(
+                ((User) session.getAttribute("user")).getId().toString(), 
+                request.getParameter("project"));
+            if (user != null) {
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
         } else if (userPath.equals("/post/loadDocument")) {
             Document document = documentFacade.find(
                     request.getParameter("document"));
@@ -337,12 +346,23 @@ public class ControllerServlet extends HttpServlet {
                 session.setAttribute("user", facadeResponse.getResponse());
             }
             request.setAttribute("facadeResponse", facadeResponse);
+        } else if(userPath.equals("/post/removeProject")) {
+            Project project = projectFacade.removeProject(
+                    ((User) session.getAttribute("user")).getId().toString(),
+                    request.getParameter("project"));
+            if (project != null) {
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
         } else if(userPath.equals("/post/removeProjectUser")) {
             User user = projectFacade.removeProjectUser(
-                ((Project) session.getAttribute("project")).getId().toString(),
+                ((User) session.getAttribute("user")).getId().toString(),
+                request.getParameter("project"),
                 request.getParameter("userId"));
             if (user != null) {
                 request.setAttribute("success", true);
+                request.setAttribute("projectId", request.getParameter("project"));
             } else {
                 request.setAttribute("success", false);
             }

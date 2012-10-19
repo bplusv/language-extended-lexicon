@@ -88,24 +88,26 @@
                             </fo:inline>
                             <xsl:value-of select="futureIntention" />
                         </fo:block>
-                        <fo:block space-after="2cm">
+                        <fo:block space-after="1.0cm">
                             <xsl:if test="comments">
-                                <fo:inline font-weight="bold">
+                                <fo:block font-weight="bold" space-after="0.5cm">
                                     <xsl:value-of select="/root/captions/comments" />
                                     <xsl:text>: </xsl:text>
-                                </fo:inline>
+                                </fo:block>
                                 <xsl:for-each select="comments/comment">
-                                    <fo:inline font-style="italic">
-                                        <xsl:value-of select="date" />
-                                        <xsl:text> - </xsl:text>
-                                        <xsl:value-of select="user" />
-                                        <xsl:text>: </xsl:text>
-                                    </fo:inline>
-                                    <xsl:value-of select="content" />
-                                    <fo:block space-after="0.5cm"></fo:block>
+                                    <fo:block space-after="0.5cm">
+                                        <fo:inline font-style="italic">
+                                            <xsl:value-of select="date" />
+                                            <xsl:text> - </xsl:text>
+                                            <xsl:value-of select="user" />
+                                            <xsl:text>: </xsl:text>
+                                        </fo:inline>
+                                        <xsl:value-of select="content" />
+                                    </fo:block>
                                 </xsl:for-each>
                             </xsl:if>
                         </fo:block>
+                        <fo:block space-after="1.0cm" border-top="0.05cm groove #ccc"></fo:block>
                     </xsl:for-each>
                     <fo:block id="last-page">
                     </fo:block>

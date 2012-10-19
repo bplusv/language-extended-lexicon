@@ -39,7 +39,7 @@
         <ul id="exSymbolsList">
             <c:set var="symbols" value="${symbolFacade.findByFilters(project.id, param.ca, param.cl, param.sy)}" />
             <c:forEach var="symbol" items="${symbols}" varStatus="iter">
-                <li style="background-color:${iter.index % 2 == 0 ? '#fff' : '#f9f9f9'};">
+                <li class="${iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">
                     <a class="exSymbol" href="#!/classify?sy=${symbol.id}">
                         <span class="overflowEllipsis exSyName"><c:out value="${symbol.name}" /></span>
                         <span class="overflowEllipsis"><fmt:message key="${symbol.definition.category.name}" /></span>
@@ -51,7 +51,9 @@
             </c:forEach>
         </ul>
     </form>
-    <c:if test="${empty symbols}" ><h1 id="exEmptySymbolsListMessage"><fmt:message key="it's lonely here" />...</h1></c:if>
+    <c:if test="${empty symbols}" >
+        <h1 id="exEmptySymbolsListMessage"><fmt:message key="it's lonely here" />...</h1>
+    </c:if>
     <form id="exProjectReportField" action="get/projectReport" method="GET">
         <input id="exProjectReport" class="button" type="submit" value="<fmt:message key="report" />" />
         <label id="exProjectReportComments"><input id="exProjectReportCommentsCheck" type="checkbox" name="comments" />&nbsp;<fmt:message key="comments" /></label>

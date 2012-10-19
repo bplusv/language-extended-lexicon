@@ -8,11 +8,13 @@
 @charset "UTF-8";
 
 .mpField {
+    margin: 0 auto;
     text-align: center;
+    width: 350px;
 }
 
 .mpTitle {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     text-align: center;
 }
 
@@ -22,6 +24,19 @@
     right: 0px;
 }
 
+#mpEmptyProjectsListMessage {
+    color: #dedede;
+    height: 30px;
+    left: 50%;
+    line-height: 30px;
+    margin-left: -110px;
+    margin-top: -15px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 220px;
+}
+
 #mpLoadProject {
     position: absolute;
     bottom: 0px;
@@ -29,42 +44,86 @@
 }
 
 #mpLoadForm {
-    height: 325px;
+    height: auto;
+    min-height: 325px;
     position: relative;
 }
 
-#mpName {
-    display: inline-block;
-    width: 200px;
+#mpNewProjectName {
+    
 }
 
-#mpNameLabel {
+#mpNewProjectNameLabel {
 
 }
 
 #mpCreateForm {
-    height: 150px;
+    height: 110px;
     position: relative;
 }
 
-#mpProject {
-    border: none;
-    display: block;
-    height: auto;
-    margin: 0 auto;
-    overflow-x: visible;
-    overflow-y: auto;
-    width: 600px;
+#mpProjectsList {
+    list-style-type: none;
+    margin: 0;
+    min-height: 150px;
+    position: relative;
 }
 
-#mpProject option {
-    display: block;
-    overflow: visible;
-    padding: 0 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+#mpProjectsList > li {
+    padding: 10px;
+    position: relative;
+    width: 728px;
 }
 
-#mpProject option:nth-of-type(odd) {
-    background: #f9f9f9;
+#mpProjectsList > li:hover {
+    background-color: #ffe0c6;
+}
+
+
+#mpProjectsList > li:hover .clear {
+    visibility: visible;
+}
+
+#mpProjectsList > li:hover .options {
+    visibility: visible;
+}
+
+#mpProjectsList > li .description {
+    color: #666;
+    font: 14px 'Century Gothic', sans-serif;
+    margin: 10px 0;
+}
+
+#mpProjectsList > li .clear {
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    color: #777;
+    font: 16px/30px 'Century Gothic', sans-serif;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    top: 0;
+    visibility: hidden;
+    width: 30px;
+}
+
+#mpProjectsList > li .clear:hover {
+    color: #000;
+}
+
+#mpProjectsList > li .options {
+    font-size: 0;
+    height: 35px;
+    text-align: center;
+    visibility: hidden;
+}
+
+#mpProjectsList > li .options > a {
+    margin: 0 7px;
+}
+
+#mpProjectsList > li .title {
+    text-align: center;
 }

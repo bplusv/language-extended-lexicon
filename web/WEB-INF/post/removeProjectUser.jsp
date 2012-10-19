@@ -9,9 +9,9 @@
 <c:if test="${!success}">
     <message><fmt:message key="remove project user fail" /></message>
 </c:if>
-<project id="${project.id}">
+<project id="${projectId}">
     <users>
-        <c:forEach var="user" items="${projectFacade.getUserCollection(project.id)}">
+        <c:forEach var="user" items="${projectFacade.getUserCollection(projectId)}">
             <user id="${user.id}">
                 <name><![CDATA[${user.name}]]></name>
             </user>

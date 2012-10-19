@@ -52,6 +52,7 @@ window.controller = (function($, CodeMirror) {
                     redirect = callback && callback(response);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
                     isRequesting = false;
                     response = $('<response>').append(
                         $('<message>').text(
@@ -191,6 +192,26 @@ window.controller = (function($, CodeMirror) {
         return result;
     }
     
+    var getPwdScoreCssClass = function(pwdScore) {
+        var pwdClass = '';
+        if (pwdScore >= 90) {
+            pwdClass = 'very_secure';
+        } else if (pwdScore >= 80) {
+            pwdClass = 'secure';
+        } else if (pwdScore >= 70) {
+            pwdClass = 'very_strong';
+        } else if (pwdScore >= 60) {
+            pwdClass = 'strong';
+        } else if (pwdScore >= 50) {
+            pwdClass = 'average';
+        } else if (pwdScore >= 25) {
+            pwdClass = 'weak';
+        } else if (pwdScore >= 0) {
+            pwdClass = 'very_weak';
+        }
+        return pwdClass;
+    };
+    
     var updateMainInterface = function(response, redirect) {
         if (redirect) {
             if (window.location.hash.indexOf(redirect) > -1) {
@@ -209,6 +230,8 @@ window.controller = (function($, CodeMirror) {
             $('#exploreTab').addClass('selected');
         } else if (window.location.hash.indexOf('/document') > 0) {
             $('#documentTab').addClass('selected');
+        } else if (window.location.hash.indexOf('/manageProjects') > 0) {
+            $('#projectsTab').addClass('selected');
         }
         $('#ajaxLoader').hide();
         if (response) {
@@ -277,26 +300,10 @@ window.controller = (function($, CodeMirror) {
         var newPass = $('#acNewPassword').val();
         if (newPass) {
             var pwdScore = $.pwdStrength(newPass);
-            var pwdClass = '';
-            if (pwdScore >= 90) {
-                pwdClass = 'very_secure';
-            } else if (pwdScore >= 80) {
-                pwdClass = 'secure';
-            } else if (pwdScore >= 70) {
-                pwdClass = 'very_strong';
-            } else if (pwdScore >= 60) {
-                pwdClass = 'strong';
-            } else if (pwdScore >= 50) {
-                pwdClass = 'average';
-            } else if (pwdScore >= 25) {
-                pwdClass = 'weak';
-            } else if (pwdScore >= 0) {
-                pwdClass = 'very_weak';
-            }
+            var pwdClass = getPwdScoreCssClass(pwdScore);
             $passStrength.removeClass();
             $passStrength.addClass(pwdClass);
-            $passStrength.text($('#acMessages').find('.'+pwdClass).text());
-
+            $passStrength.text($('#acMessages').find('.' + pwdClass).text());
             $passStrengthBar.removeClass();
             $passStrengthBar.addClass(pwdClass);
             $passStrengthBar.width($passStrength.width() * pwdScore / 100); 
@@ -325,7 +332,7 @@ window.controller = (function($, CodeMirror) {
                 $('#clSynonymsSelect').css('display', 'none');
                 $('#clSymbol').val($(response).find('symbol').attr('id'));
                 $('#clForm').attr('action', '/post/updateSymbol');
-                $('#clDefinitionTopRight').css('visibility', 'visible');
+                $('#clDefinitionTop > div.right').css('visibility', 'visible');
                 $('#clLogUserName').text($(response).find('log > user > name').text());
                 $('#clLogDate').text($(response).find('log > date').text());
                 updateProjectSymbols();
@@ -408,7 +415,7 @@ window.controller = (function($, CodeMirror) {
         var $xmlComments = $(response).find('comments').children();
         var comments = [];
         $xmlComments.each(function(i, e) {
-        comments.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+        comments.push($('<li>').addClass(i % 2 == 0 ? 'rowEven' : 'rowOdd')
             .append($('<div>').addClass('left')
                 .append($('<span>').addClass('overflowEllipsis')
                     .text($(e).find('user > name').text()+':'))
@@ -422,6 +429,7 @@ window.controller = (function($, CodeMirror) {
         $clComments.html(comments);
         $clComments.scrollTop(0);
         if ($clNewComment.val()) {
+            $('#clCommentsToggle').css('display', 'block');
             api.classify.showComments();
         }
         $clNewComment.data('codeMirror').setValue('');
@@ -519,13 +527,14 @@ window.controller = (function($, CodeMirror) {
             var $xmlSymbols = $(response).find('symbols').children();
             var $symbols = [];
             $xmlSymbols.each(function(i, e) {
-                $symbols.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+                $symbols.push($('<li>').addClass(i % 2 == 0 ? 'rowEven' : 'rowOdd')
                     .append($('<a>').addClass('exSymbol').attr('href', '#!/classify?sy='+$(e).attr('id'))
                         .append($('<span>').addClass('overflowEllipsis exSyName').text($(e).children('name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('category > name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('classification > name').text()))
                         .append($('<span>').addClass('overflowEllipsis').text($(e).find('document > name').text()))
-                        .append($('<span>').attr('id', 'exSy' + $(e).attr('id')).addClass('removeSymbol').html('&#215;'))).get(0));
+                        .append($('<span>').addClass('removeSymbol').data('symbol.id', $(e).attr('id'))
+                            .data('symbol.name', $(e).children('name').text()).html('&#215;'))).get(0));
             });
             $('#exSymbolsList').html($symbols);
             $('#exSearchClear').css('visibility', $('#exSearch').val() ? 'visible' : 'hidden');
@@ -545,7 +554,6 @@ window.controller = (function($, CodeMirror) {
                 });
                 $('body').append(infoBubble);
             }
-
             infoBubble.attr('href', '#!/classify?dc=' + 
                 $('#dcDocument').val() + '&na=' + text);
             infoBubble.find('.caption').text(text);
@@ -588,7 +596,8 @@ window.controller = (function($, CodeMirror) {
         }, $('#mpuAddUserForm').serialize());
     };
     api.manageProjectUsers.confirmRemoveUser = function(targetUser) {
-        var id = $(targetUser).data('user.id');
+        var userId = $(targetUser).data('user.id');
+        $('#mpuRemoveUserId').val(userId);
         var userName = $(targetUser).data('user.name');
         var title = $('#messages .removeProjectUserConfirmationTitle').html();
         var message = $('#messages .removeProjectUserConfirmation').html();
@@ -603,7 +612,7 @@ window.controller = (function($, CodeMirror) {
                     'msg'   : deleteMsg,
                     'class'	: 'red',
                     'action': function(){
-                        api.manageProjectUsers.removeProjectUser(id);
+                        api.manageProjectUsers.removeProjectUser();
                     }
                 },
                 'cancel'    : {
@@ -614,18 +623,18 @@ window.controller = (function($, CodeMirror) {
             }
         });
     }
-    api.manageProjectUsers.removeProjectUser = function(userId) {
+    api.manageProjectUsers.removeProjectUser = function() {
         ajaxRequest('/post/removeProjectUser', function(response) {
             if ($(response).find('success').text() === 'true') {
                 api.manageProjectUsers.updateUserList(response);
             }
-        }, 'userId='+userId);
+        }, $('#mpuRemoveUserForm').serialize());
     };
     api.manageProjectUsers.updateUserList = function(response) {
         var $xmlUsers = $(response).find('users').children();
         var users = [];
         $xmlUsers.each(function(i, e) {
-        users.push($('<li>').css('background', i % 2 == 0 ? '#fff' : '#f9f9f9')
+        users.push($('<li>').addClass(i % 2 == 0 ? 'rowEven' : 'rowOdd')
             .append($('<span>').addClass('overflowEllipsis').text($(e).find('name').text()))
             .append($('<a>').addClass('removeUser').data('user.id', $(e).attr('id'))
                 .data('user.name', $(e).find('name').text()).html('&#215;')).get(0));
@@ -634,7 +643,7 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.manageProjects = {};
-    api.manageProjects.create = function() {
+    api.manageProjects.createProject = function() {
         ajaxRequest('/post/createProject', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -646,7 +655,41 @@ window.controller = (function($, CodeMirror) {
             return redirect;
         }, $('#mpCreateForm').serialize());
     };
-    api.manageProjects.load = function() {
+    api.manageProjects.leaveProject = function(projectId) {
+        ajaxRequest('/post/leaveProject', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjects.updateProjectsList(response);
+            }
+        }, 'project=' + projectId);
+    };
+    api.manageProjects.confirmLeaveProject = function(targetProject) {
+        var projectId = $(targetProject).data('project.id');
+        var projectName = $(targetProject).data('project.name');
+        var title = $('#messages .leaveProjectConfirmationTitle').html();
+        var message = $('#messages .leaveProjectConfirmation').html();
+        var deleteMsg = $('#messages .leave').html();
+        var cancelMsg = $('#messages .cancel').html();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<span>').addClass('itemName').
+            text(projectName)[0].outerHTML + message,
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.manageProjects.leaveProject(projectId);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+    };
+    api.manageProjects.loadProject = function(targetProject) {
         ajaxRequest('/post/loadProject', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -656,7 +699,77 @@ window.controller = (function($, CodeMirror) {
                 redirect = '#!/explore';
             }
             return redirect;
-        }, $('#mpLoadForm').serialize());
+        }, 'project=' + $(targetProject).data('project.id'));
+    };
+    api.manageProjects.removeProject = function(projectId) {
+      ajaxRequest('/post/removeProject', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjects.updateProjectsList(response);
+            }
+        }, 'project=' + projectId);
+    };
+    api.manageProjects.confirmRemoveProject = function(targetProject) {
+        var projectId = $(targetProject).data('project.id');
+        var projectName = $(targetProject).data('project.name');
+        var title = $('#messages .removeProjectConfirmationTitle').html();
+        var message = $('#messages .removeProjectConfirmation').html();
+        var deleteMsg = $('#messages .remove').html();
+        var cancelMsg = $('#messages .cancel').html();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<span>').addClass('itemName').
+            text(projectName)[0].outerHTML + message,
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.manageProjects.removeProject(projectId);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+    };
+    api.manageProjects.updateProjectsList = function(response) {
+        var $xmlProjects = $(response).find('projects').children();
+        var projects = [];
+        var isOwner;
+        var projectId;
+        var projectName;
+        var isSelected;
+        var captionOwner = $(response).find('captions > owner').text();
+        var captionLoad = $(response).find('captions > load').text();
+        var captionEdit = $(response).find('captions > edit').text();
+        var captionUsers = $(response).find('captions > users').text();
+        var captionDescription = $(response).find('captions > description').text();
+        $xmlProjects.each(function(i, e) {
+            projectId = $(e).attr('id');
+            projectName = $(e).children('name').text();
+            isOwner = $(e).attr('isOwner') === 'true';
+            isSelected = $(e).attr('isSelected') === 'true';
+            projects.push($('<li>').addClass(isSelected ? 'rowSelected' : i % 2 == 0 ? 'rowEven' : 'rowOdd')
+                .append($('<a>').addClass('clear').addClass(isOwner ? 'remove' : 'leave')
+                    .data('project.id', projectId).data('project.name', projectName).html('&#215;'))
+                .append($('<h2>').addClass('title overflowEllipsis').text(projectName))
+                .append($('<h3>').addClass('title overflowEllipsis')
+                    .append($('<label>').html(captionOwner + ':&nbsp;'))
+                    .append($('<span>').text($(e).find('owner > name').text())))                    
+                .append($('<p>').addClass('description')
+                    .append($('<label>').html(captionDescription + ':&nbsp;'))
+                    .append($('<span>').text($(e).find('description').text())))
+                .append($('<div>').addClass('options')
+                    .append($('<a>').addClass('button load').data('project.id', projectId).text(captionLoad))
+                    .append(isOwner ? $('<a>').addClass('button edit').text(captionEdit) : null)
+                    .append(isOwner ? $('<a>').addClass('button')
+                        .attr('href', '#!/manageProjectUsers?pj=' + projectId).text(captionUsers) : null)
+            ).get(0));
+        });
+        $('#mpProjectsList').html(projects);
     };
     
     api.scrollingText = {};
@@ -688,7 +801,7 @@ window.controller = (function($, CodeMirror) {
     api.signIn = function() {
         ajaxRequest('/post/signIn', function(response) {
             if ($(response).find('success').text() === 'true') {
-                window.location.href = appContext + '/#!/explore';
+                window.location.href = appContext + '/#!/manageProjects';
             }
         }, $('#siForm').serialize());
     };
