@@ -15,7 +15,7 @@
         '<div id="jqConfirmOverlay">',
         '<div class="confirmBox">',
         '<h1>',params.title,'</h1>',
-        '<p>',params.message,'</p>',
+        '<div class="message">',params.message,'</div>',
         '<div class="confirmButtons">',
         buttonHTML,
         '</div></div></div>'

@@ -489,14 +489,16 @@ window.controller = (function($, CodeMirror) {
     api.explore.confirmRemoveSymbol = function(targetSymbol) {
         var id = $(targetSymbol).data('symbol.id');
         var symbolName = $(targetSymbol).data('symbol.name');
-        var title = $('#messages .removeSymbolConfirmationTitle').html();
-        var message = $('#messages .removeSymbolConfirmation').html();
-        var deleteMsg = $('#messages .remove').html();
-        var cancelMsg = $('#messages .cancel').html();
+        var title = $('#messages .removeSymbolConfirmationTitle').text();
+        var message = $('#messages .removeSymbolConfirmation').text();
+        var deleteMsg = $('#messages .remove').text();
+        var cancelMsg = $('#messages .cancel').text();
         $.confirm({
             'title'	: title,
-            'message'	: $('<span>').addClass('itemName').
-            text(symbolName)[0].outerHTML + message,
+            'message'	: $('<div>')
+                            .append($('<span>').addClass('itemName')
+                                .addClass('overflowEllipsis').text(symbolName))
+                            .append($('<span>').text(message)).html(),
             'buttons'	: {
                 'delete'	: {
                     'msg'   : deleteMsg,
@@ -512,6 +514,7 @@ window.controller = (function($, CodeMirror) {
                 }
             }
         });
+        updateMainInterface();
     }
     api.explore.removeSymbol = function(id) {
         ajaxRequest('/post/removeSymbol', function(response) {
@@ -599,14 +602,16 @@ window.controller = (function($, CodeMirror) {
         var userId = $(targetUser).data('user.id');
         $('#mpuRemoveUserId').val(userId);
         var userName = $(targetUser).data('user.name');
-        var title = $('#messages .removeProjectUserConfirmationTitle').html();
-        var message = $('#messages .removeProjectUserConfirmation').html();
-        var deleteMsg = $('#messages .remove').html();
-        var cancelMsg = $('#messages .cancel').html();
+        var title = $('#messages .removeProjectUserConfirmationTitle').text();
+        var message = $('#messages .removeProjectUserConfirmation').text();
+        var deleteMsg = $('#messages .remove').text();
+        var cancelMsg = $('#messages .cancel').text();
         $.confirm({
             'title'	: title,
-            'message'	: $('<span>').addClass('itemName').
-            text(userName)[0].outerHTML + message,
+            'message'	: $('<div>')
+                            .append($('<span>').addClass('itemName')
+                                .addClass('overflowEllipsis').text(userName))
+                            .append($('<span>').text(message)).html(),
             'buttons'	: {
                 'delete'	: {
                     'msg'   : deleteMsg,
@@ -622,6 +627,8 @@ window.controller = (function($, CodeMirror) {
                 }
             }
         });
+        updateMainInterface();
+        
     }
     api.manageProjectUsers.removeProjectUser = function() {
         ajaxRequest('/post/removeProjectUser', function(response) {
@@ -665,14 +672,16 @@ window.controller = (function($, CodeMirror) {
     api.manageProjects.confirmLeaveProject = function(targetProject) {
         var projectId = $(targetProject).data('project.id');
         var projectName = $(targetProject).data('project.name');
-        var title = $('#messages .leaveProjectConfirmationTitle').html();
-        var message = $('#messages .leaveProjectConfirmation').html();
-        var deleteMsg = $('#messages .leave').html();
-        var cancelMsg = $('#messages .cancel').html();
+        var title = $('#messages .leaveProjectConfirmationTitle').text();
+        var message = $('#messages .leaveProjectConfirmation').text();
+        var deleteMsg = $('#messages .leave').text();
+        var cancelMsg = $('#messages .cancel').text();
         $.confirm({
             'title'	: title,
-            'message'	: $('<span>').addClass('itemName').
-            text(projectName)[0].outerHTML + message,
+            'message'	: $('<div>')
+                            .append($('<span>').addClass('itemName')
+                                .addClass('overflowEllipsis').text(projectName))
+                            .append($('<span>').text(message)).html(),
             'buttons'	: {
                 'delete'	: {
                     'msg'   : deleteMsg,
@@ -688,6 +697,7 @@ window.controller = (function($, CodeMirror) {
                 }
             }
         });
+        updateMainInterface();
     };
     api.manageProjects.loadProject = function(targetProject) {
         ajaxRequest('/post/loadProject', function(response) {
@@ -711,14 +721,16 @@ window.controller = (function($, CodeMirror) {
     api.manageProjects.confirmRemoveProject = function(targetProject) {
         var projectId = $(targetProject).data('project.id');
         var projectName = $(targetProject).data('project.name');
-        var title = $('#messages .removeProjectConfirmationTitle').html();
-        var message = $('#messages .removeProjectConfirmation').html();
-        var deleteMsg = $('#messages .remove').html();
-        var cancelMsg = $('#messages .cancel').html();
+        var title = $('#messages .removeProjectConfirmationTitle').text();
+        var message = $('#messages .removeProjectConfirmation').text();
+        var deleteMsg = $('#messages .remove').text();
+        var cancelMsg = $('#messages .cancel').text();
         $.confirm({
             'title'	: title,
-            'message'	: $('<span>').addClass('itemName').
-            text(projectName)[0].outerHTML + message,
+            'message'	: $('<div>')
+                            .append($('<span>').addClass('itemName')
+                                .addClass('overflowEllipsis').text(projectName))
+                            .append($('<span>').text(message)).html(),
             'buttons'	: {
                 'delete'	: {
                     'msg'   : deleteMsg,
@@ -734,6 +746,7 @@ window.controller = (function($, CodeMirror) {
                 }
             }
         });
+        updateMainInterface();
     };
     api.manageProjects.updateProjectsList = function(response) {
         var $xmlProjects = $(response).find('projects').children();

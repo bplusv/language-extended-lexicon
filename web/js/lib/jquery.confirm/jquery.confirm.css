@@ -22,7 +22,7 @@
 }
 
 #jqConfirmOverlay .confirmBox h1,
-#jqConfirmOverlay .confirmBox p {
+#jqConfirmOverlay .confirmBox .message {
     color:#666;
     background-color: #f15945;
     border-radius: 5px 5px 0 0;
@@ -35,7 +35,7 @@
     letter-spacing: 0.3px;
 }
 
-#jqConfirmOverlay .confirmBox p{
+#jqConfirmOverlay .confirmBox .message {
     background: none;
     font-size: 16px;
     line-height: 1.4;
