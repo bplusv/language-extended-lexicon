@@ -1,0 +1,70 @@
+/* 
+    Document   : manageProyects
+    Created on : May 29, 2012, 9:20:57 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Stylesheet for loadProject.jsp.
+*/
+
+@charset "UTF-8";
+
+.mpField {
+    text-align: center;
+}
+
+.mpTitle {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#mpCreateProject {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
+}
+
+#mpLoadProject {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+#mpLoadForm {
+    height: 325px;
+    position: relative;
+}
+
+#mpName {
+    display: inline-block;
+    width: 200px;
+}
+
+#mpNameLabel {
+
+}
+
+#mpCreateForm {
+    height: 150px;
+    position: relative;
+}
+
+#mpProject {
+    border: none;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    overflow-x: visible;
+    overflow-y: auto;
+    width: 600px;
+}
+
+#mpProject option {
+    display: block;
+    overflow: visible;
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#mpProject option:nth-of-type(odd) {
+    background: #f9f9f9;
+}

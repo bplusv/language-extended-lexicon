@@ -1,0 +1,102 @@
+#jqConfirmOverlay {
+    background: url('ie.png');
+    background: -moz-linear-gradient(rgba(11,11,11,0.1), rgba(11,11,11,0.6)) repeat-x rgba(11,11,11,0.2);
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(11,11,11,0.1)), to(rgba(11,11,11,0.6))) repeat-x rgba(11,11,11,0.2);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100000;
+}
+
+#jqConfirmOverlay .confirmBox{
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+    left: 50%;
+    margin: -130px 0 0 -230px;
+    position: fixed;
+    top: 50%;
+    width: 460px;
+}
+
+#jqConfirmOverlay .confirmBox h1,
+#jqConfirmOverlay .confirmBox p {
+    color:#666;
+    background-color: #f15945;
+    border-radius: 5px 5px 0 0;
+    font: 19px/30px 'Trebuchet MS', Helvetica, sans-serif;
+    padding: 10px 25px;
+}
+
+#jqConfirmOverlay .confirmBox h1 {
+    color: #fff;
+    letter-spacing: 0.3px;
+}
+
+#jqConfirmOverlay .confirmBox p{
+    background: none;
+    font-size: 16px;
+    line-height: 1.4;
+    padding-top: 20px;
+    text-align: center;
+}
+
+#jqConfirmOverlay .confirmBox .itemName {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#jqConfirmOverlay .confirmButtons {
+    padding:25px 0 25px;
+    text-align:center;
+}
+
+#jqConfirmOverlay .confirmBox .button{
+    border: 1px solid #189de1;
+    border-radius: 5px;
+    border-style: none;
+    color: #fff;
+    display: inline-block;
+    font: 14px/15px 'Trebuchet MS', Helvetica, sans-serif;
+    margin-right: 50px;
+    min-height: 15px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 100px;
+}
+
+#jqConfirmOverlay .confirmBox .button:last-child {	
+    margin-right:0;
+}
+
+#jqConfirmOverlay .confirmBox .button.blue {
+    background-color: #189de1;
+}
+
+#jqConfirmOverlay .confirmBox .button.blue:hover {
+    background-color: #38Bdf1;
+    text-decoration: none;
+}
+
+#jqConfirmOverlay .confirmBox .button.blue:active {
+    background-color: #0489c7;
+    text-decoration: none;
+}
+
+#jqConfirmOverlay .confirmBox .button.red {
+    background-color: #ca322d;
+}
+
+#jqConfirmOverlay .confirmBox .button.red:hover {
+    background-color: #da423d;
+    text-decoration: none;
+}
+
+#jqConfirmOverlay .confirmBox .button.red:active {
+    background-color: #ba221d;
+    text-decoration: none;
+}

@@ -1,0 +1,81 @@
+/* 
+    Document   : manageProjectUsers
+    Created on : Oct 9, 2012, 9:53:50 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Stylesheet for manageProjectUsers.jsp.
+        Purpose of the stylesheet follows.
+*/
+
+.mpuField {
+    margin: 0 auto;
+    text-align: center;
+    width: 350px;
+}
+
+.mpuTitle {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#mpuAddUser {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+}
+
+#mpuAddUserForm {
+    height: 150px;
+    position: relative;
+}
+
+#mpuUsersList {
+    list-style-type: none;
+    margin: 0 auto;
+    width: 350px;
+}
+
+#mpuUsersList > li {
+    color: #555;
+    font: 13px/30px 'Century Gothic', sans-serif;
+    height: 30px;
+    overflow: hidden;
+    width: 350px;
+}
+
+#mpuUsersList > li:hover {
+    background-color: #ffe0c6 !important;
+}
+
+#mpuUsersList > li:hover > span.overflowEllipsis {
+    color: #000;
+}
+
+#mpuUsersList > li:hover > a.removeUser {
+    visibility: visible;
+}
+
+#mpuUsersList > li > span.overflowEllipsis {
+    border-right: 1px solid #fff;
+    display: block;
+    float: left;
+    padding: 0 5px;
+    width: 319px;
+}
+
+#mpuUsersList > li > a.removeUser {
+    color: #777;
+    display: block;
+    float: left;
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    visibility: hidden;
+    width: 20px;
+}
+
+#mpuUsersList > li > a.removeUser:hover {
+    color: #000;
+}

@@ -1,0 +1,320 @@
+/* 
+    Document   : base
+    Created on : May 16, 2012, 9:21:00 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Main Stylesheet for common website items.
+*/
+
+@charset "UTF-8";
+
+html, body, div, a, img, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td, input, select { -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; border: none; outline: none; margin: 0; padding: 0; }
+
+::selection {
+    background: #ffe0c6;
+}
+::-moz-selection {
+    background: #ffe0c6;
+}
+/* Remove button padding in FF */
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner {
+    padding: 0 !important;
+    border: 0 none !important;
+}
+
+*:focus {
+    outline: none;
+}
+
+a {
+    color: #006699;
+    font: 12px Arial,sans-serif;
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+body {
+    margin: 0 auto;
+    min-height: 100%;
+    width: 800px;
+}
+
+h1 {
+    color: #777;
+    font: 23px 'Century Gothic', sans-serif;
+}
+
+h2 {
+    color: #777;
+    font: 19px 'Century Gothic', sans-serif;
+}
+
+h3 {
+    color: #666;
+    font: 14px 'Century Gothic', sans-serif;
+}
+
+input {
+    margin: 0;
+}
+
+input[type="text"], input[type="password"] {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font: 12px 'Century Gothic', sans-serif;
+    height: 18px;
+    margin: 0;
+    padding: 5px;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+}
+
+label {
+    color: #777;
+    font: 13px/24px 'Century Gothic', sans-serif;
+}
+
+nav {
+    height: auto;
+    width: 100%;
+}
+
+root { 
+    display: block;
+}
+
+select {
+    border: 1px solid #ccc;
+    color: #666;
+    font: 13px/22px 'Century Gothic', sans-serif;
+    height: 22px;
+    margin: 0;
+}
+
+select:focus {
+    outline: none;
+}
+
+textarea {
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 5px;
+    color: #333;
+    font: 13.5px/20px 'Trebuchet MS', Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    resize: none;
+}
+
+.buttons > a, .button {
+    background-color: #189DE1;
+    border: 1px solid #189DE1;
+    border-radius: 5px;
+    border-style: none;
+    color: #fff;
+    display: inline-block;
+    font: 14px/15px 'Trebuchet MS', Helvetica, sans-serif;
+    min-height: 15px;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.buttons > a:hover, .button:hover {
+    background-color: #38bdf1;
+    text-decoration: none;
+}
+
+.buttons > a:active, .button:active {
+    background-color: #0489c7;
+    text-decoration: none;
+}
+
+.CodeMirror {
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 5px;
+}
+
+.CodeMirror-lines {
+    color: #333;
+    font: 13.5px/20px 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.CodeMirror-focused div.CodeMirror-selected { 
+    background: #ffe0c6; 
+}
+
+.editorSymbol {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: #fff;
+}
+
+.overflowEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.overflowText {
+    text-wrap: none;
+    white-space: nowrap;
+    width: auto;
+}
+
+.spacer {
+    background-color: #ccc;
+    display: block;
+    height: 1px;
+    margin: 50px 0;
+}
+
+.symbol {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    pointer-events: auto;
+    position: relative;
+    z-index: 99;
+}
+
+.tabs > a, .tab {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #666;
+    display: inline-block;
+    font: 14px/30px 'Trebuchet MS', Helvetica, sans-serif;
+    height: 29px;
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
+.tabs > a.selected, tab.selected {
+    background-color: #f15945;
+    color: #fff;
+    text-decoration: none;
+}
+
+.tabs > a:hover, tab:hover {
+    background-color: #ff7056;
+    color: #fff;
+    text-decoration: none;
+}
+
+.tabs > a:active, tab:active {
+    background-color: #ca322d;
+    color: #fff;
+    text-decoration: none;
+}
+
+#ajaxLoader {
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    display: none;
+    height: 24px;
+    left: 50%;
+    margin-left: -225px;
+    padding: 6px 213px 5px 213px;
+    position: fixed; 
+    top: 0;
+    width: 24px;
+    z-index: 100;
+}
+
+#central {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    height: auto;
+    margin-bottom: 50px;
+    min-height: 450px;
+    padding: 25px;
+    position: relative;
+    width: 748px;
+}
+
+#infoBubble {
+    background-color: #F15945;
+    border-radius: 50px;
+    color: #fff;
+    display: inline-block;
+    font: 20px 'Trebuchet MS', Helvetica, sans-serif;
+    height: auto;
+    left: 150px;
+    margin: 10px;
+    max-width: 500px;
+    padding: 20px 40px;
+    position: absolute;
+    top: 150px;
+    text-align: justify;
+    text-decoration: none;
+    width: auto;
+    z-index: 99;
+}
+
+#infoBubble:hover {
+    background-color: #FF7056;
+    text-decoration: none;
+}
+
+#infoBubble:hover > .arrow {
+    border-top-color: #FF7056;
+}
+
+#infoBubble:active {
+    background-color: #CA322D;
+    text-decoration: none;
+}
+
+#infoBubble:active > .arrow {
+    border-top-color: #CA322D;
+}
+
+#infoBubble .arrow {
+    bottom: -15px;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #F15945;
+    height: 0px;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    width: 0px;
+}
+
+#messages {
+    display: none;
+}
+
+#notification {
+    border-radius: 5px;
+    color: #fff;
+    display: block;
+    height: 35px;
+    left: 50%;
+    line-height: 35px;
+    margin-left: -225px;
+    position: fixed; 
+    text-align: center;
+    top: 0;
+    width: 450px;
+    z-index: 99;
+}
+
+#notification.fail {
+    background-color: #a33;
+}
+
+#notification.success {
+    background-color: #3a3;
+}

@@ -1,0 +1,178 @@
+/* 
+    Document   : explore
+    Created on : May 16, 2012, 09:47:20 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Stylesheet for explore.jsp.
+*/
+
+@charset "UTF-8";
+
+.exField {
+    display: inline;
+    margin: 0 5px;
+    position: relative;
+    vertical-align: middle;
+}
+
+.exField > label{
+    margin-right: 5px;
+}
+
+.exField > select {
+
+}
+
+.exSymbol {
+    color: #555;
+    display: block;
+    font: 13px/30px 'Century Gothic', sans-serif;
+    height: 30px;
+}
+
+.exSymbol:hover {
+    background-color: #ffe0c6;
+}
+
+.exSymbol:hover span.overflowEllipsis {
+    color: #000;
+}
+
+.exSymbol:hover span.removeSymbol {
+    visibility: visible;
+}
+
+.exSymbol span.overflowEllipsis {
+    background-color: transparent;
+    border-right: 1px solid #fff;
+    display: block;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    width: 171px;
+}
+
+.exSymbol span.removeSymbol {
+    color: #777;
+    display: block;
+    float: left;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    visibility: hidden;
+    width: 20px;
+}
+
+.exSymbol span.removeSymbol:hover {
+    color: #000;
+}
+
+#exCategory {
+    width: 198px;
+}
+
+#exCategoryLabel {
+
+}
+
+#exClassification {
+    width: 98px;
+}
+
+#exClassificationLabel {
+    
+}
+
+#exEmptySymbolsListMessage {
+    color: #dedede;
+    height: 30px;
+    left: 50%;
+    line-height: 30px;
+    margin-left: -110px;
+    margin-top: -15px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 220px;
+}
+
+#exFilters {
+    display: block;
+    height: 30px;
+    margin-bottom: 25px;
+    text-align: center;
+    width: auto;
+}
+
+#exForm {
+    padding-bottom: 70px;
+    position: relative;
+}
+
+#exMain {
+    min-height: 450px;
+    position: relative;
+}
+
+#exManageProjects {
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+}
+
+#exProjectReportField {
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+}
+
+#exProjectReportCommentsCheck {
+    height: 17px;
+    vertical-align: text-bottom;
+}
+
+#exProjectReportComments {
+    margin-left: 15px;
+}
+
+#exSearch {
+    background: url('../img/searchIcon.png') no-repeat left center;
+    background-color: #fff;
+    padding-left: 25px;
+    padding-right: 18px;
+    width: 100px; 
+}
+
+#exSearchClear {
+    color: #777;
+    cursor: default;
+    font: 19px/30px 'Century Gothic', sans-serif;
+    height: 30px;
+    right: 0px;
+    padding-right: 6px;
+    position:absolute;
+    visibility: hidden;
+}
+
+#exSearchClear:hover {
+    color: #000;
+}
+
+#exSymbolsList {
+    list-style-type: none;
+}
+
+#exSymbolsListHeader {
+    height: 35px;
+    overflow: hidden;
+    padding-right: 20px;
+    width: 728px;
+}
+
+#exSymbolsListHeader span {
+    border-right: 1px solid #eee;
+    float: left;
+    text-align: center;
+    width: 181px;
+}
