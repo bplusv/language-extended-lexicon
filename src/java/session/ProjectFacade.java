@@ -68,6 +68,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
     public Collection<Project> findAll() {
         try {
             return em.createQuery("SELECT pr FROM Project pr "
+                    + "WHERE pr.active = TRUE "
                     + "ORDER BY LOWER(pr.name) ASC;").
                     getResultList();
         } catch (Exception e) {
@@ -86,6 +87,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
             Project project = new Project();
             project.setName(name);
             project.setOwner(userFacade.find(userId));
+            project.setActive(true);
             em.persist(project);
             em.flush();
             return project;
@@ -117,7 +119,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
             if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
                 return null;
             }
-//            project.setActive(false);
+            project.setActive(false);
             em.merge(project);
             em.flush();
             return project;

@@ -704,7 +704,7 @@ window.controller = (function($, CodeMirror) {
     api.manageProjects.removeProject = function(projectId) {
       ajaxRequest('/post/removeProject', function(response) {
             if ($(response).find('success').text() === 'true') {
-                api.manageProjects.updateProjectsList();
+                api.manageProjects.updateProjectsList(response);
             }
         }, 'project=' + projectId);
     };
