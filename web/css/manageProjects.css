@@ -124,6 +124,11 @@
     margin: 0 7px;
 }
 
+#mpProjectsList > li .owner {
+    text-align: center;
+}
+
 #mpProjectsList > li .title {
+    margin-right: 31px;
     text-align: center;
 }

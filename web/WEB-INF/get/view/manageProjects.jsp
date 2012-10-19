@@ -22,7 +22,7 @@
             <li class="${sessionScope.project.id == project.id ? 'rowSelected' : iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">
                 <a class="clear ${user.id == project.owner.id ? 'remove' : 'leave'}" data-project.id="${project.id}" data-project.name="<c:out value="${project.name}" />">&#215;</a>
                 <h2 class="title overflowEllipsis"><c:out value="${project.name}" /></h2>
-                <h3 class="title overflowEllipsis">
+                <h3 class="owner overflowEllipsis">
                     <label><fmt:message key="owner" />:&nbsp;</label>
                     <span><c:out value="${project.owner.name}" /></span>
                 </h3>
