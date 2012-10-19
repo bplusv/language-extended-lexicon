@@ -15,14 +15,14 @@
             </fo:layout-master-set>
             <fo:page-sequence master-reference="A4-portrait">
                 <fo:static-content flow-name="xsl-region-before">
-                    <fo:block text-align="center" font-style="italic">
+                    <fo:block text-align="center" font-style="italic" color="#555">
                         <xsl:value-of select="root/captions/project" />
                         <xsl:text> - </xsl:text>
                         <xsl:value-of select="root/project/name" />
                     </fo:block>
                 </fo:static-content>
                 <fo:static-content flow-name="xsl-region-after">
-                    <fo:block text-align="center" font-style="italic">
+                    <fo:block text-align="center" font-style="italic" color="#555">
                         <xsl:value-of select="root/captions/page" />
                         <xsl:text> </xsl:text>
                         <fo:page-number />
@@ -34,6 +34,9 @@
                 </fo:static-content>
                 <fo:flow flow-name="xsl-region-body">
                     <xsl:for-each select="root/definitions/definition">
+                        <fo:block space-after="0.2cm" padding-top="0.2cm" border-top="0.05cm groove #ccc" text-align="center" color="#555">
+                            <xsl:value-of select="position()"/>
+                        </fo:block>
                         <fo:block space-after="0.5cm">
                             <fo:inline font-weight="bold">
                                 <xsl:value-of select="/root/captions/classification" />
@@ -88,7 +91,7 @@
                             </fo:inline>
                             <xsl:value-of select="futureIntention" />
                         </fo:block>
-                        <fo:block space-after="1.0cm">
+                        <fo:block space-after="2.0cm">
                             <xsl:if test="comments">
                                 <fo:block font-weight="bold" space-after="0.5cm">
                                     <xsl:value-of select="/root/captions/comments" />
@@ -107,7 +110,6 @@
                                 </xsl:for-each>
                             </xsl:if>
                         </fo:block>
-                        <fo:block space-after="1.0cm" border-top="0.05cm groove #ccc"></fo:block>
                     </xsl:for-each>
                     <fo:block id="last-page">
                     </fo:block>
