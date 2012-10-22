@@ -114,6 +114,7 @@
             <span class="delete"><fmt:message key="remove" /></span>
             <span class="remove"><fmt:message key="remove" /></span>
             <span class="leave"><fmt:message key="leave" /></span>
+            <span class="save"><fmt:message key="save" /></span>
             <span class="removeSymbolConfirmation"><fmt:message key="remove symbol confirmation" /></span>
             <span class="removeSymbolConfirmationTitle"><fmt:message key="remove symbol confirmation title" /></span>
             <span class="removeProjectUserConfirmation"><fmt:message key="remove project user confirmation" /></span>

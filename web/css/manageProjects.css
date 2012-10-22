@@ -89,9 +89,11 @@
 }
 
 #mpProjectsList > li .description {
+    border: 1px solid transparent;
     color: #666;
-    font: 14px 'Century Gothic', sans-serif;
-    margin: 10px 0;
+    font: 13px 'Century Gothic', sans-serif;
+    margin: 0px 0 20px 0;
+    padding: 5px;
 }
 
 #mpProjectsList > li .clear {
@@ -120,7 +122,7 @@
     visibility: hidden;
 }
 
-#mpProjectsList > li .options > a {
+#mpProjectsList > li .options > .button {
     margin: 0 7px;
 }
 
@@ -129,6 +131,42 @@
 }
 
 #mpProjectsList > li .title {
+    border: 1px solid transparent;
+    font: 19px 'Century Gothic', sans-serif;
+    height: 22px;
     margin: 0 21px;
     text-align: center;
+    padding: 5px;
+}
+
+#mpProjectsList > li input.titleEdit {
+    border: 1px solid transparent;
+    color: #000;
+    display: none;
+    font: 19px 'Century Gothic', sans-serif;
+    height: 22px;
+    margin: 0 auto;
+    text-align: center;
+    width: 674px;
+}
+
+#mpProjectsList > li textarea.descriptionEdit {
+    border: 1px solid transparent;
+    color: #000;
+    display: none;
+    font: 13px 'Century Gothic', sans-serif;
+    margin: 0 0 20px 0;
+    padding: 5px;
+    width: 716px;
+}
+
+#mpProjectsList > li .saveConfirmation {
+    font-size: 0;
+    height: 35px;
+    text-align: center;
+    display: none;
+}
+
+#mpProjectsList > li .saveConfirmation > .button {
+    margin: 0 20px;
 }

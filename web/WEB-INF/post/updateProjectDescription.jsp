@@ -1,14 +1,13 @@
 <%-- 
-    Document   : removeProject
-    Created on : Oct 17, 2012, 1:08:59 PM
+    Document   : updateProjectDetails
+    Created on : Oct 22, 2012, 10:38:54 AM
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
+
 <root>
 <success>${success}</success>
-<c:if test="${!success}">
-    <message><fmt:message key="remove project fail" /></message>
-</c:if>
+<message><fmt:message key="update project description ${success ? 'success' : 'fail'}" /></message>
 <c:if test="${success}">
     <projects>
         <c:forEach var="project" items="${userFacade.getProjectCollection(user.id)}">

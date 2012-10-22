@@ -699,26 +699,7 @@ window.controller = (function($, CodeMirror) {
         });
         updateMainInterface();
     };
-    api.manageProjects.loadProject = function(targetProject) {
-        ajaxRequest('/post/loadProject', function(response) {
-            var redirect;
-            if ($(response).find('success').text() === 'true') {
-                var projectName = $(response).find('project').find('name').text();
-                $('#ixProjectTitle').show();
-                $('#ixProjectName').text(projectName);
-                redirect = '#!/explore';
-            }
-            return redirect;
-        }, 'project=' + $(targetProject).data('project.id'));
-    };
-    api.manageProjects.removeProject = function(projectId) {
-      ajaxRequest('/post/removeProject', function(response) {
-            if ($(response).find('success').text() === 'true') {
-                api.manageProjects.updateProjectsList(response);
-            }
-        }, 'project=' + projectId);
-    };
-    api.manageProjects.confirmRemoveProject = function(targetProject) {
+        api.manageProjects.confirmRemoveProject = function(targetProject) {
         var projectId = $(targetProject).data('project.id');
         var projectName = $(targetProject).data('project.name');
         var title = $('#messages .removeProjectConfirmationTitle').text();
@@ -748,39 +729,95 @@ window.controller = (function($, CodeMirror) {
         });
         updateMainInterface();
     };
+    api.manageProjects.loadProject = function(targetProject) {
+        ajaxRequest('/post/loadProject', function(response) {
+            var redirect;
+            if ($(response).find('success').text() === 'true') {
+                var projectName = $(response).find('project').find('name').text();
+                $('#ixProjectTitle').show();
+                $('#ixProjectName').text(projectName);
+                redirect = '#!/explore';
+            }
+            return redirect;
+        }, 'project=' + $(targetProject).data('project.id'));
+    };
+    api.manageProjects.removeProject = function(projectId) {
+      ajaxRequest('/post/removeProject', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjects.updateProjectsList(response);
+            }
+        }, 'project=' + projectId);
+    };
+    api.manageProjects.setEditableView = function(trigger) {
+        var container = $(trigger).parents('form');
+        container.find('.noneditable').css('display', 'none');
+        container.find('.editable').css('display', 'block');
+        container.find('.options').css('display', 'none');
+        container.find('.saveConfirmation').css('display', 'block');
+        var title = container.find('.title').text();
+        var description = container.find('.descriptionEdit').text();
+        container.find('.titleEdit').val(title);
+        container.find('.descriptionEdit').val(description);
+    };
+    api.manageProjects.setNonEditableView = function(trigger) {
+        var container = $(trigger).parents('form');
+        container.find('.editable').css('display', 'none');
+        container.find('.noneditable').css('display', 'block');
+        container.find('.saveConfirmation').css('display', 'none');
+        container.find('.options').css('display', 'block');
+    };
+    api.manageProjects.updateProjectDescription = function(trigger) {
+        var $projectForm = $(trigger).parents('form');
+        ajaxRequest('/post/updateProjectDescription', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageProjects.updateProjectsList(response);
+            }
+        }, $projectForm.serialize());
+    };
     api.manageProjects.updateProjectsList = function(response) {
         var $xmlProjects = $(response).find('projects').children();
         var projects = [];
         var isOwner;
         var projectId;
         var projectName;
+        var projectDescription;
         var isSelected;
         var captionOwner = $('#messages .owner').text();
         var captionLoad = $('#messages .load').text();
         var captionEdit = $('#messages .edit').text();
         var captionUsers = $('#messages .users').text();
+        var captionCancel = $('#messages .cancel').text();
+        var captionSave = $('#messages .save').text();
         var captionDescription = $('#messages .description').text();
         $xmlProjects.each(function(i, e) {
             projectId = $(e).attr('id');
             projectName = $(e).children('name').text();
+            projectDescription = $(e).find('description').text();
             isOwner = $(e).attr('isOwner') === 'true';
             isSelected = $(e).attr('isSelected') === 'true';
             projects.push($('<li>').addClass(isSelected ? 'rowSelected' : i % 2 == 0 ? 'rowEven' : 'rowOdd')
-                .append($('<a>').addClass('clear').addClass(isOwner ? 'remove' : 'leave')
-                    .data('project.id', projectId).data('project.name', projectName).html('&#215;'))
-                .append($('<h2>').addClass('title overflowEllipsis').text(projectName))
-                .append($('<h3>').addClass('title overflowEllipsis')
-                    .append($('<label>').html(captionOwner + ':&nbsp;'))
-                    .append($('<span>').text($(e).find('owner > name').text())))                    
-                .append($('<p>').addClass('description')
+                .append($('<form>').attr('action', '/post/updateProjectDescription').attr('method', 'POST')
+                    .append($('<input>').attr('type', 'hidden').attr('name', 'project').val(projectId))
+                    .append($('<a>').addClass('clear').addClass(isOwner ? 'remove' : 'leave')
+                        .data('project.id', projectId).data('project.name', projectName).html('&#215;'))
+                    .append($('<h2>').addClass('title overflowEllipsis noneditable').text(projectName))
+                    .append($('<input>').addClass('titleEdit editable').attr('type', 'text').attr('name', 'name').val(projectName))
+                    .append($('<h3>').addClass('owner overflowEllipsis')
+                        .append($('<label>').html(captionOwner + ':&nbsp;'))
+                        .append($('<span>').text($(e).find('owner > name').text())))
                     .append($('<label>').html(captionDescription + ':&nbsp;'))
-                    .append($('<span>').text($(e).find('description').text())))
-                .append($('<div>').addClass('options')
-                    .append($('<a>').addClass('button load').data('project.id', projectId).text(captionLoad))
-                    .append(isOwner ? $('<a>').addClass('button edit').text(captionEdit) : null)
-                    .append(isOwner ? $('<a>').addClass('button')
-                        .attr('href', '#!/manageProjectUsers?pj=' + projectId).text(captionUsers) : null)
-            ).get(0));
+                    .append($('<p>').addClass('description noneditable').text(projectDescription))
+                    .append($('<textarea>').addClass('descriptionEdit editable').attr('name', 'description').val(projectDescription))
+                    .append($('<div>').addClass('options')
+                        .append($('<a>').addClass('button load').data('project.id', projectId).text(captionLoad))
+                        .append(isOwner ? $('<a>').addClass('button edit').text(captionEdit) : null)
+                        .append(isOwner ? $('<a>').addClass('button')
+                            .attr('href', '#!/manageProjectUsers?pj=' + projectId).text(captionUsers) : null))
+                    .append($('<div>').addClass('saveConfirmation')
+                        .append($('<a>').addClass('button cancelSave').text(captionCancel))
+                        .append($('<input>').addClass('button save').attr('type', 'submit').val(captionSave))
+                    )
+                ).get(0));
         });
         $('#mpProjectsList').html(projects);
     };

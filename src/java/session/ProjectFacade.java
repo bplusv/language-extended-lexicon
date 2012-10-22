@@ -98,6 +98,25 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Project updateProjectDescription(String projectOwnerId, String projectId,
+                                            String name, String description) {
+        try {
+            Project project = find(projectId);
+            if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
+                return null;
+            }
+            project.setName(name);
+            project.setDescription(description);
+            em.merge(project);
+            em.flush();
+            return project;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User leaveProject(String loggedUserId, String projectId) {
         try {
             Project project = find(projectId);
