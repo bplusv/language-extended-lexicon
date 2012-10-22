@@ -20,25 +20,32 @@
         <c:forEach var="project" items="${projects}" varStatus="iter">
             <c:set var="isOwner" value="${user.id == project.owner.id}" />
             <li class="${sessionScope.project.id == project.id ? 'rowSelected' : iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">
-                <a class="clear ${user.id == project.owner.id ? 'remove' : 'leave'}" data-project.id="${project.id}" data-project.name="<c:out value="${project.name}" />">&#215;</a>
-                <h2 class="title overflowEllipsis"><c:out value="${project.name}" /></h2>
-                <h3 class="owner overflowEllipsis">
-                    <label><fmt:message key="owner" />:&nbsp;</label>
-                    <span><c:out value="${project.owner.name}" /></span>
-                </h3>
-                <p class="description">
+                <form action="/post/updateProjectDescription" method="POST">
+                    <input type="hidden" name="project" value="${project.id}" />
+                    <a class="clear ${user.id == project.owner.id ? 'remove' : 'leave'}" data-project.id="${project.id}" data-project.name="<c:out value="${project.name}" />">&#215;</a>
+                    <h2 class="title overflowEllipsis noneditable"><c:out value="${project.name}" /></h2>
+                    <input class="titleEdit editable" type="text" name="name" value="<c:out value="${project.name}" />" />
+                    <h3 class="owner overflowEllipsis">
+                        <label><fmt:message key="owner" />:&nbsp;</label>
+                        <span><c:out value="${project.owner.name}" /></span>
+                    </h3>
                     <label><fmt:message key="description" />:&nbsp;</label>
-                    <span><c:out value="${project.description}" /></span>
-                </p>
-                <div class="options">
-                    <a class="button load" data-project.id="${project.id}"><fmt:message key="load" /></a>
-                    <c:choose>
-                        <c:when test="${isOwner}">
-                            <a class="button edit"><fmt:message key="edit" /></a>
-                            <a class="button" href="#!/manageProjectUsers?pj=${project.id}"><fmt:message key="users" /></a>
-                        </c:when>
-                    </c:choose>
-                </div>
+                    <p class="description noneditable"><c:out value="${project.description}" /></p>
+                    <textarea class="descriptionEdit editable" name="description"><c:out value="${project.description}" /></textarea>
+                    <div class="options">
+                        <a class="button load" data-project.id="${project.id}"><fmt:message key="load" /></a>
+                        <c:choose>
+                            <c:when test="${isOwner}">
+                                <a class="button edit"><fmt:message key="edit" /></a>
+                                <a class="button" href="#!/manageProjectUsers?pj=${project.id}"><fmt:message key="users" /></a>
+                            </c:when>
+                        </c:choose>
+                    </div>
+                    <div class="saveConfirmation">
+                        <a class="button cancelSave"><fmt:message key="cancel" /></a>
+                        <input class="button save" type="submit" value="<fmt:message key="save" />" />
+                    </div>
+                </form>
             </li>
         </c:forEach>
     <c:if test="${empty projects}" >

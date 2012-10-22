@@ -30,8 +30,12 @@
             controller.manageProjects.createProject();
         });
         
-        $(window).on('click', '#mpProjectsList .load', function(e) {
-            controller.manageProjects.loadProject(this);
+        $(window).on('submit', '#mpProjectsList form', function(e) {
+            e.preventDefault();
+        });
+        
+        $(window).on('click', '#mpProjectsList .cancelSave', function(e) {
+            controller.manageProjects.setNonEditableView(this);
         });
         
         $(window).on('click', '#mpProjectsList .clear.leave', function(e) {
@@ -40,6 +44,18 @@
         
         $(window).on('click', '#mpProjectsList .clear.remove', function(e) {
             controller.manageProjects.confirmRemoveProject(this);
+        });
+        
+        $(window).on('click', '#mpProjectsList .edit', function(e) {
+            controller.manageProjects.setEditableView(this);
+        });
+        
+        $(window).on('click', '#mpProjectsList .load', function(e) {
+            controller.manageProjects.loadProject(this);
+        });
+        
+        $(window).on('click', '#mpProjectsList .save', function(e) {
+            controller.manageProjects.updateProjectDescription(this);
         });
     });
 })();

@@ -74,6 +74,7 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/signIn",
     "/post/signOut",
     "/post/updateDocument",
+    "/post/updateProjectDescription",
     "/post/updateSymbol",
     "/register",
     "/signIn"})
@@ -399,6 +400,18 @@ public class ControllerServlet extends HttpServlet {
             if (document != null) {
                 request.setAttribute("success", true);
                 session.setAttribute("document", document);
+            } else {
+                request.setAttribute("success", false);
+            }
+        } else if(userPath.equals("/post/updateProjectDescription")) {
+            Project project = projectFacade.updateProjectDescription(
+                    ((User) session.getAttribute("user")).getId().toString(), 
+                    request.getParameter("project"), 
+                    request.getParameter("name"), 
+                    request.getParameter("description"));
+            if (project != null) {
+                request.setAttribute("success", true);
+                request.setAttribute("project", project);
             } else {
                 request.setAttribute("success", false);
             }
