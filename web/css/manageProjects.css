@@ -92,8 +92,12 @@
     border: 1px solid transparent;
     color: #666;
     font: 13px 'Century Gothic', sans-serif;
+    height: auto;
     margin: 0px 0 20px 0;
+    min-height: 34px;
+    overflow: hidden;
     padding: 5px;
+    white-space: pre-line;
 }
 
 #mpProjectsList > li .clear {
@@ -134,9 +138,10 @@
     border: 1px solid transparent;
     font: 19px 'Century Gothic', sans-serif;
     height: 22px;
-    margin: 0 21px;
+    margin: 0 auto;
     text-align: center;
     padding: 5px;
+    width: 654px;
 }
 
 #mpProjectsList > li input.titleEdit {
@@ -147,7 +152,7 @@
     height: 22px;
     margin: 0 auto;
     text-align: center;
-    width: 674px;
+    width: 654px;
 }
 
 #mpProjectsList > li textarea.descriptionEdit {
@@ -155,7 +160,9 @@
     color: #000;
     display: none;
     font: 13px 'Century Gothic', sans-serif;
+    height: auto;
     margin: 0 0 20px 0;
+    min-height: 34px;
     padding: 5px;
     width: 716px;
 }

@@ -26,8 +26,8 @@
                     <h2 class="title overflowEllipsis noneditable"><c:out value="${project.name}" /></h2>
                     <input class="titleEdit editable" type="text" name="name" value="<c:out value="${project.name}" />" />
                     <h3 class="owner overflowEllipsis">
-                        <label><fmt:message key="owner" />:&nbsp;</label>
-                        <span><c:out value="${project.owner.name}" /></span>
+                        <label><fmt:message key="owner" />:&nbsp;</label
+                        ><span><c:out value="${project.owner.name}" /></span>
                     </h3>
                     <label><fmt:message key="description" />:&nbsp;</label>
                     <p class="description noneditable"><c:out value="${project.description}" /></p>
