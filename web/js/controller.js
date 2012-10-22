@@ -754,10 +754,13 @@ window.controller = (function($, CodeMirror) {
         container.find('.editable').css('display', 'block');
         container.find('.options').css('display', 'none');
         container.find('.saveConfirmation').css('display', 'block');
-        var title = container.find('.title').text();
-        var description = container.find('.descriptionEdit').text();
-        container.find('.titleEdit').val(title);
-        container.find('.descriptionEdit').val(description);
+        var $title = container.find('.title');
+        var $description = container.find('.description');
+        var $titleEdit = container.find('.titleEdit');
+        var $descriptionEdit = container.find('.descriptionEdit');
+        $titleEdit.val($title.text());
+        $descriptionEdit.val($description.text());
+        $descriptionEdit.height($description.height());
     };
     api.manageProjects.setNonEditableView = function(trigger) {
         var container = $(trigger).parents('form');
@@ -807,7 +810,7 @@ window.controller = (function($, CodeMirror) {
                         .append($('<span>').text($(e).find('owner > name').text())))
                     .append($('<label>').html(captionDescription + ':&nbsp;'))
                     .append($('<p>').addClass('description noneditable').text(projectDescription))
-                    .append($('<textarea>').addClass('descriptionEdit editable').attr('name', 'description').val(projectDescription))
+                    .append($('<textarea>').addClass('descriptionEdit editable').attr('name', 'description').text(projectDescription))
                     .append($('<div>').addClass('options')
                         .append($('<a>').addClass('button load').data('project.id', projectId).text(captionLoad))
                         .append(isOwner ? $('<a>').addClass('button edit').text(captionEdit) : null)

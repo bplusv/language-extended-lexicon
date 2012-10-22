@@ -111,7 +111,7 @@
     display: inline-block;
     float: right;
     overflow: hidden;
-    word-wrap: break-word;
+    white-space: pre-line;
     width: 601px;
 }
 
