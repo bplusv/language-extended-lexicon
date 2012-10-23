@@ -570,7 +570,7 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.manageDocuments = {};
-    api.manageDocuments.create = function() {
+    api.manageDocuments.createDocument = function() {
         ajaxRequest('/post/createDocument', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
@@ -579,14 +579,40 @@ window.controller = (function($, CodeMirror) {
             return redirect;
         }, $('#mdCreateForm').serialize());
     };
-    api.manageDocuments.load = function() {
+    api.manageDocuments.loadDocument = function(targetProject) {
         ajaxRequest('/post/loadDocument', function(response) {
             var redirect;
             if ($(response).find('success').text() === 'true') {
                 redirect = '#!/document';
             }
             return redirect;
-        }, $('#mdLoadForm').serialize());
+        }, 'document=' + $(targetProject).data('document.id'));
+    };
+    api.manageDocuments.setEditableView = function(trigger) {
+        var container = $(trigger).parents('form');
+        container.find('.noneditable').css('display', 'none');
+        container.find('.editable').css('display', 'block');
+        container.find('.options').css('display', 'none');
+        container.find('.saveConfirmation').css('display', 'block');
+        var $title = container.find('.title');
+        var $titleEdit = container.find('.titleEdit');
+        $titleEdit.val($title.text());
+    };
+    api.manageDocuments.setNonEditableView = function(trigger) {
+        var container = $(trigger).parents('form');
+        container.find('.editable').css('display', 'none');
+        container.find('.noneditable').css('display', 'block');
+        container.find('.saveConfirmation').css('display', 'none');
+        container.find('.options').css('display', 'block');
+    };
+    api.manageDocuments.updateDocumentDescriptors = function(trigger) {
+        var $documentForm = $(trigger).parents('form');
+        ajaxRequest('/post/updateDocumentDescriptors', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                //api.manageProjects.updateProjectsList(response);
+                api.manageDocuments.setNonEditableView(trigger);
+            }
+        }, $documentForm.serialize());
     };
     
     api.manageProjectUsers = {};
@@ -699,7 +725,7 @@ window.controller = (function($, CodeMirror) {
         });
         updateMainInterface();
     };
-        api.manageProjects.confirmRemoveProject = function(targetProject) {
+    api.manageProjects.confirmRemoveProject = function(targetProject) {
         var projectId = $(targetProject).data('project.id');
         var projectName = $(targetProject).data('project.name');
         var title = $('#messages .removeProjectConfirmationTitle').text();
@@ -769,9 +795,9 @@ window.controller = (function($, CodeMirror) {
         container.find('.saveConfirmation').css('display', 'none');
         container.find('.options').css('display', 'block');
     };
-    api.manageProjects.updateProjectDescription = function(trigger) {
+    api.manageProjects.updateProjectDescriptors = function(trigger) {
         var $projectForm = $(trigger).parents('form');
-        ajaxRequest('/post/updateProjectDescription', function(response) {
+        ajaxRequest('/post/updateProjectDescriptors', function(response) {
             if ($(response).find('success').text() === 'true') {
                 api.manageProjects.updateProjectsList(response);
             }

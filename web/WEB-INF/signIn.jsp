@@ -34,7 +34,7 @@
                 <img id="siLelLogo" src="img/signInLogo.png" />
             </div>
             <div id="siRightSide">
-                <form id="siForm" action="/post/signIn" method="POST">
+                <form id="siForm" action="/post/signIn" method="post">
                     <h2 id="siAd"><fmt:message key="sign in" /></h2>
                     <div class="siField">
                         <label id="siUsernameLabel" for="siUsername"><strong><fmt:message key="username" /></strong></label>

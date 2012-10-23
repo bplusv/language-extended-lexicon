@@ -5,7 +5,7 @@
 --%>
 
 <h3 id="mpuProjectTitle" class="overflowEllipsis"><fmt:message key="users" />&nbsp;-&nbsp;<c:out value="${requestScope.project.name}" /></h3>
-<form id="mpuAddUserForm" action="/post/addProjectUser" method="POST">
+<form id="mpuAddUserForm" action="/post/addProjectUser" method="post">
     <h3 class="mpuTitle"><fmt:message key="add user" /></h3>
     <input type="hidden" name="project" value="<c:out value="${requestScope.project.id}" />" />
     <div class="mpuField">
@@ -15,7 +15,7 @@
     <input id="mpuAddUser" class="button" type="submit" value="Add" />
 </form>
 <div class="spacer"></div>
-<form id="mpuRemoveUserForm" action="/post/removeProjectUser" method="POST">
+<form id="mpuRemoveUserForm" action="/post/removeProjectUser" method="post">
     <h3 class="mpuTitle"><fmt:message key="current users" /></h3>
     <input type="hidden" name="project" value="${requestScope.project.id}" />
     <input id="mpuRemoveUserId" type="hidden" name="userId" value="" />

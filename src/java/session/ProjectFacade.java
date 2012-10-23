@@ -98,7 +98,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Project updateProjectDescription(String projectOwnerId, String projectId,
+    public Project updateDescriptors(String projectOwnerId, String projectId,
                                             String name, String description) {
         try {
             Project project = find(projectId);

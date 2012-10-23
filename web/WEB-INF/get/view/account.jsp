@@ -5,7 +5,7 @@
 --%>
 
 <h3 id="acChangePassAd"><fmt:message key="change password" /></h3>
-<form id="acChangePassForm" action="/post/changePassword" method="POST">
+<form id="acChangePassForm" action="/post/changePassword" method="post">
     <div class="acChangePassField">
         <label id="acCurrentPasswordLabel" for="acCurrentPassword"><fmt:message key="current password" /></label>
         <input id="acCurrentPassword" name="currentPassword" type="password" maxlength="255" autofocus />
