@@ -12,7 +12,7 @@
 }
 
 .mdTitle {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     text-align: center;
 }
 
@@ -20,6 +20,11 @@
     bottom: 0px;
     position: absolute;
     right: 0px;
+}
+
+#mdCreateForm {
+    height: 110px;
+    position: relative;
 }
 
 #mdDocument {
@@ -43,6 +48,94 @@
     background: #f9f9f9;
 }
 
+#mdDocumentsList {
+    list-style-type: none;
+    margin: 0;
+    min-height: 150px;
+    position: relative;
+}
+
+#mdDocumentsList > li {
+    padding: 10px;
+    position: relative;
+    width: 728px;
+}
+
+#mdDocumentsList > li:hover {
+    background-color: #ffe0c6;
+}
+
+
+#mdDocumentsList > li:hover .clear {
+    visibility: visible;
+}
+
+#mdDocumentsList > li:hover .options {
+    visibility: visible;
+}
+
+#mdDocumentsList > li .clear {
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    color: #777;
+    font: 16px/30px 'Century Gothic', sans-serif;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    top: 0;
+    visibility: hidden;
+    width: 30px;
+}
+
+#mdDocumentsList > li .clear:hover {
+    color: #000;
+}
+
+#mdDocumentsList > li .options {
+    font-size: 0;
+    height: 35px;
+    text-align: center;
+    visibility: hidden;
+}
+
+#mdDocumentsList > li .options > .button {
+    margin: 0 20px;
+}
+
+#mdDocumentsList > li .title {
+    border: 1px solid transparent;
+    font: 19px 'Century Gothic', sans-serif;
+    height: 22px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 5px;
+    width: 654px;
+}
+
+#mdDocumentsList > li input.titleEdit {
+    border: 1px solid transparent;
+    color: #000;
+    display: none;
+    font: 19px 'Century Gothic', sans-serif;
+    height: 22px;
+    margin: 0 auto;
+    text-align: center;
+    width: 654px;
+}
+
+#mdDocumentsList > li .saveConfirmation {
+    font-size: 0;
+    height: 35px;
+    text-align: center;
+    display: none;
+}
+
+#mdDocumentsList > li .saveConfirmation > .button {
+    margin: 0 20px;
+}
+
 #mdLoadForm {
     border-right: 1px solid #ccc;
     float: left;
@@ -64,11 +157,4 @@
 
 #mdNameLabel {
 
-}
-
-#mdCreateForm {
-    float: right;
-    height: 450px;
-    position: relative;
-    width: 374px;
 }

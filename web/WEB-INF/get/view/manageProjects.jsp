@@ -4,7 +4,7 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<form id="mpCreateForm" action="/post/createProject" method="POST">
+<form id="mpCreateForm" action="/post/createProject" method="post">
     <h3 class="mpTitle"><fmt:message key="create new project" /></h3>
     <div class="mpField">
         <label id="mpNewProjectNameLabel" for="mpNewProjectName"><fmt:message key="name" />:&nbsp;</label>
@@ -20,7 +20,7 @@
         <c:forEach var="project" items="${projects}" varStatus="iter">
             <c:set var="isOwner" value="${user.id == project.owner.id}" />
             <li class="${sessionScope.project.id == project.id ? 'rowSelected' : iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">
-                <form action="/post/updateProjectDescription" method="POST">
+                <form action="/post/updateProjectDescriptors" method="post">
                     <input type="hidden" name="project" value="${project.id}" />
                     <a class="clear ${user.id == project.owner.id ? 'remove' : 'leave'}" data-project.id="${project.id}" data-project.name="<c:out value="${project.name}" />">&#215;</a>
                     <h2 class="title overflowEllipsis noneditable"><c:out value="${project.name}" /></h2>

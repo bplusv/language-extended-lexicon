@@ -68,13 +68,15 @@ urlPatterns = {"/get/data/classifySelectSynonym",
     "/post/loadDocument",
     "/post/loadProject",
     "/post/registerUser",
+    "/post/removeDocument",
     "/post/removeProject",
     "/post/removeProjectUser",
     "/post/removeSymbol",
     "/post/signIn",
     "/post/signOut",
     "/post/updateDocument",
-    "/post/updateProjectDescription",
+    "/post/updateDocumentDescriptors",
+    "/post/updateProjectDescriptors",
     "/post/updateSymbol",
     "/register",
     "/signIn"})
@@ -347,6 +349,8 @@ public class ControllerServlet extends HttpServlet {
                 session.setAttribute("user", facadeResponse.getResponse());
             }
             request.setAttribute("facadeResponse", facadeResponse);
+        } else if(userPath.equals("/post/removeDocument")) {
+
         } else if(userPath.equals("/post/removeProject")) {
             Project project = projectFacade.removeProject(
                     ((User) session.getAttribute("user")).getId().toString(),
@@ -403,8 +407,17 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 request.setAttribute("success", false);
             }
-        } else if(userPath.equals("/post/updateProjectDescription")) {
-            Project project = projectFacade.updateProjectDescription(
+        } else if (userPath.equals("/post/updateDocumentDescriptors")) {
+            Document document = documentFacade.updateDescriptors(
+                    request.getParameter("document"),
+                    request.getParameter("name"));
+            if (document != null) {
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
+        } else if(userPath.equals("/post/updateProjectDescriptors")) {
+            Project project = projectFacade.updateDescriptors(
                     ((User) session.getAttribute("user")).getId().toString(), 
                     request.getParameter("project"), 
                     request.getParameter("name"), 

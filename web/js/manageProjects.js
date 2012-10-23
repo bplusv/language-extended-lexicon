@@ -55,7 +55,7 @@
         });
         
         $(window).on('click', '#mpProjectsList .save', function(e) {
-            controller.manageProjects.updateProjectDescription(this);
+            controller.manageProjects.updateProjectDescriptors(this);
         });
     });
 })();

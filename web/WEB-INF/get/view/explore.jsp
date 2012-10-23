@@ -5,7 +5,7 @@
 --%>
 
 <div id="exMain">
-    <form id="exForm" action="/get/data/exploreSymbols" method="GET">
+    <form id="exForm" action="/get/data/exploreSymbols" method="get">
         <div id="exFilters">
             <div class="exField">
                 <label id="exCategoryLabel" for="exCategory"><fmt:message key="category" />:&nbsp;</label>
@@ -54,7 +54,7 @@
     <c:if test="${empty symbols}" >
         <h1 id="exEmptySymbolsListMessage"><fmt:message key="it's lonely here" />...</h1>
     </c:if>
-    <form id="exProjectReportField" action="get/projectReport" method="GET">
+    <form id="exProjectReportField" action="get/projectReport" method="get">
         <input id="exProjectReport" class="button" type="submit" value="<fmt:message key="report" />" />
         <label id="exProjectReportComments"><input id="exProjectReportCommentsCheck" type="checkbox" name="comments" />&nbsp;<fmt:message key="comments" /></label>
     </form>

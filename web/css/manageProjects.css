@@ -37,18 +37,6 @@
     width: 220px;
 }
 
-#mpLoadProject {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-}
-
-#mpLoadForm {
-    height: auto;
-    min-height: 325px;
-    position: relative;
-}
-
 #mpNewProjectName {
     
 }
@@ -93,8 +81,8 @@
     color: #666;
     font: 13px 'Century Gothic', sans-serif;
     height: auto;
-    margin: 0px 0 20px 0;
-    min-height: 34px;
+    margin: 0px 0 10px 0;
+    min-height: 17px;
     overflow: hidden;
     padding: 5px;
     white-space: pre-line;
@@ -161,8 +149,8 @@
     display: none;
     font: 13px 'Century Gothic', sans-serif;
     height: auto;
-    margin: 0 0 20px 0;
-    min-height: 34px;
+    margin: 0 0 10px 0;
+    min-height: 17px;
     padding: 5px;
     width: 716px;
 }

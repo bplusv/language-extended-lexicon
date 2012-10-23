@@ -4,7 +4,7 @@
    Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<form id="clForm" action="${submitAction}" method="POST">
+<form id="clForm" action="${submitAction}" method="post">
     <input id="clSymbol" type="hidden" name="symbol" value="${symbol.id}" />
     <input id="clName" type="hidden" name="name" value="<c:out value="${symbol.name}" />" />
     <input id="clDocument" type="hidden" name="document" value="${symbol.document.id}" />
