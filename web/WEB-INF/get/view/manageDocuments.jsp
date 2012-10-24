@@ -18,9 +18,8 @@
     <ul id="mdDocumentsList">
         <c:set var="documents" value="${projectFacade.getDocumentCollection(project.id)}" />
         <c:forEach var="document" items="${documents}" varStatus="iter">
-            <%--<c:set var="isOwner" value="${user.id == project.owner.id}" />--%>
             <li class="${sessionScope.document.id == document.id ? 'rowSelected' : iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">
-                <form action="/lel/post/updateDocumentDescriptors" method="post">
+                <form action="/post/updateDocumentDescriptors" method="post">
                     <input type="hidden" name="document" value="${document.id}" />
                     <a class="clear" data-document.id="${document.id}" data-document.name="<c:out value="${document.name}" />">&#215;</a>
                     <h2 class="title overflowEllipsis noneditable"><c:out value="${document.name}" /></h2>
@@ -41,15 +40,3 @@
     </c:if>
     </ul>
 </div>
-
-<%--
-<form id="mdLoadForm" action="/post/loadDocument" method="post">
-    <h3 class="mdTitle"><fmt:message key="load document" /></h3>
-    <select id="mdDocument" name="document" size="18" autofocus>
-        <c:forEach var="document" items="${projectFacade.getDocumentCollection(project.id)}" varStatus="iter">
-            <option value="${document.id}" ${!empty sessionScope.document.id and sessionScope.document.id == document.id ? 'selected="selected"' : empty sessionScope.document.id and iter.first ? 'selected="selected"' : ''}><c:out value="${document.name}" /></option>
-        </c:forEach>
-    </select>
-    <input id="mdLoadDocument" type="submit" class="button" value="<fmt:message key="load" />" />
-</form>
---%>

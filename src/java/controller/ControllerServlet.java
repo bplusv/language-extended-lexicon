@@ -350,7 +350,13 @@ public class ControllerServlet extends HttpServlet {
             }
             request.setAttribute("facadeResponse", facadeResponse);
         } else if(userPath.equals("/post/removeDocument")) {
-
+            Document document = documentFacade.removeDocument(
+                    request.getParameter("document"));
+            if (document != null) {
+                request.setAttribute("success", true);
+            } else {
+                request.setAttribute("success", false);
+            }
         } else if(userPath.equals("/post/removeProject")) {
             Project project = projectFacade.removeProject(
                     ((User) session.getAttribute("user")).getId().toString(),
@@ -408,7 +414,7 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("success", false);
             }
         } else if (userPath.equals("/post/updateDocumentDescriptors")) {
-            Document document = documentFacade.updateDescriptors(
+            Document document = documentFacade.updateDocumentDescriptors(
                     request.getParameter("document"),
                     request.getParameter("name"));
             if (document != null) {
@@ -417,7 +423,7 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("success", false);
             }
         } else if(userPath.equals("/post/updateProjectDescriptors")) {
-            Project project = projectFacade.updateDescriptors(
+            Project project = projectFacade.updateProjectDescriptors(
                     ((User) session.getAttribute("user")).getId().toString(), 
                     request.getParameter("project"), 
                     request.getParameter("name"), 

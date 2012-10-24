@@ -56,6 +56,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Document.findById", query = "SELECT d FROM Document d WHERE d.id = :id"),
     @NamedQuery(name = "Document.findByName", query = "SELECT d FROM Document d WHERE d.name = :name")})
 public class Document implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,6 +157,14 @@ public class Document implements Serializable {
     @Override
     public String toString() {
         return "model.Document[ id=" + id + " ]";
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
 }

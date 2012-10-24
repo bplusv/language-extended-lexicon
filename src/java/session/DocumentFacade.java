@@ -70,7 +70,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document updateDescriptors(String documentId, String name) {
+    public Document updateDocumentDescriptors(String documentId, String name) {
         try {
             Document document = find(documentId);
             document.setName(name);
@@ -88,6 +88,20 @@ public class DocumentFacade extends AbstractFacade<Document> {
         try {
             Document document = find(documentId);
             document.setContent(content);
+            em.merge(document);
+            em.flush();
+            return document;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document removeDocument(String documentId) {
+        try {
+            Document document = find(documentId);
+            document.setActive(false);
             em.merge(document);
             em.flush();
             return document;
