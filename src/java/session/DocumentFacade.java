@@ -60,6 +60,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
             Document document = new Document();
             document.setName(name);
             document.setProject(projectFacade.find(projectId));
+            document.setActive(true);
             em.persist(document);
             em.flush();
             return document;
