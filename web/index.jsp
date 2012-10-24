@@ -123,6 +123,8 @@
             <span class="leaveProjectConfirmation"><fmt:message key="leave project confirmation" /></span>
             <span class="removeProjectConfirmationTitle"><fmt:message key="remove project confirmation title" /></span>
             <span class="removeProjectConfirmation"><fmt:message key="remove project confirmation" /></span>
+            <span class="removeDocumentConfirmationTitle"><fmt:message key="remove document confirmation title" /></span>
+            <span class="removeDocumentConfirmation"><fmt:message key="remove document confirmation" /></span>
             <span class="very_secure"><fmt:message key="very secure" /></span>
             <span class="secure"><fmt:message key="secure" /></span>
             <span class="very_strong"><fmt:message key="very strong" /></span>

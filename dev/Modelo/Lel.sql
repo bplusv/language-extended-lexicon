@@ -52,6 +52,7 @@ CREATE  TABLE IF NOT EXISTS `lel`.`document` (
   `name` VARCHAR(255) NOT NULL ,
   `content` MEDIUMTEXT NULL ,
   `project` INT UNSIGNED NOT NULL ,
+  `active` BIT NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `idx_document_project` (`project` ASC) ,
   UNIQUE INDEX `uniq_document_in_project` (`project` ASC, `name` ASC) ,

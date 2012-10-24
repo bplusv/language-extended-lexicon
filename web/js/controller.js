@@ -52,7 +52,6 @@ window.controller = (function($, CodeMirror) {
                     redirect = callback && callback(response);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus);
                     isRequesting = false;
                     response = $('<response>').append(
                         $('<message>').text(
@@ -570,6 +569,36 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.manageDocuments = {};
+    api.manageDocuments.confirmRemoveDocument = function(targetDocument) {
+        var documentId = $(targetDocument).data('document.id');
+        var documentName = $(targetDocument).data('document.name');
+        var title = $('#messages .removeDocumentConfirmationTitle').text();
+        var message = $('#messages .removeDocumentConfirmation').text();
+        var deleteMsg = $('#messages .remove').text();
+        var cancelMsg = $('#messages .cancel').text();
+        $.confirm({
+            'title'	: title,
+            'message'	: $('<div>')
+                            .append($('<span>').addClass('itemName')
+                                .addClass('overflowEllipsis').text(documentName))
+                            .append($('<span>').text(message)).html(),
+            'buttons'	: {
+                'delete'	: {
+                    'msg'   : deleteMsg,
+                    'class'	: 'red',
+                    'action': function(){
+                        api.manageDocuments.removeDocument(documentId);
+                    }
+                },
+                'cancel'    : {
+                    'msg'   : cancelMsg,
+                    'class'	: 'blue',
+                    'action': function(){}
+                }
+            }
+        });
+        updateMainInterface();
+    }
     api.manageDocuments.createDocument = function() {
         ajaxRequest('/post/createDocument', function(response) {
             var redirect;
@@ -587,6 +616,13 @@ window.controller = (function($, CodeMirror) {
             }
             return redirect;
         }, 'document=' + $(targetProject).data('document.id'));
+    };
+    api.manageDocuments.removeDocument = function(documentId) {
+      ajaxRequest('/post/removeDocument', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                api.manageDocuments.updateDocumentsList(response);
+            }
+        }, 'document=' + documentId);
     };
     api.manageDocuments.setEditableView = function(trigger) {
         var container = $(trigger).parents('form');
@@ -609,10 +645,44 @@ window.controller = (function($, CodeMirror) {
         var $documentForm = $(trigger).parents('form');
         ajaxRequest('/post/updateDocumentDescriptors', function(response) {
             if ($(response).find('success').text() === 'true') {
-                //api.manageProjects.updateProjectsList(response);
-                api.manageDocuments.setNonEditableView(trigger);
+                api.manageDocuments.updateDocumentsList(response);
             }
         }, $documentForm.serialize());
+    };
+    api.manageDocuments.updateDocumentsList = function(response) {
+        var $xmlDocuments = $(response).find('documents').children();
+        var documents = [];
+        var documentId;
+        var documentName;
+        var isSelected;
+        var captionLoad = $('#messages .load').text();
+        var captionEdit = $('#messages .edit').text();
+        var captionCancel = $('#messages .cancel').text();
+        var captionSave = $('#messages .save').text();
+        $xmlDocuments.each(function(i, e) {
+            documentId = $(e).attr('id');
+            documentName = $(e).children('name').text();
+            isSelected = $(e).attr('isSelected') === 'true';
+            documents.push($('<li>').addClass(isSelected ? 'rowSelected' : i % 2 == 0 ? 'rowEven' : 'rowOdd')
+                .append($('<form>').attr('action', '/post/updateDocumentDescriptors').attr('method', 'post')
+                    .append($('<input>').attr('type', 'hidden'). attr('name', 'document').val(documentId))
+                    .append($('<a>').addClass('clear').data('document.id', documentId)
+                            .data('document.name', documentName).html('&#215;'))
+                    .append($('<h2>').addClass('title overflowEllipsis noneditable').text(documentName))
+                    .append($('<input>').addClass('titleEdit editable').attr('type', 'text')
+                            .attr('name', 'name').val(documentName))
+                    .append($('<div>').addClass('options')
+                        .append($('<a>').addClass('button load').data('document.id', documentId).text(captionLoad))
+                        .append($('<a>').addClass('button edit').text(captionEdit))
+                    )
+                    .append($('<div>').addClass('saveConfirmation')
+                        .append($('<a>').addClass('button cancelSave').text(captionCancel))
+                        .append($('<input>').addClass('button save').attr('type', 'submit').val(captionSave))
+                    )
+                )
+                .get(0));
+        });
+        $('#mdDocumentsList').html(documents);
     };
     
     api.manageProjectUsers = {};

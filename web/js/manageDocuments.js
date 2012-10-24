@@ -34,16 +34,20 @@
            e.preventDefault(); 
         });
         
-        $(window).on('click', '#mdDocumentsList .load', function(e) {
-            controller.manageDocuments.loadDocument(this);
+        $(window).on('click', '#mdDocumentsList .cancelSave', function(e) {
+            controller.manageDocuments.setNonEditableView(this);
+        });
+        
+        $(window).on('click', '#mdDocumentsList .clear', function(e) {
+            controller.manageDocuments.confirmRemoveDocument(this);
         });
         
         $(window).on('click', '#mdDocumentsList .edit', function(e) {
             controller.manageDocuments.setEditableView(this);
         });
         
-        $(window).on('click', '#mdDocumentsList .cancelSave', function(e) {
-            controller.manageDocuments.setNonEditableView(this);
+        $(window).on('click', '#mdDocumentsList .load', function(e) {
+            controller.manageDocuments.loadDocument(this);
         });
         
         $(window).on('click', '#mdDocumentsList .save', function(e) {
