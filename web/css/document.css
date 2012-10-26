@@ -7,33 +7,37 @@
 
 @charset "UTF-8";
 
+#dcCommandPanelWrapper {
+    height: 86px;
+}
+
 #dcDocument {
 
 }
 
 #dcDocumentContent {
-    height: 390px;
+    height: auto;
+    min-height: 454px;
     width: 748px;
 }
 
 #dcLoadDocument {
-    bottom: 0px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
 #dcTitle {
+    height: 35px;
     margin-bottom: 25px;
     text-align: center;
 }
 
 #dcUpdateDocument {
-    bottom: 0px;
     position: absolute;
-    right: 0px;
+    right: 0;
 }
 
 #dcUpdateForm {
-    height: 500px;
+    height: auto;
     position: relative;
 }
