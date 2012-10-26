@@ -58,6 +58,7 @@
 
 #clChangeGroup {
     display: inline;
+    line-height: 24px;
     position: absolute;
     right: 0;
 }
@@ -83,6 +84,10 @@
     height: auto;
     list-style-type: none;
     width: 726px;
+}
+
+#clCommandPanelWrapper {
+    height: 120px;
 }
 
 #clComments > li {
@@ -192,6 +197,7 @@
 #clLeaveGroup {
     display: inline;
     left: 0;
+    line-height: 24px;
     position: absolute;
 }
 
@@ -254,6 +260,7 @@
 }
 
 #clNotion {
+    height: auto;
     width: 744px;
 }
 
@@ -272,7 +279,6 @@
 }
 
 #clSaveSymbol {
-    bottom: 0;
     position: absolute;
     right: 0;
 }
@@ -317,6 +323,7 @@
 }
 
 #clTitle {
-    margin-bottom: 15px;
+    height: 35px;
+    margin-bottom: 10px;
     text-align: center;
 }

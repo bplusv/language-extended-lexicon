@@ -24,19 +24,6 @@
     right: 0px;
 }
 
-#mpEmptyProjectsListMessage {
-    color: #dedede;
-    height: 30px;
-    left: 50%;
-    line-height: 30px;
-    margin-left: -110px;
-    margin-top: -15px;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    width: 220px;
-}
-
 #mpNewProjectName {
     
 }
@@ -115,7 +102,7 @@
 }
 
 #mpProjectsList > li .options > .button {
-    margin: 0 7px;
+    margin: 0 20px;
 }
 
 #mpProjectsList > li .owner {

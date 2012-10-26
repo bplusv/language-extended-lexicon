@@ -125,6 +125,7 @@ textarea {
     text-align: center;
     text-decoration: none;
     padding: 10px;
+    width: 80px;
 }
 
 .buttons > a:hover, .button:hover {
@@ -208,7 +209,7 @@ textarea {
     line-height: inherit;
     pointer-events: auto;
     position: relative;
-    z-index: 99;
+    z-index: 97;
 }
 
 .tabs > a, .tab {
@@ -268,6 +269,17 @@ textarea {
     padding: 25px;
     position: relative;
     width: 748px;
+}
+
+#commandPanel {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    width: 748px;
+    z-index: 98;
 }
 
 #infoBubble {

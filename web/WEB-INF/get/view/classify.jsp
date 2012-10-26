@@ -9,24 +9,30 @@
     <input id="clName" type="hidden" name="name" value="<c:out value="${symbol.name}" />" />
     <input id="clDocument" type="hidden" name="document" value="${symbol.document.id}" />
     <input id="clDocumentName" type="hidden" name="documentName" value="<c:out value="${symbol.document.name}" />" />
-    <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;"><c:out value="${symbol.name}" /></span></h2>
-    <div id="clSynonymsField">
-        <c:set var="symbolSynonyms" value="${symbolFacade.getSynonyms(symbol.id)}" />
-        <a id="clLeaveGroup" style="display: ${empty symbolSynonyms ? 'none' : 'inline'}"><fmt:message key="leave group" />&nbsp;(-)</a>
-        <a id="clChangeGroup"><fmt:message key="change group" />&nbsp;(+)</a>
-        <a id="clCancelGroup" class="button"><fmt:message key="cancel" /></a>
-        <input id="clSaveGroup" class="button" type="submit" value="<fmt:message key="save" />" />
-        <label id="clSynonymsGroupLabel" class="overflowEllipsis">
-            <fmt:message key="synonyms group" />
-            &nbsp;(
-            <span id="clSynonymsGroup">
-                <c:forEach var="synonym" items="${symbolFacade.getSynonyms(symbol.id)}" varStatus="iter">
-                    <a href="#!/classify?sy=${synonym.id}"><c:out value="${synonym.name}" /></a><c:if test="${!iter.last}">,&nbsp;</c:if>
-                </c:forEach>
-            </span>
-            )
-        </label>
-        <select id="clSynonymsSelect" name="synonym" size="7"></select>
+    <div id="clCommandPanelWrapper">
+        <div id="commandPanel">
+            <div>
+                <a id="clCancelGroup" class="button"><fmt:message key="cancel" /></a>
+                <input id="clSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />        
+                <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;"><c:out value="${symbol.name}" /></span></h2>
+            </div>
+            <div id="clSynonymsField">
+                <c:set var="symbolSynonyms" value="${symbolFacade.getSynonyms(symbol.id)}" />
+                <a id="clLeaveGroup" style="display: ${empty symbolSynonyms ? 'none' : 'inline'}"><fmt:message key="leave group" />&nbsp;(-)</a>
+                <a id="clChangeGroup"><fmt:message key="change group" />&nbsp;(+)</a>
+                <label id="clSynonymsGroupLabel" class="overflowEllipsis">
+                    <fmt:message key="synonyms group" />
+                    &nbsp;(
+                    <span id="clSynonymsGroup">
+                        <c:forEach var="synonym" items="${symbolFacade.getSynonyms(symbol.id)}" varStatus="iter">
+                            <a href="#!/classify?sy=${synonym.id}"><c:out value="${synonym.name}" /></a><c:if test="${!iter.last}">,&nbsp;</c:if>
+                        </c:forEach>
+                    </span>
+                    )
+                </label>
+                <select id="clSynonymsSelect" name="synonym" size="7"></select>
+            </div>
+        </div>
     </div>
     <div id="clDefinitionTop">
         <div class="left">
@@ -102,5 +108,4 @@
             </div>
         </div>
     </div>
-    <input id="clSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />
 </form>

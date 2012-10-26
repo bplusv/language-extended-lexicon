@@ -24,6 +24,7 @@
 
 window.controller = (function($, CodeMirror) {
     'use strict';
+    var commandPanelOffset;
     var infoBubble;
     var appContext = '/lel';
     var projectSymbols = {};
@@ -134,18 +135,18 @@ window.controller = (function($, CodeMirror) {
             if (cm != undefined) {
                 cm.setOption('mode', 'text/x-lel');
             } else {
-                var w = $(e).outerWidth();
-                var h = $(e).outerHeight();
+                //var w = $(e).outerWidth();
+                //var h = $(e).outerHeight();
                 var editor = CodeMirror.fromTextArea(e,
                 {
                     'onUpdate': tagCodeMirrorSymbols,
                     'onScroll': tagCodeMirrorSymbols,
                     'mode': 'text/x-lel', 
-                    'lineWrapping': false
+                    'lineWrapping': true
                 });
                 $(e).data('codeMirror', editor);
-                editor.setSize(w, h);
-                editor.refresh();
+                //editor.setSize(w, h);
+                //editor.refresh();
             }
         });
         tagCodeMirrorSymbols();
@@ -276,6 +277,8 @@ window.controller = (function($, CodeMirror) {
                                 $('#central').html(res);
                                 break;
                         }
+                        commandPanelOffset = $('#commandPanel').offset();
+                        api.updateCommandPanel();
                     }, hash[1]);
             } else {
                 window.location.hash = '#!/explore';
@@ -317,9 +320,9 @@ window.controller = (function($, CodeMirror) {
         $('#clSynonymsSelect').val(-1);
         $('#clSynonymsSelect').css('display', 'none');
         $('#clCancelGroup').css('display', 'none');
-        $('#clSaveGroup').css('display', 'none');
         $('#clChangeGroup').css('display', 'inline');
         api.classify.selectSynonym($('#clSymbol').val());
+        $('#clCommandPanelWrapper').height($('#commandPanel').outerHeight() + 25);
     }
     api.classify.createSymbol = function() {
         ajaxRequest('/post/createSymbol', function(response) {
@@ -391,12 +394,10 @@ window.controller = (function($, CodeMirror) {
         $('#clHideComments').css('display', 'inline-block');
     };
     api.classify.showSynonyms = function() {
-        $(window).scrollTop($('#clTitle').offset().top);
         $('#clSynonymsSelect').css('display', 'block');
         $('#clLeaveGroup').css('display', 'none');
         $('#clChangeGroup').css('display', 'none');
         $('#clCancelGroup').css('display', 'inline');
-        $('#clSaveGroup').css('display', 'inline');
         ajaxRequest('/get/data/classifyShowSynonyms', function(response) {
             var $xmlSynonyms = $(response).find('synonyms').children();
             var syId = $('#clSymbol').val();
@@ -408,6 +409,7 @@ window.controller = (function($, CodeMirror) {
                 }
             });
             $('#clSynonymsSelect').html(selectItems);
+            $('#clCommandPanelWrapper').height($('#commandPanel').outerHeight() + 25);
         });
     };
     api.classify.updateComments = function(response) {
@@ -961,5 +963,16 @@ window.controller = (function($, CodeMirror) {
             }
         });
     };
+    
+    api.updateCommandPanel = function() {
+        if (commandPanelOffset && $(window).scrollTop() >= commandPanelOffset.top - 25) {
+            $('#commandPanel').css('position', 'fixed');
+            $('#commandPanel').css('padding-top', '25px');
+        } else {
+            $('#commandPanel').css('position', 'relative');
+            $('#commandPanel').css('padding-top', '0');
+        }
+    };
+    
     return api;
 })(jQuery, CodeMirror);
