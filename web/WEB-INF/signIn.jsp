@@ -50,7 +50,7 @@
             <div style="clear:both"></div>
         </div>
         <div id="messages">
-            <span id="ixNetworkFail"><fmt:message key="network fail" /></span>
+            <span class="networkFail"><fmt:message key="network fail" /></span>
         </div>
     </body>
 </html>

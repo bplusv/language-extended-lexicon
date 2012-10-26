@@ -54,7 +54,7 @@ window.controller = (function($, CodeMirror) {
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     isRequesting = false;
-                    response = $('<response>').append(
+                    response = $('<root>').append(
                         $('<message>').text(
                             $('#messages .networkFail').text()));
                 },
@@ -975,7 +975,7 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.updateCommandPanel = function() {
-        if (centralContainerOffset && $(window).scrollTop() >= centralContainerOffset.top) {
+        if (centralContainerOffset && $(window).scrollTop() > centralContainerOffset.top) {
             $('#commandPanel').addClass('fixed');
         } else {
             $('#commandPanel').removeClass('fixed');
