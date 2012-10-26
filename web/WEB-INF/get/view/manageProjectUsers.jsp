@@ -4,17 +4,20 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<h3 id="mpuProjectTitle" class="overflowEllipsis"><fmt:message key="users" />&nbsp;-&nbsp;<c:out value="${requestScope.project.name}" /></h3>
-<form id="mpuAddUserForm" action="/post/addProjectUser" method="post">
-    <h3 class="mpuTitle"><fmt:message key="add user" /></h3>
-    <input type="hidden" name="project" value="<c:out value="${requestScope.project.id}" />" />
-    <div class="mpuField">
-        <label><fmt:message key="username" />:&nbsp;</label>
-        <input id="mpuAddUserName" type="text" name="username" />
+<div id="mpuCommandPanelWrapper">
+    <div id="commandPanel">
+        <h2 id="mpuProjectTitle" class="overflowEllipsis"><fmt:message key="users" />&nbsp;-&nbsp;<c:out value="${requestScope.project.name}" /></h2>
+        <h3 class="mpuTitle"><fmt:message key="add user" /></h3>
+        <form id="mpuAddUserForm" action="/post/addProjectUser" method="post">
+            <input type="hidden" name="project" value="<c:out value="${requestScope.project.id}" />" />
+            <div class="mpuField">
+                <label><fmt:message key="username" />:&nbsp;</label>
+                <input id="mpuAddUserName" type="text" name="username" />
+            </div>
+            <input id="mpuAddUser" class="button" type="submit" value="Add" />
+        </form>
     </div>
-    <input id="mpuAddUser" class="button" type="submit" value="Add" />
-</form>
-<div class="spacer"></div>
+</div>
 <form id="mpuRemoveUserForm" action="/post/removeProjectUser" method="post">
     <h3 class="mpuTitle"><fmt:message key="current users" /></h3>
     <input type="hidden" name="project" value="${requestScope.project.id}" />
@@ -27,5 +30,4 @@
             </li>
         </c:forEach>
     </ul>
-    <a id="mpuProjects" class="button" href="#!/manageProjects"><fmt:message key="projects" /></a>
 </form>

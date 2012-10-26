@@ -4,15 +4,18 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<form id="mpCreateForm" action="/post/createProject" method="post">
-    <h3 class="mpTitle"><fmt:message key="create new project" /></h3>
-    <div class="mpField">
-        <label id="mpNewProjectNameLabel" for="mpNewProjectName"><fmt:message key="name" />:&nbsp;</label>
-        <input id="mpNewProjectName" type="text" name="name" maxlength="255" />
+<div id="mpCommandPanelWrapper">
+    <div id="commandPanel">
+        <h3 class="mpTitle"><fmt:message key="create new project" /></h3>
+        <form id="mpCreateForm" action="/post/createProject" method="post">
+            <div class="mpField">
+                <label id="mpNewProjectNameLabel" for="mpNewProjectName"><fmt:message key="name" />:&nbsp;</label>
+                <input id="mpNewProjectName" type="text" name="name" maxlength="255" />
+            </div>
+            <input id="mpCreateProject" type="submit" class="button" value="<fmt:message key="create" />" />
+        </form>
     </div>
-    <input id="mpCreateProject" type="submit" class="button" value="<fmt:message key="create" />" />
-</form>
-<div class="spacer"></div>
+</div>
 <div>
     <h3 class="mpTitle"><fmt:message key="current projects" /></h3>
     <ul id="mpProjectsList">
@@ -48,8 +51,5 @@
                 </form>
             </li>
         </c:forEach>
-    <c:if test="${empty projects}" >
-        <h1 id="mpEmptyProjectsListMessage"><fmt:message key="it's lonely here" />...</h1>
-    </c:if>
     </ul>
 </div>

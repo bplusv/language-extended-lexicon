@@ -56,6 +56,10 @@
         $(window).on('mouseleave', '.overflowEllipsis', function() {
             controller.scrollingText.reset(this);
         });
+        
+        $(window).on('scroll', function() {
+            controller.updateCommandPanel();
+        });
 
         $(window).trigger('hashchange');
     });
