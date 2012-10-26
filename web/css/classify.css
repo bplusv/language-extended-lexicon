@@ -1,0 +1,322 @@
+/* 
+    Document   : classify
+    Created on : May 16, 2012, 11:10:30 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: classify stylesheet
+*/
+
+@charset "UTF-8";
+
+.clDefinitionField {
+    display: block;
+    margin-bottom: 15px;
+    width: 748px;
+}
+
+.clDefinitionField label {
+    display:block;
+}
+
+.clDefinitionField textarea {
+    border-top-left-radius: 0;
+    display: block;
+    height: auto;
+    min-height: 98px;
+    max-height: 198px;
+    width: 100%;
+}
+
+.clInfo {
+    color: #000;
+    display: block;
+    line-height: 24px;
+}
+
+.clDefinitionField.Left {
+    float: left;
+    width: 360px;
+}
+
+.clDefinitionField.Right {
+    float: right;
+    width: 360px;
+}
+
+#clActualIntention {
+    width: 356px;
+}
+
+#clActualIntentionLabel {
+
+}
+
+#clCancelGroup {
+    display: none;
+    left: 0;
+    position: absolute;
+}
+
+#clChangeGroup {
+    display: inline;
+    position: absolute;
+    right: 0;
+}
+
+#clCategory {
+    width: 198px;
+}
+
+#clCategoryLabel {
+
+}
+
+#clClassification {
+    width: 198px;
+}
+
+#clClassificationLabel {
+
+}
+
+#clComments {
+    display: none;
+    height: auto;
+    list-style-type: none;
+    width: 726px;
+}
+
+#clComments > li {
+    padding: 5px;
+    width: 716px;
+}
+
+#clComments > li:hover {
+    background-color: #ffe0c6 !important;
+}
+
+#clComments > li > div.left {
+    display: inline-block;
+    float: left;
+    width: 110px;
+}
+
+#clComments > li > div.left > span {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 100px;
+}
+
+#clComments > li > div.right {
+    display: inline-block;
+    float: right;
+    overflow: hidden;
+    white-space: pre-line;
+    width: 601px;
+}
+
+#clCommentsField {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    color: #555;
+    font: 13.5px/20px  'Trebuchet MS', Helvetica, sans-serif;
+    height: auto;
+    padding: 10px;
+}
+
+#clCommentsToggle {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#clDefinitionBottom {
+    display: block;
+    margin-bottom: 54px;
+}
+
+#clDefinitionTop {
+    height: 102px;
+    margin: 0 auto 25px auto;
+    overflow: hidden;
+    width: 748px;
+}
+
+#clDefinitionTop > div.left {
+    float: left;
+    height: 100%;
+    margin-left: 56px;
+    width: 324px;
+}
+
+#clDefinitionTop > div.left > div.left {
+    float: left;
+    height: 100%;
+    width: 124px;
+}
+
+#clDefinitionTop > div.left > div > * {
+    display: block;
+    height: 24px;
+    margin-bottom: 10px;
+}
+
+#clDefinitionTop > div.left > div > select {
+    height: 22px;
+}
+
+#clDefinitionTop > div.left > div.right {
+    float: left;
+    height: 100%;
+    width: 200px;
+}
+
+#clDefinitionTop > div.right {
+    float: right;
+    height: 72px;
+    margin-right: 56px;
+    margin-top: 15px;
+    width: 200px;
+}
+
+#clDefinitionTop > div.right > * {
+    display: block;
+    height: 24px;
+    text-align: center;
+}
+
+#clDocument {
+
+}
+
+#clLeaveGroup {
+    display: inline;
+    left: 0;
+    position: absolute;
+}
+
+#clForm {
+    height: auto;
+    min-height: 450px;
+    padding-bottom: 5px;
+    position: relative;
+    width: 748px;
+}
+
+#clFutureIntention {
+    width: 356px;
+}
+
+#clFutureIntentionLabel {
+
+}
+
+#clHideComments {
+    margin-bottom: 10px;
+    display: none;
+}
+
+#clIntentionFields {
+
+}
+
+#clName {
+
+}
+
+
+#clNewComment {
+    min-height: 44px;
+    width: 602px;
+}
+
+#clNewCommentField {
+    width: 726px;
+}
+
+#clNewCommentField > div.left {
+    display: inline-block;
+    float: left;
+    width: 110px;
+}
+
+#clNewCommentField > div.left > span {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 100px;
+}
+
+#clNewCommentField > div.right {
+    display: inline-block;
+    float: right;
+    width: 606px;
+}
+
+#clNotion {
+    width: 744px;
+}
+
+#clNotionLabel {
+
+}
+
+#clShowComments {
+    display: inline-block;
+}
+
+#clSaveGroup {
+    display: none;
+    position: absolute;
+    right: 0;
+}
+
+#clSaveSymbol {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+}
+
+#clSynonymsSelect {
+    border: 1px solid #ccc;
+    display: none;
+    height: auto;
+    margin: 10px auto 0 auto;
+    overflow-x: visible;
+    overflow-y: auto;
+    width: 400px;
+}
+
+#clSymbol {
+
+}
+
+#clSynonymsField {
+    margin-bottom: 25px;
+    position: relative;
+    text-align: center;
+}
+
+#clSynonymsGroup {
+
+}
+
+#clSynonymsGroup label {
+    display: inline-block;
+}
+
+#clSynonymsGroupField {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#clSynonymsGroupLabel {
+    display: block;
+    margin: 0 auto;
+    width: 450px;
+}
+
+#clTitle {
+    margin-bottom: 15px;
+    text-align: center;
+}

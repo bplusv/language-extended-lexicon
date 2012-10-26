@@ -1,0 +1,167 @@
+/* 
+    Document   : manageProyects
+    Created on : May 29, 2012, 9:20:57 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description: Stylesheet for loadProject.jsp.
+*/
+
+@charset "UTF-8";
+
+.mpField {
+    margin: 0 auto;
+    text-align: center;
+    width: 350px;
+}
+
+.mpTitle {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#mpCreateProject {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
+}
+
+#mpEmptyProjectsListMessage {
+    color: #dedede;
+    height: 30px;
+    left: 50%;
+    line-height: 30px;
+    margin-left: -110px;
+    margin-top: -15px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 220px;
+}
+
+#mpNewProjectName {
+    
+}
+
+#mpNewProjectNameLabel {
+
+}
+
+#mpCreateForm {
+    height: 110px;
+    position: relative;
+}
+
+#mpProjectsList {
+    list-style-type: none;
+    margin: 0;
+    min-height: 150px;
+    position: relative;
+}
+
+#mpProjectsList > li {
+    padding: 10px;
+    position: relative;
+    width: 728px;
+}
+
+#mpProjectsList > li:hover {
+    background-color: #ffe0c6;
+}
+
+
+#mpProjectsList > li:hover .clear {
+    visibility: visible;
+}
+
+#mpProjectsList > li:hover .options {
+    visibility: visible;
+}
+
+#mpProjectsList > li .description {
+    border: 1px solid transparent;
+    color: #666;
+    font: 13px 'Century Gothic', sans-serif;
+    height: auto;
+    margin: 0px 0 10px 0;
+    min-height: 17px;
+    overflow: hidden;
+    padding: 5px;
+    white-space: pre-line;
+}
+
+#mpProjectsList > li .clear {
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    color: #777;
+    font: 16px/30px 'Century Gothic', sans-serif;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    top: 0;
+    visibility: hidden;
+    width: 30px;
+}
+
+#mpProjectsList > li .clear:hover {
+    color: #000;
+}
+
+#mpProjectsList > li .options {
+    font-size: 0;
+    height: 35px;
+    text-align: center;
+    visibility: hidden;
+}
+
+#mpProjectsList > li .options > .button {
+    margin: 0 7px;
+}
+
+#mpProjectsList > li .owner {
+    text-align: center;
+}
+
+#mpProjectsList > li .title {
+    border: 1px solid transparent;
+    font: 19px 'Century Gothic', sans-serif;
+    height: 22px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 5px;
+    width: 654px;
+}
+
+#mpProjectsList > li input.titleEdit {
+    border: 1px solid transparent;
+    color: #000;
+    display: none;
+    font: 19px 'Century Gothic', sans-serif;
+    height: 22px;
+    margin: 0 auto;
+    text-align: center;
+    width: 654px;
+}
+
+#mpProjectsList > li textarea.descriptionEdit {
+    border: 1px solid transparent;
+    color: #000;
+    display: none;
+    font: 13px 'Century Gothic', sans-serif;
+    height: auto;
+    margin: 0 0 10px 0;
+    min-height: 17px;
+    padding: 5px;
+    width: 716px;
+}
+
+#mpProjectsList > li .saveConfirmation {
+    font-size: 0;
+    height: 35px;
+    text-align: center;
+    display: none;
+}
+
+#mpProjectsList > li .saveConfirmation > .button {
+    margin: 0 20px;
+}
