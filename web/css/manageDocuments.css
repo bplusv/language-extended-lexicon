@@ -8,11 +8,16 @@
 @charset "UTF-8";
 
 .mdField {
+    height: 30px;
+    margin: 0 auto;
     text-align: center;
+    width: 350px;
+    vertical-align: middle;
 }
 
 .mdTitle {
-    margin-bottom: 25px;
+    height: 19px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -23,8 +28,13 @@
 }
 
 #mdCreateForm {
-    height: 110px;
+    height: 35px;
+    margin-bottom: 25px;
     position: relative;
+}
+
+#mdCommandPanelWrapper {
+    height: 115px;
 }
 
 #mdDocument {

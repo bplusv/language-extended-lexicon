@@ -4,15 +4,18 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
-<form id="mdCreateForm" action="/post/createDocument" method="post">
-    <h3 class="mdTitle"><fmt:message key="new document" /></h3>
-    <div class="mdField">
-        <label id="mdNameLabel" for="mdName"><fmt:message key="name" />:&nbsp;</label>
-        <input id="mdName" type="text" name="name" maxlength="255" />
+<div id="mdCommandPanelWrapper">
+    <div id="commandPanel">
+        <h3 class="mdTitle"><fmt:message key="new document" /></h3>
+        <form id="mdCreateForm" action="/post/createDocument" method="post">
+            <div class="mdField">
+                <label id="mdNameLabel" for="mdName"><fmt:message key="name" />:&nbsp;</label>
+                <input id="mdName" type="text" name="name" maxlength="255" />
+            </div>
+            <input type="submit" id="mdCreateDocument" class="button" value="<fmt:message key="create" />" />
+        </form>
     </div>
-    <input type="submit" id="mdCreateDocument" class="button" value="<fmt:message key="create" />" />
-</form>
-<div class="spacer"></div>
+</div>
 <div>
     <h3 class="mpTitle"><fmt:message key="current documents" /></h3>
     <ul id="mdDocumentsList">
