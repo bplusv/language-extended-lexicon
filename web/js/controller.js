@@ -24,7 +24,7 @@
 
 window.controller = (function($, CodeMirror) {
     'use strict';
-    var commandPanelOffset;
+    var centralContainerOffset;
     var infoBubble;
     var appContext = '/lel';
     var projectSymbols = {};
@@ -277,7 +277,7 @@ window.controller = (function($, CodeMirror) {
                                 $('#central').html(res);
                                 break;
                         }
-                        commandPanelOffset = $('#commandPanel').offset();
+                        centralContainerOffset = $('#central').offset();
                         api.updateCommandPanel();
                     }, hash[1]);
             } else {
@@ -965,12 +965,10 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.updateCommandPanel = function() {
-        if (commandPanelOffset && $(window).scrollTop() >= commandPanelOffset.top - 25) {
-            $('#commandPanel').css('position', 'fixed');
-            $('#commandPanel').css('padding-top', '25px');
+        if (centralContainerOffset && $(window).scrollTop() >= centralContainerOffset.top) {
+            $('#commandPanel').addClass('fixed');
         } else {
-            $('#commandPanel').css('position', 'relative');
-            $('#commandPanel').css('padding-top', '0');
+            $('#commandPanel').removeClass('fixed');
         }
     };
     

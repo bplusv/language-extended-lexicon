@@ -8,14 +8,23 @@
 @charset "UTF-8";
 
 .mpField {
+    height: 30px;
     margin: 0 auto;
     text-align: center;
     width: 350px;
+    vertical-align: middle;
 }
 
 .mpTitle {
-    margin-bottom: 25px;
+    height: 19px;
+    margin-bottom: 10px;
     text-align: center;
+}
+
+#mpCreateForm {
+    height: 35px;
+    margin-bottom: 25px;
+    position: relative;
 }
 
 #mpCreateProject {
@@ -24,17 +33,16 @@
     right: 0px;
 }
 
+#mpCommandPanelWrapper {
+    height: 115px;
+}
+
 #mpNewProjectName {
     
 }
 
 #mpNewProjectNameLabel {
 
-}
-
-#mpCreateForm {
-    height: 110px;
-    position: relative;
 }
 
 #mpProjectsList {
