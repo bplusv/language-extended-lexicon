@@ -249,7 +249,8 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.changeView = function(hash) {
-        if (window.location.href.indexOf('/signIn') < 0) {       
+        if (window.location.href.indexOf('/signIn') < 0 &&
+            window.location.href.indexOf('/register') < 0) {       
             if (hash){
                 if ($('#dcUpdateForm').length > 0) {
                     $('#dcDocumentContent').data('codeMirror').save();
@@ -919,6 +920,15 @@ window.controller = (function($, CodeMirror) {
                 ).get(0));
         });
         $('#mpProjectsList').html(projects);
+    };
+    
+    api.register = {};
+    api.register.signUp = function() {
+        ajaxRequest('/post/registerUser', function(response) {
+            if ($(response).find('success').text() === 'true') {
+                window.location.href = appContext + '/#!/manageProjects';
+            }
+        }, $('#reForm').serialize())
     };
     
     api.scrollingText = {};
