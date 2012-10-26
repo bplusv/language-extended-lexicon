@@ -48,8 +48,5 @@
                 </form>
             </li>
         </c:forEach>
-    <c:if test="${empty projects}" >
-        <h1 id="mpEmptyProjectsListMessage"><fmt:message key="it's lonely here" />...</h1>
-    </c:if>
     </ul>
 </div>

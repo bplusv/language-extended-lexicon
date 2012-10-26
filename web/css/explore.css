@@ -8,18 +8,19 @@
 @charset "UTF-8";
 
 .exField {
-    display: inline;
+    display: inline-block;
+    height: 24px;
     margin: 0 5px;
     position: relative;
-    vertical-align: middle;
 }
 
 .exField > label{
     margin-right: 5px;
+    vertical-align: middle;
 }
 
 .exField > select {
-
+    vertical-align: middle;
 }
 
 .exSymbol {
@@ -77,11 +78,21 @@
 }
 
 #exClassification {
-    width: 98px;
+    width: 148px;
 }
 
 #exClassificationLabel {
     
+}
+
+#exCommandPanelTop {
+    height: 35px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+#exCommandPanelWrapper {
+    height: 170px;
 }
 
 #exEmptySymbolsListMessage {
@@ -100,13 +111,12 @@
 #exFilters {
     display: block;
     height: 30px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     text-align: center;
     width: auto;
 }
 
 #exForm {
-    padding-bottom: 70px;
     position: relative;
 }
 
@@ -116,24 +126,20 @@
 }
 
 #exManageProjects {
-    bottom: 0px;
-    right: 0px;
-    position: absolute;
+    float: right;
 }
 
 #exProjectReportField {
-    bottom: 0px;
-    left: 0px;
-    position: absolute;
+    float: left;
+}
+
+#exProjectReportComments {
+    margin-left: 15px;
 }
 
 #exProjectReportCommentsCheck {
     height: 17px;
     vertical-align: text-bottom;
-}
-
-#exProjectReportComments {
-    margin-left: 15px;
 }
 
 #exSearch {
@@ -164,7 +170,8 @@
 }
 
 #exSymbolsListHeader {
-    height: 35px;
+    height: 19px;
+    margin-bottom: 25px;
     overflow: hidden;
     padding-right: 20px;
     width: 728px;

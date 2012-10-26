@@ -108,7 +108,7 @@
     border: 1px solid transparent;
     font: 19px 'Century Gothic', sans-serif;
     height: 22px;
-    margin: 0 auto;
+    margin: 0 auto 10px auto;
     text-align: center;
     padding: 5px;
     width: 654px;
@@ -120,7 +120,7 @@
     display: none;
     font: 19px 'Century Gothic', sans-serif;
     height: 22px;
-    margin: 0 auto;
+    margin: 0 auto 10px auto;
     text-align: center;
     width: 654px;
 }

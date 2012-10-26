@@ -36,6 +36,7 @@
 #ixUserMenu {
     cursor: pointer;
     display: inline-block;
+    font: 12px Arial, sans-serif;
     height: auto;
     position: absolute;
     right: 0;

@@ -35,8 +35,5 @@
                 </form>
             </li>
         </c:forEach>
-    <c:if test="${empty documents}" >
-        <h1 id="mdEmptyDocumentsListMessage"><fmt:message key="it's lonely here" />...</h1>
-    </c:if>
     </ul>
 </div>
