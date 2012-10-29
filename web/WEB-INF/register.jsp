@@ -11,6 +11,7 @@
         <title>LeL</title>
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
+        <link rel="icon" type="image/ico" href="img/favicon.ico">
         <link rel="stylesheet" href="js/lib/codemirror-2.34/lib/codemirror.css">
         <link rel="stylesheet" type="text/css" href="css/signIn.css" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
