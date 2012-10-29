@@ -12,34 +12,33 @@
                         <input id="exProjectReport" class="button" type="submit" value="<fmt:message key="report" />" />
                         <label id="exProjectReportComments"><input id="exProjectReportCommentsCheck" type="checkbox" name="comments" />&nbsp;<fmt:message key="comments" /></label>
                     </form>
-                    <a id="exManageProjects" class="button" href="#!/manageProjects"><fmt:message key="projects" /></a>
-                </div>
-                <form id="exForm" action="/get/data/exploreSymbols" method="get">
-                    <div id="exFilters">
-                        <div class="exField">
-                            <label id="exCategoryLabel" for="exCategory"><fmt:message key="category" />:&nbsp;</label>
-                            <select id="exCategory" name="ca" onchange="$('#exForm').submit();">
-                                <option value=""><fmt:message key="all" /></option>
-                                <c:forEach var="category" items="${categories}">
-                                    <option value="${category.id}" ${param.ca == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
-                                </c:forEach>
-                            </select>
+                    <form id="exForm" action="/get/data/exploreSymbols" method="get">
+                        <div id="exSelectsField">
+                            <div class="exField">
+                                <label id="exCategoryLabel" for="exCategory"><fmt:message key="category" />:&nbsp;</label>
+                                <select id="exCategory" name="ca" onchange="$('#exForm').submit();">
+                                    <option value=""><fmt:message key="all" /></option>
+                                    <c:forEach var="category" items="${categories}">
+                                        <option value="${category.id}" ${param.ca == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="exField">
+                                <label id="exClassificationLabel" for="exClassification"><fmt:message key="classification" />:&nbsp;</label>
+                                <select id="exClassification" name="cl" onchange="$('#exForm').submit();">
+                                    <option value=""><fmt:message key="all" /></option>
+                                    <c:forEach var="classification" items="${classifications}">
+                                        <option value="${classification.id}" ${param.cl == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                         </div>
-                        <div class="exField">
-                            <label id="exClassificationLabel" for="exClassification"><fmt:message key="classification" />:&nbsp;</label>
-                            <select id="exClassification" name="cl" onchange="$('#exForm').submit();">
-                                <option value=""><fmt:message key="all" /></option>
-                                <c:forEach var="classification" items="${classifications}">
-                                    <option value="${classification.id}" ${param.cl == classification.id ? 'selected="selected"' : ''}><fmt:message key="${classification.name}" /></option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="exField">
+                        <div id="exSearchField">
                             <input id="exSearch" type="text" name="sy" maxlength="255" value="<c:out value="${param.sy}" />" />
                             <span id="exSearchClear">&#215;</span>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
                 <h3 id="exSymbolsListHeader">
                     <span><fmt:message key="symbol" /></span>
                     <span><fmt:message key="category" /></span>
