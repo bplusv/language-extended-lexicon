@@ -118,7 +118,7 @@
 
 #exForm {
     float: left;
-    width: 648px;
+    width: 628px;
 }
 
 #exMain {
@@ -137,13 +137,12 @@
 
 #exProjectReportField {
     float: left;
-    width: 100px;
+    width: 120px;
 }
 
 #exProjectReportComments {
     display: block;
-
-    text-align: center;
+    text-align: left;
 }
 
 #exProjectReportCommentsCheck {
@@ -182,7 +181,7 @@
 
 #exSelectsField {
     float: left;
-    margin-left: 99px;
+    margin-left: 89px;
     width: 300px;
 }
 
