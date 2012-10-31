@@ -1,0 +1,80 @@
+/* 
+    Document   : register
+    Created on : Oct 31, 2012, 11:30:11 AM
+    Author     : Luis Salazar <bp.lusv@gmail.com>
+    Description:
+        stylesheet for Register.
+*/
+
+@charset "UTF-8";
+
+.reField {
+    margin: 15px 0;
+    width: 250px;
+}
+
+.reField label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.reField > input[type="text"], .reField > input[type="password"] {
+    width: 238px;
+}
+
+#reCentral {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    height: 400px;
+    margin-bottom: 50px;
+    padding: 25px;
+    width: 748px;
+}
+
+#reAd {
+    margin-bottom: 30px;
+}
+
+#reForm {
+    height: 373px;
+    margin: 0 auto;
+    position: relative;
+    width: 250px;
+}
+
+#reHeader {
+    height: 80px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+#reHeaderLogo {
+    float: left;
+}
+
+#rePasswordStrength {
+    background-color: #fff;
+    display: block;
+    height: 24px;
+    font-size: 11px;
+}
+
+#rePasswordStrengthBar {
+    display: block;
+    height: 2px;
+}
+
+#reRegister {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+#siRightSide {
+    float: right;
+    height: 400px;
+    position: relative;
+    width: 374px;
+}

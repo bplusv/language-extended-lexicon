@@ -78,6 +78,10 @@
 
 }
 
+#siRegisterAd {
+    text-align: center;
+}
+
 #siRightSide {
     float: right;
     height: 400px;

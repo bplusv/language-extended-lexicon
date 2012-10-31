@@ -38,70 +38,15 @@
 }
 
 #acNewPasswordStrength {
+    background-color: #fff;
     display: block;
     height: 24px;
     font-size: 11px;
 }
 
-#acNewPasswordStrength.very_secure {
-    color: #0f0;
-}
-
-#acNewPasswordStrength.secure {
-    color: #0f0;
-}
-
-#acNewPasswordStrength.very_strong {
-    color: #090;
-}
-
-#acNewPasswordStrength.strong {
-    color: #090;
-}
-
-#acNewPasswordStrength.average {
-    color: #f50;
-}
-
-#acNewPasswordStrength.weak {
-    color: #f00;
-}
-
-#acNewPasswordStrength.very_weak {
-    color: #a11;
-}
-
 #acNewPasswordStrengthBar {
     display: block;
     height: 2px;
-}
-
-#acNewPasswordStrengthBar.very_secure {
-    background-color: #0f0;
-}
-
-#acNewPasswordStrengthBar.secure {
-    background-color: #0f0;
-}
-
-#acNewPasswordStrengthBar.very_strong {
-    background-color: #090;
-}
-
-#acNewPasswordStrengthBar.strong {
-    background-color: #090;
-}
-
-#acNewPasswordStrengthBar.average {
-    background-color: #f50;
-}
-
-#acNewPasswordStrengthBar.weak {
-    background-color: #f00;
-}
-
-#acNewPasswordStrengthBar.very_weak {
-    background-color: #a11;
 }
 
 #acMessages {

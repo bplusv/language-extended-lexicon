@@ -7,7 +7,7 @@
 <%
     if (session.getAttribute("user") != null) {
         response.sendRedirect("/lel");
-    }%>
+}%>
 
 <!DOCTYPE html>
 <html>
@@ -50,6 +50,10 @@
             </div>
             <div style="clear:both"></div>
         </div>
+        <p id="siRegisterAd">
+            <label><fmt:message key="dont have account" />&nbsp;</label>
+            <a href="register"><fmt:message key="sign up" /></a>
+        </p>
         <div id="messages">
             <span class="networkFail"><fmt:message key="network fail" /></span>
         </div>
