@@ -925,6 +925,24 @@ window.controller = (function($, CodeMirror) {
     };
     
     api.register = {};
+    api.register.checkPasswordStrength = function() {
+        var $passStrength = $('#rePasswordStrength');
+        var $passStrengthBar = $('#rePasswordStrengthBar');
+        var newPass = $('#rePassword').val();
+        if (newPass) {
+            var pwdScore = $.pwdStrength(newPass);
+            var pwdClass = getPwdScoreCssClass(pwdScore);
+            $passStrength.removeClass();
+            $passStrength.addClass(pwdClass);
+            $passStrength.text($('#messages').find('.' + pwdClass).text());
+            $passStrengthBar.removeClass();
+            $passStrengthBar.addClass(pwdClass);
+            $passStrengthBar.width($passStrength.width() * pwdScore / 100); 
+        } else {
+            $passStrength.text('');
+            $passStrengthBar.width(0);
+        }
+    };
     api.register.signUp = function() {
         ajaxRequest('/post/registerUser', function(response) {
             if ($(response).find('success').text() === 'true') {

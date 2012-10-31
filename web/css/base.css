@@ -361,3 +361,38 @@ textarea {
 #notification.success {
     background-color: #3a3;
 }
+
+.very_secure {
+    color: #0f0;
+    background-color: #0f0;
+}
+
+.secure {
+    color: #0f0;
+    background-color: #0f0;
+}
+
+.very_strong {
+    color: #090;
+    background-color: #090;
+}
+
+.strong {
+    color: #090;
+    background-color: #090;
+}
+
+.average {
+    color: #f50;
+    background-color: #f50;
+}
+
+.weak {
+    color: #f00;
+    background-color: #f00;
+}
+
+.very_weak {
+    color: #a11;
+    background-color: #a11;
+}

@@ -15,6 +15,7 @@
         <jsp-property-group>
             <description>HTML Header</description>
             <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/WEB-INF/register.jsp</url-pattern>
             <url-pattern>/WEB-INF/signIn.jsp</url-pattern>
             <url-pattern>/WEB-INF/get/view/*</url-pattern>
             <include-prelude>/WEB-INF/header/html.jspf</include-prelude>

@@ -29,5 +29,8 @@
             e.preventDefault();
             controller.register.signUp();
         });
+        $(window).on('keyup', '#rePassword', function(e) {
+            controller.register.checkPasswordStrength();
+        })
     });
 }());
