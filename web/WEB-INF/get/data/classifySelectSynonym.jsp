@@ -3,8 +3,8 @@
     Created on : Jul 13, 2012, 10:03:07 PM
     Author     : lu
 --%>
-
 <root>
+<c:if test="${!empty symbol}">
 <symbol id="${symbol.id}">
     <name><![CDATA[${symbol.name}]]></name>
     <document id="${symbol.document.id}">
@@ -43,4 +43,5 @@
         </c:forEach>
     </synonymsGroup>
 </symbol>
+</c:if>
 </root>

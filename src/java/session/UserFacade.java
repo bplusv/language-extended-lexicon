@@ -125,23 +125,6 @@ public class UserFacade extends AbstractFacade<User> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Collection<Project> getProjectCollection(String userId) {
-        try {
-            User user = find(userId);
-            return em.createQuery("SELECT DISTINCT pr FROM Project pr "
-                    + "LEFT OUTER JOIN pr.userCollection us "
-                    + "WHERE pr.active = TRUE AND "
-                    + "(us = :user OR pr.owner = :user) "
-                    + "ORDER BY LOWER(pr.name) ASC;").
-                    setParameter("user", user).
-                    getResultList();
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            return null;
-        }
-    }
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Boolean changePassword(String userId, String currentPassword,
             String newPassword, String confirmNewPassword) {
         try {

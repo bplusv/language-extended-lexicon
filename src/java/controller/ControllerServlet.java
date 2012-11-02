@@ -45,7 +45,7 @@ import session.*;
 @WebServlet(name = "ControllerServlet",
 loadOnStartup = 1,
 urlPatterns = {"/get/data/classifySelectSynonym",
-    "/get/data/classifyShowSynonyms",
+    "/get/data/classifyShowPossibleSynonyms",
     "/get/data/exploreSymbols",
     "/get/data/projectSymbols",
     "/get/projectReport",
@@ -104,6 +104,8 @@ public class ControllerServlet extends HttpServlet {
     protected UserFacade userFacade;
     @EJB
     protected ReportManager reportManager;
+    @EJB
+    protected UserAccessManager userAccessManager;
     private HttpSession session;
     private Logger log = Logger.getLogger(ReportManager.class.getName());
 
@@ -123,6 +125,7 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("projectFacade", projectFacade);
         getServletContext().setAttribute("symbolFacade", symbolFacade);
         getServletContext().setAttribute("userFacade", userFacade);
+        getServletContext().setAttribute("userAccessManager", userAccessManager);
     }
 
     @Override
@@ -134,9 +137,11 @@ public class ControllerServlet extends HttpServlet {
         String userPath = request.getServletPath();
 
         if (userPath.equals("/get/data/classifySelectSynonym")) {
-            request.setAttribute("symbol",
-                    symbolFacade.find(request.getParameter("symbol")));
-        } else if (userPath.equals("/get/data/classifyShowSynonyms")) {
+            Symbol symbol = symbolFacade.userFindSymbol(
+                    ((User) session.getAttribute("user")).getId().toString(), 
+                    request.getParameter("symbol"));
+            request.setAttribute("symbol",symbol);
+        } else if (userPath.equals("/get/data/classifyShowPossibleSynonyms")) {
         } else if (userPath.equals("/get/data/exploreSymbols")) {
         } else if (userPath.equals("/get/data/projectSymbols")) {
         } else if (userPath.equals("/get/projectReport")) {
@@ -159,9 +164,11 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/account")) {
         } else if (userPath.equals("/get/view/classify")) {
             Symbol symbol = request.getParameter("sy") != null
-                    ? symbolFacade.find(request.getParameter("sy"))
+                    ? symbolFacade.userFindSymbol(
+                        ((User) session.getAttribute("user")).getId().toString(),
+                        request.getParameter("sy"))
                     : symbolFacade.findByDocumentAndName(
-                    request.getParameter("dc"),
+                    ((Document) session.getAttribute("document")).getId().toString(),
                     request.getParameter("na"));
             if (symbol != null) {
                 request.setAttribute("log",
@@ -171,7 +178,9 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("submitAction", "/post/updateSymbol");
             } else {
                 symbol = symbolFacade.createPossibleSymbol(
-                        request.getParameter("dc"), request.getParameter("na"));
+                        ((Document) session.getAttribute("document")).getId().toString(),
+                        request.getParameter("na"));
+                request.setAttribute("test", symbol == null);
                 request.setAttribute("submitAction", "/post/createSymbol");
             }
             request.setAttribute("symbol", symbol);
@@ -189,14 +198,14 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/manageDocuments")) {
         } else if (userPath.equals("/get/view/manageProjects")) {
         } else if (userPath.equals("/get/view/manageProjectUsers")) {
-            User user = (User) session.getAttribute("user");
-            Project project = projectFacade.find(request.getParameter("pj"));   
-            if (project != null && project.getOwner().equals(user)) {
-                request.setAttribute("project", project);
-            } else {
-                userPath = "/get/view/manageProjects";
-            }
+            request.setAttribute("project", 
+                    projectFacade.find(request.getParameter("pj")));
         } else if (userPath.equals("/get/view/test")) {
+            String id = request.getParameter("id");
+            Boolean hasAccess = userAccessManager.isProjectOwner(
+                    ((User) session.getAttribute("user")).getId().toString(),
+                    request.getParameter("id"));
+            request.setAttribute("hasAccess", hasAccess);
         } else if (userPath.equals("/register")) {
         } else if (userPath.equals("/signIn")) {
         }

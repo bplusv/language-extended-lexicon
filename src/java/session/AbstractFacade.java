@@ -68,6 +68,8 @@ public abstract class AbstractFacade<T> {
     protected SymbolFacade symbolFacade;
     @EJB
     protected UserFacade userFacade;
+    @EJB
+    protected UserAccessManager userAccessManager;
 
     protected abstract EntityManager getEntityManager();
 

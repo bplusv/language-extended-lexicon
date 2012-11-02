@@ -394,16 +394,16 @@ window.controller = (function($, CodeMirror) {
         $('#clShowComments').css('display', 'none');
         $('#clHideComments').css('display', 'inline-block');
     };
-    api.classify.showSynonyms = function() {
+    api.classify.showPossibleSynonyms = function() {
         $('#clSynonymsSelect').css('display', 'block');
         $('#clLeaveGroup').css('display', 'none');
         $('#clChangeGroup').css('display', 'none');
         $('#clCancelGroup').css('display', 'inline');
-        ajaxRequest('/get/data/classifyShowSynonyms', function(response) {
-            var $xmlSynonyms = $(response).find('synonyms').children();
+        ajaxRequest('/get/data/classifyShowPossibleSynonyms', function(response) {
+            var $xmlPossibleSynonyms = $(response).find('symbols').children();
             var syId = $('#clSymbol').val();
             var selectItems = [];
-            $xmlSynonyms.each(function(i, e) {
+            $xmlPossibleSynonyms.each(function(i, e) {
                 if ($(e).attr('id') != syId) {
                     selectItems.push($('<option>').attr('value', 
                         $(e).attr('id')).text($(e).children('name').text()).get(0));
@@ -559,8 +559,7 @@ window.controller = (function($, CodeMirror) {
                 });
                 $('body').append(infoBubble);
             }
-            infoBubble.attr('href', '#!/classify?dc=' + 
-                $('#dcDocument').val() + '&na=' + text);
+            infoBubble.attr('href', '#!/classify?na=' + text);
             infoBubble.find('.caption').text(text);
             infoBubble.css('top', top - infoBubble.outerHeight() - 35);
             infoBubble.css('left', left - infoBubble.outerWidth() / 2);
