@@ -1,15 +1,15 @@
 <%-- 
-    Document   : classifyShowSynonyms
+    Document   : classifyShowSymbols
     Created on : Jul 13, 2012, 1:30:37 PM
     Author     : lu
 --%>
 
 <root>
-<synonyms>
+<symbols>
     <c:forEach items="${projectFacade.getSymbolCollection(project.id)}" var="synonym">
-        <synonym id="${synonym.id}">
+        <symbol id="${synonym.id}">
             <name><![CDATA[${synonym.name}]]></name>
-        </synonym>
+        </symbol>
     </c:forEach>
-</synonyms>
+</symbols>
 </root>

@@ -4,6 +4,8 @@
     Author     : Luis Salazar <bp.lusv@gmail.com>
 --%>
 
+<div>
+<c:if test="${!empty requestScope.project && userAccessManager.isProjectOwner(user.id, requestScope.project.id)}">
 <div id="mpuCommandPanelWrapper">
     <div id="commandPanel">
         <h2 id="mpuProjectTitle" class="overflowEllipsis"><fmt:message key="users" />&nbsp;-&nbsp;<c:out value="${requestScope.project.name}" /></h2>
@@ -31,3 +33,5 @@
         </c:forEach>
     </ul>
 </form>
+</c:if>
+</div>

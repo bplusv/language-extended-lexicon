@@ -5,9 +5,9 @@
 --%>
 
 <form id="clForm" action="${submitAction}" method="post">
+<c:if test="${!empty symbol}">
     <input id="clSymbol" type="hidden" name="symbol" value="${symbol.id}" />
     <input id="clName" type="hidden" name="name" value="<c:out value="${symbol.name}" />" />
-    <input id="clDocument" type="hidden" name="document" value="${symbol.document.id}" />
     <input id="clDocumentName" type="hidden" name="documentName" value="<c:out value="${symbol.document.name}" />" />
     <div id="clCommandPanelWrapper">
         <div id="commandPanel">
@@ -108,4 +108,5 @@
             </div>
         </div>
     </div>
+</c:if>
 </form>

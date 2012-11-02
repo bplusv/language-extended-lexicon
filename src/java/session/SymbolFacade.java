@@ -28,6 +28,7 @@ import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.stream.events.Comment;
+import model.Document;
 import model.Log;
 import model.Symbol;
 
@@ -51,6 +52,19 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
         super(Symbol.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Symbol userFindSymbol(String loggedUserId, String symbolId) {
+        try {
+            if (!userAccessManager.hasSymbolAccess(loggedUserId, symbolId)) {
+                return null;
+            }
+            return symbolFacade.find(symbolId);
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+        
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Symbol createSymbol(String projectId, String userId, String documentId,
             String name, String categoryId, String classificationId, String notion,
@@ -108,8 +122,12 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Symbol createPossibleSymbol(String documentId, String name) {
         try {
+            Document document = documentFacade.find(documentId);
+            if (document == null || name.isEmpty()) {
+                return null;
+            }
             Symbol symbol = new Symbol();
-            symbol.setDocument(documentFacade.find(documentId));
+            symbol.setDocument(document);
             symbol.setName(name);
             return symbol;
         } catch (Exception e) {

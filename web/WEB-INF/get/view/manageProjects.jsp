@@ -19,7 +19,7 @@
 <div>
     <h3 class="mpTitle"><fmt:message key="current projects" /></h3>
     <ul id="mpProjectsList">
-        <c:set var="projects" value="${userFacade.getProjectCollection(user.id)}" />
+        <c:set var="projects" value="${userAccessManager.getUserAccesibleProjects(user.id)}" />
         <c:forEach var="project" items="${projects}" varStatus="iter">
             <c:set var="isOwner" value="${user.id == project.owner.id}" />
             <li class="${sessionScope.project.id == project.id ? 'rowSelected' : iter.index % 2 == 0 ? 'rowEven' : 'rowOdd'}">

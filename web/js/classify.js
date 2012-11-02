@@ -38,7 +38,7 @@
         });
         
         $(window).on('click', '#clChangeGroup', function() {
-            controller.classify.showSynonyms();
+            controller.classify.showPossibleSynonyms();
         });
 
         $(window).on('click', '#clLeaveGroup', function() {
