@@ -10,7 +10,7 @@
 <message><fmt:message key="update project descriptors ${success ? 'success' : 'fail'}" /></message>
 <c:if test="${success}">
     <projects>
-        <c:forEach var="project" items="${userFacade.getProjectCollection(user.id)}">
+        <c:forEach var="project" items="${userAccessManager.getUserAccesibleProjects(user.id)}">
             <project id="${project.id}" isOwner="${project.owner.id == user.id}" isSelected="${sessionScope.project.id == project.id}">
                 <name><![CDATA[${project.name}]]></name>
                 <owner>

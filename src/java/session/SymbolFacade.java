@@ -66,7 +66,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     }
         
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Symbol createSymbol(String projectId, String userId, String documentId,
+    public Symbol createSymbol(String loggedId, String projectId, String documentId,
             String name, String categoryId, String classificationId, String notion,
             String actualIntention, String futureIntention, String comments) {
         try {
@@ -79,11 +79,11 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
             symbol.setDocument(documentFacade.find(documentId));
             symbol.setName(name);
             symbol.setActive(true);
-            symbol.setDefinition(definitionFacade.createDefinition(userId, categoryId,
+            symbol.setDefinition(definitionFacade.createDefinition(loggedId, categoryId,
                     classificationId, notion, actualIntention, futureIntention, comments));
             em.persist(symbol);
             em.flush();
-            logFacade.createLog(userId, symbol.getId().toString(), "1");
+            logFacade.createLog(loggedId, symbol.getId().toString(), "1");
             return symbol;
         } catch (Exception e) {
             context.setRollbackOnly();
@@ -137,8 +137,11 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Symbol removeSymbol(String symbolId) {
+    public Symbol removeSymbol(String loggedUserId, String symbolId) {
         try {
+            if (!userAccessManager.hasSymbolAccess(loggedUserId, symbolId)) {
+                return null;
+            }
             Symbol symbol = symbolFacade.find(symbolId);
             symbol.setActive(false);
             em.merge(symbol);
@@ -151,21 +154,24 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Symbol updateSymbol(String userId, String symbolId,
+    public Symbol updateSymbol(String loggedUserId, String symbolId,
             String categoryId, String classificationId, String notion,
             String actualIntention, String futureIntention, String comment) {
         try {
+            if (!userAccessManager.hasSymbolAccess(loggedUserId, symbolId)) {
+                return null;
+            }
             Symbol symbol = symbolFacade.find(symbolId);
-            definitionFacade.updateDefinition(userId,
+            definitionFacade.updateDefinition(loggedUserId,
                     symbol.getDefinition().getId().toString(),
                     categoryId, classificationId, notion,
                     actualIntention, futureIntention, comment);
             em.merge(symbol);
             em.flush();
-            logFacade.createLog(userId, symbolId, "2");
+            logFacade.createLog(loggedUserId, symbolId, "2");
             Collection<Symbol> synonyms = symbolFacade.getSynonyms(symbol.getId().toString());
             for (Symbol synonym : synonyms) {
-                logFacade.createLog(userId, synonym.getId().toString(), "2");
+                logFacade.createLog(loggedUserId, synonym.getId().toString(), "2");
             }
             return symbol;
         } catch (Exception e) {
@@ -175,16 +181,19 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Symbol updateSymbolBySynonym(String userId, String symbolId, String synonymId) {
+    public Symbol updateSymbolBySynonym(String loggedUserId, String symbolId, String synonymId) {
         try {
+            if (!userAccessManager.hasSymbolAccess(loggedUserId, symbolId)) {
+                return null;
+            }
             Symbol symbol = symbolFacade.find(symbolId);
             symbol.setDefinition(symbolFacade.find(synonymId).getDefinition());
             em.merge(symbol);
             em.flush();
-            logFacade.createLog(userId, symbolId, "2");
+            logFacade.createLog(loggedUserId, symbolId, "2");
             Collection<Symbol> synonyms = symbolFacade.getSynonyms(symbol.getId().toString());
             for (Symbol synonym : synonyms) {
-                logFacade.createLog(userId, synonym.getId().toString(), "2");
+                logFacade.createLog(loggedUserId, synonym.getId().toString(), "2");
             }
             return symbol;
         } catch (Exception e) {
@@ -194,17 +203,20 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Symbol leaveSynonymsGroup(String userId, String symbolId, String category, String classification) {
+    public Symbol leaveSynonymsGroup(String loggedUserId, String symbolId, String categoryId, String classificationId) {
         try {
+            if (!userAccessManager.hasSymbolAccess(loggedUserId, symbolId)) {
+                return null;
+            }
             Symbol symbol = symbolFacade.find(symbolId);
-            symbol.setDefinition(definitionFacade.createDefinition(userId,
-                    category, classification, "", "", "", ""));
+            symbol.setDefinition(definitionFacade.createDefinition(loggedUserId,
+                    categoryId, classificationId, "", "", "", ""));
             em.merge(symbol);
             em.flush();
-            logFacade.createLog(userId, symbolId, "2");
+            logFacade.createLog(loggedUserId, symbolId, "2");
             Collection<Symbol> synonyms = symbolFacade.getSynonyms(symbol.getId().toString());
             for (Symbol synonym : synonyms) {
-                logFacade.createLog(userId, synonym.getId().toString(), "2");
+                logFacade.createLog(loggedUserId, synonym.getId().toString(), "2");
             }
             return symbol;
         } catch (Exception e) {

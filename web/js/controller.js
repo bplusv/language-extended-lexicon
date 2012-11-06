@@ -278,6 +278,7 @@ window.controller = (function($, CodeMirror) {
                                 $('#central').html(res);
                                 break;
                         }
+                        $(window).scrollTop(0);
                         centralContainerOffset = $('#central').offset();
                         api.updateCommandPanel();
                     }, hash[1]);
@@ -461,6 +462,7 @@ window.controller = (function($, CodeMirror) {
                 $('#clChangeGroup').css('display', 'inline');
                 $('#clSynonymsSelect').val(-1);
                 $('#clSynonymsSelect').css('display', 'none');
+                $('#clCommandPanelWrapper').height($('#commandPanel').outerHeight() + 25);
                 var synonyms = $(response).find('synonymsGroup').children();
                 $('#clLeaveGroup').css('display', synonyms.length > 0 ? 'inline' : 'none');
                 $('#clLogUserName').text($(response).find('log > user > name').text());

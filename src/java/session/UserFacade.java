@@ -24,7 +24,6 @@
 package session;
 
 import java.security.MessageDigest;
-import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -33,7 +32,6 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import model.Project;
 import model.User;
 
 /**
@@ -125,11 +123,11 @@ public class UserFacade extends AbstractFacade<User> {
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Boolean changePassword(String userId, String currentPassword,
+    public Boolean changePassword(String loggedUserId, String currentPassword,
             String newPassword, String confirmNewPassword) {
         try {
             Boolean success = false;
-            User user = find(userId);
+            User user = find(loggedUserId);
             if (!newPassword.isEmpty() && newPassword.equals(confirmNewPassword)
                     && user.getPassword().equals(makeHash(currentPassword))
                     && !user.getPassword().equals(makeHash(newPassword))) {
