@@ -71,8 +71,11 @@ public class DocumentFacade extends AbstractFacade<Document> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document updateDocumentDescriptors(String documentId, String name) {
+    public Document updateDocumentDescriptors(String loggedUserId, String documentId, String name) {
         try {
+            if (!userAccessManager.hasDocumentAccess(loggedUserId, documentId)) {
+                return null;
+            }
             Document document = find(documentId);
             document.setName(name);
             em.merge(document);
@@ -83,10 +86,13 @@ public class DocumentFacade extends AbstractFacade<Document> {
             return null;
         }
     }
-        
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document updateContent(String documentId, String content) {
+    public Document updateContent(String loggedUserId, String documentId, String content) {
         try {
+            if (!userAccessManager.hasDocumentAccess(loggedUserId, documentId)) {
+                return null;
+            }
             Document document = find(documentId);
             document.setContent(content);
             em.merge(document);
@@ -97,15 +103,31 @@ public class DocumentFacade extends AbstractFacade<Document> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Document removeDocument(String documentId) {
+    public Document removeDocument(String loggedUserId, String documentId) {
         try {
+            if (!userAccessManager.hasDocumentAccess(loggedUserId, documentId)) {
+                return null;
+            }
             Document document = find(documentId);
             document.setActive(false);
             em.merge(document);
             em.flush();
             return document;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Document loadDocument(String loggedUserId, String documentId) {
+        try {
+            if (!userAccessManager.hasDocumentAccess(loggedUserId, documentId)) {
+                return null;
+            }
+            return documentFacade.find(documentId);
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

@@ -96,10 +96,10 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Project updateProjectDescriptors(String loggedUserId, String projectId,
-                                            String name, String description) {
+            String name, String description) {
         try {
             if (!userAccessManager.isProjectOwner(loggedUserId, projectId)) {
                 return null;
@@ -115,7 +115,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public User leaveProject(String loggedUserId, String projectId) {
         try {
@@ -133,14 +133,14 @@ public class ProjectFacade extends AbstractFacade<Project> {
             return null;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Project removeProject(String projectOwnerId, String projectId) {
+    public Project removeProject(String loggedUserId, String projectId) {
         try {
-            Project project = find(projectId);
-            if (!project.getOwner().equals(userFacade.find(projectOwnerId))) {
+            if (!userAccessManager.isProjectOwner(loggedUserId, projectId)) {
                 return null;
             }
+            Project project = find(projectId);
             project.setActive(false);
             em.merge(project);
             em.flush();
@@ -152,14 +152,14 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public User addProjectUser(String projectOwnerId, String projectId, String username) {
+    public User addProjectUser(String loggedUserId, String projectId, String username) {
         try {
-            Project project = find(projectId);
-            if (!project.getOwner().equals(userFacade.find(projectOwnerId))
-                    || project.getOwner().getName().equals(username)) {
+            if (!userAccessManager.isProjectOwner(loggedUserId, projectId)
+                    || userAccessManager.isProjectOwnerByName(username, projectId)) {
                 return null;
             }
             User user = userFacade.findByName(username);
+            Project project = projectFacade.find(projectId);
             project.getUserCollection().add(user);
             em.merge(project);
             em.flush();
@@ -171,10 +171,10 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public User removeProjectUser(String LoggedUserId, String projectId, String userId) {
+    public User removeProjectUser(String loggedUserId, String projectId, String userId) {
         try {
             Project project = find(projectId);
-            if (!project.getOwner().equals(userFacade.find(LoggedUserId))) {
+            if (!userAccessManager.isProjectOwner(loggedUserId, projectId)) {
                 return null;
             }
             User user = userFacade.find(userId);
@@ -182,6 +182,19 @@ public class ProjectFacade extends AbstractFacade<Project> {
             em.merge(project);
             em.flush();
             return user;
+        } catch (Exception e) {
+            context.setRollbackOnly();
+            return null;
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Project loadProject(String loggedUserId, String projectId) {
+        try {
+            if (!userAccessManager.hasProjectAccess(loggedUserId, projectId)) {
+                return null;
+            }
+            return projectFacade.find(projectId);
         } catch (Exception e) {
             context.setRollbackOnly();
             return null;

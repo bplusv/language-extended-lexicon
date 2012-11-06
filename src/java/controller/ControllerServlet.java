@@ -133,12 +133,18 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        session = request.getSession(false);
         String userPath = request.getServletPath();
+        session = request.getSession(false);
+        User loggedUser = (User) session.getAttribute("user");
+        Project loadedProject = (Project) session.getAttribute("project");
+        Document loadedDocument = (Document) session.getAttribute("document");
+        String loggedUserId = loggedUser != null ? loggedUser.getId().toString() : "";
+        String loadedProjectId = loadedProject != null ? loadedProject.getId().toString() : "";
+        String loadedDocumentId = loadedDocument != null? loadedDocument.getId().toString() : "";
 
         if (userPath.equals("/get/data/classifySelectSynonym")) {
             Symbol symbol = symbolFacade.userFindSymbol(
-                    ((User) session.getAttribute("user")).getId().toString(), 
+                    loggedUserId, 
                     request.getParameter("symbol"));
             request.setAttribute("symbol",symbol);
         } else if (userPath.equals("/get/data/classifyShowPossibleSynonyms")) {
@@ -150,7 +156,7 @@ public class ControllerServlet extends HttpServlet {
                 Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
                 String language = locale != null ? locale.getLanguage() : request.getLocale().getLanguage();
                 ByteArrayOutputStream pdf = reportManager.makeProjectReportPdf(
-                        project.getId().toString(), request.getParameter("comments"), language);
+                        loadedProjectId, request.getParameter("comments"), language);
                 response.setHeader("content-disposition",
                         "attachment; filename=" + project.getName() + ".pdf");
                 response.setContentType("application/pdf; charset=UTF-8");
@@ -165,7 +171,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/classify")) {
             Symbol symbol = request.getParameter("sy") != null
                     ? symbolFacade.userFindSymbol(
-                        ((User) session.getAttribute("user")).getId().toString(),
+                        loggedUserId,
                         request.getParameter("sy"))
                     : symbolFacade.findByDocumentAndName(
                     ((Document) session.getAttribute("document")).getId().toString(),
@@ -173,12 +179,11 @@ public class ControllerServlet extends HttpServlet {
             if (symbol != null) {
                 request.setAttribute("log",
                         symbolFacade.getLastLog(symbol.getId().toString()));
-                projectFacade.initTagSymbols(
-                        ((Project) session.getAttribute("project")).getId().toString());
+                projectFacade.initTagSymbols(loadedProjectId);
                 request.setAttribute("submitAction", "/post/updateSymbol");
             } else {
                 symbol = symbolFacade.createPossibleSymbol(
-                        ((Document) session.getAttribute("document")).getId().toString(),
+                        loadedDocumentId,
                         request.getParameter("na"));
                 request.setAttribute("test", symbol == null);
                 request.setAttribute("submitAction", "/post/createSymbol");
@@ -203,7 +208,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/get/view/test")) {
             String id = request.getParameter("id");
             Boolean hasAccess = userAccessManager.isProjectOwner(
-                    ((User) session.getAttribute("user")).getId().toString(),
+                    loggedUserId,
                     request.getParameter("id"));
             request.setAttribute("hasAccess", hasAccess);
         } else if (userPath.equals("/register")) {
@@ -222,12 +227,18 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        session = request.getSession(false);
         String userPath = request.getServletPath();
+        session = request.getSession(false);
+        User loggedUser = (User) session.getAttribute("user");
+        Project loadedProject = (Project) session.getAttribute("project");
+        Document loadedDocument = (Document) session.getAttribute("document");
+        String loggedUserId = loggedUser != null ? loggedUser.getId().toString() : "";
+        String loadedProjectId = loadedProject != null ? loadedProject.getId().toString() : "";
+        String loadedDocumentId = loadedDocument != null? loadedDocument.getId().toString() : "";
 
         if (userPath.equals("/post/addProjectUser")) {
             User user = projectFacade.addProjectUser(
-                ((User) session.getAttribute("user")).getId().toString(),
+                loggedUserId,
                 request.getParameter("project"), 
                 request.getParameter("username"));
             if (user != null) {
@@ -238,7 +249,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/changePassword")) {
             Boolean success = userFacade.changePassword(
-                    ((User) session.getAttribute("user")).getId().toString(),
+                    loggedUserId,
                     request.getParameter("currentPassword"),
                     request.getParameter("newPassword"),
                     request.getParameter("confirmNewPassword"));
@@ -258,7 +269,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/createDocument")) {
             Document document = documentFacade.createDocument(
-                    ((Project) session.getAttribute("project")).getId().toString(),
+                    loadedProjectId,
                     request.getParameter("name"));
             if (document != null) {
                 session.setAttribute("document", document);
@@ -269,7 +280,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/createProject")) {
             Project project = projectFacade.createProject(
-                    ((User) session.getAttribute("user")).getId().toString(),
+                    loggedUserId,
                     request.getParameter("name"));
             if (project != null) {
                 session.setAttribute("project", project);
@@ -283,16 +294,16 @@ public class ControllerServlet extends HttpServlet {
             Symbol symbol;
             if (request.getParameter("synonym") != null) {
                 symbol = symbolFacade.createSymbolBySynonym(
-                        ((Project) session.getAttribute("project")).getId().toString(),
-                        ((User) session.getAttribute("user")).getId().toString(),
-                        request.getParameter("document"),
+                        loadedProjectId,
+                        loggedUserId,
+                        loadedDocumentId,
                         request.getParameter("name"),
                         request.getParameter("synonym"));
             } else {
                 symbol = symbolFacade.createSymbol(
-                        ((Project) session.getAttribute("project")).getId().toString(),
-                        ((User) session.getAttribute("user")).getId().toString(),
-                        request.getParameter("document"),
+                        loggedUserId,
+                        loadedProjectId,
+                        loadedDocumentId,
                         request.getParameter("name"),
                         request.getParameter("category"),
                         request.getParameter("classification"),
@@ -309,7 +320,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/leaveSynonymsGroup")) {
             Symbol symbol = symbolFacade.leaveSynonymsGroup(
-                    ((User) session.getAttribute("user")).getId().toString(),
+                    loggedUserId,
                     request.getParameter("symbol"),
                     request.getParameter("category"),
                     request.getParameter("classification"));
@@ -321,7 +332,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/leaveProject")) {
             User user = projectFacade.leaveProject(
-                ((User) session.getAttribute("user")).getId().toString(), 
+                loggedUserId, 
                 request.getParameter("project"));
             if (user != null) {
                 request.setAttribute("success", true);
@@ -329,8 +340,9 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("success", false);
             }
         } else if (userPath.equals("/post/loadDocument")) {
-            Document document = documentFacade.find(
-                    request.getParameter("document"));
+            Document document = documentFacade.loadDocument(
+                loggedUserId,
+                request.getParameter("document"));
             if (document != null) {
                 session.setAttribute("document", document);
                 request.setAttribute("success", true);
@@ -339,8 +351,9 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("success", false);
             }
         } else if (userPath.equals("/post/loadProject")) {
-            Project project = projectFacade.find(
-                    request.getParameter("project"));
+            Project project = projectFacade.loadProject(
+                loggedUserId,
+                request.getParameter("project"));
             if (project != null) {
                 session.setAttribute("project", project);
                 session.setAttribute("document", null);
@@ -360,7 +373,8 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("facadeResponse", facadeResponse);
         } else if(userPath.equals("/post/removeDocument")) {
             Document document = documentFacade.removeDocument(
-                    request.getParameter("document"));
+                loggedUserId,
+                request.getParameter("document"));
             if (document != null) {
                 request.setAttribute("success", true);
             } else {
@@ -368,7 +382,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if(userPath.equals("/post/removeProject")) {
             Project project = projectFacade.removeProject(
-                    ((User) session.getAttribute("user")).getId().toString(),
+                    loggedUserId,
                     request.getParameter("project"));
             if (project != null) {
                 request.setAttribute("success", true);
@@ -377,7 +391,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if(userPath.equals("/post/removeProjectUser")) {
             User user = projectFacade.removeProjectUser(
-                ((User) session.getAttribute("user")).getId().toString(),
+                loggedUserId,
                 request.getParameter("project"),
                 request.getParameter("userId"));
             if (user != null) {
@@ -388,6 +402,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/removeSymbol")) {
             Symbol symbol = symbolFacade.removeSymbol(
+                    loggedUserId,
                     request.getParameter("symbol"));
             if (symbol != null) {
                 request.setAttribute("success", true);
@@ -414,7 +429,8 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/updateDocument")) {
             Document document = documentFacade.updateContent(
-                    request.getParameter("document"),
+                    loggedUserId,
+                    loadedDocumentId,
                     request.getParameter("content"));
             if (document != null) {
                 request.setAttribute("success", true);
@@ -424,6 +440,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if (userPath.equals("/post/updateDocumentDescriptors")) {
             Document document = documentFacade.updateDocumentDescriptors(
+                    loggedUserId,
                     request.getParameter("document"),
                     request.getParameter("name"));
             if (document != null) {
@@ -433,7 +450,7 @@ public class ControllerServlet extends HttpServlet {
             }
         } else if(userPath.equals("/post/updateProjectDescriptors")) {
             Project project = projectFacade.updateProjectDescriptors(
-                    ((User) session.getAttribute("user")).getId().toString(), 
+                    loggedUserId, 
                     request.getParameter("project"), 
                     request.getParameter("name"), 
                     request.getParameter("description"));
@@ -447,12 +464,12 @@ public class ControllerServlet extends HttpServlet {
             Symbol symbol;
             if (request.getParameter("synonym") != null) {
                 symbol = symbolFacade.updateSymbolBySynonym(
-                        ((User) session.getAttribute("user")).getId().toString(),
+                        loggedUserId,
                         request.getParameter("symbol"),
                         request.getParameter("synonym"));
             } else {
                 symbol = symbolFacade.updateSymbol(
-                        ((User) session.getAttribute("user")).getId().toString(),
+                        loggedUserId,
                         request.getParameter("symbol"),
                         request.getParameter("category"),
                         request.getParameter("classification"),

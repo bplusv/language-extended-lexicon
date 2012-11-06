@@ -7,6 +7,7 @@
 <root>
 <success>${success}</success>
 <message><fmt:message key="add project user ${success ? 'success' : 'fail'}" /></message>
+<c:if test="${success}">
 <project id="${projectId}">
     <users>
         <c:forEach var="user" items="${projectFacade.getUserCollection(projectId)}">
@@ -16,4 +17,5 @@
         </c:forEach>
     </users>
 </project>
+    </c:if>
 </root>

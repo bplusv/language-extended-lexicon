@@ -100,7 +100,17 @@ public class UserAccessManager extends AbstractFacade<User> {
         }
     }
     
-        
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public Boolean isProjectOwnerByName(String username, String projectId) {
+        try {
+            User user = userFacade.findByName(username);
+            Project project = projectFacade.find(projectId);
+            return project.getOwner().equals(user);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Collection<Project> getUserAccesibleProjects(String loggedUserId) {
         try {

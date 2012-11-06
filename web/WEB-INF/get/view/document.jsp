@@ -12,6 +12,5 @@
             <h2 id="dcTitle" class="overflowEllipsis"><fmt:message key="document" />:&nbsp;<span style="color: #222;"><c:out value="${document.name}" /></span></h2>
         </div>
     </div>
-    <input id="dcDocument" type="hidden" name="document" value="${document.id}" />
     <textarea id="dcDocumentContent" name="content" class="symbolicEditor"><c:out value="${document.content}" /></textarea>
 </form>
