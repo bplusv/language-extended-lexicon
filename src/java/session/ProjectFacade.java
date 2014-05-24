@@ -69,7 +69,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
         try {
             return em.createQuery("SELECT pr FROM Project pr "
                     + "WHERE pr.active = TRUE "
-                    + "ORDER BY LOWER(pr.name) ASC;").
+                    + "ORDER BY LOWER(pr.name)").
                     getResultList();
         } catch (Exception e) {
             context.setRollbackOnly();
@@ -206,7 +206,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
         try {
             return em.createQuery("SELECT do FROM Document do "
                     + "WHERE do.project = :project and do.active = TRUE "
-                    + "ORDER BY LOWER(do.name) ASC;").
+                    + "ORDER BY LOWER(do.name)").
                     setParameter("project", projectFacade.find(projectId)).
                     getResultList();
         } catch (Exception e) {
@@ -222,7 +222,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
                     + "LEFT OUTER JOIN sy.definition de "
                     + "LEFT OUTER JOIN de.classification cl "
                     + "WHERE sy.project = :project AND sy.active = TRUE "
-                    + "ORDER BY cl.name, de.category.name, sy.name;").
+                    + "ORDER BY cl.name, de.category.name, sy.name").
                     setParameter("project", find(projectId)).
                     getResultList();
         } catch (Exception e) {
@@ -236,7 +236,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
         try {
             return em.createQuery("SELECT sy FROM Symbol sy "
                     + "WHERE sy.project = :project AND sy.active = TRUE "
-                    + "ORDER BY LOWER(sy.name) ASC;").
+                    + "ORDER BY LOWER(sy.name)").
                     setParameter("project", find(projectId)).
                     getResultList();
         } catch (Exception e) {
@@ -251,7 +251,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
             Project project = find(projectId);
             return em.createQuery("SELECT us FROM Project pr "
                     + "JOIN pr.userCollection us WHERE pr = :project "
-                    + "ORDER BY LOWER(us.name) ASC;").
+                    + "ORDER BY LOWER(us.name)").
                     setParameter("project", project).
                     getResultList();
         } catch (Exception e) {

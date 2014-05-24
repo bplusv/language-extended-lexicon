@@ -230,7 +230,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
         try {
             return em.createQuery("SELECT co FROM Comment co, Symbol sy "
                     + "WHERE sy = :symbol AND co MEMBER OF sy.definition.commentCollection "
-                    + "ORDER BY co.date DESC;").
+                    + "ORDER BY co.date DESC").
                     setParameter("symbol", symbolFacade.find(symbolId)).
                     getResultList();
         } catch (Exception e) {
@@ -243,7 +243,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
     public Log getLastLog(String symbolId) {
         try {
             return (Log) em.createQuery("SELECT lo FROM Log lo WHERE "
-                    + "lo.symbol = :symbol ORDER BY lo.date DESC;").
+                    + "lo.symbol = :symbol ORDER BY lo.date DESC").
                     setParameter("symbol", symbolFacade.find(symbolId)).
                     setMaxResults(1).
                     getSingleResult();
@@ -260,7 +260,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
             return em.createQuery("SELECT sy FROM Symbol sy WHERE "
                     + "sy.definition = :definition AND "
                     + "sy.project = :project AND sy.active = TRUE "
-                    + "ORDER BY LOWER(sy.name) ASC;").
+                    + "ORDER BY LOWER(sy.name)").
                     setParameter("project", symbol.getProject()).
                     setParameter("definition", symbol.getDefinition()).
                     getResultList();
@@ -277,7 +277,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
             return em.createQuery("SELECT sy FROM Symbol sy WHERE "
                     + "sy <> :symbol AND sy.definition = :definition "
                     + "AND sy.project = :project AND sy.active = TRUE "
-                    + "ORDER BY LOWER(sy.name) ASC;").
+                    + "ORDER BY LOWER(sy.name)").
                     setParameter("symbol", symbol).
                     setParameter("project", symbol.getProject()).
                     setParameter("definition", symbol.getDefinition()).
@@ -293,7 +293,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
         try {
             return (Symbol) em.createQuery("SELECT sy FROM Symbol sy WHERE "
                     + "sy.document = :document AND sy.name = :name AND "
-                    + "sy.active = TRUE;").
+                    + "sy.active = TRUE").
                     setParameter("document", documentFacade.find(documentId)).
                     setParameter("name", name).
                     getSingleResult();
@@ -311,7 +311,7 @@ public class SymbolFacade extends AbstractFacade<Symbol> {
                     + "sy.project = :project AND ca.name LIKE :categoryName AND "
                     + "(cl.name LIKE :classificationName OR (cl.name IS NULL AND "
                     + ":classificationName = '%')) AND LOWER(sy.name) LIKE :name AND "
-                    + "sy.active = TRUE ORDER BY LOWER(sy.name) ASC;").
+                    + "sy.active = TRUE ORDER BY LOWER(sy.name)").
                     setParameter("project", projectFacade.find(projectId)).
                     setParameter("categoryName", !"".equals(categoryId)
                     ? (String) categoryFacade.find(categoryId).getName() : "%").

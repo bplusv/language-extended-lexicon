@@ -116,7 +116,7 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
             return em.createQuery("SELECT sy FROM Symbol sy WHERE "
                     + "sy.definition = :definition AND "
                     + "sy.active = TRUE "
-                    + "ORDER BY LOWER(sy.name) ASC;").
+                    + "ORDER BY LOWER(sy.name)").
                     setParameter("definition", definition).
                     getResultList();
         } catch (Exception e) {
@@ -129,8 +129,9 @@ public class DefinitionFacade extends AbstractFacade<Definition> {
     public Collection<Comment> getCommentCollection(String definitionId) {
         try {
             Definition definition = definitionFacade.find(definitionId);
-            return em.createQuery("SELECT de.commentCollection co FROM Definition de "
-                    + "WHERE de = :definition ORDER BY co.date DESC;").
+            return em.createQuery("SELECT co FROM Comment co, Definition de "
+                    + "WHERE de = :definition AND co MEMBER OF de.commentCollection "
+                    + "ORDER BY co.date DESC").
                     setParameter("definition", definition).
                     getResultList();
         } catch (Exception e) {
