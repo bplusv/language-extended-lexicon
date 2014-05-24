@@ -138,7 +138,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
     public Collection<Symbol> getSymbolCollection(String documentId) {
         try {
             return em.createQuery("SELECT sy FROM Symbol sy WHERE "
-                    + "sy.document = :document AND sy.active = TRUE;").
+                    + "sy.document = :document AND sy.active = TRUE").
                     setParameter("document", find(documentId)).
                     getResultList();
         } catch (Exception e) {

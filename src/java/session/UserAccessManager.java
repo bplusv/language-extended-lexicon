@@ -119,7 +119,7 @@ public class UserAccessManager extends AbstractFacade<User> {
                     + "LEFT OUTER JOIN pr.userCollection us "
                     + "WHERE pr.active = TRUE AND "
                     + "(us = :user OR pr.owner = :user) "
-                    + "ORDER BY LOWER(pr.name) ASC;").
+                    + "ORDER BY LOWER(pr.name)").
                     setParameter("user", user).
                     getResultList();
         } catch (Exception e) {
