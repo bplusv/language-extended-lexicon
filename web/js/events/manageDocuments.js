@@ -22,47 +22,36 @@
  * THE SOFTWARE.
  */
 
-(function(){
+(function() {
     'use strict';
     $(function() {
-        $(window).on('change', '#clCategory', function() {
-            controller.classify.updateInterface();
-        });
-
-        $(window).on('change', '#clSynonymsSelect', function() {
-            controller.classify.selectSynonym($(this).val());
-        });
-
-        $(window).on('click', '#clCancelGroup', function() {
-            controller.classify.cancelSelectSynonym();
-        });
-        
-        $(window).on('click', '#clChangeGroup', function() {
-            controller.classify.showPossibleSynonyms();
-        });
-
-        $(window).on('click', '#clLeaveGroup', function() {
-            controller.classify.leaveSynonymsGroup();
-        });
-        
-        $(window).on('click', '#clShowComments', function() {
-            controller.classify.showComments();
-        });
-        
-        $(window).on('click', '#clHideComments', function() {
-            controller.classify.hideComments();
-        });
-        
-        $(window).on('submit', '#clForm', function(e) {
+        $(window).on('submit', '#mdCreateForm', function(e) {
             e.preventDefault();
-            switch ($('#clForm').attr('action')) {
-                case '/post/createSymbol':
-                    controller.classify.createSymbol();
-                    break;
-                case '/post/updateSymbol':
-                    controller.classify.updateSymbol();
-                    break;
-            }
+            manageDocumentsController.createDocument();
+        });
+        
+        $(window).on('submit', '#mdDocumentsList form', function(e) {
+           e.preventDefault(); 
+        });
+        
+        $(window).on('click', '#mdDocumentsList .cancelSave', function(e) {
+            manageDocumentsController.setNonEditableView(this);
+        });
+        
+        $(window).on('click', '#mdDocumentsList .clear', function(e) {
+            manageDocumentsController.confirmRemoveDocument(this);
+        });
+        
+        $(window).on('click', '#mdDocumentsList .edit', function(e) {
+            manageDocumentsController.setEditableView(this);
+        });
+        
+        $(window).on('click', '#mdDocumentsList .load', function(e) {
+            manageDocumentsController.loadDocument(this);
+        });
+        
+        $(window).on('click', '#mdDocumentsList .save', function(e) {
+            manageDocumentsController.updateDocumentDescriptors(this); 
         });
     });
 })();

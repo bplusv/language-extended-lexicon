@@ -35,19 +35,30 @@
         <meta name="description" content="Léxico Extendido del lenguaje" />
         <meta name="keywords" content="UACJ,LEL" />
         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
+        
         <script src="js/lib/codemirror-2.35/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.pwdStrength.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/controller.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/base.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/account.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/classify.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/document.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/explore.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/manageProjectUsers.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/manageProjects.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/manageDocuments.js" type="text/javascript" charset="UTF-8"></script>
+        
+        <script src="js/controller/base.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/accountController.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/classifyController.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/documentController.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/exploreController.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/manageDocumentsController.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/manageProjectUsersController.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/manageProjectsController.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/registerController.js" type="text/javascript" charset="UTF-8"></script>
+        
+        <script src="js/events/base.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/events/account.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/events/classify.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/events/document.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/events/explore.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/events/manageProjectUsers.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/events/manageProjects.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/events/manageDocuments.js" type="text/javascript" charset="UTF-8"></script>
     </head>
     <body>
         <h3 id="notification"></h3>

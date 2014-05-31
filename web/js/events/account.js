@@ -25,23 +25,12 @@
 (function() {
     'use strict';
     $(function() {
-        $(window).on('click', '.exSymbol span.removeSymbol', function(e) {
+        $(window).on('submit', '#acChangePassForm', function(e) {
             e.preventDefault();
-            controller.explore.confirmRemoveSymbol(this);
+            accountController.changePassword();
         });
-
-        $(window).on('click', '#exSearchClear', function() {
-            controller.explore.clearSearch();
+        $(window).on('keyup', '#acNewPassword', function(e) {
+            accountController.checkPasswordStrength();
         });
-
-        $(window).on('keyup', '#exSearch', function() {
-            controller.explore.search();
-        });
-        
-        $(window).on('submit', '#exForm', function(e) {
-            e.preventDefault();
-            controller.explore.search();
-        });
-
     });
 })();
