@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2014 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -71,15 +72,15 @@ public class Symbol implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @JoinColumn(name = "project", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Project project;
     @JoinColumn(name = "definition", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Definition definition;
     @JoinColumn(name = "document", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Document document;
+    @JoinColumn(name = "project", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Project project;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "symbol")
     private Collection<Log> logCollection;
 
@@ -120,14 +121,6 @@ public class Symbol implements Serializable {
         this.name = name;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public Definition getDefinition() {
         return definition;
     }
@@ -142,6 +135,14 @@ public class Symbol implements Serializable {
 
     public void setDocument(Document document) {
         this.document = document;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @XmlTransient

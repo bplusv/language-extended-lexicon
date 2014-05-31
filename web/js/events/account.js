@@ -25,6 +25,15 @@
 (function() {
     'use strict';
     $(function() {
+        $('#siForm').on('submit', function(e){
+            e.preventDefault();
+            accountController.signIn();
+        });
+        
+        $('#ixSignOut').on('click', function() {
+            accountController.signOut();
+        });
+        
         $(window).on('submit', '#acChangePassForm', function(e) {
             e.preventDefault();
             accountController.changePassword();

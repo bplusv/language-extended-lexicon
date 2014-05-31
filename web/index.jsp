@@ -41,7 +41,7 @@
         <script src="js/lib/jquery.confirm/jquery.confirm.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.pwdStrength.js" type="text/javascript" charset="UTF-8"></script>
         
-        <script src="js/controller/base.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/controller/baseController.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller/accountController.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller/classifyController.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/controller/documentController.js" type="text/javascript" charset="UTF-8"></script>

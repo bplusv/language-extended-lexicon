@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
+import java.net.URI;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -128,9 +129,11 @@ public class GetViewController extends HttpServlet {
                     ? symbolFacade.userFindSymbol(
                         loggedUserId,
                         request.getParameter("sy"))
+                    
                     : symbolFacade.findByDocumentAndName(
                     ((Document) session.getAttribute("document")).getId().toString(),
                     request.getParameter("na"));
+            
             if (symbol != null) {
                 request.setAttribute("log",
                         symbolFacade.getLastLog(symbol.getId().toString()));
@@ -139,7 +142,8 @@ public class GetViewController extends HttpServlet {
             } else {
                 symbol = symbolFacade.createPossibleSymbol(
                         loadedDocumentId,
-                        request.getParameter("na"));
+                        request.getParameter("na")
+                );
                 request.setAttribute("test", symbol == null);
                 request.setAttribute("submitAction", "/post/createSymbol");
             }

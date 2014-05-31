@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2014 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -54,12 +55,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d"),
     @NamedQuery(name = "Document.findById", query = "SELECT d FROM Document d WHERE d.id = :id"),
-    @NamedQuery(name = "Document.findByName", query = "SELECT d FROM Document d WHERE d.name = :name")})
+    @NamedQuery(name = "Document.findByName", query = "SELECT d FROM Document d WHERE d.name = :name"),
+    @NamedQuery(name = "Document.findByActive", query = "SELECT d FROM Document d WHERE d.active = :active")})
 public class Document implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
-    private boolean active;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,11 +73,15 @@ public class Document implements Serializable {
     @Size(max = 16777215)
     @Column(name = "content")
     private String content;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
+    private Collection<Symbol> symbolCollection;
     @JoinColumn(name = "project", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Project project;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
-    private Collection<Symbol> symbolCollection;
 
     public Document() {
     }
@@ -88,9 +90,10 @@ public class Document implements Serializable {
         this.id = id;
     }
 
-    public Document(Integer id, String name) {
+    public Document(Integer id, String name, boolean active) {
         this.id = id;
         this.name = name;
+        this.active = active;
     }
 
     public Integer getId() {
@@ -117,12 +120,12 @@ public class Document implements Serializable {
         this.content = content;
     }
 
-    public Project getProject() {
-        return project;
+    public boolean getActive() {
+        return active;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @XmlTransient
@@ -132,6 +135,14 @@ public class Document implements Serializable {
 
     public void setSymbolCollection(Collection<Symbol> symbolCollection) {
         this.symbolCollection = symbolCollection;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override
@@ -157,14 +168,6 @@ public class Document implements Serializable {
     @Override
     public String toString() {
         return "model.Document[ id=" + id + " ]";
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
     
 }

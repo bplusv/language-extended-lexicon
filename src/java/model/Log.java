@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2014 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -64,12 +65,12 @@ public class Log implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @JoinColumn(name = "symbol", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Symbol symbol;
     @JoinColumn(name = "event", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Event event;
+    @JoinColumn(name = "symbol", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Symbol symbol;
     @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User user;
@@ -102,20 +103,20 @@ public class Log implements Serializable {
         this.date = date;
     }
 
-    public Symbol getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(Symbol symbol) {
-        this.symbol = symbol;
-    }
-
     public Event getEvent() {
         return event;
     }
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public Symbol getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(Symbol symbol) {
+        this.symbol = symbol;
     }
 
     public User getUser() {
