@@ -22,36 +22,19 @@
  * THE SOFTWARE.
  */
 
-(function() {
-    'use strict';
-    $(function() {
-        $(window).on('submit', '#mdCreateForm', function(e) {
-            e.preventDefault();
-            controller.manageDocuments.createDocument();
-        });
-        
-        $(window).on('submit', '#mdDocumentsList form', function(e) {
-           e.preventDefault(); 
-        });
-        
-        $(window).on('click', '#mdDocumentsList .cancelSave', function(e) {
-            controller.manageDocuments.setNonEditableView(this);
-        });
-        
-        $(window).on('click', '#mdDocumentsList .clear', function(e) {
-            controller.manageDocuments.confirmRemoveDocument(this);
-        });
-        
-        $(window).on('click', '#mdDocumentsList .edit', function(e) {
-            controller.manageDocuments.setEditableView(this);
-        });
-        
-        $(window).on('click', '#mdDocumentsList .load', function(e) {
-            controller.manageDocuments.loadDocument(this);
-        });
-        
-        $(window).on('click', '#mdDocumentsList .save', function(e) {
-           controller.manageDocuments.updateDocumentDescriptors(this); 
-        });
-    });
-})();
+documentController = {};
+
+documentController.classifySymbol = function(e) {
+    
+    var cm = $('#dcDocumentContent').data('codeMirror');
+    if (cm !== undefined) {
+        var selectedText = new String(cm.getSelection())
+        .replace(/^\s+|\s+$/g,'').substr(0,255);
+        baseController.showInfoBubble(selectedText, e.pageX, e.pageY);
+    }
+    
+};
+
+documentController.update = function() {
+    baseController.ajaxRequest('/post/updateDocument', null, $('#dcUpdateForm').serialize());
+};

@@ -22,28 +22,47 @@
  * THE SOFTWARE.
  */
 
-(function() {
+(function(){
     'use strict';
-    $(function() {        
-        $(window).on('mousedown', '#infoBubble', function(e) {
-            e.stopPropagation();
-        });
-        
-        $(window).on('mousedown', function (e) {
-            controller.infoBubble.hide();
-        });
-        
-        $(window).on('mouseup', '.CodeMirror', function(e) {
-            controller.document.classifySymbol(e);
+    $(function() {
+        $(window).on('change', '#clCategory', function() {
+            classifyController.updateInterface();
         });
 
-        $(window).on('mouseup', '#infoBubble', function(e) {
-            e.stopPropagation();
+        $(window).on('change', '#clSynonymsSelect', function() {
+            classifyController.selectSynonym($(this).val());
+        });
+
+        $(window).on('click', '#clCancelGroup', function() {
+            classifyController.cancelSelectSynonym();
         });
         
-        $(window).on('submit', '#dcUpdateForm', function(e){
+        $(window).on('click', '#clChangeGroup', function() {
+            classifyController.showPossibleSynonyms();
+        });
+
+        $(window).on('click', '#clLeaveGroup', function() {
+            classifyController.leaveSynonymsGroup();
+        });
+        
+        $(window).on('click', '#clShowComments', function() {
+            classifyController.showComments();
+        });
+        
+        $(window).on('click', '#clHideComments', function() {
+            classifyController.hideComments();
+        });
+        
+        $(window).on('submit', '#clForm', function(e) {
             e.preventDefault();
-            controller.document.update();
+            switch ($('#clForm').attr('action')) {
+                case '/post/createSymbol':
+                    classifyController.createSymbol();
+                    break;
+                case '/post/updateSymbol':
+                    classifyController.updateSymbol();
+                    break;
+            }
         });
     });
 })();

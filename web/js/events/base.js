@@ -26,20 +26,20 @@
     'use strict';
     $(function() {
         $('#ixChooseLanguageEn').on('click', function() {
-            controller.changeLanguage('en');
+            baseController.changeLanguage('en');
         });
         
         $('#ixChooseLanguageEs').on('click', function(){
-            controller.changeLanguage('es');
+           baseController.changeLanguage('es');
         });
 
         $('#siForm').on('submit', function(e){
             e.preventDefault();
-            controller.signIn();
+            baseController.signIn();
         });
         
         $('#ixSignOut').on('click', function() {
-            controller.signOut();
+            baseController.signOut();
         });
         
         $(window).on('dblclick', 'select', function(e) {
@@ -47,18 +47,18 @@
         });
         
         $(window).on('hashchange', function(){
-            controller.changeView(window.location.hash);
+            baseController.changeView(window.location.hash);
         });
         
         $(window).on('mouseenter', '.overflowEllipsis', function() {
-            controller.scrollingText.scroll(this);
+            baseController.scrollText(this);
         });
         $(window).on('mouseleave', '.overflowEllipsis', function() {
-            controller.scrollingText.reset(this);
+            baseController.resetScrollText(this);
         });
         
         $(window).on('scroll', function() {
-            controller.updateCommandPanel();
+            baseController.updateCommandPanel();
         });
 
         $(window).trigger('hashchange');

@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2012 Luis Salazar <bp.lusv@gmail.com>.
+ * Copyright 2012 YANET.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,12 @@
 (function() {
     'use strict';
     $(function() {
-        $(window).on('submit', '#acChangePassForm', function(e) {
+        $(window).on('submit', '#reForm', function(e) {
             e.preventDefault();
-            controller.account.changePassword();
+            registerController.signUp();
         });
-        $(window).on('keyup', '#acNewPassword', function(e) {
-            controller.account.checkPasswordStrength();
-        })
+        $(window).on('keyup', '#rePassword', function(e) {
+            registerController.checkPasswordStrength();
+        });
     });
-})();
+}());
