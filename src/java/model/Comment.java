@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2014 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -75,7 +77,10 @@ public class Comment implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @ManyToMany(mappedBy = "commentCollection")
+    @JoinTable(name = "definition_comments", joinColumns = {
+        @JoinColumn(name = "comment", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "definition", referencedColumnName = "id")})
+    @ManyToMany
     private Collection<Definition> definitionCollection;
     @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)

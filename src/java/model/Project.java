@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2014 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -56,12 +57,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p"),
     @NamedQuery(name = "Project.findById", query = "SELECT p FROM Project p WHERE p.id = :id"),
     @NamedQuery(name = "Project.findByName", query = "SELECT p FROM Project p WHERE p.name = :name"),
-    @NamedQuery(name = "Project.findByDescription", query = "SELECT p FROM Project p WHERE p.description = :description")})
+    @NamedQuery(name = "Project.findByDescription", query = "SELECT p FROM Project p WHERE p.description = :description"),
+    @NamedQuery(name = "Project.findByActive", query = "SELECT p FROM Project p WHERE p.active = :active")})
 public class Project implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
-    private boolean active;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,18 +74,22 @@ public class Project implements Serializable {
     @Size(max = 255)
     @Column(name = "description")
     private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
     @JoinTable(name = "project_users", joinColumns = {
         @JoinColumn(name = "project", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user", referencedColumnName = "id")})
     @ManyToMany
     private Collection<User> userCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private Collection<Symbol> symbolCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private Collection<Document> documentCollection;
     @JoinColumn(name = "owner", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User owner;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-    private Collection<Document> documentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-    private Collection<Symbol> symbolCollection;
 
     public Project() {
     }
@@ -96,9 +98,10 @@ public class Project implements Serializable {
         this.id = id;
     }
 
-    public Project(Integer id, String name) {
+    public Project(Integer id, String name, boolean active) {
         this.id = id;
         this.name = name;
+        this.active = active;
     }
 
     public Integer getId() {
@@ -125,6 +128,14 @@ public class Project implements Serializable {
         this.description = description;
     }
 
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @XmlTransient
     public Collection<User> getUserCollection() {
         return userCollection;
@@ -134,12 +145,13 @@ public class Project implements Serializable {
         this.userCollection = userCollection;
     }
 
-    public User getOwner() {
-        return owner;
+    @XmlTransient
+    public Collection<Symbol> getSymbolCollection() {
+        return symbolCollection;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
+        this.symbolCollection = symbolCollection;
     }
 
     @XmlTransient
@@ -151,13 +163,12 @@ public class Project implements Serializable {
         this.documentCollection = documentCollection;
     }
 
-    @XmlTransient
-    public Collection<Symbol> getSymbolCollection() {
-        return symbolCollection;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
-        this.symbolCollection = symbolCollection;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override
@@ -183,14 +194,6 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "model.Project[ id=" + id + " ]";
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
     
 }

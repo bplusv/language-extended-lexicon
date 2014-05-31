@@ -26,8 +26,9 @@
         <script src="js/lib/codemirror-2.35/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery.pwdStrength.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="js/controller/base.js" type="text/javascript" charset="UTF-8" ></script>
+        <script src="js/controller/baseController.js" type="text/javascript" charset="UTF-8" ></script>
         <script src="js/controller/registerController.js" type="text/javascript" charset="UTF-8" ></script>
+        <script src="js/events/base.js" type="text/javascript" charset="UTF-8" ></script>
         <script src="js/events/register.js" type="text/javascript" charset="UTF-8" ></script>
     </head>
     <body>

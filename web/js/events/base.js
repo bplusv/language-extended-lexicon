@@ -32,15 +32,6 @@
         $('#ixChooseLanguageEs').on('click', function(){
            baseController.changeLanguage('es');
         });
-
-        $('#siForm').on('submit', function(e){
-            e.preventDefault();
-            baseController.signIn();
-        });
-        
-        $('#ixSignOut').on('click', function() {
-            baseController.signOut();
-        });
         
         $(window).on('dblclick', 'select', function(e) {
             $(this.form).submit();

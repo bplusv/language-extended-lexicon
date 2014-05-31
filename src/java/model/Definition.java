@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2014 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -33,7 +34,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -74,19 +74,16 @@ public class Definition implements Serializable {
     @Size(max = 65535)
     @Column(name = "future_intention")
     private String futureIntention;
-    @JoinTable(name = "definition_comments", joinColumns = {
-        @JoinColumn(name = "definition", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "comment", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(mappedBy = "definitionCollection")
     private Collection<Comment> commentCollection;
-    @JoinColumn(name = "classification", referencedColumnName = "id")
-    @ManyToOne
-    private Classification classification;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
+    private Collection<Symbol> symbolCollection;
     @JoinColumn(name = "category", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category category;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
-    private Collection<Symbol> symbolCollection;
+    @JoinColumn(name = "classification", referencedColumnName = "id")
+    @ManyToOne
+    private Classification classification;
 
     public Definition() {
     }
@@ -136,12 +133,13 @@ public class Definition implements Serializable {
         this.commentCollection = commentCollection;
     }
 
-    public Classification getClassification() {
-        return classification;
+    @XmlTransient
+    public Collection<Symbol> getSymbolCollection() {
+        return symbolCollection;
     }
 
-    public void setClassification(Classification classification) {
-        this.classification = classification;
+    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
+        this.symbolCollection = symbolCollection;
     }
 
     public Category getCategory() {
@@ -152,13 +150,12 @@ public class Definition implements Serializable {
         this.category = category;
     }
 
-    @XmlTransient
-    public Collection<Symbol> getSymbolCollection() {
-        return symbolCollection;
+    public Classification getClassification() {
+        return classification;
     }
 
-    public void setSymbolCollection(Collection<Symbol> symbolCollection) {
-        this.symbolCollection = symbolCollection;
+    public void setClassification(Classification classification) {
+        this.classification = classification;
     }
 
     @Override

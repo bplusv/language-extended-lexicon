@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2012 lu.
+ * Copyright 2014 lu.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -73,12 +74,12 @@ public class User implements Serializable {
     private String password;
     @ManyToMany(mappedBy = "userCollection")
     private Collection<Project> projectCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<Log> logCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Collection<Project> projectCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Comment> commentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<Log> logCollection;
 
     public User() {
     }
@@ -127,6 +128,15 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Log> getLogCollection() {
+        return logCollection;
+    }
+
+    public void setLogCollection(Collection<Log> logCollection) {
+        this.logCollection = logCollection;
+    }
+
+    @XmlTransient
     public Collection<Project> getProjectCollection1() {
         return projectCollection1;
     }
@@ -142,15 +152,6 @@ public class User implements Serializable {
 
     public void setCommentCollection(Collection<Comment> commentCollection) {
         this.commentCollection = commentCollection;
-    }
-
-    @XmlTransient
-    public Collection<Log> getLogCollection() {
-        return logCollection;
-    }
-
-    public void setLogCollection(Collection<Log> logCollection) {
-        this.logCollection = logCollection;
     }
 
     @Override

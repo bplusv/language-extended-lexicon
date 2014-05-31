@@ -345,22 +345,6 @@ baseController.resetScrollText = function(container) {
     }
 };
 
-baseController.signIn = function() {
-    baseController.ajaxRequest('/post/signIn', function(response) {
-        if ($(response).find('success').text() === 'true') {
-            window.location.href = appContext + '/#!/manageProjects';
-        }
-    }, $('#siForm').serialize());
-};
-    
-baseController.signOut = function() {
-    baseController.ajaxRequest('/post/signOut', function(response) {
-        if ($(response).find('success').text() === 'true') {
-            window.location.href = appContext + '/signIn';
-        }
-    });
-};
-
 baseController.updateCommandPanel = function() {
     if (centralContainerOffset && $(window).scrollTop() > centralContainerOffset.top) {
         $('#commandPanel').addClass('fixed');

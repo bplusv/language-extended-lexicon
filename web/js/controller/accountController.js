@@ -23,6 +23,23 @@
  */
 
 accountController = {};
+
+accountController.signIn = function() {
+    baseController.ajaxRequest('/post/signIn', function(response) {
+        if ($(response).find('success').text() === 'true') {
+            window.location.href = appContext + '/#!/manageProjects';
+        }
+    }, $('#siForm').serialize());
+};
+    
+accountController.signOut = function() {
+    baseController.ajaxRequest('/post/signOut', function(response) {
+        if ($(response).find('success').text() === 'true') {
+            window.location.href = appContext + '/signIn';
+        }
+    });
+};
+
 accountController.changePassword = function() {
     baseController.ajaxRequest('/post/changePassword', function(response) {
 
