@@ -35,12 +35,16 @@ import model.User;
  *
  * @author Luis Salazar <bp.lusv@gmail.com>
  */
+
 @WebFilter(servletNames = {
     "GetDataController",
     "GetViewController",
     "PostController",
     "ReportController"
 })
+
+//@WebFilter(servletNames = "ControllerServlet")
+
 public class SessionTimeOutFilter implements Filter {
 
     @Override
