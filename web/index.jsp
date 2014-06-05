@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>LeL</title>
+        <title>kDeL</title>
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
         <meta http-equiv="pragma" content="no-cache" /> 
         <meta http-equiv="expires" content="-1" />
@@ -33,7 +33,7 @@
         <link rel="stylesheet" type="text/css" href="css/manageProjectUsers.css" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
-        <meta name="keywords" content="UACJ,LEL" />
+        <meta name="keywords" content="UACJ,KDEL" />
         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
         
         <script src="js/lib/codemirror-2.35/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
@@ -65,7 +65,7 @@
         <img id="ajaxLoader" src="img/ajaxLoader.gif" />
         <header id="ixHeader">
             <a id="ixHeaderLogo" href="#!/manageProjects">
-                <img src="img/headerLogo.png" />
+                <img src="img/headerLogo02.png" />
             </a>
             <div id="ixUserMenu">
                 <div class="downArrow"></div>

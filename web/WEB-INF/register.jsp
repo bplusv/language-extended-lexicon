@@ -12,8 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>LeL</title>
-        <title>LeL</title>
+        <title>kDeL</title>
         <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
         <link rel="icon" type="image/ico" href="img/favicon.ico">
         <link rel="stylesheet" type="text/css" href="css/base.css" media="all" charset="UTF-8" />
@@ -21,7 +20,7 @@
         <link rel="stylesheet" type="text/css" href="css/register.css" media="all" charset="UTF-8" />
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
-        <meta name="keywords" content="UACJ,LEL" />
+        <meta name="keywords" content="UACJ,KDEL" />
         <!--[if lt IE 9]><script src="js/lib/html5-shim.js" type="text/javascript" charset="UTF-8"></script><![endif]-->
         <script src="js/lib/codemirror-2.35/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script>
         <script src="js/lib/jquery-1.7.2.min.js" type="text/javascript" charset="UTF-8"></script>
@@ -36,7 +35,7 @@
         <img id="ajaxLoader" src="img/ajaxLoader.gif" />
         <header id="reHeader">
             <a id="reHeaderLogo" href="signIn">
-                <img src="img/headerLogo.png" />
+                <img src="img/headerLogo02.png" />
             </a>
         </header>
         <div id="reCentral">
