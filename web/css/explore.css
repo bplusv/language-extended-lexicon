@@ -8,18 +8,18 @@
 @charset "UTF-8";
 
 .exField {
-    margin-bottom: 5px;
-    overflow: hidden;
-    width: 300px;
+    display: inline-block;
+    height: 24px;
+    margin: 0 5px;
+    position: relative;
 }
 
 .exField > label{
-    float: left;
+    margin-right: 5px;
     vertical-align: middle;
 }
 
 .exField > select {
-    float: right;
     vertical-align: middle;
 }
 
@@ -78,7 +78,7 @@
 }
 
 #exClassification {
-    width: 198px;
+    width: 148px;
 }
 
 #exClassificationLabel {
@@ -86,13 +86,13 @@
 }
 
 #exCommandPanelTop {
-    height: 64px;
+    height: 35px;
     margin-bottom: 25px;
     overflow: hidden;
 }
 
 #exCommandPanelWrapper {
-    height: 129px;
+    height: 170px;
 }
 
 #exEmptySymbolsListMessage {
@@ -101,7 +101,7 @@
     left: 50%;
     line-height: 30px;
     margin-left: -110px;
-    margin-top: 49px;
+    margin-top: -15px;
     position: absolute;
     text-align: center;
     top: 50%;
@@ -117,8 +117,7 @@
 }
 
 #exForm {
-    float: left;
-    width: 628px;
+    position: relative;
 }
 
 #exMain {
@@ -130,19 +129,22 @@
     float: right;
 }
 
+#exManageSymbol {
+    margin-left: 320px;
+}
+
+/*
 #exProjectReport {
     display: block;
     margin-bottom: 5px;
 }
-
+*/
 #exProjectReportField {
     float: left;
-    width: 120px;
 }
 
 #exProjectReportComments {
-    display: block;
-    text-align: left;
+    margin-left: 15px;
 }
 
 #exProjectReportCommentsCheck {
@@ -153,17 +155,18 @@
 #exSearch {
     background: url('../img/searchIcon.png') no-repeat left center;
     background-color: #fff;
-    float: left;
     padding-left: 25px;
     padding-right: 18px;
-    width: 105px; 
+    width: 100px; 
 }
 
 #exSearchClear {
     color: #777;
     cursor: default;
     font: 19px/30px 'Century Gothic', sans-serif;
-    right: 5px;
+    height: 30px;
+    right: 0px;
+    padding-right: 6px;
     position:absolute;
     visibility: hidden;
 }
@@ -172,26 +175,13 @@
     color: #000;
 }
 
-#exSearchField {
-    float: right;
-    overflow: hidden;
-    position: relative;
-    width: 150px;
-}
-
-#exSelectsField {
-    float: left;
-    margin-left: 89px;
-    width: 300px;
-}
-
 #exSymbolsList {
     list-style-type: none;
 }
 
 #exSymbolsListHeader {
     height: 19px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     overflow: hidden;
     padding-right: 20px;
     width: 728px;
