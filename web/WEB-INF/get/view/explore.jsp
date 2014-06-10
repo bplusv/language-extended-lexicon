@@ -12,7 +12,7 @@
                         <input id="exProjectReport" class="button" type="submit" value="<fmt:message key="report" />" />
                         <label id="exProjectReportComments"><input id="exProjectReportCommentsCheck" type="checkbox" name="comments" />&nbsp;<fmt:message key="comments" /></label>
                     </form>
-                    <a id="exManageSymbol" class="button" href="#!/classify?na=new-symbol"><fmt:message key="new symbol" /></a>
+                    <a id="exManageSymbol" class="button" href="#!/classify?na=new"><fmt:message key="new symbol" /></a>
                     
                     <a id="exManageProjects" class="button" href="#!/manageProjects"><fmt:message key="projects" /></a>
                 </div>

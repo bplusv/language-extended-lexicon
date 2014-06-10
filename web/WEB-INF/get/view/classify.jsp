@@ -7,15 +7,16 @@
 <form id="clForm" action="${submitAction}" method="post">
 <c:if test="${!empty symbol}">
     <input id="clSymbol" type="hidden" name="symbol" value="${symbol.id}" />
-    <input id="clName" type="hidden" name="name" value="<c:out value="${symbol.name}" />" />
+    <%-- <input id="clName" type="hidden" name="name" value="<c:out value="${symbol.name}" />" />--%>
     <input id="clDocumentName" type="hidden" name="documentName" value="<c:out value="${symbol.document.name}" />" />
     <div id="clCommandPanelWrapper">
         <div id="commandPanel">
             <div>
                 <a id="clCancelGroup" class="button"><fmt:message key="cancel" /></a>
                 <input id="clSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />        
-                <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:&nbsp;<span style="color: #222;"><c:out value="${symbol.name}" /></span></h2>
+                <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:</h2>
             </div>
+            <center> <span style="color: #222;"> <a alt="Si se cambia el nombre, no será vinculado dentro del documento" class="tooltip"> <input id="clName" type="text" name="name" value="<c:out value="${symbol.name}" />" /> </a> </span> </center>
             <div id="clSynonymsField">
                 <c:set var="symbolSynonyms" value="${symbolFacade.getSynonyms(symbol.id)}" />
                 <a id="clLeaveGroup" style="display: ${empty symbolSynonyms ? 'none' : 'inline'}"><fmt:message key="leave group" />&nbsp;(-)</a>
