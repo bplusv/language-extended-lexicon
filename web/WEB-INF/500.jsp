@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>LeL</title>
+        <title>kDeL</title>
         <style type="text/css">
             #central {
                 border: none;
@@ -25,7 +25,8 @@
         </style>
         <meta name="author" content="Yanet Garay Santos,Luis Eduardo Salazar Valles" />
         <meta name="description" content="Léxico Extendido del lenguaje" />
-        <meta name="keywords" content="UACJ,LEL" />
+        <meta name="keywords" content="UACJ,KDEL" />
+        <link rel="icon" type="image/ico" href="img/favicon.ico">
         <!--[if lt IE 9]>
             <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
