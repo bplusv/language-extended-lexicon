@@ -36,7 +36,7 @@
         $(window).on('mouseup', '.CodeMirror', function(e) {
             documentController.classifySymbol(e);
         });
-
+        
         $(window).on('mouseup', '#infoBubble', function(e) {
             e.stopPropagation();
         });

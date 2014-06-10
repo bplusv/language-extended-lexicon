@@ -29,7 +29,7 @@
             e.preventDefault();
             exploreController.confirmRemoveSymbol(this);
         });
-
+        
         $(window).on('click', '#exSearchClear', function() {
             exploreController.clearSearch();
         });
