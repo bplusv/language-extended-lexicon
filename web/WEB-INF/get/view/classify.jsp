@@ -14,9 +14,9 @@
             <div>
                 <a id="clCancelGroup" class="button"><fmt:message key="cancel" /></a>
                 <input id="clSaveSymbol" type="submit" class="button" value="<fmt:message key="save" />" />        
-                <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" />:</h2>
+                <h2 id="clTitle" class="overflowEllipsis"><fmt:message key="symbol" /></h2>
             </div>
-            <center> <span style="color: #222;"> <a alt="Si se cambia el nombre, el simbolo no será vinculado dentro del documento" class="tooltip"> <input id="clName" type="text" name="name" value="<c:out value="${symbol.name}" />" /> </a> </span> </center>
+            <center><label id="mpNewProjectNameLabel"><fmt:message key="name" />:&nbsp;</label> <span style="color: #222;"> <a alt="Si se cambia el nombre, el simbolo no será vinculado dentro del documento" class="tooltip"> <input id="clName" type="text" name="name" value="<c:out value="${symbol.name}" />" /> </a> </span> </center>
             <div id="clSynonymsField">
                 <c:set var="symbolSynonyms" value="${symbolFacade.getSynonyms(symbol.id)}" />
                 <a id="clLeaveGroup" style="display: ${empty symbolSynonyms ? 'none' : 'inline'}"><fmt:message key="leave group" />&nbsp;(-)</a>
@@ -43,7 +43,7 @@
                 <label id="clClassificationLabel" for="clClassification"><fmt:message key="classification" />:</label>
             </div>
             <div class="right">
-                <h3 id="clDocumentTitle" class="clInfo overflowEllipsis"><c:out value="${symbol.document.name}" /></h3>
+                <h3  <h3id="clDocumentTitle" class="clInfo overflowEllipsis"><c:out value="${symbol.document.name}" /></h3>
                 <select id="clCategory" name="category">
                     <c:forEach var="category" items="${categories}" varStatus="iter">
                         <option value="${category.id}" ${symbol.definition.category.id == category.id ? 'selected="selected"' : ''}><fmt:message key="${category.name}" /></option>
