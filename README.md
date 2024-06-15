@@ -12,5 +12,5 @@ LEL is an app to store and analyze the extended lexicon for software requirement
 4. Run the dev/Database/Lel_DB_Schema.sql SQL script.
 5. Run the dev/data-dumps/Dump20121024.sql data dump.
 6. Create the ‘lel_user’ mysql user and give it access to the lel DB.
-7. SetUp the connection Pool & Connection on the GlassFish Server.
+7. Setup the connection pool & connection on the GlassFish Server.
 8. Start the GlassFish server and load the website.
